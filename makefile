@@ -18,7 +18,7 @@ OBC=arm-eabi-objcopy
 
 VPATH=src
 
-OBJS=startup.o main.o 
+OBJS=startup.o main.o isrsupport.o Lowlevelinit.o USART0_setup.o USART0_isr.o
 
 all: make_folder $(BUILD)/IRQ_test.bin
 
