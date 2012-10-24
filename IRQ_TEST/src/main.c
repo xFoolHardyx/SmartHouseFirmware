@@ -39,31 +39,33 @@
 extern void LowLevelInit(void);
 extern void USART0Setup(void);
 extern unsigned enableIRQ(void);
-int main (void) {
-unsigned long j;
-unsigned int IdleCount = 0;
+
+int main(void)
+{
+	unsigned long j;
+	unsigned int IdleCount = 0;
 // Initialize the Atmel AT91SAM7S256 (watchdog, PLL clock, default interrupts, etc.)
-LowLevelInit();
+	LowLevelInit();
 // Set up the LED (PA3)
-volatile AT91PS_PIO pPIO = AT91C_BASE_PIOA; // pointer to PIO data structure
-pPIO->PIO_PER = LED_MASK; // PIO Enable Register - allow PIO to control pin PP3
-pPIO->PIO_OER = LED_MASK; // PIO Output Enable Register - sets pin P3 to outputs
-pPIO->PIO_SODR = LED_MASK; // PIO Set Output Data Register - turns off the LED
+	volatile AT91PS_PIO pPIO = AT91C_BASE_PIOA; // pointer to PIO data structure
+	pPIO->PIO_PER = LED_MASK; // PIO Enable Register - allow PIO to control pin PP3
+	pPIO->PIO_OER = LED_MASK; // PIO Output Enable Register - sets pin P3 to outputs
+	pPIO->PIO_SODR = LED_MASK; // PIO Set Output Data Register - turns off the LED
 // set up USART0
-USART0Setup();
+	USART0Setup();
 // enable global interrupts
-enableIRQ();
+	enableIRQ();
 // *****************************
 // *  endless blink loop       *
 // *****************************
-while (1)
-{
-	if  ((pPIO->PIO_ODSR & LED4) == LED4) // read previous state of LED4
-		pPIO->PIO_CODR = LED4; // turn LED4 (DS1) on
-	else
-		pPIO->PIO_SODR = LED4; // turn LED4 (DS1) off
+	while (1) {
+		if ((pPIO->PIO_ODSR & LED4) == LED4) // read previous state of LED4
+			pPIO->PIO_CODR = LED4; // turn LED4 (DS1) on
+		else
+			pPIO->PIO_SODR = LED4; // turn LED4 (DS1) off
 
-	for (j = 1000000; j != 0; j-- ); // wait 1 second 1000000
-	IdleCount++; // count # of times through the idle loop
-}
+		for (j = 1000000; j != 0; j--)
+			; // wait 1 second 1000000
+		IdleCount++; // count # of times through the idle loop
+	}
 }
