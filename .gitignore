@@ -6,5 +6,4 @@
 command.txt
 .metadata
 */.settings/*
-*/.cproject
-*/*/.cproject
+.cproject
