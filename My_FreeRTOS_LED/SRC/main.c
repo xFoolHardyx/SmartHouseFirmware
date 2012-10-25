@@ -1,124 +1,161 @@
-//#include "include/FreeRTOS.h"
-//#include "include/task.h"
+/*
+	FreeRTOS.org V4.1.0 - Copyright (C) 2003-2006 Richard Barry.
 
-//#include "include/flash.h"
-//#include "include/queue.h"
-#include  "hardware/include/Board.h"
+	This file is part of the FreeRTOS.org distribution.
+
+	FreeRTOS.org is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
+
+	FreeRTOS.org is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with FreeRTOS.org; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+	A special exception to the GPL can be applied should you wish to distribute
+	a combined work that includes FreeRTOS.org, without being obliged to provide
+	the source code for any proprietary components.  See the licensing section
+	of http://www.FreeRTOS.org for full details of how and when the exception
+	can be applied.
+
+	***************************************************************************
+	See http://www.FreeRTOS.org for documentation, latest information, license
+	and contact details.  Please ensure to read the configuration and relevant
+	port sections of the online documentation.
+	***************************************************************************
+*/
+
+/*
+	NOTE : Tasks run in system mode and the scheduler runs in Supervisor mode.
+	The processor MUST be in supervisor mode when vTaskStartScheduler is
+	called.  The demo applications included in the FreeRTOS.org download switch
+	to supervisor mode prior to main being called.  If you are not using one of
+	these demo application projects then ensure Supervisor mode is used.
+*/
+
+/*
+ * Creates all the demo application tasks, then starts the scheduler.  The WEB
+ * documentation provides more details of the demo application tasks.
+ *
+ * Main.c also creates a task called "Check".  This only executes every three
+ * seconds but has the highest priority so is guaranteed to get processor time.
+ * Its main function is to check that all the other tasks are still operational.
+ * Each task (other than the "flash" tasks) maintains a unique count that is
+ * incremented each time the task successfully completes its function.  Should
+ * any error occur within such a task the count is permanently halted.  The
+ * check task inspects the count of each task to ensure it has changed since
+ * the last time the check task executed.  If all the count variables have
+ * changed all the tasks are still executing error free, and the check task
+ * toggles the onboard LED.  Should any task contain an error at any time
+ * the LED toggle rate will change from 3 seconds to 500ms.
+ *
+ */
+
+/* Standard includes. */
+//#include <stdlib.h>
+//#include <stdio.h>
+
+/* Scheduler includes. */
+#include "include/FreeRTOS.h"
+#include "include/task.h"
+#include "hardware/include/Board.h"
+
+/* Demo application includes. */
+#include "include/flash.h"
+#include "include/queue.h" // required by serial.h
+
+#include "include/system.h"
+
+/* Priorities for the demo application tasks. */
+#define mainLED_TASK_PRIORITY		( tskIDLE_PRIORITY + 3 )
+
+/* Constants required by the 'Check' task. */
+#define mainCHECK_TASK_LED			( 3 ) // LED4
+
+/*
+ * Configure the processor for use with the Atmel demo board.  Setup is minimal
+ * as the low level init function (called from the startup asm file) takes care
+ * of most things.
+ */
+static void prvSetupHardware( void );
+
+const AT91PS_PIO m_pPIOA = AT91C_BASE_PIOA;
+
+void delay (unsigned long a) {while (--a!=0);}
 
 
-#define   BIT0        0x00000001
-#define   BIT1        0x00000002
-#define   BIT2        0x00000004
-#define   BIT3        0x00000008
-#define   BIT4        0x00000010
-#define   BIT5        0x00000020
-#define   BIT6        0x00000040
-#define   BIT7        0x00000080
-#define   BIT8        0x00000100
-#define   BIT9        0x00000200
-#define   BIT10       0x00000400
-#define   BIT11       0x00000800
-#define   BIT12       0x00001000
-#define   BIT13       0x00002000
-#define   BIT14       0x00004000
-#define   BIT15       0x00008000
-#define   BIT16       0x00010000
-#define   BIT17       0x00020000
-#define   BIT18       0x00040000
-#define   BIT19       0x00080000
-#define   BIT20       0x00100000
-#define   BIT21       0x00200000
-#define   BIT22       0x00400000
-#define   BIT23       0x00800000
-#define   BIT24       0x01000000
-#define   BIT25       0x02000000
-#define   BIT26       0x04000000
-#define   BIT27       0x08000000
-#define   BIT28       0x10000000
-#define   BIT29       0x20000000
-#define   BIT30       0x40000000
-#define   BIT31       0x80000000
+void vGreenBlinkTask( void *pvParametrs ) {
+	    for( ;; ) {
+	    	m_pPIOA->PIO_CODR = BIT17;  //set reg to 0 (led2 on)
+	    	vTaskDelay(1000);             //simple delay
+	    	m_pPIOA->PIO_SODR = BIT17;  //set reg to 1 (led2 off)
+	    	vTaskDelay(1000);             //simple delay
+	    }
+	}
 
-AT91PS_PMC 	pPMC   	= AT91C_BASE_PMC;  // Power Manager Controller base addr
-AT91PS_PMC 	p_pPMC 	= AT91C_BASE_PMC;  // PMC for perepherial
-AT91PS_PIO	p_pPIO	= AT91C_BASE_PIOA; // Base PIOA
-AT91PS_WDTC pWDTC 	= AT91C_BASE_WDTC; // WatchDog base addr
+void vRedBlinkTask( void *pvParametrs ) {
+    for( ;; ) {
+    	m_pPIOA->PIO_SODR = BIT18; //set reg to 1 (led1 off)
+        vTaskDelay( 1000 );
+        m_pPIOA->PIO_CODR = BIT18;  //set reg to 0 (led1 on)
+        vTaskDelay( 1000 );
+      }
+   }
 
-
-void InitFrec (void);
-void InitPerepherial (void);
-void delay (unsigned long a);
-
-void main (void)
+int main( void )
 {
 	InitFrec();
 	InitPerepherial();
-	const AT91PS_PIO m_pPIOA = AT91C_BASE_PIOA;
-	while (1)
-		{
-			 m_pPIOA->PIO_CODR = BIT17;  //set reg to 0 (led2 on)
-			 m_pPIOA->PIO_SODR = BIT18;  //set reg to 1 (led1 off)
-			 delay(800000);             //simple delay
-			 m_pPIOA->PIO_CODR = BIT18;  //set reg to 0 (led1 on)
-			 m_pPIOA->PIO_SODR = BIT17;  //set reg to 1 (led2 off)
-			 delay(800000);             //simple delay
-		}
+	////////////////////////////////////////////////
+
+	xTaskCreate( &vGreenBlinkTask,(signed char *)"GreenBlink",configMINIMAL_STACK_SIZE,
+	                 NULL,1,NULL );
+	xTaskCreate( &vRedBlinkTask, (signed char *)"RedBlink", configMINIMAL_STACK_SIZE,
+	                 NULL,1,NULL );
+
+	vTaskStartScheduler();
+   	///////////////////////////////////////////////
+
+   for (;;)
+   {
+	   m_pPIOA->PIO_CODR = BIT17;  //set reg to 0 (led2 on)
+	   m_pPIOA->PIO_SODR = BIT18;  //set reg to 1 (led1 off)
+	   delay(100000);             //simple delay
+	   m_pPIOA->PIO_CODR = BIT18;  //set reg to 0 (led1 on)
+	   m_pPIOA->PIO_SODR = BIT17;  //set reg to 1 (led2 off)
+	   delay(100000);             //simple delay
+   }
+   return 0;
 }
+/*-----------------------------------------------------------*/
 
-
-
-void InitFrec (void)
+static void prvSetupHardware( void )
 {
-	pWDTC -> WDTC_WDMR = AT91C_WDTC_WDDIS; //disable WatchDog
+	/* When using the JTAG debugger the hardware is not always initialised to
+	the correct default state.  This line just ensures that this does not
+	cause all interrupts to be masked at the start. */
+	AT91C_BASE_AIC->AIC_EOICR = 0;
 
-	//* Set MCK at 48 054 850 Hz
-	// 1 Enabling the Main Oscillator:
-  	//SCK = 1/32768 = 30.51 uSecond
- 	//Start up time = 8 * 6 / SCK = 48 * 30.51 = 1,46484375 ms
-	pPMC->PMC_MOR = (( AT91C_CKGR_OSCOUNT & (0x06 <<8)) | AT91C_CKGR_MOSCEN ); //Power Manager Control Main Osc Reg
+	/* Most setup is performed by the low level init function called from the
+	startup asm file. */
 
-	while(!(pPMC->PMC_SR & AT91C_PMC_MOSCS)); //wait startup Main Oscellator status
+	/* Configure the PIO Lines corresponding to LED1 to LED4 to be outputs as
+	well as the UART Tx line. */
+	AT91F_PIO_CfgOutput( AT91C_BASE_PIOA, LED_MASK );
 
-	// 2 Checking the Main Oscillator Frequency (Optional)
-	// 3 Setting PLL and divider:
-	// - div by 14 Fin = 1.3165 =(18,432 / 14)
-	// - Mul 72+1: Fout =	96.1097 =(3,6864 *73)
-	// for 96 MHz the erroe is 0.11%
-	// Field out NOT USED = 0
-	// PLLCOUNT pll startup time estimate at : 0.844 ms
-	// PLLCOUNT 28 = 0.000844 /(1/32768)
+	/* Enable the peripheral clock. */
+   AT91F_PMC_EnablePeriphClock( AT91C_BASE_PMC, (1 << AT91C_ID_PIOA) |  /* Enable Clock for PIO    */
+                                                (1 << AT91C_ID_IRQ0) |  /* Enable Clock for IRQ0   */
+                                                (1 << AT91C_ID_US0)     /* Enable Clock for USART0 */
+                              );
 
-	pPMC->PMC_PLLR = ((AT91C_CKGR_DIV & (7<<1))|(AT91C_CKGR_PLLCOUNT & (28<<8))|(AT91C_CKGR_MUL & (72<<16))); //Divider Selected,PLL Counter,PLL Multiplier
+   /* Enable reset-button */
+   AT91F_RSTSetMode( AT91C_BASE_RSTC , AT91C_RSTC_URSTEN );
+ }
+/*-----------------------------------------------------------*/
 
-	while(!(pPMC->PMC_SR & AT91C_PMC_LOCK)); // wait for the PLL to stabalize
-	while(!(pPMC->PMC_SR & AT91C_PMC_MCKRDY)); // wait for the "master clock ready" flag
-
-	// 4. select the master clock source and the prescalar
-	// source    = the PLL clock
-	// prescalar = 2
-	pPMC->PMC_MCKR = AT91C_PMC_PRES_CLK_2; //set prescelar 2
-	while(!(pPMC->PMC_SR & AT91C_PMC_MCKRDY));
-	pPMC->PMC_MCKR |= AT91C_PMC_CSS_PLL_CLK; // PLL clock is selected
-	while(!(pPMC->PMC_SR & AT91C_PMC_MCKRDY));
-}
-
-void InitPerepherial (void)
-{
-	/**** LED BUTTONS ****/
-	//enable the clock of the PIO
-	p_pPMC->PMC_PCER = 1 << AT91C_ID_PIOA; //PMC Peripheral Clock Enable Register
-
-	//LED 1
-	  //configure the PIO Lines corresponding to LED1
-	  p_pPIO->PIO_PER |= BIT18;    //Enable PA17
-	  p_pPIO->PIO_OER |= BIT18;    //Configure in Output
-	  p_pPIO->PIO_SODR |= BIT18;   //set reg to 0
-
-	  //LED 2
-	  //configure the PIO Lines corresponding to LED2
-	  p_pPIO->PIO_PER |= BIT17;    //Enable PA18
-	  p_pPIO->PIO_OER |= BIT17;    //Configure in Output
-	  p_pPIO->PIO_SODR |= BIT17;   //set reg to 0
-}
-
-void delay (unsigned long a) {while (--a!=0);}

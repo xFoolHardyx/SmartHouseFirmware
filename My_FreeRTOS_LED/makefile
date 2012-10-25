@@ -21,7 +21,7 @@ KERNEL=$(VPATH)/kernel
 HARDWARE=$(VPATH)/hardware
 STRING=$(VPATH)/string
 
-OBJS= startup.o main.o # flash.o heap_2.o print.o $(KERNEL)/list.o $(KERNEL)/queue.o $(KERNEL)/tasks.o  $(HARDWARE)/lib_AT91SAM7S256.o $(HARDWARE)/port.o $(HARDWARE)/portISR.o ParTest.o $(STRING)/memcmp.o $(STRING)/memset.o $(STRING)/strncpy.o $(STRING)/memcpy.o 
+OBJS= startup.o main.o  flash.o heap_2.o print.o $(KERNEL)/list.o $(KERNEL)/queue.o $(KERNEL)/tasks.o  $(HARDWARE)/lib_AT91SAM7S256.o $(HARDWARE)/port.o $(HARDWARE)/portISR.o ParTest.o $(STRING)/memcmp.o $(STRING)/memset.o $(STRING)/strncpy.o $(STRING)/memcpy.o system.o 
 
 all: make_folder make_floder_kernel make_floder_hardware make_floder_string $(BUILD)/My_FreeRTOS_LED.bin
 
