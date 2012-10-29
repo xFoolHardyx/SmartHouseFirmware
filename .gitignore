@@ -3,7 +3,6 @@
 *.bin
 */.project
 */build/*
-command.txt
 .metadata
 */.settings/*
 .cproject
