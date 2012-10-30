@@ -94,7 +94,7 @@ Changes from V1.2.3
 	+ A division has been included in the calculation.
 */
 
-#include <stdlib.h>
+//#include <stdlib.h>
 
 /* Scheduler include files. */
 #include "FreeRTOS.h"

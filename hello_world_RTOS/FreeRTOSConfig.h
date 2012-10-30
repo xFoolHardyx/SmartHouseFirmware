@@ -67,7 +67,7 @@
 #ifndef FREERTOS_CONFIG_H
 #define FREERTOS_CONFIG_H
 
-#include <stdio.h>
+//#include <stdio.h>
 #include "AT91SAM7X256.h"
 
 /*-----------------------------------------------------------

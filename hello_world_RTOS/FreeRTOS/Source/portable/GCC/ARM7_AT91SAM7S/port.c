@@ -74,7 +74,7 @@
  *----------------------------------------------------------*/
 
 /* Standard includes. */
-#include <stdlib.h>
+//#include <stdlib.h>
 
 /* Scheduler includes. */
 #include "FreeRTOS.h"

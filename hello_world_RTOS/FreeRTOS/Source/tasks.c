@@ -65,9 +65,9 @@
 */
 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <string.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
 all the API functions to use the MPU wrappers.  That should only be done when
@@ -1291,7 +1291,7 @@ unsigned portBASE_TYPE uxTaskGetNumberOfTasks( void )
 			report the task name, state and stack high water mark. */
 
 			*pcWriteBuffer = ( signed char ) 0x00;
-			strcat( ( char * ) pcWriteBuffer, ( const char * ) "\r\n" );
+			//strcat( ( char * ) pcWriteBuffer, ( const char * ) "\r\n" );
 
 			uxQueue = uxTopUsedPriority + ( unsigned portBASE_TYPE ) 1U;
 
@@ -1954,7 +1954,7 @@ static void prvInitialiseTCBVariables( tskTCB *pxTCB, const signed char * const 
 	#if configMAX_TASK_NAME_LEN > 1
 	{
 		/* Don't bring strncpy into the build unnecessarily. */
-		strncpy( ( char * ) pxTCB->pcTaskName, ( const char * ) pcName, ( unsigned short ) configMAX_TASK_NAME_LEN );
+		//strncpy( ( char * ) pxTCB->pcTaskName, ( const char * ) pcName, ( unsigned short ) configMAX_TASK_NAME_LEN );
 	}
 	#endif
 	pxTCB->pcTaskName[ ( unsigned short ) configMAX_TASK_NAME_LEN - ( unsigned short ) 1 ] = ( signed char ) '\0';
@@ -2151,7 +2151,7 @@ tskTCB *pxNewTCB;
 		else
 		{
 			/* Just to help debugging. */
-			memset( pxNewTCB->pxStack, ( int ) tskSTACK_FILL_BYTE, ( size_t ) usStackDepth * sizeof( portSTACK_TYPE ) );
+			//memset( pxNewTCB->pxStack, ( int ) tskSTACK_FILL_BYTE, ( size_t ) usStackDepth * sizeof( portSTACK_TYPE ) );
 		}
 	}
 
@@ -2182,8 +2182,8 @@ tskTCB *pxNewTCB;
 			}
 			#endif			
 			
-			sprintf( pcStatusString, ( char * ) "%s\t\t%c\t%u\t%u\t%u\r\n", pxNextTCB->pcTaskName, cStatus, ( unsigned int ) pxNextTCB->uxPriority, usStackRemaining, ( unsigned int ) pxNextTCB->uxTCBNumber );
-			strcat( ( char * ) pcWriteBuffer, ( char * ) pcStatusString );
+			//sprintf( pcStatusString, ( char * ) "%s\t\t%c\t%u\t%u\t%u\r\n", pxNextTCB->pcTaskName, cStatus, ( unsigned int ) pxNextTCB->uxPriority, usStackRemaining, ( unsigned int ) pxNextTCB->uxTCBNumber );
+			//strcat( ( char * ) pcWriteBuffer, ( char * ) pcStatusString );
 
 		} while( pxNextTCB != pxFirstTCB );
 	}
