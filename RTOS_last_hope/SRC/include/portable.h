@@ -72,6 +72,8 @@
 #define PORTABLE_H
 
 #include "../hardware/include/portmacro.h"
+typedef __SIZE_TYPE__ size_t;
+
 	
 #if portBYTE_ALIGNMENT == 8
 	#define portBYTE_ALIGNMENT_MASK ( 0x0007 )
