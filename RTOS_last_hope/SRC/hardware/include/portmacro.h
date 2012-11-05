@@ -94,6 +94,8 @@
 extern "C" {
 #endif
 
+typedef __SIZE_TYPE__ size_t;
+
 /*-----------------------------------------------------------
  * Port specific definitions.  
  *

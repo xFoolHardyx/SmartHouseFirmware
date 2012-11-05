@@ -68,7 +68,7 @@
 #define FREERTOS_CONFIG_H
 
 //#include <stdio.h>
-#include "hardware/include/AT91SAM7S128.h"
+#include "hardware/include/AT91SAM7X256.h"
 
 /*-----------------------------------------------------------
  * Application specific definitions.
@@ -85,48 +85,33 @@
 #define configUSE_PREEMPTION		1
 #define configUSE_IDLE_HOOK         0
 #define configUSE_TICK_HOOK         0
-#define configCPU_CLOCK_HZ          ( ( unsigned long ) 47923200 )
+#define configCPU_CLOCK_HZ          ( ( unsigned long ) 48054850 )
 #define configTICK_RATE_HZ          ( ( portTickType ) 1000 )
 #define configMAX_PRIORITIES		( ( unsigned portBASE_TYPE ) 2 )
-#define configMINIMAL_STACK_SIZE	( ( unsigned short ) 256 )
+#define configMINIMAL_STACK_SIZE	( ( unsigned short ) 1024 )
 #define configTOTAL_HEAP_SIZE		( ( size_t ) ( 24 * 1024 ) )
 #define configMAX_TASK_NAME_LEN		( 10 )
-#define configUSE_TRACE_FACILITY	1
+#define configUSE_TRACE_FACILITY	0
 #define configUSE_16_BIT_TICKS		0
-#define configIDLE_SHOULD_YIELD		1
-#define configUSE_MUTEXES			1
+#define configIDLE_SHOULD_YIELD		0
+#define configUSE_MUTEXES			0
 
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES 		0
-#define configMAX_CO_ROUTINE_PRIORITIES ( 2 )
+#define configMAX_CO_ROUTINE_PRIORITIES ( 0 )
 
 
 /* Set the following definitions to 1 to include the API function, or zero
 to exclude the API function. */
 
-#define INCLUDE_vTaskPrioritySet            1
-#define INCLUDE_uxTaskPriorityGet           1
-#define INCLUDE_vTaskDelete                 1
+#define INCLUDE_vTaskPrioritySet            0
+#define INCLUDE_uxTaskPriorityGet           0
+#define INCLUDE_vTaskDelete                 0
 #define INCLUDE_vTaskCleanUpResources       0
-#define INCLUDE_vTaskSuspend                1
-#define INCLUDE_vTaskDelayUntil             1
-#define INCLUDE_vTaskDelay                  1
-#define INCLUDE_xTaskGetCurrentTaskHandle	1
+#define INCLUDE_vTaskSuspend                0
+#define INCLUDE_vTaskDelayUntil             0
+#define INCLUDE_vTaskDelay                  0
+#define INCLUDE_xTaskGetCurrentTaskHandle	0
 
-
-
-/* MAC address configuration. */
-#define uipMAC_ADDR0	0x00
-#define uipMAC_ADDR1	0x12
-#define uipMAC_ADDR2	0x13
-#define uipMAC_ADDR3	0x10
-#define uipMAC_ADDR4	0x15
-#define uipMAC_ADDR5	0x11
-
-/* IP address configuration. */
-#define uipIP_ADDR0		172
-#define uipIP_ADDR1		25
-#define uipIP_ADDR2		218
-#define uipIP_ADDR3		10	
 
 #endif /* FREERTOS_CONFIG_H */

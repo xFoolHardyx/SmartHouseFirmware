@@ -5,8 +5,8 @@ ENTRY(_vec_reset)
 
 MEMORY 
 {
-	flash 	: ORIGIN = 0, LENGTH = 128K 		/* FLASH EPROM */
-	ram 	: ORIGIN = 0x200000, LENGTH = 32K   /* static RAM area */
+	flash 	: ORIGIN = 0, LENGTH = 256K 		/* FLASH EPROM */
+	ram 	: ORIGIN = 0x200000, LENGTH = 64K   /* static RAM area */
 }
 
 /* define a global symbol _stack_end  (see analysis in annotation above) */

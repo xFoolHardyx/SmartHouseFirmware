@@ -87,7 +87,8 @@
 conform. */
 typedef portBASE_TYPE (*pdTASK_HOOK_CODE)( void * );
 
-
+#define NULL ((void *)0)
+typedef __SIZE_TYPE__ size_t;
 
 
 

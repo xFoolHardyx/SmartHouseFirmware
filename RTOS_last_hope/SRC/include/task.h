@@ -69,12 +69,6 @@
 #ifndef TASK_H
 #define TASK_H
 
-
-#include "FreeRTOS.h"
-
-#define NULL ((void *)0)
-typedef __SIZE_TYPE__ size_t;
-
 #ifndef INC_FREERTOS_H
 	#error "include FreeRTOS.h must appear in source files before include task.h"
 #endif

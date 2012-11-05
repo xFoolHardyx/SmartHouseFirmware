@@ -96,8 +96,6 @@
 #ifndef LIST_H
 #define LIST_H
 
-#define NULL ((void *)0)
-
 #ifdef __cplusplus
 extern "C" {
 #endif

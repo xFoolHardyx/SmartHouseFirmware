@@ -68,17 +68,17 @@
 //#include <stdio.h>
 //#include <stdlib.h>
 //#include <string.h>
-#include "../string/include/string.h"
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
 all the API functions to use the MPU wrappers.  That should only be done when
 task.h is included from an application file. */
 #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#include "../FreeRTOSConfig.h"
+#include "../include/FreeRTOS.h"
 #include "../include/task.h"
-#include "../include/timers.h"
+//#include "timers.h"
 #include "../include/StackMacros.h"
+#include "../string/include/string.h"
 
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
@@ -2183,7 +2183,7 @@ tskTCB *pxNewTCB;
 			}
 			#endif			
 			
-			//sprintf( pcStatusString, ( char * ) "%s\t\t%c\t%u\t%u\t%u\r\n", pxNextTCB->pcTaskName, cStatus, ( unsigned int ) pxNextTCB->uxPriority, usStackRemaining, ( unsigned int ) pxNextTCB->uxTCBNumber );
+			sprintf( pcStatusString, ( char * ) "%s\t\t%c\t%u\t%u\t%u\r\n", pxNextTCB->pcTaskName, cStatus, ( unsigned int ) pxNextTCB->uxPriority, usStackRemaining, ( unsigned int ) pxNextTCB->uxTCBNumber );
 			strcat( ( char * ) pcWriteBuffer, ( char * ) pcStatusString );
 
 		} while( pxNextTCB != pxFirstTCB );

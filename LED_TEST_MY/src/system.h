@@ -1,13 +1,4 @@
-/*
- * system_bit.h
- *
- *  Created on: 5 лист. 2012
- *      Author: Trol
- */
-
-#ifndef SYSTEM_BIT_H_
-#define SYSTEM_BIT_H_
-
+//bits
 #define   BIT0        0x00000001
 #define   BIT1        0x00000002
 #define   BIT2        0x00000004
@@ -41,5 +32,5 @@
 #define   BIT30       0x40000000
 #define   BIT31       0x80000000
 
-
-#endif /* SYSTEM_BIT_H_ */
+void InitFrec(void);
+void InitPeriphery(void);

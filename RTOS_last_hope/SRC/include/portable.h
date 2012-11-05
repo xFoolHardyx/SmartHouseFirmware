@@ -71,9 +71,22 @@
 #ifndef PORTABLE_H
 #define PORTABLE_H
 
-#include "../hardware/include/portmacro.h"
-typedef __SIZE_TYPE__ size_t;
+/* Include the macro file relevant to the port being used. */
 
+
+	
+/* Catch all to ensure portmacro.h is included in the build.  Newer demos
+have the path as part of the project options, rather than as relative from
+the project location.  If portENTER_CRITICAL() has not been defined then
+portmacro.h has not yet been included - as every portmacro.h provides a
+portENTER_CRITICAL() definition.  Check the demo application for your demo
+to find the path to the correct portmacro.h file. */
+
+#include "../hardware/include/portmacro.h"
+
+#ifndef portENTER_CRITICAL
+	#include "portmacro.h"	
+#endif
 	
 #if portBYTE_ALIGNMENT == 8
 	#define portBYTE_ALIGNMENT_MASK ( 0x0007 )
@@ -103,7 +116,7 @@ typedef __SIZE_TYPE__ size_t;
 extern "C" {
 #endif
 
-#include "mpu_wrappers.h"
+#include "../include/mpu_wrappers.h"
 
 /*
  * Setup the stack of a new task so it is ready to be placed under the
