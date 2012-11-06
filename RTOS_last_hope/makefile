@@ -24,7 +24,20 @@ KERNEL=kernel
 STRING=string
 HARDWARE=hardware
 
-OBJS=start.o main.o $(KERNEL)/tasks.o $(KERNEL)/list.o $(KERNEL)/queue.o $(KERNEL)/heap_2.o  
+OBJS=	start.o \
+		main.o \
+		$(KERNEL)/tasks.o \
+		$(KERNEL)/list.o \
+		$(KERNEL)/queue.o \
+		$(KERNEL)/heap_2.o \
+		$(STRING)/memcmp.o \
+		$(STRING)/memcpy.o \
+		$(STRING)/memset.o \
+		$(STRING)/strcat.o \
+		$(STRING)/strlen.o \
+		$(STRING)/strncpy.o \
+		$(HARDWARE)/portISR.o \
+		$(HARDWARE)/port.o
 
 all: make_folder $(BUILD)/FIRMWARE.bin
 

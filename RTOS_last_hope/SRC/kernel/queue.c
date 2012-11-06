@@ -74,6 +74,7 @@ task.h is included from an application file. */
 
 #include "../include/FreeRTOS.h"
 #include "../include/task.h"
+#include "../string/include/string.h"
 
 #if ( configUSE_CO_ROUTINES == 1 )
 	#include "croutine.h"

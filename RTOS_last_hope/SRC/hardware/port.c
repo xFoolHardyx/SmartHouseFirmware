@@ -74,14 +74,14 @@
  *----------------------------------------------------------*/
 
 /* Standard includes. */
-#include <stdlib.h>
+//#include <stdlib.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#include "../include/FreeRTOS.h"
+#include "../include/task.h"
 
 /* Processor constants. */
-#include "AT91SAM7X256.h"
+#include "include/AT91SAM7X256.h"
 
 /* Constants required to setup the task context. */
 #define portINITIAL_SPSR				( ( portSTACK_TYPE ) 0x1f ) /* System mode, ARM mode, interrupts enabled. */
