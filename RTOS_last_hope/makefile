@@ -1,13 +1,11 @@
 CPU=arm7tdmi
 
 BUILD=build
-
 VPATH=SRC
 
-CFLAGS=
+CFLAGS=-ISRC/include -ISRC/hardware/include
 
-
-GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU) 
+GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU)  
 
 #O3 - code speed optimizate
 #Os - code size optimizate
