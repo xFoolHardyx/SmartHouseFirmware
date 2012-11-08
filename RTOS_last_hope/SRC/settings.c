@@ -20,15 +20,8 @@ void InitPerepherial (void)
 	/**** LED BUTTONS ****/
 	PerCLKEn(p_pPMC,AT91C_ID_PIOA);
 
-	  //LED 1
-	  //configure the PIO Lines corresponding to LED1
-	  p_pPIO->PIO_PER |= BIT18;    //Enable PA17
-	  p_pPIO->PIO_OER |= BIT18;    //Configure in Output
-	  p_pPIO->PIO_SODR |= BIT18;   //set reg to 0
-
-	  //LED 2
-	  //configure the PIO Lines corresponding to LED2
-	  p_pPIO->PIO_PER |= BIT17;    //Enable PA18
-	  p_pPIO->PIO_OER |= BIT17;    //Configure in Output
-	  p_pPIO->PIO_SODR |= BIT17;   //set reg to 0
+	//LED 1
+	ConfPIO(p_pPIO,BIT18,1);
+	//LED 2
+	ConfPIO(p_pPIO,BIT17,1);
 }

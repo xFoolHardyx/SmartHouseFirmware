@@ -93,6 +93,19 @@
 /////////////////////////////////////////////////////////////////////////
 #define PerCLKEn(pPMC,PerefID) (pPMC)->PMC_PCER = 1 << PerefID
 
+/////////////////////////////////////////////////////////////////////////
+// configure the PIO Lines corresponding to LED (in or out)
+/////////////////////////////////////////////////////////////////////////
+#define ConfPIO(pPIO,PIN,inp_out) {		\
+	if (inp_out==0) { 					\
+	(pPIO)->PIO_PER |= PIN;				\
+	(pPIO)->PIO_OER |= PIN;				\
+	(pPIO)->PIO_CODR |= PIN;} 			\
+	else { 								\
+		(pPIO)->PIO_PER |= PIN;			\
+		(pPIO)->PIO_OER |= PIN;			\
+		(pPIO)->PIO_SODR |= PIN;}}		\
+
 void InitFrec(void);
 
 
