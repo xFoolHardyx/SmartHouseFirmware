@@ -34,7 +34,66 @@
 #define   BIT30       0x40000000
 #define   BIT31       0x80000000
 
+//////////////////////////////////////////////////////////////////////////
+//	Disable WatchDog
+//////////////////////////////////////////////////////////////////////////
 #define DisWD(pWDTC) (pWDTC)->WDTC_WDMR = AT91C_WDTC_WDDIS
+
+//////////////////////////////////////////////////////////////////////////
+//	SetMCK
+//	Set MCK at 48 054 850 Hz
+//	1 Enabling the Main Oscillator:
+//	LowCLK = 32768
+//	SCK = 1/LowSCK = 0,000030517578125 Second
+//	Start up time = 8 * 6 * SCK = 48 * 0,000030517578125 = 1,46484375 ms
+//////////////////////////////////////////////////////////////////////////
+#define SetMCK(pPMC,MUL) { 												    \
+	(pPMC)->PMC_MOR =((AT91C_CKGR_OSCOUNT & (MUL<<8)) | AT91C_CKGR_MOSCEN); \
+	while (!((pPMC)->PMC_SR & AT91C_PMC_MOSCS));}
+
+//////////////////////////////////////////////////////////////////////////
+//	SetPLLAndDriverCLK
+//	2 Checking the Main Oscillator Frequency (Optional)
+//	3 Setting PLL and divider:
+//	DIV			: (18,432 / 14) = 1.3165
+// 	MUL mul+1	: (1.3165 * 73) = 96.1097
+// 	for 96 MHz the erroe is 0.11%
+// 	Field out NOT USED = 0
+// 	PLLCOUNT pll startup time estimate at : 0.844 ms
+// 	PLLCOUNT 0.000844 /(1/32768) = 28
+//////////////////////////////////////////////////////////////////////////
+#define SetPLLnDrv(pPMC,div,mul,cnt) {						\
+	(pPMC)->PMC_PLLR = ((AT91C_CKGR_DIV & (div<<1))| 		\
+						(AT91C_CKGR_PLLCOUNT & (cnt<<8))| 	\
+						(AT91C_CKGR_MUL & (mul<<16)));		\
+	while(!((pPMC)->PMC_SR & AT91C_PMC_LOCK)); 				\
+	while(!((pPMC)->PMC_SR & AT91C_PMC_MCKRDY));}
+
+//////////////////////////////////////////////////////////////////////////
+//	SetPrescalerCLK
+//	4. select the master clock source and the prescalar
+// 	source = the PLL clock
+// 	prescalar = 2
+//////////////////////////////////////////////////////////////////////////
+#define SetPCLK(pPMC,PresCLK) {									\
+	switch (PresCLK) {											\
+	case 2	: (pPMC)->PMC_MCKR = AT91C_PMC_PRES_CLK_2; 	break;	\
+	case 4	: (pPMC)->PMC_MCKR = AT91C_PMC_PRES_CLK_4; 	break;	\
+	case 8	: (pPMC)->PMC_MCKR = AT91C_PMC_PRES_CLK_8; 	break;	\
+	case 16	: (pPMC)->PMC_MCKR = AT91C_PMC_PRES_CLK_16; break;	\
+	case 32	: (pPMC)->PMC_MCKR = AT91C_PMC_PRES_CLK_32; break;	\
+	case 64	: (pPMC)->PMC_MCKR = AT91C_PMC_PRES_CLK_64; break;	\
+	default : (pPMC)->PMC_MCKR = AT91C_PMC_PRES_CLK; 	break;}	\
+	while(!((pPMC)->PMC_SR & AT91C_PMC_MCKRDY));				\
+	(pPMC)->PMC_MCKR |= AT91C_PMC_CSS_PLL_CLK;					\
+	while(!((pPMC)->PMC_SR & AT91C_PMC_MCKRDY));}
+
+/////////////////////////////////////////////////////////////////////////
+//	PerepherialCLKEnable
+/////////////////////////////////////////////////////////////////////////
+#define PerCLKEn(pPMC,PerefID) (pPMC)->PMC_PCER = 1 << PerefID
+
+void InitFrec(void);
 
 
 #endif /* SETTINGS_H_ */

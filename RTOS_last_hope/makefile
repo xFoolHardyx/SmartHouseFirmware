@@ -35,7 +35,8 @@ OBJS=	start.o \
 		$(STRING)/strlen.o \
 		$(STRING)/strncpy.o \
 		$(HARDWARE)/portISR.o \
-		$(HARDWARE)/port.o
+		$(HARDWARE)/port.o \
+		settings.o
 
 all: make_folder $(BUILD)/FIRMWARE.bin
 
