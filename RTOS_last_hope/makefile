@@ -5,7 +5,7 @@ VPATH=SRC
 
 CFLAGS=-ISRC/include -ISRC/hardware/include
 
-GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU)  
+GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU) -g
 
 #O3 - code speed optimizate
 #Os - code size optimizate
