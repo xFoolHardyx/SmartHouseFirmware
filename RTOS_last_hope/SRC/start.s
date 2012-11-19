@@ -125,19 +125,19 @@ _init_reset:
 	ldr     R1, =_etext
 	ldr     R2, =_data
 	ldr     R3, =_edata
-1: 	cmp     R2, R3
-	ldrlo   R0, [R1], #4
-	strlo   R0, [R2], #4
-	blo     1b
+loop1: 	cmp     R2, R3
+	ldrcc   R0, [R1], #4
+	strcc   R0, [R2], #4
+	bcc     loop1
 
 # Clear uninitialized variables .bss section (Zero init)
 
 	mov     R0, #0
 	ldr     R1, =_bss_start
   	ldr     R2, =_bss_end
-2: 	cmp     R1, R2
-	strlo   R0, [R1], #4
-	blo     2b
+loop2: 	cmp     R1, R2
+	strcc   R0, [R1], #4
+	bcc		loop2
 
 # Enter the C code
 

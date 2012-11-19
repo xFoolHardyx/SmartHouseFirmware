@@ -1,22 +1,20 @@
 CPU=arm7tdmi
-
 BUILD=build
 VPATH=SRC
 
 CFLAGS=-ISRC/include -ISRC/hardware/include
 
-GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU) -g
+GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU) -g -DROM_RAN
 
 #O3 - code speed optimizate
 #Os - code size optimizate
 #-i /....... - way
 
 LD=arm-eabi-gcc -nostdlib  -Wl,-T,script.ld  
-#-Wl,-T,script.ld -script 
+#-Wl,-T,script.ld  
 #-Wl,-Ttext = 0x10000  - entery point 
 
 OBC=arm-eabi-objcopy
-
 
 KERNEL=kernel
 STRING=string
