@@ -21,7 +21,7 @@ void InitPerepherial (void)
 	PerCLKEn(p_pPMC,AT91C_ID_PIOA);
 
 	//LED 1
-	ConfPIO(p_pPIO,BIT18,1);
+	ConfPIO(p_pPIO,BIT18,0);
 	//LED 2
-	ConfPIO(p_pPIO,BIT17,1);
+	ConfPIO(p_pPIO,BIT17,0);
 }
