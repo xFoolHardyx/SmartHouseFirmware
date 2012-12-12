@@ -1,0 +1,1825 @@
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 1
+
+
+   1              		.file	"heap_2.c"
+   2              	@ GNU C (GCC) version 4.3.3 (arm-elf)
+   3              	@	compiled by GNU C version 3.4.5 (mingw special), GMP version 4.2.2, MPFR version 2.3.1.
+   4              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+   5              	@ options passed:  -I . -IINC/ -IINC/RTOS/ -imultilib interwork -iprefix
+   6              	@ d:\programy\mikrokontrolery\arm\yagarto\bin\../lib/gcc/arm-elf/4.3.3/ -MD
+   7              	@ SRC/RTOS/heap_2.d -MF .dep/heap_2.o.d -MP -MQ SRC/RTOS/heap_2.o
+   8              	@ -D__USES_INITFINI__ SRC/RTOS/heap_2.c -mcpu=arm7tdmi -mthumb-interwork
+   9              	@ -auxbase-strip SRC/RTOS/heap_2.o -gdwarf-2 -O0 -Wall -Wstrict-prototypes
+  10              	@ -fomit-frame-pointer -fverbose-asm
+  11              	@ options enabled:  -falign-loops -fargument-alias -fauto-inc-dec
+  12              	@ -fbranch-count-reg -fcommon -fearly-inlining
+  13              	@ -feliminate-unused-debug-types -ffunction-cse -fgcse-lm -fident -fivopts
+  14              	@ -fkeep-static-consts -fleading-underscore -fmath-errno
+  15              	@ -fmerge-debug-strings -fmove-loop-invariants -fomit-frame-pointer
+  16              	@ -fpeephole -freg-struct-return -fsched-interblock -fsched-spec
+  17              	@ -fsched-stalled-insns-dep -fsigned-zeros -fsplit-ivs-in-unroller
+  18              	@ -ftoplevel-reorder -ftrapping-math -ftree-cselim -ftree-loop-im
+  19              	@ -ftree-loop-ivcanon -ftree-loop-optimize -ftree-parallelize-loops=
+  20              	@ -ftree-reassoc -ftree-scev-cprop -ftree-vect-loop-version -fverbose-asm
+  21              	@ -fzero-initialized-in-bss -mlittle-endian -msched-prolog
+  22              	@ -mthumb-interwork
+  23              	
+  24              		.section	.debug_abbrev,"",%progbits
+  25              	.Ldebug_abbrev0:
+  26              		.section	.debug_info,"",%progbits
+  27              	.Ldebug_info0:
+  28              		.section	.debug_line,"",%progbits
+  29              	.Ldebug_line0:
+  30 0000 CC000000 		.text
+  30      02008100 
+  30      00000201 
+  30      FB0E0D00 
+  30      01010101 
+  31              	.Ltext0:
+  32              	@ Compiler executable checksum: aefe8b2555dadc8858779d7450a1d1fb
+  33              	
+  34              		.section	.rodata
+  35              		.align	1
+  36              		.type	heapSTRUCT_SIZE, %object
+  37              		.size	heapSTRUCT_SIZE, 2
+  38              	heapSTRUCT_SIZE:
+  39 0000 1000     		.short	16
+  40              		.bss
+  41              		.align	2
+  42              	xHeapHasBeenInitialised.3293:
+  43 0000 00000000 		.space	4
+  44              		.text
+  45              		.align	2
+  46              		.global	pvPortMalloc
+  47              		.type	pvPortMalloc, %function
+  48              	pvPortMalloc:
+  49              	.LFB2:
+  50              		.file 1 "SRC/RTOS/heap_2.c"
+   1:SRC/RTOS/heap_2.c **** /*
+   2:SRC/RTOS/heap_2.c ****     FreeRTOS V6.0.2 - Copyright (C) 2010 Real Time Engineers Ltd.
+   3:SRC/RTOS/heap_2.c **** 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 2
+
+
+   4:SRC/RTOS/heap_2.c ****     ***************************************************************************
+   5:SRC/RTOS/heap_2.c ****     *                                                                         *
+   6:SRC/RTOS/heap_2.c ****     * If you are:                                                             *
+   7:SRC/RTOS/heap_2.c ****     *                                                                         *
+   8:SRC/RTOS/heap_2.c ****     *    + New to FreeRTOS,                                                   *
+   9:SRC/RTOS/heap_2.c ****     *    + Wanting to learn FreeRTOS or multitasking in general quickly       *
+  10:SRC/RTOS/heap_2.c ****     *    + Looking for basic training,                                        *
+  11:SRC/RTOS/heap_2.c ****     *    + Wanting to improve your FreeRTOS skills and productivity           *
+  12:SRC/RTOS/heap_2.c ****     *                                                                         *
+  13:SRC/RTOS/heap_2.c ****     * then take a look at the FreeRTOS eBook                                  *
+  14:SRC/RTOS/heap_2.c ****     *                                                                         *
+  15:SRC/RTOS/heap_2.c ****     *        "Using the FreeRTOS Real Time Kernel - a Practical Guide"        *
+  16:SRC/RTOS/heap_2.c ****     *                  http://www.FreeRTOS.org/Documentation                  *
+  17:SRC/RTOS/heap_2.c ****     *                                                                         *
+  18:SRC/RTOS/heap_2.c ****     * A pdf reference manual is also available.  Both are usually delivered   *
+  19:SRC/RTOS/heap_2.c ****     * to your inbox within 20 minutes to two hours when purchased between 8am *
+  20:SRC/RTOS/heap_2.c ****     * and 8pm GMT (although please allow up to 24 hours in case of            *
+  21:SRC/RTOS/heap_2.c ****     * exceptional circumstances).  Thank you for your support!                *
+  22:SRC/RTOS/heap_2.c ****     *                                                                         *
+  23:SRC/RTOS/heap_2.c ****     ***************************************************************************
+  24:SRC/RTOS/heap_2.c **** 
+  25:SRC/RTOS/heap_2.c ****     This file is part of the FreeRTOS distribution.
+  26:SRC/RTOS/heap_2.c **** 
+  27:SRC/RTOS/heap_2.c ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  28:SRC/RTOS/heap_2.c ****     the terms of the GNU General Public License (version 2) as published by the
+  29:SRC/RTOS/heap_2.c ****     Free Software Foundation AND MODIFIED BY the FreeRTOS exception.
+  30:SRC/RTOS/heap_2.c ****     ***NOTE*** The exception to the GPL is included to allow you to distribute
+  31:SRC/RTOS/heap_2.c ****     a combined work that includes FreeRTOS without being obliged to provide the
+  32:SRC/RTOS/heap_2.c ****     source code for proprietary components outside of the FreeRTOS kernel.
+  33:SRC/RTOS/heap_2.c ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT
+  34:SRC/RTOS/heap_2.c ****     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  35:SRC/RTOS/heap_2.c ****     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+  36:SRC/RTOS/heap_2.c ****     more details. You should have received a copy of the GNU General Public 
+  37:SRC/RTOS/heap_2.c ****     License and the FreeRTOS license exception along with FreeRTOS; if not it 
+  38:SRC/RTOS/heap_2.c ****     can be viewed here: http://www.freertos.org/a00114.html and also obtained 
+  39:SRC/RTOS/heap_2.c ****     by writing to Richard Barry, contact details for whom are available on the
+  40:SRC/RTOS/heap_2.c ****     FreeRTOS WEB site.
+  41:SRC/RTOS/heap_2.c **** 
+  42:SRC/RTOS/heap_2.c ****     1 tab == 4 spaces!
+  43:SRC/RTOS/heap_2.c **** 
+  44:SRC/RTOS/heap_2.c ****     http://www.FreeRTOS.org - Documentation, latest information, license and
+  45:SRC/RTOS/heap_2.c ****     contact details.
+  46:SRC/RTOS/heap_2.c **** 
+  47:SRC/RTOS/heap_2.c ****     http://www.SafeRTOS.com - A version that is certified for use in safety
+  48:SRC/RTOS/heap_2.c ****     critical systems.
+  49:SRC/RTOS/heap_2.c **** 
+  50:SRC/RTOS/heap_2.c ****     http://www.OpenRTOS.com - Commercial support, development, porting,
+  51:SRC/RTOS/heap_2.c ****     licensing and training services.
+  52:SRC/RTOS/heap_2.c **** */
+  53:SRC/RTOS/heap_2.c **** 
+  54:SRC/RTOS/heap_2.c **** /*
+  55:SRC/RTOS/heap_2.c ****  * A sample implementation of pvPortMalloc() and vPortFree() that permits
+  56:SRC/RTOS/heap_2.c ****  * allocated blocks to be freed, but does not combine adjacent free blocks
+  57:SRC/RTOS/heap_2.c ****  * into a single larger block.
+  58:SRC/RTOS/heap_2.c ****  *
+  59:SRC/RTOS/heap_2.c ****  * See heap_1.c and heap_3.c for alternative implementations, and the memory
+  60:SRC/RTOS/heap_2.c ****  * management pages of http://www.FreeRTOS.org for more information.
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 3
+
+
+  61:SRC/RTOS/heap_2.c ****  */
+  62:SRC/RTOS/heap_2.c **** #include <stdlib.h>
+  63:SRC/RTOS/heap_2.c **** 
+  64:SRC/RTOS/heap_2.c **** /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
+  65:SRC/RTOS/heap_2.c **** all the API functions to use the MPU wrappers.  That should only be done when
+  66:SRC/RTOS/heap_2.c **** task.h is included from an application file. */
+  67:SRC/RTOS/heap_2.c **** #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+  68:SRC/RTOS/heap_2.c **** 
+  69:SRC/RTOS/heap_2.c **** #include "FreeRTOS.h"
+  70:SRC/RTOS/heap_2.c **** #include "task.h"
+  71:SRC/RTOS/heap_2.c **** 
+  72:SRC/RTOS/heap_2.c **** #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+  73:SRC/RTOS/heap_2.c **** 
+  74:SRC/RTOS/heap_2.c **** /* Allocate the memory for the heap.  The struct is used to force byte
+  75:SRC/RTOS/heap_2.c **** alignment without using any non-portable code. */
+  76:SRC/RTOS/heap_2.c **** static union xRTOS_HEAP
+  77:SRC/RTOS/heap_2.c **** {
+  78:SRC/RTOS/heap_2.c **** 	#if portBYTE_ALIGNMENT == 8
+  79:SRC/RTOS/heap_2.c **** 		volatile portDOUBLE dDummy;
+  80:SRC/RTOS/heap_2.c **** 	#else
+  81:SRC/RTOS/heap_2.c **** 		volatile unsigned long ulDummy;
+  82:SRC/RTOS/heap_2.c **** 	#endif
+  83:SRC/RTOS/heap_2.c **** 	unsigned char ucHeap[ configTOTAL_HEAP_SIZE ];
+  84:SRC/RTOS/heap_2.c **** } xHeap;
+  85:SRC/RTOS/heap_2.c **** 
+  86:SRC/RTOS/heap_2.c **** /* Define the linked list structure.  This is used to link free blocks in order
+  87:SRC/RTOS/heap_2.c **** of their size. */
+  88:SRC/RTOS/heap_2.c **** typedef struct A_BLOCK_LINK
+  89:SRC/RTOS/heap_2.c **** {
+  90:SRC/RTOS/heap_2.c **** 	struct A_BLOCK_LINK *pxNextFreeBlock;	/*<< The next free block in the list. */
+  91:SRC/RTOS/heap_2.c **** 	size_t xBlockSize;						/*<< The size of the free block. */
+  92:SRC/RTOS/heap_2.c **** } xBlockLink;
+  93:SRC/RTOS/heap_2.c **** 
+  94:SRC/RTOS/heap_2.c **** 
+  95:SRC/RTOS/heap_2.c **** static const unsigned short  heapSTRUCT_SIZE	= ( sizeof( xBlockLink ) + portBYTE_ALIGNMENT - ( size
+  96:SRC/RTOS/heap_2.c **** #define heapMINIMUM_BLOCK_SIZE	( ( size_t ) ( heapSTRUCT_SIZE * 2 ) )
+  97:SRC/RTOS/heap_2.c **** 
+  98:SRC/RTOS/heap_2.c **** /* Create a couple of list links to mark the start and end of the list. */
+  99:SRC/RTOS/heap_2.c **** static xBlockLink xStart, xEnd;
+ 100:SRC/RTOS/heap_2.c **** 
+ 101:SRC/RTOS/heap_2.c **** /* Keeps track of the number of free bytes remaining, but says nothing about
+ 102:SRC/RTOS/heap_2.c **** fragmentation. */
+ 103:SRC/RTOS/heap_2.c **** static size_t xFreeBytesRemaining;
+ 104:SRC/RTOS/heap_2.c **** 
+ 105:SRC/RTOS/heap_2.c **** /* STATIC FUNCTIONS ARE DEFINED AS MACROS TO MINIMIZE THE FUNCTION CALL DEPTH. */
+ 106:SRC/RTOS/heap_2.c **** 
+ 107:SRC/RTOS/heap_2.c **** /*
+ 108:SRC/RTOS/heap_2.c ****  * Insert a block into the list of free blocks - which is ordered by size of
+ 109:SRC/RTOS/heap_2.c ****  * the block.  Small blocks at the start of the list and large blocks at the end
+ 110:SRC/RTOS/heap_2.c ****  * of the list.
+ 111:SRC/RTOS/heap_2.c ****  */
+ 112:SRC/RTOS/heap_2.c **** #define prvInsertBlockIntoFreeList( pxBlockToInsert )								\
+ 113:SRC/RTOS/heap_2.c **** {																					\
+ 114:SRC/RTOS/heap_2.c **** xBlockLink *pxIterator;																\
+ 115:SRC/RTOS/heap_2.c **** size_t xBlockSize;																	\
+ 116:SRC/RTOS/heap_2.c **** 																					\
+ 117:SRC/RTOS/heap_2.c **** 	xBlockSize = pxBlockToInsert->xBlockSize;										\
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 4
+
+
+ 118:SRC/RTOS/heap_2.c **** 																					\
+ 119:SRC/RTOS/heap_2.c **** 	/* Iterate through the list until a block is found that has a larger size */	\
+ 120:SRC/RTOS/heap_2.c **** 	/* than the block we are inserting. */											\
+ 121:SRC/RTOS/heap_2.c **** 	for( pxIterator = &xStart; pxIterator->pxNextFreeBlock->xBlockSize < xBlockSize; pxIterator = pxIt
+ 122:SRC/RTOS/heap_2.c **** 	{																				\
+ 123:SRC/RTOS/heap_2.c **** 		/* There is nothing to do here - just iterate to the correct position. */	\
+ 124:SRC/RTOS/heap_2.c **** 	}																				\
+ 125:SRC/RTOS/heap_2.c **** 																					\
+ 126:SRC/RTOS/heap_2.c **** 	/* Update the list to include the block being inserted in the correct */		\
+ 127:SRC/RTOS/heap_2.c **** 	/* position. */																	\
+ 128:SRC/RTOS/heap_2.c **** 	pxBlockToInsert->pxNextFreeBlock = pxIterator->pxNextFreeBlock;					\
+ 129:SRC/RTOS/heap_2.c **** 	pxIterator->pxNextFreeBlock = pxBlockToInsert;									\
+ 130:SRC/RTOS/heap_2.c **** }
+ 131:SRC/RTOS/heap_2.c **** /*-----------------------------------------------------------*/
+ 132:SRC/RTOS/heap_2.c **** 
+ 133:SRC/RTOS/heap_2.c **** #define prvHeapInit()																\
+ 134:SRC/RTOS/heap_2.c **** {																					\
+ 135:SRC/RTOS/heap_2.c **** xBlockLink *pxFirstFreeBlock;														\
+ 136:SRC/RTOS/heap_2.c **** 																					\
+ 137:SRC/RTOS/heap_2.c **** 	/* xStart is used to hold a pointer to the first item in the list of free */	\
+ 138:SRC/RTOS/heap_2.c **** 	/* blocks.  The void cast is used to prevent compiler warnings. */				\
+ 139:SRC/RTOS/heap_2.c **** 	xStart.pxNextFreeBlock = ( void * ) xHeap.ucHeap;								\
+ 140:SRC/RTOS/heap_2.c **** 	xStart.xBlockSize = ( size_t ) 0;												\
+ 141:SRC/RTOS/heap_2.c **** 																					\
+ 142:SRC/RTOS/heap_2.c **** 	/* xEnd is used to mark the end of the list of free blocks. */					\
+ 143:SRC/RTOS/heap_2.c **** 	xEnd.xBlockSize = configTOTAL_HEAP_SIZE;										\
+ 144:SRC/RTOS/heap_2.c **** 	xEnd.pxNextFreeBlock = NULL;													\
+ 145:SRC/RTOS/heap_2.c **** 																					\
+ 146:SRC/RTOS/heap_2.c **** 	/* To start with there is a single free block that is sized to take up the		\
+ 147:SRC/RTOS/heap_2.c **** 	entire heap space. */															\
+ 148:SRC/RTOS/heap_2.c **** 	pxFirstFreeBlock = ( void * ) xHeap.ucHeap;										\
+ 149:SRC/RTOS/heap_2.c **** 	pxFirstFreeBlock->xBlockSize = configTOTAL_HEAP_SIZE;							\
+ 150:SRC/RTOS/heap_2.c **** 	pxFirstFreeBlock->pxNextFreeBlock = &xEnd;										\
+ 151:SRC/RTOS/heap_2.c **** 																					\
+ 152:SRC/RTOS/heap_2.c **** 	xFreeBytesRemaining = configTOTAL_HEAP_SIZE;									\
+ 153:SRC/RTOS/heap_2.c **** }
+ 154:SRC/RTOS/heap_2.c **** /*-----------------------------------------------------------*/
+ 155:SRC/RTOS/heap_2.c **** 
+ 156:SRC/RTOS/heap_2.c **** void *pvPortMalloc( size_t xWantedSize )
+ 157:SRC/RTOS/heap_2.c **** {
+  51              	@ args = 0, pretend = 0, frame = 32
+  52              		@ frame_needed = 0, uses_anonymous_args = 0
+  53              		str	lr, [sp, #-4]!	@,
+  54              	.LCFI0:
+  55 0000 04E02DE5 		sub	sp, sp, #32	@,,
+  56              	.LCFI1:
+  57 0004 20D04DE2 		str	r0, [sp, #0]	@ xWantedSize, xWantedSize
+  58              		.loc 1 160 0
+  59 0008 00008DE5 		mov	r3, #0	@ tmp160,
+ 158:SRC/RTOS/heap_2.c **** xBlockLink *pxBlock, *pxPreviousBlock, *pxNewBlockLink;
+ 159:SRC/RTOS/heap_2.c **** static portBASE_TYPE xHeapHasBeenInitialised = pdFALSE;
+ 160:SRC/RTOS/heap_2.c **** void *pvReturn = NULL;
+  60              	[sp, #16]	@ tmp160, pvReturn
+  61 000c 0030A0E3 		.loc 1 162 0
+  62 0010 10308DE5 		bl	vTaskSuspendAll	@
+ 161:SRC/RTOS/heap_2.c **** 
+ 162:SRC/RTOS/heap_2.c **** 	vTaskSuspendAll();
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 5
+
+
+  63              	oc 1 166 0
+  64 0014 FEFFFFEB 		ldr	r3, .L12	@ tmp161,
+ 163:SRC/RTOS/heap_2.c **** 	{
+ 164:SRC/RTOS/heap_2.c **** 		/* If this is the first call to malloc then the heap will require
+ 165:SRC/RTOS/heap_2.c **** 		initialisation to setup the list of free blocks. */
+ 166:SRC/RTOS/heap_2.c **** 		if( xHeapHasBeenInitialised == pdFALSE )
+  65              	dr	r3, [r3, #0]	@ xHeapHasBeenInitialised.0, xHeapHasBeenInitialised
+  66 0018 3C329FE5 		cmp	r3, #0	@ xHeapHasBeenInitialised.0,
+  67 001c 003093E5 		bne	.L2	@,
+  68 0020 000053E3 	.LBB2:
+  69 0024 1900001A 		.loc 1 168 0
+  70              		ldr	r2, .L12+4	@ D.3305,
+ 167:SRC/RTOS/heap_2.c **** 		{
+ 168:SRC/RTOS/heap_2.c **** 			prvHeapInit();
+  71              	3, .L12+8	@ tmp162,
+  72 0028 30229FE5 		str	r2, [r3, #0]	@ D.3305, xStart.pxNextFreeBlock
+  73 002c 30329FE5 		ldr	r2, .L12+8	@ tmp163,
+  74 0030 002083E5 		mov	r3, #0	@ tmp164,
+  75 0034 28229FE5 		str	r3, [r2, #4]	@ tmp164, xStart.xBlockSize
+  76 0038 0030A0E3 		ldr	r2, .L12+12	@ tmp165,
+  77 003c 043082E5 		mov	r3, #10240	@ tmp166,
+  78 0040 20229FE5 		str	r3, [r2, #4]	@ tmp166, xEnd.xBlockSize
+  79 0044 0A3BA0E3 		ldr	r2, .L12+12	@ tmp167,
+  80 0048 043082E5 		mov	r3, #0	@ tmp168,
+  81 004c 14229FE5 		str	r3, [r2, #0]	@ tmp168, xEnd.pxNextFreeBlock
+  82 0050 0030A0E3 		ldr	r3, .L12+4	@ tmp169,
+  83 0054 003082E5 		str	r3, [sp, #20]	@ tmp169, pxFirstFreeBlock
+  84 0058 00329FE5 		ldr	r2, [sp, #20]	@ tmp170, pxFirstFreeBlock
+  85 005c 14308DE5 		mov	r3, #10240	@ tmp171,
+  86 0060 14209DE5 		str	r3, [r2, #4]	@ tmp171, <variable>.xBlockSize
+  87 0064 0A3BA0E3 		ldr	r2, [sp, #20]	@ tmp172, pxFirstFreeBlock
+  88 0068 043082E5 		ldr	r3, .L12+12	@ tmp173,
+  89 006c 14209DE5 		str	r3, [r2, #0]	@ tmp173, <variable>.pxNextFreeBlock
+  90 0070 F0319FE5 		ldr	r2, .L12+16	@ tmp174,
+  91 0074 003082E5 		mov	r3, #10240	@ tmp175,
+  92 0078 EC219FE5 		str	r3, [r2, #0]	@ tmp175, xFreeBytesRemaining
+  93 007c 0A3BA0E3 	.LBE2:
+  94 0080 003082E5 		.loc 1 169 0
+  95              		ldr	r2, .L12	@ tmp176,
+ 169:SRC/RTOS/heap_2.c **** 			xHeapHasBeenInitialised = pdTRUE;
+  96              	r	r3, [r2, #0]	@ tmp177, xHeapHasBeenInitialised
+  97 0084 D0219FE5 	.L2:
+  98 0088 0130A0E3 		.loc 1 174 0
+  99 008c 003082E5 		ldr	r3, [sp, #0]	@ tmp178, xWantedSize
+ 100              		cmp	r3, #0	@ tmp178,
+ 170:SRC/RTOS/heap_2.c **** 		}
+ 171:SRC/RTOS/heap_2.c **** 
+ 172:SRC/RTOS/heap_2.c **** 		/* The wanted size is increased so it can contain a xBlockLink
+ 173:SRC/RTOS/heap_2.c **** 		structure in addition to the requested amount of bytes. */
+ 174:SRC/RTOS/heap_2.c **** 		if( xWantedSize > 0 )
+ 101              	.L3	@,
+ 102 0090 00309DE5 		.loc 1 176 0
+ 103 0094 000053E3 		ldr	r3, .L12+20	@ tmp179,
+ 104 0098 0D00000A 		ldrh	r3, [r3, #0]	@ heapSTRUCT_SIZE.1, heapSTRUCT_SIZE
+ 175:SRC/RTOS/heap_2.c **** 		{
+ 176:SRC/RTOS/heap_2.c **** 			xWantedSize += heapSTRUCT_SIZE;
+ 105              		r2, r3	@ D.3307, heapSTRUCT_SIZE.1
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 6
+
+
+ 106 009c CC319FE5 		ldr	r3, [sp, #0]	@ tmp180, xWantedSize
+ 107 00a0 B030D3E1 		add	r3, r3, r2	@ tmp181, tmp180, D.3307
+ 108 00a4 0320A0E1 		str	r3, [sp, #0]	@ tmp181, xWantedSize
+ 109 00a8 00309DE5 		.loc 1 179 0
+ 110 00ac 023083E0 		ldr	r3, [sp, #0]	@ tmp182, xWantedSize
+ 111 00b0 00308DE5 		and	r3, r3, #7	@ D.3308, tmp182,
+ 177:SRC/RTOS/heap_2.c **** 
+ 178:SRC/RTOS/heap_2.c **** 			/* Ensure that blocks are always aligned to the required number of bytes. */
+ 179:SRC/RTOS/heap_2.c **** 			if( xWantedSize & portBYTE_ALIGNMENT_MASK )
+ 112              	, #0	@ D.3308,
+ 113 00b4 00309DE5 		beq	.L3	@,
+ 114 00b8 073003E2 		.loc 1 182 0
+ 115 00bc 000053E3 		ldr	r3, [sp, #0]	@ tmp183, xWantedSize
+ 116 00c0 0300000A 		bic	r3, r3, #7	@ D.3309, tmp183,
+ 180:SRC/RTOS/heap_2.c **** 			{
+ 181:SRC/RTOS/heap_2.c **** 				/* Byte alignment required. */
+ 182:SRC/RTOS/heap_2.c **** 				xWantedSize += ( portBYTE_ALIGNMENT - ( xWantedSize & portBYTE_ALIGNMENT_MASK ) );
+ 117              	r3, r3, #8	@ tmp184, D.3309,
+ 118 00c4 00309DE5 		str	r3, [sp, #0]	@ tmp184, xWantedSize
+ 119 00c8 0730C3E3 	.L3:
+ 120 00cc 083083E2 		.loc 1 186 0
+ 121 00d0 00308DE5 		ldr	r3, [sp, #0]	@ tmp185, xWantedSize
+ 122              		cmp	r3, #0	@ tmp185,
+ 183:SRC/RTOS/heap_2.c **** 			}
+ 184:SRC/RTOS/heap_2.c **** 		}
+ 185:SRC/RTOS/heap_2.c **** 
+ 186:SRC/RTOS/heap_2.c **** 		if( ( xWantedSize > 0 ) && ( xWantedSize < configTOTAL_HEAP_SIZE ) )
+ 123              	L4	@,
+ 124 00d4 00309DE5 		ldr	r2, [sp, #0]	@ tmp186, xWantedSize
+ 125 00d8 000053E3 		mov	r3, #10176	@ tmp187,
+ 126 00dc 5800000A 		add	r3, r3, #63	@ tmp187, tmp187,
+ 127 00e0 00209DE5 		cmp	r2, r3	@ tmp186, tmp187
+ 128 00e4 9F3DA0E3 		bhi	.L4	@,
+ 129 00e8 3F3083E2 		.loc 1 190 0
+ 130 00ec 030052E1 		ldr	r3, .L12+8	@ tmp188,
+ 131 00f0 5300008A 		str	r3, [sp, #8]	@ tmp188, pxPreviousBlock
+ 187:SRC/RTOS/heap_2.c **** 		{
+ 188:SRC/RTOS/heap_2.c **** 			/* Blocks are stored in byte order - traverse the list from the start
+ 189:SRC/RTOS/heap_2.c **** 			(smallest) block until one of adequate size is found. */
+ 190:SRC/RTOS/heap_2.c **** 			pxPreviousBlock = &xStart;
+ 132              	91 0
+ 133 00f4 68319FE5 		ldr	r3, .L12+8	@ tmp189,
+ 134 00f8 08308DE5 		ldr	r3, [r3, #0]	@ tmp190, xStart.pxNextFreeBlock
+ 191:SRC/RTOS/heap_2.c **** 			pxBlock = xStart.pxNextFreeBlock;
+ 135              	r	r3, [sp, #4]	@ tmp190, pxBlock
+ 136 00fc 60319FE5 		b	.L5	@
+ 137 0100 003093E5 	.L7:
+ 138 0104 04308DE5 		.loc 1 194 0
+ 139 0108 040000EA 		ldr	r3, [sp, #4]	@ tmp191, pxBlock
+ 140              		str	r3, [sp, #8]	@ tmp191, pxPreviousBlock
+ 192:SRC/RTOS/heap_2.c **** 			while( ( pxBlock->xBlockSize < xWantedSize ) && ( pxBlock->pxNextFreeBlock ) )
+ 193:SRC/RTOS/heap_2.c **** 			{
+ 194:SRC/RTOS/heap_2.c **** 				pxPreviousBlock = pxBlock;
+ 141              	1 195 0
+ 142 010c 04309DE5 		ldr	r3, [sp, #4]	@ tmp192, pxBlock
+ 143 0110 08308DE5 		ldr	r3, [r3, #0]	@ tmp193, <variable>.pxNextFreeBlock
+ 195:SRC/RTOS/heap_2.c **** 				pxBlock = pxBlock->pxNextFreeBlock;
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 7
+
+
+ 144              	r	r3, [sp, #4]	@ tmp193, pxBlock
+ 145 0114 04309DE5 	.L5:
+ 146 0118 003093E5 		.loc 1 192 0
+ 147 011c 04308DE5 		ldr	r3, [sp, #4]	@ tmp194, pxBlock
+ 148              		ldr	r2, [r3, #4]	@ D.3310, <variable>.xBlockSize
+ 149              		ldr	r3, [sp, #0]	@ tmp195, xWantedSize
+ 150 0120 04309DE5 		cmp	r2, r3	@ D.3310, tmp195
+ 151 0124 042093E5 		bcs	.L6	@,
+ 152 0128 00309DE5 		ldr	r3, [sp, #4]	@ tmp196, pxBlock
+ 153 012c 030052E1 		ldr	r3, [r3, #0]	@ D.3311, <variable>.pxNextFreeBlock
+ 154 0130 0300002A 		cmp	r3, #0	@ D.3311,
+ 155 0134 04309DE5 		bne	.L7	@,
+ 156 0138 003093E5 	.L6:
+ 157 013c 000053E3 		.loc 1 199 0
+ 158 0140 F1FFFF1A 		ldr	r2, [sp, #4]	@ tmp197, pxBlock
+ 159              		ldr	r3, .L12+12	@ tmp198,
+ 196:SRC/RTOS/heap_2.c **** 			}
+ 197:SRC/RTOS/heap_2.c **** 
+ 198:SRC/RTOS/heap_2.c **** 			/* If we found the end marker then a block of adequate size was not found. */
+ 199:SRC/RTOS/heap_2.c **** 			if( pxBlock != &xEnd )
+ 160              	p197, tmp198
+ 161 0144 04209DE5 		beq	.L4	@,
+ 162 0148 18319FE5 		.loc 1 203 0
+ 163 014c 030052E1 		ldr	r3, [sp, #8]	@ tmp199, pxPreviousBlock
+ 164 0150 3B00000A 		ldr	r2, [r3, #0]	@ D.3312, <variable>.pxNextFreeBlock
+ 200:SRC/RTOS/heap_2.c **** 			{
+ 201:SRC/RTOS/heap_2.c **** 				/* Return the memory space - jumping over the xBlockLink structure
+ 202:SRC/RTOS/heap_2.c **** 				at its start. */
+ 203:SRC/RTOS/heap_2.c **** 				pvReturn = ( void * ) ( ( ( unsigned char * ) pxPreviousBlock->pxNextFreeBlock ) + heapSTRUCT_S
+ 165              	r3, .L12+20	@ tmp200,
+ 166 0154 08309DE5 		ldrh	r3, [r3, #0]	@ heapSTRUCT_SIZE.2, heapSTRUCT_SIZE
+ 167 0158 002093E5 		add	r3, r2, r3	@ tmp201, D.3312, D.3314
+ 168 015c 0C319FE5 		str	r3, [sp, #16]	@ tmp201, pvReturn
+ 169 0160 B030D3E1 		.loc 1 207 0
+ 170 0164 033082E0 		ldr	r3, [sp, #4]	@ tmp202, pxBlock
+ 171 0168 10308DE5 		ldr	r2, [r3, #0]	@ D.3315, <variable>.pxNextFreeBlock
+ 204:SRC/RTOS/heap_2.c **** 
+ 205:SRC/RTOS/heap_2.c **** 				/* This block is being returned for use so must be taken our of the
+ 206:SRC/RTOS/heap_2.c **** 				list of free blocks. */
+ 207:SRC/RTOS/heap_2.c **** 				pxPreviousBlock->pxNextFreeBlock = pxBlock->pxNextFreeBlock;
+ 172              	, [sp, #8]	@ tmp203, pxPreviousBlock
+ 173 016c 04309DE5 		str	r2, [r3, #0]	@ D.3315, <variable>.pxNextFreeBlock
+ 174 0170 002093E5 		.loc 1 210 0
+ 175 0174 08309DE5 		ldr	r3, [sp, #4]	@ tmp204, pxBlock
+ 176 0178 002083E5 		ldr	r2, [r3, #4]	@ D.3316, <variable>.xBlockSize
+ 208:SRC/RTOS/heap_2.c **** 
+ 209:SRC/RTOS/heap_2.c **** 				/* If the block is larger than required it can be split into two. */
+ 210:SRC/RTOS/heap_2.c **** 				if( ( pxBlock->xBlockSize - xWantedSize ) > heapMINIMUM_BLOCK_SIZE )
+ 177              	r3, [sp, #0]	@ tmp205, xWantedSize
+ 178 017c 04309DE5 		rsb	r2, r3, r2	@ D.3317, tmp205, D.3316
+ 179 0180 042093E5 		ldr	r3, .L12+20	@ tmp206,
+ 180 0184 00309DE5 		ldrh	r3, [r3, #0]	@ heapSTRUCT_SIZE.3, heapSTRUCT_SIZE
+ 181 0188 022063E0 		mov	r3, r3, asl #1	@ D.3320, D.3319,
+ 182 018c DC309FE5 		cmp	r2, r3	@ D.3317, D.3321
+ 183 0190 B030D3E1 		bls	.L8	@,
+ 184 0194 8330A0E1 		.loc 1 215 0
+ 185 0198 030052E1 		ldr	r2, [sp, #4]	@ tmp207, pxBlock
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 8
+
+
+ 186 019c 2200009A 		ldr	r3, [sp, #0]	@ tmp208, xWantedSize
+ 211:SRC/RTOS/heap_2.c **** 				{
+ 212:SRC/RTOS/heap_2.c **** 					/* This block is to be split into two.  Create a new block
+ 213:SRC/RTOS/heap_2.c **** 					following the number of bytes requested. The void cast is
+ 214:SRC/RTOS/heap_2.c **** 					used to prevent byte alignment warnings from the compiler. */
+ 215:SRC/RTOS/heap_2.c **** 					pxNewBlockLink = ( void * ) ( ( ( unsigned char * ) pxBlock ) + xWantedSize );
+ 187              	2, r3	@ tmp209, tmp207, tmp208
+ 188 01a0 04209DE5 		str	r3, [sp, #12]	@ tmp209, pxNewBlockLink
+ 189 01a4 00309DE5 		.loc 1 219 0
+ 190 01a8 033082E0 		ldr	r3, [sp, #4]	@ tmp210, pxBlock
+ 191 01ac 0C308DE5 		ldr	r2, [r3, #4]	@ D.3322, <variable>.xBlockSize
+ 216:SRC/RTOS/heap_2.c **** 
+ 217:SRC/RTOS/heap_2.c **** 					/* Calculate the sizes of two blocks split from the single
+ 218:SRC/RTOS/heap_2.c **** 					block. */
+ 219:SRC/RTOS/heap_2.c **** 					pxNewBlockLink->xBlockSize = pxBlock->xBlockSize - xWantedSize;
+ 192              	r3, [sp, #0]	@ tmp211, xWantedSize
+ 193 01b0 04309DE5 		rsb	r2, r3, r2	@ D.3323, tmp211, D.3322
+ 194 01b4 042093E5 		ldr	r3, [sp, #12]	@ tmp212, pxNewBlockLink
+ 195 01b8 00309DE5 		str	r2, [r3, #4]	@ D.3323, <variable>.xBlockSize
+ 196 01bc 022063E0 		.loc 1 220 0
+ 197 01c0 0C309DE5 		ldr	r2, [sp, #4]	@ tmp213, pxBlock
+ 198 01c4 042083E5 		ldr	r3, [sp, #0]	@ tmp214, xWantedSize
+ 220:SRC/RTOS/heap_2.c **** 					pxBlock->xBlockSize = xWantedSize;
+ 199              	, [r2, #4]	@ tmp214, <variable>.xBlockSize
+ 200 01c8 04209DE5 	.LBB3:
+ 201 01cc 00309DE5 		.loc 1 223 0
+ 202 01d0 043082E5 		ldr	r3, [sp, #12]	@ tmp215, pxNewBlockLink
+ 203              		ldr	r3, [r3, #4]	@ tmp216, <variable>.xBlockSize
+ 221:SRC/RTOS/heap_2.c **** 
+ 222:SRC/RTOS/heap_2.c **** 					/* Insert the new block into the list of free blocks. */
+ 223:SRC/RTOS/heap_2.c **** 					prvInsertBlockIntoFreeList( ( pxNewBlockLink ) );
+ 204              	r3, [sp, #28]	@ tmp216, xBlockSize
+ 205 01d4 0C309DE5 		ldr	r3, .L12+8	@ tmp217,
+ 206 01d8 043093E5 		str	r3, [sp, #24]	@ tmp217, pxIterator
+ 207 01dc 1C308DE5 		b	.L9	@
+ 208 01e0 7C309FE5 	.L10:
+ 209 01e4 18308DE5 		ldr	r3, [sp, #24]	@ tmp218, pxIterator
+ 210 01e8 020000EA 		ldr	r3, [r3, #0]	@ tmp219, <variable>.pxNextFreeBlock
+ 211              		str	r3, [sp, #24]	@ tmp219, pxIterator
+ 212 01ec 18309DE5 	.L9:
+ 213 01f0 003093E5 		ldr	r3, [sp, #24]	@ tmp220, pxIterator
+ 214 01f4 18308DE5 		ldr	r3, [r3, #0]	@ D.3324, <variable>.pxNextFreeBlock
+ 215              		ldr	r2, [r3, #4]	@ D.3325, <variable>.xBlockSize
+ 216 01f8 18309DE5 		ldr	r3, [sp, #28]	@ tmp221, xBlockSize
+ 217 01fc 003093E5 		cmp	r2, r3	@ D.3325, tmp221
+ 218 0200 042093E5 		bcc	.L10	@,
+ 219 0204 1C309DE5 		ldr	r3, [sp, #24]	@ tmp222, pxIterator
+ 220 0208 030052E1 		ldr	r2, [r3, #0]	@ D.3326, <variable>.pxNextFreeBlock
+ 221 020c F6FFFF3A 		ldr	r3, [sp, #12]	@ tmp223, pxNewBlockLink
+ 222 0210 18309DE5 		str	r2, [r3, #0]	@ D.3326, <variable>.pxNextFreeBlock
+ 223 0214 002093E5 		ldr	r2, [sp, #24]	@ tmp224, pxIterator
+ 224 0218 0C309DE5 		ldr	r3, [sp, #12]	@ tmp225, pxNewBlockLink
+ 225 021c 002083E5 		str	r3, [r2, #0]	@ tmp225, <variable>.pxNextFreeBlock
+ 226 0220 18209DE5 	.L8:
+ 227 0224 0C309DE5 	.LBE3:
+ 228 0228 003082E5 		.loc 1 226 0
+ 229              		ldr	r3, .L12+16	@ tmp226,
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 9
+
+
+ 230              		ldr	r2, [r3, #0]	@ xFreeBytesRemaining.4, xFreeBytesRemaining
+ 224:SRC/RTOS/heap_2.c **** 				}
+ 225:SRC/RTOS/heap_2.c **** 				
+ 226:SRC/RTOS/heap_2.c **** 				xFreeBytesRemaining -= xWantedSize;
+ 231              	 xWantedSize
+ 232 022c 38309FE5 		rsb	r2, r3, r2	@ xFreeBytesRemaining.5, tmp227, xFreeBytesRemaining.4
+ 233 0230 002093E5 		ldr	r3, .L12+16	@ tmp228,
+ 234 0234 00309DE5 		str	r2, [r3, #0]	@ xFreeBytesRemaining.5, xFreeBytesRemaining
+ 235 0238 022063E0 	.L4:
+ 236 023c 28309FE5 		.loc 1 230 0
+ 237 0240 002083E5 		bl	xTaskResumeAll	@
+ 238              		.loc 1 242 0
+ 227:SRC/RTOS/heap_2.c **** 			}
+ 228:SRC/RTOS/heap_2.c **** 		}
+ 229:SRC/RTOS/heap_2.c **** 	}
+ 230:SRC/RTOS/heap_2.c **** 	xTaskResumeAll();
+ 239              	 [sp, #16]	@ D.3329, pvReturn
+ 240 0244 FEFFFFEB 		.loc 1 243 0
+ 231:SRC/RTOS/heap_2.c **** 
+ 232:SRC/RTOS/heap_2.c **** 	#if( configUSE_MALLOC_FAILED_HOOK == 1 )
+ 233:SRC/RTOS/heap_2.c **** 	{
+ 234:SRC/RTOS/heap_2.c **** 		if( pvReturn == NULL )
+ 235:SRC/RTOS/heap_2.c **** 		{
+ 236:SRC/RTOS/heap_2.c **** 			extern void vApplicationMallocFailedHook( void );
+ 237:SRC/RTOS/heap_2.c **** 			vApplicationMallocFailedHook();
+ 238:SRC/RTOS/heap_2.c **** 		}
+ 239:SRC/RTOS/heap_2.c **** 	}
+ 240:SRC/RTOS/heap_2.c **** 	#endif
+ 241:SRC/RTOS/heap_2.c **** 
+ 242:SRC/RTOS/heap_2.c **** 	return pvReturn;
+ 241              	ov	r0, r3	@, <result>
+ 242 0248 10309DE5 		add	sp, sp, #32	@,,
+ 243:SRC/RTOS/heap_2.c **** }
+ 243              	dr	lr, [sp], #4
+ 244 024c 0300A0E1 		bx	lr
+ 245 0250 20D08DE2 	.L13:
+ 246 0254 04E09DE4 		.align	2
+ 247 0258 1EFF2FE1 	.L12:
+ 248              		.word	xHeapHasBeenInitialised.3293
+ 249              		.word	xHeap
+ 250              		.word	xStart
+ 251 025c 00000000 		.word	xEnd
+ 252 0260 04000000 		.word	xFreeBytesRemaining
+ 253 0264 04280000 		.word	heapSTRUCT_SIZE
+ 254 0268 0C280000 	.LFE2:
+ 255 026c 14280000 		.size	pvPortMalloc, .-pvPortMalloc
+ 256 0270 00000000 		.align	2
+ 257              		.global	vPortFree
+ 258              		.type	vPortFree, %function
+ 259              	vPortFree:
+ 260              	.LFB3:
+ 261              		.loc 1 247 0
+ 262              		@ Function supports interworking.
+ 263              		@ args = 0, pretend = 0, frame = 20
+ 244:SRC/RTOS/heap_2.c **** /*-----------------------------------------------------------*/
+ 245:SRC/RTOS/heap_2.c **** 
+ 246:SRC/RTOS/heap_2.c **** void vPortFree( void *pv )
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 10
+
+
+ 247:SRC/RTOS/heap_2.c **** {
+ 264              	uses_anonymous_args = 0
+ 265              		str	lr, [sp, #-4]!	@,
+ 266              	.LCFI2:
+ 267              		sub	sp, sp, #20	@,,
+ 268 0274 04E02DE5 	.LCFI3:
+ 269              		str	r0, [sp, #0]	@ pv, pv
+ 270 0278 14D04DE2 		.loc 1 248 0
+ 271              		ldr	r3, [sp, #0]	@ tmp142, pv
+ 272 027c 00008DE5 		str	r3, [sp, #4]	@ tmp142, puc
+ 248:SRC/RTOS/heap_2.c **** unsigned char *puc = ( unsigned char * ) pv;
+ 273              	51 0
+ 274 0280 00309DE5 		ldr	r3, [sp, #0]	@ tmp143, pv
+ 275 0284 04308DE5 		cmp	r3, #0	@ tmp143,
+ 249:SRC/RTOS/heap_2.c **** xBlockLink *pxLink;
+ 250:SRC/RTOS/heap_2.c **** 
+ 251:SRC/RTOS/heap_2.c **** 	if( pv )
+ 276              	q	.L18	@,
+ 277 0288 00309DE5 		.loc 1 255 0
+ 278 028c 000053E3 		ldr	r3, .L19	@ tmp144,
+ 279 0290 2600000A 		ldrh	r3, [r3, #0]	@ heapSTRUCT_SIZE.6, heapSTRUCT_SIZE
+ 252:SRC/RTOS/heap_2.c **** 	{
+ 253:SRC/RTOS/heap_2.c **** 		/* The memory being freed will have an xBlockLink structure immediately
+ 254:SRC/RTOS/heap_2.c **** 		before it. */
+ 255:SRC/RTOS/heap_2.c **** 		puc -= heapSTRUCT_SIZE;
+ 280              		r2, r3, #0	@ D.3358, D.3357
+ 281 0294 A0309FE5 		ldr	r3, [sp, #4]	@ tmp145, puc
+ 282 0298 B030D3E1 		add	r3, r3, r2	@ tmp146, tmp145, D.3358
+ 283 029c 002063E2 		str	r3, [sp, #4]	@ tmp146, puc
+ 284 02a0 04309DE5 		.loc 1 258 0
+ 285 02a4 023083E0 		ldr	r3, [sp, #4]	@ tmp147, puc
+ 286 02a8 04308DE5 		str	r3, [sp, #8]	@ tmp147, pxLink
+ 256:SRC/RTOS/heap_2.c **** 
+ 257:SRC/RTOS/heap_2.c **** 		/* This casting is to keep the compiler from issuing warnings. */
+ 258:SRC/RTOS/heap_2.c **** 		pxLink = ( void * ) puc;
+ 287              	 260 0
+ 288 02ac 04309DE5 		bl	vTaskSuspendAll	@
+ 289 02b0 08308DE5 	.LBB4:
+ 259:SRC/RTOS/heap_2.c **** 
+ 260:SRC/RTOS/heap_2.c **** 		vTaskSuspendAll();
+ 290              	oc 1 263 0
+ 291 02b4 FEFFFFEB 		ldr	r3, [sp, #8]	@ tmp148, pxLink
+ 292              		ldr	r3, [r3, #4]	@ tmp149, <variable>.xBlockSize
+ 261:SRC/RTOS/heap_2.c **** 		{
+ 262:SRC/RTOS/heap_2.c **** 			/* Add this block to the list of free blocks. */
+ 263:SRC/RTOS/heap_2.c **** 			prvInsertBlockIntoFreeList( ( ( xBlockLink * ) pxLink ) );
+ 293              	r	r3, [sp, #16]	@ tmp149, xBlockSize
+ 294 02b8 08309DE5 		ldr	r3, .L19+4	@ tmp150,
+ 295 02bc 043093E5 		str	r3, [sp, #12]	@ tmp150, pxIterator
+ 296 02c0 10308DE5 		b	.L16	@
+ 297 02c4 74309FE5 	.L17:
+ 298 02c8 0C308DE5 		ldr	r3, [sp, #12]	@ tmp151, pxIterator
+ 299 02cc 020000EA 		ldr	r3, [r3, #0]	@ tmp152, <variable>.pxNextFreeBlock
+ 300              		str	r3, [sp, #12]	@ tmp152, pxIterator
+ 301 02d0 0C309DE5 	.L16:
+ 302 02d4 003093E5 		ldr	r3, [sp, #12]	@ tmp153, pxIterator
+ 303 02d8 0C308DE5 		ldr	r3, [r3, #0]	@ D.3359, <variable>.pxNextFreeBlock
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 11
+
+
+ 304              		ldr	r2, [r3, #4]	@ D.3360, <variable>.xBlockSize
+ 305 02dc 0C309DE5 		ldr	r3, [sp, #16]	@ tmp154, xBlockSize
+ 306 02e0 003093E5 		cmp	r2, r3	@ D.3360, tmp154
+ 307 02e4 042093E5 		bcc	.L17	@,
+ 308 02e8 10309DE5 		ldr	r3, [sp, #12]	@ tmp155, pxIterator
+ 309 02ec 030052E1 		ldr	r2, [r3, #0]	@ D.3361, <variable>.pxNextFreeBlock
+ 310 02f0 F6FFFF3A 		ldr	r3, [sp, #8]	@ tmp156, pxLink
+ 311 02f4 0C309DE5 		str	r2, [r3, #0]	@ D.3361, <variable>.pxNextFreeBlock
+ 312 02f8 002093E5 		ldr	r2, [sp, #12]	@ tmp157, pxIterator
+ 313 02fc 08309DE5 		ldr	r3, [sp, #8]	@ tmp158, pxLink
+ 314 0300 002083E5 		str	r3, [r2, #0]	@ tmp158, <variable>.pxNextFreeBlock
+ 315 0304 0C209DE5 	.LBE4:
+ 316 0308 08309DE5 		.loc 1 264 0
+ 317 030c 003082E5 		ldr	r3, [sp, #8]	@ tmp159, pxLink
+ 318              		ldr	r2, [r3, #4]	@ D.3362, <variable>.xBlockSize
+ 264:SRC/RTOS/heap_2.c **** 			xFreeBytesRemaining += pxLink->xBlockSize;
+ 319              		ldr	r3, [r3, #0]	@ xFreeBytesRemaining.7, xFreeBytesRemaining
+ 320 0310 08309DE5 		add	r2, r2, r3	@ xFreeBytesRemaining.8, D.3362, xFreeBytesRemaining.7
+ 321 0314 042093E5 		ldr	r3, .L19+8	@ tmp161,
+ 322 0318 24309FE5 		str	r2, [r3, #0]	@ xFreeBytesRemaining.8, xFreeBytesRemaining
+ 323 031c 003093E5 		.loc 1 266 0
+ 324 0320 032082E0 		bl	xTaskResumeAll	@
+ 325 0324 18309FE5 	.L18:
+ 326 0328 002083E5 		.loc 1 268 0
+ 265:SRC/RTOS/heap_2.c **** 		}
+ 266:SRC/RTOS/heap_2.c **** 		xTaskResumeAll();
+ 327              	 sp, #20	@,,
+ 328 032c FEFFFFEB 		ldr	lr, [sp], #4
+ 329              		bx	lr
+ 267:SRC/RTOS/heap_2.c **** 	}
+ 268:SRC/RTOS/heap_2.c **** }
+ 330              	0:
+ 331 0330 14D08DE2 		.align	2
+ 332 0334 04E09DE4 	.L19:
+ 333 0338 1EFF2FE1 		.word	heapSTRUCT_SIZE
+ 334              		.word	xStart
+ 335              		.word	xFreeBytesRemaining
+ 336              	.LFE3:
+ 337 033c 00000000 		.size	vPortFree, .-vPortFree
+ 338 0340 04280000 		.align	2
+ 339 0344 14280000 		.global	xPortGetFreeHeapSize
+ 340              		.type	xPortGetFreeHeapSize, %function
+ 341              	xPortGetFreeHeapSize:
+ 342              	.LFB4:
+ 343              		.loc 1 272 0
+ 344              		@ Function supports interworking.
+ 345              		@ args = 0, pretend = 0, frame = 0
+ 346              		@ frame_needed = 0, uses_anonymous_args = 0
+ 269:SRC/RTOS/heap_2.c **** /*-----------------------------------------------------------*/
+ 270:SRC/RTOS/heap_2.c **** 
+ 271:SRC/RTOS/heap_2.c **** size_t xPortGetFreeHeapSize( void )
+ 272:SRC/RTOS/heap_2.c **** {
+ 347              	save eliminated.
+ 348              		.loc 1 273 0
+ 349              		ldr	r3, .L23	@ tmp135,
+ 350              		ldr	r3, [r3, #0]	@ D.3370, xFreeBytesRemaining
+ 351              		.loc 1 274 0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 12
+
+
+ 273:SRC/RTOS/heap_2.c **** 	return xFreeBytesRemaining;
+ 352              	r0, r3	@, <result>
+ 353 0348 08309FE5 		bx	lr	@
+ 354 034c 003093E5 	.L24:
+ 274:SRC/RTOS/heap_2.c **** }
+ 355              	lign	2
+ 356 0350 0300A0E1 	.L23:
+ 357 0354 1EFF2FE1 		.word	xFreeBytesRemaining
+ 358              	.LFE4:
+ 359              		.size	xPortGetFreeHeapSize, .-xPortGetFreeHeapSize
+ 360              		.align	2
+ 361 0358 14280000 		.global	vPortInitialiseBlocks
+ 362              		.type	vPortInitialiseBlocks, %function
+ 363              	vPortInitialiseBlocks:
+ 364              	.LFB5:
+ 365              		.loc 1 278 0
+ 366              		@ Function supports interworking.
+ 367              		@ args = 0, pretend = 0, frame = 0
+ 368              		@ frame_needed = 0, uses_anonymous_args = 0
+ 275:SRC/RTOS/heap_2.c **** /*-----------------------------------------------------------*/
+ 276:SRC/RTOS/heap_2.c **** 
+ 277:SRC/RTOS/heap_2.c **** void vPortInitialiseBlocks( void )
+ 278:SRC/RTOS/heap_2.c **** {
+ 369              	er save eliminated.
+ 370              		.loc 1 280 0
+ 371              		bx	lr	@
+ 372              	.LFE5:
+ 373              		.size	vPortInitialiseBlocks, .-vPortInitialiseBlocks
+ 279:SRC/RTOS/heap_2.c **** 	/* This just exists to keep the linker quiet. */
+ 280:SRC/RTOS/heap_2.c **** }
+ 374              	
+ 375 035c 1EFF2FE1 		.align	2
+ 376              	xHeap:
+ 377              		.space	10240
+ 378              		.align	2
+ 379              	xStart:
+ 380              		.space	8
+ 381 0004 00000000 		.align	2
+ 381      00000000 
+ 381      00000000 
+ 381      00000000 
+ 381      00000000 
+ 382              	xEnd:
+ 383              		.space	8
+ 384 2804 00000000 		.align	2
+ 384      00000000 
+ 385              	xFreeBytesRemaining:
+ 386              		.space	4
+ 387 280c 00000000 		.section	.debug_frame,"",%progbits
+ 387      00000000 
+ 388              	.Lframe0:
+ 389              		.4byte	.LECIE0-.LSCIE0
+ 390 2814 00000000 	.LSCIE0:
+ 391              		.4byte	0xffffffff
+ 392              		.byte	0x1
+ 393 0000 0C000000 		.ascii	"\000"
+ 394              		.uleb128 0x1
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 13
+
+
+ 395 0004 FFFFFFFF 		.sleb128 -4
+ 396 0008 01       		.byte	0xe
+ 397 0009 00       		.byte	0xc
+ 398 000a 01       		.uleb128 0xd
+ 399 000b 7C       		.uleb128 0x0
+ 400 000c 0E       		.align	2
+ 401 000d 0C       	.LECIE0:
+ 402 000e 0D       	.LSFDE0:
+ 403 000f 00       		.4byte	.LEFDE0-.LASFDE0
+ 404              	.LASFDE0:
+ 405              		.4byte	.Lframe0
+ 406              		.4byte	.LFB2
+ 407 0010 14000000 		.4byte	.LFE2-.LFB2
+ 408              		.byte	0x4
+ 409 0014 00000000 		.4byte	.LCFI0-.LFB2
+ 410 0018 00000000 		.byte	0xe
+ 411 001c 74020000 		.uleb128 0x4
+ 412 0020 44       		.byte	0x4
+ 413              		.4byte	.LCFI1-.LCFI0
+ 414 0021 0E       		.byte	0xe
+ 415 0022 04       		.uleb128 0x24
+ 416 0023 44       		.byte	0x8e
+ 417              		.uleb128 0x1
+ 418 0024 0E       		.align	2
+ 419 0025 24       	.LEFDE0:
+ 420 0026 8E       	.LSFDE2:
+ 421 0027 01       		.4byte	.LEFDE2-.LASFDE2
+ 422              	.LASFDE2:
+ 423              		.4byte	.Lframe0
+ 424              		.4byte	.LFB3
+ 425 0028 14000000 		.4byte	.LFE3-.LFB3
+ 426              		.byte	0x4
+ 427 002c 00000000 		.4byte	.LCFI2-.LFB3
+ 428 0030 74020000 		.byte	0xe
+ 429 0034 D4000000 		.uleb128 0x4
+ 430 0038 44       		.byte	0x4
+ 431              		.4byte	.LCFI3-.LCFI2
+ 432 0039 0E       		.byte	0xe
+ 433 003a 04       		.uleb128 0x18
+ 434 003b 44       		.byte	0x8e
+ 435              		.uleb128 0x1
+ 436 003c 0E       		.align	2
+ 437 003d 18       	.LEFDE2:
+ 438 003e 8E       	.LSFDE4:
+ 439 003f 01       		.4byte	.LEFDE4-.LASFDE4
+ 440              	.LASFDE4:
+ 441              		.4byte	.Lframe0
+ 442              		.4byte	.LFB4
+ 443 0040 0C000000 		.4byte	.LFE4-.LFB4
+ 444              		.align	2
+ 445 0044 00000000 	.LEFDE4:
+ 446 0048 48030000 	.LSFDE6:
+ 447 004c 14000000 		.4byte	.LEFDE6-.LASFDE6
+ 448              	.LASFDE6:
+ 449              		.4byte	.Lframe0
+ 450              		.4byte	.LFB5
+ 451 0050 0C000000 		.4byte	.LFE5-.LFB5
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 14
+
+
+ 452              		.align	2
+ 453 0054 00000000 	.LEFDE6:
+ 454 0058 5C030000 		.text
+ 455 005c 04000000 	.Letext0:
+ 456              		.section	.debug_loc,"",%progbits
+ 457              	.Ldebug_loc0:
+ 458              	.LLST0:
+ 459              		.4byte	.LFB2-.Ltext0
+ 460              		.4byte	.LCFI0-.Ltext0
+ 461              		.2byte	0x1
+ 462              		.byte	0x5d
+ 463 0000 00000000 		.4byte	.LCFI0-.Ltext0
+ 464 0004 04000000 		.4byte	.LCFI1-.Ltext0
+ 465 0008 0100     		.2byte	0x2
+ 466 000a 5D       		.byte	0x7d
+ 467 000b 04000000 		.sleb128 4
+ 468 000f 08000000 		.4byte	.LCFI1-.Ltext0
+ 469 0013 0200     		.4byte	.LFE2-.Ltext0
+ 470 0015 7D       		.2byte	0x2
+ 471 0016 04       		.byte	0x7d
+ 472 0017 08000000 		.sleb128 36
+ 473 001b 74020000 		.4byte	0x0
+ 474 001f 0200     		.4byte	0x0
+ 475 0021 7D       	.LLST1:
+ 476 0022 24       		.4byte	.LFB3-.Ltext0
+ 477 0023 00000000 		.4byte	.LCFI2-.Ltext0
+ 478 0027 00000000 		.2byte	0x1
+ 479              		.byte	0x5d
+ 480 002b 74020000 		.4byte	.LCFI2-.Ltext0
+ 481 002f 78020000 		.4byte	.LCFI3-.Ltext0
+ 482 0033 0100     		.2byte	0x2
+ 483 0035 5D       		.byte	0x7d
+ 484 0036 78020000 		.sleb128 4
+ 485 003a 7C020000 		.4byte	.LCFI3-.Ltext0
+ 486 003e 0200     		.4byte	.LFE3-.Ltext0
+ 487 0040 7D       		.2byte	0x2
+ 488 0041 04       		.byte	0x7d
+ 489 0042 7C020000 		.sleb128 24
+ 490 0046 48030000 		.4byte	0x0
+ 491 004a 0200     		.4byte	0x0
+ 492 004c 7D       		.file 2 "d:\\programy\\mikrokontrolery\\arm\\yagarto\\bin\\../lib/gcc/arm-elf/4.3.3/include/stddef
+ 493 004d 18       		.section	.debug_info
+ 494 004e 00000000 		.4byte	0x2b2
+ 495 0052 00000000 		.2byte	0x2
+ 496              		.4byte	.Ldebug_abbrev0
+ 497              		.byte	0x4
+ 498 0000 B2020000 		.uleb128 0x1
+ 499 0004 0200     		.4byte	.LASF31
+ 500 0006 00000000 		.byte	0x1
+ 501 000a 04       		.4byte	.LASF32
+ 502 000b 01       		.4byte	.LASF33
+ 503 000c 00000000 		.4byte	.Ltext0
+ 504 0010 01       		.4byte	.Letext0
+ 505 0011 9F010000 		.4byte	.Ldebug_line0
+ 506 0015 B1010000 		.uleb128 0x2
+ 507 0019 00000000 		.4byte	.LASF15
+ 508 001d 60030000 		.byte	0x2
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 15
+
+
+ 509 0021 00000000 		.byte	0xd6
+ 510 0025 02       		.4byte	0x30
+ 511 0026 0C000000 		.uleb128 0x3
+ 512 002a 02       		.byte	0x4
+ 513 002b D6       		.byte	0x7
+ 514 002c 30000000 		.4byte	.LASF0
+ 515 0030 03       		.uleb128 0x4
+ 516 0031 04       		.byte	0x4
+ 517 0032 07       		.byte	0x5
+ 518 0033 98000000 		.ascii	"int\000"
+ 519 0037 04       		.uleb128 0x3
+ 520 0038 04       		.byte	0x1
+ 521 0039 05       		.byte	0x6
+ 522 003a 696E7400 		.4byte	.LASF1
+ 523 003e 03       		.uleb128 0x3
+ 524 003f 01       		.byte	0x1
+ 525 0040 06       		.byte	0x8
+ 526 0041 F3010000 		.4byte	.LASF2
+ 527 0045 03       		.uleb128 0x3
+ 528 0046 01       		.byte	0x2
+ 529 0047 08       		.byte	0x5
+ 530 0048 7F000000 		.4byte	.LASF3
+ 531 004c 03       		.uleb128 0x3
+ 532 004d 02       		.byte	0x2
+ 533 004e 05       		.byte	0x7
+ 534 004f 67010000 		.4byte	.LASF4
+ 535 0053 03       		.uleb128 0x3
+ 536 0054 02       		.byte	0x4
+ 537 0055 07       		.byte	0x7
+ 538 0056 AA000000 		.4byte	.LASF5
+ 539 005a 03       		.uleb128 0x3
+ 540 005b 04       		.byte	0x8
+ 541 005c 07       		.byte	0x5
+ 542 005d 1E010000 		.4byte	.LASF6
+ 543 0061 03       		.uleb128 0x3
+ 544 0062 08       		.byte	0x8
+ 545 0063 05       		.byte	0x7
+ 546 0064 40010000 		.4byte	.LASF7
+ 547 0068 03       		.uleb128 0x3
+ 548 0069 08       		.byte	0x4
+ 549 006a 07       		.byte	0x5
+ 550 006b 68000000 		.4byte	.LASF8
+ 551 006f 03       		.uleb128 0x5
+ 552 0070 04       		.byte	0x4
+ 553 0071 05       		.byte	0x7
+ 554 0072 EA010000 		.uleb128 0x6
+ 555 0076 05       		.byte	0x4
+ 556 0077 04       		.uleb128 0x7
+ 557 0078 07       		.byte	0x4
+ 558 0079 06       		.4byte	0x45
+ 559 007a 04       		.uleb128 0x3
+ 560 007b 07       		.byte	0x1
+ 561 007c 04       		.byte	0x8
+ 562 007d 45000000 		.4byte	.LASF9
+ 563 0081 03       		.uleb128 0x8
+ 564 0082 01       		.4byte	.LASF34
+ 565 0083 08       		.2byte	0x2800
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 16
+
+
+ 566 0084 2B010000 		.byte	0x1
+ 567 0088 08       		.byte	0x4d
+ 568 0089 5D000000 		.4byte	0xac
+ 569 008d 0028     		.uleb128 0x9
+ 570 008f 01       		.4byte	.LASF10
+ 571 0090 4D       		.byte	0x1
+ 572 0091 AC000000 		.byte	0x4f
+ 573 0095 09       		.4byte	0xac
+ 574 0096 E0000000 		.uleb128 0x9
+ 575 009a 01       		.4byte	.LASF11
+ 576 009b 4F       		.byte	0x1
+ 577 009c AC000000 		.byte	0x53
+ 578 00a0 09       		.4byte	0xb8
+ 579 00a1 01010000 		.byte	0x0
+ 580 00a5 01       		.uleb128 0xa
+ 581 00a6 53       		.4byte	0xb1
+ 582 00a7 B8000000 		.uleb128 0x3
+ 583 00ab 00       		.byte	0x8
+ 584 00ac 0A       		.byte	0x4
+ 585 00ad B1000000 		.4byte	.LASF12
+ 586 00b1 03       		.uleb128 0xb
+ 587 00b2 08       		.4byte	0x45
+ 588 00b3 04       		.4byte	0xc9
+ 589 00b4 47000000 		.uleb128 0xc
+ 590 00b8 0B       		.4byte	0x76
+ 591 00b9 45000000 		.2byte	0x27ff
+ 592 00bd C9000000 		.byte	0x0
+ 593 00c1 0C       		.uleb128 0xd
+ 594 00c2 76000000 		.4byte	.LASF35
+ 595 00c6 FF27     		.byte	0x8
+ 596 00c8 00       		.byte	0x1
+ 597 00c9 0D       		.byte	0x59
+ 598 00ca 2F000000 		.4byte	0xf2
+ 599 00ce 08       		.uleb128 0xe
+ 600 00cf 01       		.4byte	.LASF13
+ 601 00d0 59       		.byte	0x1
+ 602 00d1 F2000000 		.byte	0x5a
+ 603 00d5 0E       		.4byte	0xf2
+ 604 00d6 71010000 		.byte	0x2
+ 605 00da 01       		.byte	0x23
+ 606 00db 5A       		.uleb128 0x0
+ 607 00dc F2000000 		.uleb128 0xe
+ 608 00e0 02       		.4byte	.LASF14
+ 609 00e1 23       		.byte	0x1
+ 610 00e2 00       		.byte	0x5b
+ 611 00e3 0E       		.4byte	0x25
+ 612 00e4 8D000000 		.byte	0x2
+ 613 00e8 01       		.byte	0x23
+ 614 00e9 5B       		.uleb128 0x4
+ 615 00ea 25000000 		.byte	0x0
+ 616 00ee 02       		.uleb128 0x7
+ 617 00ef 23       		.byte	0x4
+ 618 00f0 04       		.4byte	0xc9
+ 619 00f1 00       		.uleb128 0x2
+ 620 00f2 07       		.4byte	.LASF16
+ 621 00f3 04       		.byte	0x1
+ 622 00f4 C9000000 		.byte	0x5c
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 17
+
+
+ 623 00f8 02       		.4byte	0xc9
+ 624 00f9 0F020000 		.uleb128 0xf
+ 625 00fd 01       		.byte	0x1
+ 626 00fe 5C       		.4byte	.LASF36
+ 627 00ff C9000000 		.byte	0x1
+ 628 0103 0F       		.byte	0x9d
+ 629 0104 01       		.byte	0x1
+ 630 0105 5A010000 		.4byte	0x79
+ 631 0109 01       		.4byte	.LFB2
+ 632 010a 9D       		.4byte	.LFE2
+ 633 010b 01       		.4byte	.LLST0
+ 634 010c 79000000 		.4byte	0x1be
+ 635 0110 00000000 		.uleb128 0x10
+ 636 0114 74020000 		.4byte	.LASF24
+ 637 0118 00000000 		.byte	0x1
+ 638 011c BE010000 		.byte	0x9c
+ 639 0120 10       		.4byte	0x25
+ 640 0121 4E010000 		.byte	0x2
+ 641 0125 01       		.byte	0x91
+ 642 0126 9C       		.sleb128 -36
+ 643 0127 25000000 		.uleb128 0x11
+ 644 012b 02       		.4byte	.LASF17
+ 645 012c 91       		.byte	0x1
+ 646 012d 5C       		.byte	0x9e
+ 647 012e 11       		.4byte	0x1be
+ 648 012f 4E000000 		.byte	0x2
+ 649 0133 01       		.byte	0x91
+ 650 0134 9E       		.sleb128 -32
+ 651 0135 BE010000 		.uleb128 0x11
+ 652 0139 02       		.4byte	.LASF18
+ 653 013a 91       		.byte	0x1
+ 654 013b 60       		.byte	0x9e
+ 655 013c 11       		.4byte	0x1be
+ 656 013d 30010000 		.byte	0x2
+ 657 0141 01       		.byte	0x91
+ 658 0142 9E       		.sleb128 -28
+ 659 0143 BE010000 		.uleb128 0x11
+ 660 0147 02       		.4byte	.LASF19
+ 661 0148 91       		.byte	0x1
+ 662 0149 64       		.byte	0x9e
+ 663 014a 11       		.4byte	0x1be
+ 664 014b DB010000 		.byte	0x2
+ 665 014f 01       		.byte	0x91
+ 666 0150 9E       		.sleb128 -24
+ 667 0151 BE010000 		.uleb128 0x11
+ 668 0155 02       		.4byte	.LASF20
+ 669 0156 91       		.byte	0x1
+ 670 0157 68       		.byte	0xa0
+ 671 0158 11       		.4byte	0x79
+ 672 0159 E7000000 		.byte	0x2
+ 673 015d 01       		.byte	0x91
+ 674 015e A0       		.sleb128 -20
+ 675 015f 79000000 		.uleb128 0x12
+ 676 0163 02       		.4byte	.LBB2
+ 677 0164 91       		.4byte	.LBE2
+ 678 0165 6C       		.4byte	0x182
+ 679 0166 12       		.uleb128 0x11
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 18
+
+
+ 680 0167 28000000 		.4byte	.LASF21
+ 681 016b 84000000 		.byte	0x1
+ 682 016f 82010000 		.byte	0xa8
+ 683 0173 11       		.4byte	0x1be
+ 684 0174 F0000000 		.byte	0x2
+ 685 0178 01       		.byte	0x91
+ 686 0179 A8       		.sleb128 -16
+ 687 017a BE010000 		.byte	0x0
+ 688 017e 02       		.uleb128 0x12
+ 689 017f 91       		.4byte	.LBB3
+ 690 0180 70       		.4byte	.LBE3
+ 691 0181 00       		.4byte	0x1ac
+ 692 0182 12       		.uleb128 0x11
+ 693 0183 D4010000 		.4byte	.LASF22
+ 694 0187 2C020000 		.byte	0x1
+ 695 018b AC010000 		.byte	0xdf
+ 696 018f 11       		.4byte	0x1be
+ 697 0190 3C000000 		.byte	0x2
+ 698 0194 01       		.byte	0x91
+ 699 0195 DF       		.sleb128 -12
+ 700 0196 BE010000 		.uleb128 0x11
+ 701 019a 02       		.4byte	.LASF14
+ 702 019b 91       		.byte	0x1
+ 703 019c 74       		.byte	0xdf
+ 704 019d 11       		.4byte	0x25
+ 705 019e 8D000000 		.byte	0x2
+ 706 01a2 01       		.byte	0x91
+ 707 01a3 DF       		.sleb128 -8
+ 708 01a4 25000000 		.byte	0x0
+ 709 01a8 02       		.uleb128 0x11
+ 710 01a9 91       		.4byte	.LASF23
+ 711 01aa 78       		.byte	0x1
+ 712 01ab 00       		.byte	0x9f
+ 713 01ac 11       		.4byte	0x6f
+ 714 01ad BD000000 		.byte	0x5
+ 715 01b1 01       		.byte	0x3
+ 716 01b2 9F       		.4byte	xHeapHasBeenInitialised.3293
+ 717 01b3 6F000000 		.byte	0x0
+ 718 01b7 05       		.uleb128 0x7
+ 719 01b8 03       		.byte	0x4
+ 720 01b9 00000000 		.4byte	0xf8
+ 721 01bd 00       		.uleb128 0x13
+ 722 01be 07       		.byte	0x1
+ 723 01bf 04       		.4byte	.LASF37
+ 724 01c0 F8000000 		.byte	0x1
+ 725 01c4 13       		.byte	0xf7
+ 726 01c5 01       		.byte	0x1
+ 727 01c6 81010000 		.4byte	.LFB3
+ 728 01ca 01       		.4byte	.LFE3
+ 729 01cb F7       		.4byte	.LLST1
+ 730 01cc 01       		.4byte	0x22f
+ 731 01cd 74020000 		.uleb128 0x14
+ 732 01d1 48030000 		.ascii	"pv\000"
+ 733 01d5 2B000000 		.byte	0x1
+ 734 01d9 2F020000 		.byte	0xf6
+ 735 01dd 14       		.4byte	0x79
+ 736 01de 707600   		.byte	0x2
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 19
+
+
+ 737 01e1 01       		.byte	0x91
+ 738 01e2 F6       		.sleb128 -24
+ 739 01e3 79000000 		.uleb128 0x15
+ 740 01e7 02       		.ascii	"puc\000"
+ 741 01e8 91       		.byte	0x1
+ 742 01e9 68       		.byte	0xf8
+ 743 01ea 15       		.4byte	0x7b
+ 744 01eb 70756300 		.byte	0x2
+ 745 01ef 01       		.byte	0x91
+ 746 01f0 F8       		.sleb128 -20
+ 747 01f1 7B000000 		.uleb128 0x11
+ 748 01f5 02       		.4byte	.LASF25
+ 749 01f6 91       		.byte	0x1
+ 750 01f7 6C       		.byte	0xf9
+ 751 01f8 11       		.4byte	0x1be
+ 752 01f9 56000000 		.byte	0x2
+ 753 01fd 01       		.byte	0x91
+ 754 01fe F9       		.sleb128 -16
+ 755 01ff BE010000 		.uleb128 0x16
+ 756 0203 02       		.4byte	.LBB4
+ 757 0204 91       		.4byte	.LBE4
+ 758 0205 70       		.uleb128 0x17
+ 759 0206 16       		.4byte	.LASF22
+ 760 0207 B8020000 		.byte	0x1
+ 761 020b 10030000 		.2byte	0x107
+ 762 020f 17       		.4byte	0x1be
+ 763 0210 3C000000 		.byte	0x2
+ 764 0214 01       		.byte	0x91
+ 765 0215 0701     		.sleb128 -12
+ 766 0217 BE010000 		.uleb128 0x17
+ 767 021b 02       		.4byte	.LASF14
+ 768 021c 91       		.byte	0x1
+ 769 021d 74       		.2byte	0x107
+ 770 021e 17       		.4byte	0x25
+ 771 021f 8D000000 		.byte	0x2
+ 772 0223 01       		.byte	0x91
+ 773 0224 0701     		.sleb128 -8
+ 774 0226 25000000 		.byte	0x0
+ 775 022a 02       		.byte	0x0
+ 776 022b 91       		.uleb128 0x18
+ 777 022c 78       		.byte	0x1
+ 778 022d 00       		.4byte	.LASF38
+ 779 022e 00       		.byte	0x1
+ 780 022f 18       		.2byte	0x110
+ 781 0230 01       		.byte	0x1
+ 782 0231 1A000000 		.4byte	0x25
+ 783 0235 01       		.4byte	.LFB4
+ 784 0236 1001     		.4byte	.LFE4
+ 785 0238 01       		.byte	0x1
+ 786 0239 25000000 		.byte	0x5d
+ 787 023d 48030000 		.uleb128 0x19
+ 788 0241 5C030000 		.byte	0x1
+ 789 0245 01       		.4byte	.LASF39
+ 790 0246 5D       		.byte	0x1
+ 791 0247 19       		.2byte	0x116
+ 792 0248 01       		.byte	0x1
+ 793 0249 08010000 		.4byte	.LFB5
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 20
+
+
+ 794 024d 01       		.4byte	.LFE5
+ 795 024e 1601     		.byte	0x1
+ 796 0250 01       		.byte	0x5d
+ 797 0251 5C030000 		.uleb128 0x11
+ 798 0255 60030000 		.4byte	.LASF26
+ 799 0259 01       		.byte	0x1
+ 800 025a 5D       		.byte	0x54
+ 801 025b 11       		.4byte	0x88
+ 802 025c D5000000 		.byte	0x5
+ 803 0260 01       		.byte	0x3
+ 804 0261 54       		.4byte	xHeap
+ 805 0262 88000000 		.uleb128 0x11
+ 806 0266 05       		.4byte	.LASF27
+ 807 0267 03       		.byte	0x1
+ 808 0268 04000000 		.byte	0x5f
+ 809 026c 11       		.4byte	0x27d
+ 810 026d FF010000 		.byte	0x5
+ 811 0271 01       		.byte	0x3
+ 812 0272 5F       		.4byte	heapSTRUCT_SIZE
+ 813 0273 7D020000 		.uleb128 0x1a
+ 814 0277 05       		.4byte	0x53
+ 815 0278 03       		.uleb128 0x11
+ 816 0279 00000000 		.4byte	.LASF28
+ 817 027d 1A       		.byte	0x1
+ 818 027e 53000000 		.byte	0x63
+ 819 0282 11       		.4byte	0xf8
+ 820 0283 13000000 		.byte	0x5
+ 821 0287 01       		.byte	0x3
+ 822 0288 63       		.4byte	xStart
+ 823 0289 F8000000 		.uleb128 0x11
+ 824 028d 05       		.4byte	.LASF29
+ 825 028e 03       		.byte	0x1
+ 826 028f 04280000 		.byte	0x63
+ 827 0293 11       		.4byte	0xf8
+ 828 0294 DB000000 		.byte	0x5
+ 829 0298 01       		.byte	0x3
+ 830 0299 63       		.4byte	xEnd
+ 831 029a F8000000 		.uleb128 0x11
+ 832 029e 05       		.4byte	.LASF30
+ 833 029f 03       		.byte	0x1
+ 834 02a0 0C280000 		.byte	0x67
+ 835 02a4 11       		.4byte	0x25
+ 836 02a5 8B010000 		.byte	0x5
+ 837 02a9 01       		.byte	0x3
+ 838 02aa 67       		.4byte	xFreeBytesRemaining
+ 839 02ab 25000000 		.byte	0x0
+ 840 02af 05       		.section	.debug_abbrev
+ 841 02b0 03       		.uleb128 0x1
+ 842 02b1 14280000 		.uleb128 0x11
+ 843 02b5 00       		.byte	0x1
+ 844              		.uleb128 0x25
+ 845 0000 01       		.uleb128 0xe
+ 846 0001 11       		.uleb128 0x13
+ 847 0002 01       		.uleb128 0xb
+ 848 0003 25       		.uleb128 0x3
+ 849 0004 0E       		.uleb128 0xe
+ 850 0005 13       		.uleb128 0x1b
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 21
+
+
+ 851 0006 0B       		.uleb128 0xe
+ 852 0007 03       		.uleb128 0x11
+ 853 0008 0E       		.uleb128 0x1
+ 854 0009 1B       		.uleb128 0x12
+ 855 000a 0E       		.uleb128 0x1
+ 856 000b 11       		.uleb128 0x10
+ 857 000c 01       		.uleb128 0x6
+ 858 000d 12       		.byte	0x0
+ 859 000e 01       		.byte	0x0
+ 860 000f 10       		.uleb128 0x2
+ 861 0010 06       		.uleb128 0x16
+ 862 0011 00       		.byte	0x0
+ 863 0012 00       		.uleb128 0x3
+ 864 0013 02       		.uleb128 0xe
+ 865 0014 16       		.uleb128 0x3a
+ 866 0015 00       		.uleb128 0xb
+ 867 0016 03       		.uleb128 0x3b
+ 868 0017 0E       		.uleb128 0xb
+ 869 0018 3A       		.uleb128 0x49
+ 870 0019 0B       		.uleb128 0x13
+ 871 001a 3B       		.byte	0x0
+ 872 001b 0B       		.byte	0x0
+ 873 001c 49       		.uleb128 0x3
+ 874 001d 13       		.uleb128 0x24
+ 875 001e 00       		.byte	0x0
+ 876 001f 00       		.uleb128 0xb
+ 877 0020 03       		.uleb128 0xb
+ 878 0021 24       		.uleb128 0x3e
+ 879 0022 00       		.uleb128 0xb
+ 880 0023 0B       		.uleb128 0x3
+ 881 0024 0B       		.uleb128 0xe
+ 882 0025 3E       		.byte	0x0
+ 883 0026 0B       		.byte	0x0
+ 884 0027 03       		.uleb128 0x4
+ 885 0028 0E       		.uleb128 0x24
+ 886 0029 00       		.byte	0x0
+ 887 002a 00       		.uleb128 0xb
+ 888 002b 04       		.uleb128 0xb
+ 889 002c 24       		.uleb128 0x3e
+ 890 002d 00       		.uleb128 0xb
+ 891 002e 0B       		.uleb128 0x3
+ 892 002f 0B       		.uleb128 0x8
+ 893 0030 3E       		.byte	0x0
+ 894 0031 0B       		.byte	0x0
+ 895 0032 03       		.uleb128 0x5
+ 896 0033 08       		.uleb128 0x24
+ 897 0034 00       		.byte	0x0
+ 898 0035 00       		.uleb128 0xb
+ 899 0036 05       		.uleb128 0xb
+ 900 0037 24       		.uleb128 0x3e
+ 901 0038 00       		.uleb128 0xb
+ 902 0039 0B       		.byte	0x0
+ 903 003a 0B       		.byte	0x0
+ 904 003b 3E       		.uleb128 0x6
+ 905 003c 0B       		.uleb128 0xf
+ 906 003d 00       		.byte	0x0
+ 907 003e 00       		.uleb128 0xb
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 22
+
+
+ 908 003f 06       		.uleb128 0xb
+ 909 0040 0F       		.byte	0x0
+ 910 0041 00       		.byte	0x0
+ 911 0042 0B       		.uleb128 0x7
+ 912 0043 0B       		.uleb128 0xf
+ 913 0044 00       		.byte	0x0
+ 914 0045 00       		.uleb128 0xb
+ 915 0046 07       		.uleb128 0xb
+ 916 0047 0F       		.uleb128 0x49
+ 917 0048 00       		.uleb128 0x13
+ 918 0049 0B       		.byte	0x0
+ 919 004a 0B       		.byte	0x0
+ 920 004b 49       		.uleb128 0x8
+ 921 004c 13       		.uleb128 0x17
+ 922 004d 00       		.byte	0x1
+ 923 004e 00       		.uleb128 0x3
+ 924 004f 08       		.uleb128 0xe
+ 925 0050 17       		.uleb128 0xb
+ 926 0051 01       		.uleb128 0x5
+ 927 0052 03       		.uleb128 0x3a
+ 928 0053 0E       		.uleb128 0xb
+ 929 0054 0B       		.uleb128 0x3b
+ 930 0055 05       		.uleb128 0xb
+ 931 0056 3A       		.uleb128 0x1
+ 932 0057 0B       		.uleb128 0x13
+ 933 0058 3B       		.byte	0x0
+ 934 0059 0B       		.byte	0x0
+ 935 005a 01       		.uleb128 0x9
+ 936 005b 13       		.uleb128 0xd
+ 937 005c 00       		.byte	0x0
+ 938 005d 00       		.uleb128 0x3
+ 939 005e 09       		.uleb128 0xe
+ 940 005f 0D       		.uleb128 0x3a
+ 941 0060 00       		.uleb128 0xb
+ 942 0061 03       		.uleb128 0x3b
+ 943 0062 0E       		.uleb128 0xb
+ 944 0063 3A       		.uleb128 0x49
+ 945 0064 0B       		.uleb128 0x13
+ 946 0065 3B       		.byte	0x0
+ 947 0066 0B       		.byte	0x0
+ 948 0067 49       		.uleb128 0xa
+ 949 0068 13       		.uleb128 0x35
+ 950 0069 00       		.byte	0x0
+ 951 006a 00       		.uleb128 0x49
+ 952 006b 0A       		.uleb128 0x13
+ 953 006c 35       		.byte	0x0
+ 954 006d 00       		.byte	0x0
+ 955 006e 49       		.uleb128 0xb
+ 956 006f 13       		.uleb128 0x1
+ 957 0070 00       		.byte	0x1
+ 958 0071 00       		.uleb128 0x49
+ 959 0072 0B       		.uleb128 0x13
+ 960 0073 01       		.uleb128 0x1
+ 961 0074 01       		.uleb128 0x13
+ 962 0075 49       		.byte	0x0
+ 963 0076 13       		.byte	0x0
+ 964 0077 01       		.uleb128 0xc
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 23
+
+
+ 965 0078 13       		.uleb128 0x21
+ 966 0079 00       		.byte	0x0
+ 967 007a 00       		.uleb128 0x49
+ 968 007b 0C       		.uleb128 0x13
+ 969 007c 21       		.uleb128 0x2f
+ 970 007d 00       		.uleb128 0x5
+ 971 007e 49       		.byte	0x0
+ 972 007f 13       		.byte	0x0
+ 973 0080 2F       		.uleb128 0xd
+ 974 0081 05       		.uleb128 0x13
+ 975 0082 00       		.byte	0x1
+ 976 0083 00       		.uleb128 0x3
+ 977 0084 0D       		.uleb128 0xe
+ 978 0085 13       		.uleb128 0xb
+ 979 0086 01       		.uleb128 0xb
+ 980 0087 03       		.uleb128 0x3a
+ 981 0088 0E       		.uleb128 0xb
+ 982 0089 0B       		.uleb128 0x3b
+ 983 008a 0B       		.uleb128 0xb
+ 984 008b 3A       		.uleb128 0x1
+ 985 008c 0B       		.uleb128 0x13
+ 986 008d 3B       		.byte	0x0
+ 987 008e 0B       		.byte	0x0
+ 988 008f 01       		.uleb128 0xe
+ 989 0090 13       		.uleb128 0xd
+ 990 0091 00       		.byte	0x0
+ 991 0092 00       		.uleb128 0x3
+ 992 0093 0E       		.uleb128 0xe
+ 993 0094 0D       		.uleb128 0x3a
+ 994 0095 00       		.uleb128 0xb
+ 995 0096 03       		.uleb128 0x3b
+ 996 0097 0E       		.uleb128 0xb
+ 997 0098 3A       		.uleb128 0x49
+ 998 0099 0B       		.uleb128 0x13
+ 999 009a 3B       		.uleb128 0x38
+ 1000 009b 0B       		.uleb128 0xa
+ 1001 009c 49       		.byte	0x0
+ 1002 009d 13       		.byte	0x0
+ 1003 009e 38       		.uleb128 0xf
+ 1004 009f 0A       		.uleb128 0x2e
+ 1005 00a0 00       		.byte	0x1
+ 1006 00a1 00       		.uleb128 0x3f
+ 1007 00a2 0F       		.uleb128 0xc
+ 1008 00a3 2E       		.uleb128 0x3
+ 1009 00a4 01       		.uleb128 0xe
+ 1010 00a5 3F       		.uleb128 0x3a
+ 1011 00a6 0C       		.uleb128 0xb
+ 1012 00a7 03       		.uleb128 0x3b
+ 1013 00a8 0E       		.uleb128 0xb
+ 1014 00a9 3A       		.uleb128 0x27
+ 1015 00aa 0B       		.uleb128 0xc
+ 1016 00ab 3B       		.uleb128 0x49
+ 1017 00ac 0B       		.uleb128 0x13
+ 1018 00ad 27       		.uleb128 0x11
+ 1019 00ae 0C       		.uleb128 0x1
+ 1020 00af 49       		.uleb128 0x12
+ 1021 00b0 13       		.uleb128 0x1
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 24
+
+
+ 1022 00b1 11       		.uleb128 0x40
+ 1023 00b2 01       		.uleb128 0x6
+ 1024 00b3 12       		.uleb128 0x1
+ 1025 00b4 01       		.uleb128 0x13
+ 1026 00b5 40       		.byte	0x0
+ 1027 00b6 06       		.byte	0x0
+ 1028 00b7 01       		.uleb128 0x10
+ 1029 00b8 13       		.uleb128 0x5
+ 1030 00b9 00       		.byte	0x0
+ 1031 00ba 00       		.uleb128 0x3
+ 1032 00bb 10       		.uleb128 0xe
+ 1033 00bc 05       		.uleb128 0x3a
+ 1034 00bd 00       		.uleb128 0xb
+ 1035 00be 03       		.uleb128 0x3b
+ 1036 00bf 0E       		.uleb128 0xb
+ 1037 00c0 3A       		.uleb128 0x49
+ 1038 00c1 0B       		.uleb128 0x13
+ 1039 00c2 3B       		.uleb128 0x2
+ 1040 00c3 0B       		.uleb128 0xa
+ 1041 00c4 49       		.byte	0x0
+ 1042 00c5 13       		.byte	0x0
+ 1043 00c6 02       		.uleb128 0x11
+ 1044 00c7 0A       		.uleb128 0x34
+ 1045 00c8 00       		.byte	0x0
+ 1046 00c9 00       		.uleb128 0x3
+ 1047 00ca 11       		.uleb128 0xe
+ 1048 00cb 34       		.uleb128 0x3a
+ 1049 00cc 00       		.uleb128 0xb
+ 1050 00cd 03       		.uleb128 0x3b
+ 1051 00ce 0E       		.uleb128 0xb
+ 1052 00cf 3A       		.uleb128 0x49
+ 1053 00d0 0B       		.uleb128 0x13
+ 1054 00d1 3B       		.uleb128 0x2
+ 1055 00d2 0B       		.uleb128 0xa
+ 1056 00d3 49       		.byte	0x0
+ 1057 00d4 13       		.byte	0x0
+ 1058 00d5 02       		.uleb128 0x12
+ 1059 00d6 0A       		.uleb128 0xb
+ 1060 00d7 00       		.byte	0x1
+ 1061 00d8 00       		.uleb128 0x11
+ 1062 00d9 12       		.uleb128 0x1
+ 1063 00da 0B       		.uleb128 0x12
+ 1064 00db 01       		.uleb128 0x1
+ 1065 00dc 11       		.uleb128 0x1
+ 1066 00dd 01       		.uleb128 0x13
+ 1067 00de 12       		.byte	0x0
+ 1068 00df 01       		.byte	0x0
+ 1069 00e0 01       		.uleb128 0x13
+ 1070 00e1 13       		.uleb128 0x2e
+ 1071 00e2 00       		.byte	0x1
+ 1072 00e3 00       		.uleb128 0x3f
+ 1073 00e4 13       		.uleb128 0xc
+ 1074 00e5 2E       		.uleb128 0x3
+ 1075 00e6 01       		.uleb128 0xe
+ 1076 00e7 3F       		.uleb128 0x3a
+ 1077 00e8 0C       		.uleb128 0xb
+ 1078 00e9 03       		.uleb128 0x3b
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 25
+
+
+ 1079 00ea 0E       		.uleb128 0xb
+ 1080 00eb 3A       		.uleb128 0x27
+ 1081 00ec 0B       		.uleb128 0xc
+ 1082 00ed 3B       		.uleb128 0x11
+ 1083 00ee 0B       		.uleb128 0x1
+ 1084 00ef 27       		.uleb128 0x12
+ 1085 00f0 0C       		.uleb128 0x1
+ 1086 00f1 11       		.uleb128 0x40
+ 1087 00f2 01       		.uleb128 0x6
+ 1088 00f3 12       		.uleb128 0x1
+ 1089 00f4 01       		.uleb128 0x13
+ 1090 00f5 40       		.byte	0x0
+ 1091 00f6 06       		.byte	0x0
+ 1092 00f7 01       		.uleb128 0x14
+ 1093 00f8 13       		.uleb128 0x5
+ 1094 00f9 00       		.byte	0x0
+ 1095 00fa 00       		.uleb128 0x3
+ 1096 00fb 14       		.uleb128 0x8
+ 1097 00fc 05       		.uleb128 0x3a
+ 1098 00fd 00       		.uleb128 0xb
+ 1099 00fe 03       		.uleb128 0x3b
+ 1100 00ff 08       		.uleb128 0xb
+ 1101 0100 3A       		.uleb128 0x49
+ 1102 0101 0B       		.uleb128 0x13
+ 1103 0102 3B       		.uleb128 0x2
+ 1104 0103 0B       		.uleb128 0xa
+ 1105 0104 49       		.byte	0x0
+ 1106 0105 13       		.byte	0x0
+ 1107 0106 02       		.uleb128 0x15
+ 1108 0107 0A       		.uleb128 0x34
+ 1109 0108 00       		.byte	0x0
+ 1110 0109 00       		.uleb128 0x3
+ 1111 010a 15       		.uleb128 0x8
+ 1112 010b 34       		.uleb128 0x3a
+ 1113 010c 00       		.uleb128 0xb
+ 1114 010d 03       		.uleb128 0x3b
+ 1115 010e 08       		.uleb128 0xb
+ 1116 010f 3A       		.uleb128 0x49
+ 1117 0110 0B       		.uleb128 0x13
+ 1118 0111 3B       		.uleb128 0x2
+ 1119 0112 0B       		.uleb128 0xa
+ 1120 0113 49       		.byte	0x0
+ 1121 0114 13       		.byte	0x0
+ 1122 0115 02       		.uleb128 0x16
+ 1123 0116 0A       		.uleb128 0xb
+ 1124 0117 00       		.byte	0x1
+ 1125 0118 00       		.uleb128 0x11
+ 1126 0119 16       		.uleb128 0x1
+ 1127 011a 0B       		.uleb128 0x12
+ 1128 011b 01       		.uleb128 0x1
+ 1129 011c 11       		.byte	0x0
+ 1130 011d 01       		.byte	0x0
+ 1131 011e 12       		.uleb128 0x17
+ 1132 011f 01       		.uleb128 0x34
+ 1133 0120 00       		.byte	0x0
+ 1134 0121 00       		.uleb128 0x3
+ 1135 0122 17       		.uleb128 0xe
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 26
+
+
+ 1136 0123 34       		.uleb128 0x3a
+ 1137 0124 00       		.uleb128 0xb
+ 1138 0125 03       		.uleb128 0x3b
+ 1139 0126 0E       		.uleb128 0x5
+ 1140 0127 3A       		.uleb128 0x49
+ 1141 0128 0B       		.uleb128 0x13
+ 1142 0129 3B       		.uleb128 0x2
+ 1143 012a 05       		.uleb128 0xa
+ 1144 012b 49       		.byte	0x0
+ 1145 012c 13       		.byte	0x0
+ 1146 012d 02       		.uleb128 0x18
+ 1147 012e 0A       		.uleb128 0x2e
+ 1148 012f 00       		.byte	0x0
+ 1149 0130 00       		.uleb128 0x3f
+ 1150 0131 18       		.uleb128 0xc
+ 1151 0132 2E       		.uleb128 0x3
+ 1152 0133 00       		.uleb128 0xe
+ 1153 0134 3F       		.uleb128 0x3a
+ 1154 0135 0C       		.uleb128 0xb
+ 1155 0136 03       		.uleb128 0x3b
+ 1156 0137 0E       		.uleb128 0x5
+ 1157 0138 3A       		.uleb128 0x27
+ 1158 0139 0B       		.uleb128 0xc
+ 1159 013a 3B       		.uleb128 0x49
+ 1160 013b 05       		.uleb128 0x13
+ 1161 013c 27       		.uleb128 0x11
+ 1162 013d 0C       		.uleb128 0x1
+ 1163 013e 49       		.uleb128 0x12
+ 1164 013f 13       		.uleb128 0x1
+ 1165 0140 11       		.uleb128 0x40
+ 1166 0141 01       		.uleb128 0xa
+ 1167 0142 12       		.byte	0x0
+ 1168 0143 01       		.byte	0x0
+ 1169 0144 40       		.uleb128 0x19
+ 1170 0145 0A       		.uleb128 0x2e
+ 1171 0146 00       		.byte	0x0
+ 1172 0147 00       		.uleb128 0x3f
+ 1173 0148 19       		.uleb128 0xc
+ 1174 0149 2E       		.uleb128 0x3
+ 1175 014a 00       		.uleb128 0xe
+ 1176 014b 3F       		.uleb128 0x3a
+ 1177 014c 0C       		.uleb128 0xb
+ 1178 014d 03       		.uleb128 0x3b
+ 1179 014e 0E       		.uleb128 0x5
+ 1180 014f 3A       		.uleb128 0x27
+ 1181 0150 0B       		.uleb128 0xc
+ 1182 0151 3B       		.uleb128 0x11
+ 1183 0152 05       		.uleb128 0x1
+ 1184 0153 27       		.uleb128 0x12
+ 1185 0154 0C       		.uleb128 0x1
+ 1186 0155 11       		.uleb128 0x40
+ 1187 0156 01       		.uleb128 0xa
+ 1188 0157 12       		.byte	0x0
+ 1189 0158 01       		.byte	0x0
+ 1190 0159 40       		.uleb128 0x1a
+ 1191 015a 0A       		.uleb128 0x26
+ 1192 015b 00       		.byte	0x0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 27
+
+
+ 1193 015c 00       		.uleb128 0x49
+ 1194 015d 1A       		.uleb128 0x13
+ 1195 015e 26       		.byte	0x0
+ 1196 015f 00       		.byte	0x0
+ 1197 0160 49       		.byte	0x0
+ 1198 0161 13       		.section	.debug_pubnames,"",%progbits
+ 1199 0162 00       		.4byte	0x60
+ 1200 0163 00       		.2byte	0x2
+ 1201 0164 00       		.4byte	.Ldebug_info0
+ 1202              		.4byte	0x2b6
+ 1203 0000 60000000 		.4byte	0x103
+ 1204 0004 0200     		.ascii	"pvPortMalloc\000"
+ 1205 0006 00000000 		.4byte	0x1c4
+ 1206 000a B6020000 		.ascii	"vPortFree\000"
+ 1207 000e 03010000 		.4byte	0x22f
+ 1208 0012 7076506F 		.ascii	"xPortGetFreeHeapSize\000"
+ 1208      72744D61 
+ 1208      6C6C6F63 
+ 1208      00
+ 1209 001f C4010000 		.4byte	0x247
+ 1210 0023 76506F72 		.ascii	"vPortInitialiseBlocks\000"
+ 1210      74467265 
+ 1210      6500
+ 1211 002d 2F020000 		.4byte	0x0
+ 1212 0031 78506F72 		.section	.debug_aranges,"",%progbits
+ 1212      74476574 
+ 1212      46726565 
+ 1212      48656170 
+ 1212      53697A65 
+ 1213 0046 47020000 		.4byte	0x1c
+ 1214 004a 76506F72 		.2byte	0x2
+ 1214      74496E69 
+ 1214      7469616C 
+ 1214      69736542 
+ 1214      6C6F636B 
+ 1215 0060 00000000 		.4byte	.Ldebug_info0
+ 1216              		.byte	0x4
+ 1217 0000 1C000000 		.byte	0x0
+ 1218 0004 0200     		.2byte	0x0
+ 1219 0006 00000000 		.2byte	0x0
+ 1220 000a 04       		.4byte	.Ltext0
+ 1221 000b 00       		.4byte	.Letext0-.Ltext0
+ 1222 000c 0000     		.4byte	0x0
+ 1223 000e 0000     		.4byte	0x0
+ 1224 0010 00000000 		.section	.debug_str,"MS",%progbits,1
+ 1225 0014 60030000 	.LASF31:
+ 1226 0018 00000000 		.ascii	"GNU C 4.3.3\000"
+ 1227 001c 00000000 	.LASF15:
+ 1228              		.ascii	"size_t\000"
+ 1229              	.LASF28:
+ 1230 0000 474E5520 		.ascii	"xStart\000"
+ 1230      4320342E 
+ 1230      332E3300 
+ 1231              	.LASF38:
+ 1232 000c 73697A65 		.ascii	"xPortGetFreeHeapSize\000"
+ 1232      5F7400
+ 1233              	.LASF35:
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 28
+
+
+ 1234 0013 78537461 		.ascii	"A_BLOCK_LINK\000"
+ 1234      727400
+ 1235              	.LASF22:
+ 1236 001a 78506F72 		.ascii	"pxIterator\000"
+ 1236      74476574 
+ 1236      46726565 
+ 1236      48656170 
+ 1236      53697A65 
+ 1237              	.LASF12:
+ 1238 002f 415F424C 		.ascii	"double\000"
+ 1238      4F434B5F 
+ 1238      4C494E4B 
+ 1238      00
+ 1239              	.LASF17:
+ 1240 003c 70784974 		.ascii	"pxBlock\000"
+ 1240      65726174 
+ 1240      6F7200
+ 1241              	.LASF25:
+ 1242 0047 646F7562 		.ascii	"pxLink\000"
+ 1242      6C6500
+ 1243              	.LASF34:
+ 1244 004e 7078426C 		.ascii	"xRTOS_HEAP\000"
+ 1244      6F636B00 
+ 1245              	.LASF7:
+ 1246 0056 70784C69 		.ascii	"long long unsigned int\000"
+ 1246      6E6B00
+ 1247              	.LASF2:
+ 1248 005d 7852544F 		.ascii	"unsigned char\000"
+ 1248      535F4845 
+ 1248      415000
+ 1249              	.LASF14:
+ 1250 0068 6C6F6E67 		.ascii	"xBlockSize\000"
+ 1250      206C6F6E 
+ 1250      6720756E 
+ 1250      7369676E 
+ 1250      65642069 
+ 1251              	.LASF0:
+ 1252 007f 756E7369 		.ascii	"long unsigned int\000"
+ 1252      676E6564 
+ 1252      20636861 
+ 1252      7200
+ 1253              	.LASF4:
+ 1254 008d 78426C6F 		.ascii	"short unsigned int\000"
+ 1254      636B5369 
+ 1254      7A6500
+ 1255              	.LASF23:
+ 1256 0098 6C6F6E67 		.ascii	"xHeapHasBeenInitialised\000"
+ 1256      20756E73 
+ 1256      69676E65 
+ 1256      6420696E 
+ 1256      7400
+ 1257              	.LASF26:
+ 1258 00aa 73686F72 		.ascii	"xHeap\000"
+ 1258      7420756E 
+ 1258      7369676E 
+ 1258      65642069 
+ 1258      6E7400
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 29
+
+
+ 1259              	.LASF29:
+ 1260 00bd 78486561 		.ascii	"xEnd\000"
+ 1260      70486173 
+ 1260      4265656E 
+ 1260      496E6974 
+ 1260      69616C69 
+ 1261              	.LASF10:
+ 1262 00d5 78486561 		.ascii	"dDummy\000"
+ 1262      7000
+ 1263              	.LASF20:
+ 1264 00db 78456E64 		.ascii	"pvReturn\000"
+ 1264      00
+ 1265              	.LASF21:
+ 1266 00e0 6444756D 		.ascii	"pxFirstFreeBlock\000"
+ 1266      6D7900
+ 1267              	.LASF11:
+ 1268 00e7 70765265 		.ascii	"ucHeap\000"
+ 1268      7475726E 
+ 1268      00
+ 1269              	.LASF39:
+ 1270 00f0 70784669 		.ascii	"vPortInitialiseBlocks\000"
+ 1270      72737446 
+ 1270      72656542 
+ 1270      6C6F636B 
+ 1270      00
+ 1271              	.LASF5:
+ 1272 0101 75634865 		.ascii	"unsigned int\000"
+ 1272      617000
+ 1273              	.LASF9:
+ 1274 0108 76506F72 		.ascii	"char\000"
+ 1274      74496E69 
+ 1274      7469616C 
+ 1274      69736542 
+ 1274      6C6F636B 
+ 1275              	.LASF18:
+ 1276 011e 756E7369 		.ascii	"pxPreviousBlock\000"
+ 1276      676E6564 
+ 1276      20696E74 
+ 1276      00
+ 1277              	.LASF6:
+ 1278 012b 63686172 		.ascii	"long long int\000"
+ 1278      00
+ 1279              	.LASF24:
+ 1280 0130 70785072 		.ascii	"xWantedSize\000"
+ 1280      6576696F 
+ 1280      7573426C 
+ 1280      6F636B00 
+ 1281              	.LASF36:
+ 1282 0140 6C6F6E67 		.ascii	"pvPortMalloc\000"
+ 1282      206C6F6E 
+ 1282      6720696E 
+ 1282      7400
+ 1283              	.LASF3:
+ 1284 014e 7857616E 		.ascii	"short int\000"
+ 1284      74656453 
+ 1284      697A6500 
+ 1285              	.LASF13:
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 30
+
+
+ 1286 015a 7076506F 		.ascii	"pxNextFreeBlock\000"
+ 1286      72744D61 
+ 1286      6C6C6F63 
+ 1286      00
+ 1287              	.LASF37:
+ 1288 0167 73686F72 		.ascii	"vPortFree\000"
+ 1288      7420696E 
+ 1288      7400
+ 1289              	.LASF30:
+ 1290 0171 70784E65 		.ascii	"xFreeBytesRemaining\000"
+ 1290      78744672 
+ 1290      6565426C 
+ 1290      6F636B00 
+ 1291              	.LASF32:
+ 1292 0181 76506F72 		.ascii	"SRC/RTOS/heap_2.c\000"
+ 1292      74467265 
+ 1292      6500
+ 1293              	.LASF33:
+ 1294 018b 78467265 		.ascii	"E:\\Projekty\\ARM\\Eclipse\\AT91SAM7Sxxx_RTOS\000"
+ 1294      65427974 
+ 1294      65735265 
+ 1294      6D61696E 
+ 1294      696E6700 
+ 1295              	.LASF19:
+ 1296 019f 5352432F 		.ascii	"pxNewBlockLink\000"
+ 1296      52544F53 
+ 1296      2F686561 
+ 1296      705F322E 
+ 1296      6300
+ 1297              	.LASF8:
+ 1298 01b1 453A5C50 		.ascii	"long int\000"
+ 1298      726F6A65 
+ 1298      6B74795C 
+ 1298      41524D5C 
+ 1298      45636C69 
+ 1299              	.LASF1:
+ 1300 01db 70784E65 		.ascii	"signed char\000"
+ 1300      77426C6F 
+ 1300      636B4C69 
+ 1300      6E6B00
+ 1301              	.LASF27:
+ 1302 01ea 6C6F6E67 		.ascii	"heapSTRUCT_SIZE\000"
+ 1302      20696E74 
+ 1302      00
+ 1303              	.LASF16:
+ 1304 01f3 7369676E 		.ascii	"xBlockLink\000"
+ 1304      65642063 
+ 1304      68617200 
+ 1305              		.ident	"GCC: (GNU) 4.3.3"
+ 1306 01ff 68656170 	...
+ 1306      53545255 
+ 1306      43545F53 
+ 1306      495A4500 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s 			page 31
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 heap_2.c
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:38     .rodata:00000000 heapSTRUCT_SIZE
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:39     .rodata:00000000 $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:42     .bss:00000000 xHeapHasBeenInitialised.3293
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:48     .text:00000000 pvPortMalloc
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:55     .text:00000000 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:251    .text:0000025c $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:380    .bss:00000004 xHeap
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:383    .bss:00002804 xStart
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:386    .bss:0000280c xEnd
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:389    .bss:00002814 xFreeBytesRemaining
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:262    .text:00000274 vPortFree
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:268    .text:00000274 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:337    .text:0000033c $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:345    .text:00000348 xPortGetFreeHeapSize
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:353    .text:00000348 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:361    .text:00000358 $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:367    .text:0000035c vPortInitialiseBlocks
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:375    .text:0000035c $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:44     .bss:00000004 $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccWMvjFd.s:463    .debug_loc:00000000 $d
+
+UNDEFINED SYMBOLS
+vTaskSuspendAll
+xTaskResumeAll

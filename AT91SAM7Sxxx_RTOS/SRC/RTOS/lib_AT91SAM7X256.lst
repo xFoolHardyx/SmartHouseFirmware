@@ -1,0 +1,141 @@
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccNTne4B.s 			page 1
+
+
+   1              		.file	"lib_AT91SAM7X256.c"
+   2              	@ GNU C (GCC) version 4.3.3 (arm-elf)
+   3              	@	compiled by GNU C version 3.4.5 (mingw special), GMP version 4.2.2, MPFR version 2.3.1.
+   4              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+   5              	@ options passed:  -I . -IINC/ -IINC/RTOS/ -imultilib interwork -iprefix
+   6              	@ d:\programy\mikrokontrolery\arm\yagarto\bin\../lib/gcc/arm-elf/4.3.3/ -MD
+   7              	@ SRC/RTOS/lib_AT91SAM7X256.d -MF .dep/lib_AT91SAM7X256.o.d -MP -MQ
+   8              	@ SRC/RTOS/lib_AT91SAM7X256.o -D__USES_INITFINI__
+   9              	@ SRC/RTOS/lib_AT91SAM7X256.c -mcpu=arm7tdmi -mthumb-interwork
+  10              	@ -auxbase-strip SRC/RTOS/lib_AT91SAM7X256.o -gdwarf-2 -O0 -Wall
+  11              	@ -Wstrict-prototypes -fomit-frame-pointer -fverbose-asm
+  12              	@ options enabled:  -falign-loops -fargument-alias -fauto-inc-dec
+  13              	@ -fbranch-count-reg -fcommon -fearly-inlining
+  14              	@ -feliminate-unused-debug-types -ffunction-cse -fgcse-lm -fident -fivopts
+  15              	@ -fkeep-static-consts -fleading-underscore -fmath-errno
+  16              	@ -fmerge-debug-strings -fmove-loop-invariants -fomit-frame-pointer
+  17              	@ -fpeephole -freg-struct-return -fsched-interblock -fsched-spec
+  18              	@ -fsched-stalled-insns-dep -fsigned-zeros -fsplit-ivs-in-unroller
+  19              	@ -ftoplevel-reorder -ftrapping-math -ftree-cselim -ftree-loop-im
+  20              	@ -ftree-loop-ivcanon -ftree-loop-optimize -ftree-parallelize-loops=
+  21              	@ -ftree-reassoc -ftree-scev-cprop -ftree-vect-loop-version -fverbose-asm
+  22              	@ -fzero-initialized-in-bss -mlittle-endian -msched-prolog
+  23              	@ -mthumb-interwork
+  24              	
+  25              		.section	.debug_abbrev,"",%progbits
+  26              	.Ldebug_abbrev0:
+  27              		.section	.debug_info,"",%progbits
+  28              	.Ldebug_info0:
+  29              		.section	.debug_line,"",%progbits
+  30              	.Ldebug_line0:
+  31 0000 19000000 		.text
+  31      02001300 
+  31      00000201 
+  31      FB0E0D00 
+  31      01010101 
+  32              	.Ltext0:
+  33              	@ Compiler executable checksum: aefe8b2555dadc8858779d7450a1d1fb
+  34              	
+  35              	.Letext0:
+  36              		.section	.debug_info
+  37 0000 2C000000 		.4byte	0x2c
+  38 0004 0200     		.2byte	0x2
+  39 0006 00000000 		.4byte	.Ldebug_abbrev0
+  40 000a 04       		.byte	0x4
+  41 000b 01       		.uleb128 0x1
+  42 000c 00000000 		.4byte	.LASF0
+  43 0010 01       		.byte	0x1
+  44 0011 0C000000 		.4byte	.LASF1
+  45 0015 35000000 		.4byte	.LASF2
+  46 0019 00000000 		.4byte	.Ltext0
+  47 001d 00000000 		.4byte	.Letext0
+  48 0021 00000000 		.4byte	.Ldebug_line0
+  49 0025 02       		.uleb128 0x2
+  50 0026 04       		.byte	0x4
+  51 0027 07       		.byte	0x7
+  52 0028 28000000 		.4byte	.LASF3
+  53 002c 03       		.uleb128 0x3
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccNTne4B.s 			page 2
+
+
+  54 002d 04       		.byte	0x4
+  55 002e 07       		.byte	0x7
+  56 002f 00       		.byte	0x0
+  57              		.section	.debug_abbrev
+  58 0000 01       		.uleb128 0x1
+  59 0001 11       		.uleb128 0x11
+  60 0002 01       		.byte	0x1
+  61 0003 25       		.uleb128 0x25
+  62 0004 0E       		.uleb128 0xe
+  63 0005 13       		.uleb128 0x13
+  64 0006 0B       		.uleb128 0xb
+  65 0007 03       		.uleb128 0x3
+  66 0008 0E       		.uleb128 0xe
+  67 0009 1B       		.uleb128 0x1b
+  68 000a 0E       		.uleb128 0xe
+  69 000b 11       		.uleb128 0x11
+  70 000c 01       		.uleb128 0x1
+  71 000d 12       		.uleb128 0x12
+  72 000e 01       		.uleb128 0x1
+  73 000f 10       		.uleb128 0x10
+  74 0010 06       		.uleb128 0x6
+  75 0011 00       		.byte	0x0
+  76 0012 00       		.byte	0x0
+  77 0013 02       		.uleb128 0x2
+  78 0014 24       		.uleb128 0x24
+  79 0015 00       		.byte	0x0
+  80 0016 0B       		.uleb128 0xb
+  81 0017 0B       		.uleb128 0xb
+  82 0018 3E       		.uleb128 0x3e
+  83 0019 0B       		.uleb128 0xb
+  84 001a 03       		.uleb128 0x3
+  85 001b 0E       		.uleb128 0xe
+  86 001c 00       		.byte	0x0
+  87 001d 00       		.byte	0x0
+  88 001e 03       		.uleb128 0x3
+  89 001f 24       		.uleb128 0x24
+  90 0020 00       		.byte	0x0
+  91 0021 0B       		.uleb128 0xb
+  92 0022 0B       		.uleb128 0xb
+  93 0023 3E       		.uleb128 0x3e
+  94 0024 0B       		.uleb128 0xb
+  95 0025 00       		.byte	0x0
+  96 0026 00       		.byte	0x0
+  97 0027 00       		.byte	0x0
+  98              		.section	.debug_str,"MS",%progbits,1
+  99              	.LASF0:
+ 100 0000 474E5520 		.ascii	"GNU C 4.3.3\000"
+ 100      4320342E 
+ 100      332E3300 
+ 101              	.LASF1:
+ 102 000c 5352432F 		.ascii	"SRC/RTOS/lib_AT91SAM7X256.c\000"
+ 102      52544F53 
+ 102      2F6C6962 
+ 102      5F415439 
+ 102      3153414D 
+ 103              	.LASF3:
+ 104 0028 756E7369 		.ascii	"unsigned int\000"
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccNTne4B.s 			page 3
+
+
+ 104      676E6564 
+ 104      20696E74 
+ 104      00
+ 105              	.LASF2:
+ 106 0035 453A5C50 		.ascii	"E:\\Projekty\\ARM\\Eclipse\\AT91SAM7Sxxx_RTOS\000"
+ 106      726F6A65 
+ 106      6B74795C 
+ 106      41524D5C 
+ 106      45636C69 
+ 107              		.ident	"GCC: (GNU) 4.3.3"
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccNTne4B.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lib_AT91SAM7X256.c
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccNTne4B.s:37     .debug_info:00000000 $d
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,2994 @@
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 1
+
+
+   1              		.file	"croutine.c"
+   2              	@ GNU C (GCC) version 4.3.3 (arm-elf)
+   3              	@	compiled by GNU C version 3.4.5 (mingw special), GMP version 4.2.2, MPFR version 2.3.1.
+   4              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+   5              	@ options passed:  -I . -IINC/ -IINC/RTOS/ -imultilib interwork -iprefix
+   6              	@ d:\programy\mikrokontrolery\arm\yagarto\bin\../lib/gcc/arm-elf/4.3.3/ -MD
+   7              	@ SRC/RTOS/croutine.d -MF .dep/croutine.o.d -MP -MQ SRC/RTOS/croutine.o
+   8              	@ -D__USES_INITFINI__ SRC/RTOS/croutine.c -mcpu=arm7tdmi -mthumb-interwork
+   9              	@ -auxbase-strip SRC/RTOS/croutine.o -gdwarf-2 -O0 -Wall
+  10              	@ -Wstrict-prototypes -fomit-frame-pointer -fverbose-asm
+  11              	@ options enabled:  -falign-loops -fargument-alias -fauto-inc-dec
+  12              	@ -fbranch-count-reg -fcommon -fearly-inlining
+  13              	@ -feliminate-unused-debug-types -ffunction-cse -fgcse-lm -fident -fivopts
+  14              	@ -fkeep-static-consts -fleading-underscore -fmath-errno
+  15              	@ -fmerge-debug-strings -fmove-loop-invariants -fomit-frame-pointer
+  16              	@ -fpeephole -freg-struct-return -fsched-interblock -fsched-spec
+  17              	@ -fsched-stalled-insns-dep -fsigned-zeros -fsplit-ivs-in-unroller
+  18              	@ -ftoplevel-reorder -ftrapping-math -ftree-cselim -ftree-loop-im
+  19              	@ -ftree-loop-ivcanon -ftree-loop-optimize -ftree-parallelize-loops=
+  20              	@ -ftree-reassoc -ftree-scev-cprop -ftree-vect-loop-version -fverbose-asm
+  21              	@ -fzero-initialized-in-bss -mlittle-endian -msched-prolog
+  22              	@ -mthumb-interwork
+  23              	
+  24              		.section	.debug_abbrev,"",%progbits
+  25              	.Ldebug_abbrev0:
+  26              		.section	.debug_info,"",%progbits
+  27              	.Ldebug_info0:
+  28              		.section	.debug_line,"",%progbits
+  29              	.Ldebug_line0:
+  30 0000 E8000000 		.text
+  30      02005A00 
+  30      00000201 
+  30      FB0E0D00 
+  30      01010101 
+  31              	.Ltext0:
+  32              	@ Compiler executable checksum: aefe8b2555dadc8858779d7450a1d1fb
+  33              	
+  34              		.global	pxCurrentCoRoutine
+  35              		.bss
+  36              		.align	2
+  37              		.type	pxCurrentCoRoutine, %object
+  38              		.size	pxCurrentCoRoutine, 4
+  39              	pxCurrentCoRoutine:
+  40 0000 00000000 		.space	4
+  41              		.align	2
+  42              	uxTopCoRoutineReadyPriority:
+  43 0004 00000000 		.space	4
+  44              		.align	2
+  45              	xCoRoutineTickCount:
+  46 0008 00000000 		.space	4
+  47              		.align	2
+  48              	xLastTickCount:
+  49 000c 00000000 		.space	4
+  50              		.align	2
+  51              	xPassedTicks:
+  52 0010 00000000 		.space	4
+  53              		.text
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 2
+
+
+  54              		.align	2
+  55              		.global	xCoRoutineCreate
+  56              		.type	xCoRoutineCreate, %function
+  57              	xCoRoutineCreate:
+  58              	.LFB2:
+  59              		.file 1 "SRC/RTOS/croutine.c"
+   1:SRC/RTOS/croutine.c **** /*
+   2:SRC/RTOS/croutine.c ****     FreeRTOS V6.0.2 - Copyright (C) 2010 Real Time Engineers Ltd.
+   3:SRC/RTOS/croutine.c **** 
+   4:SRC/RTOS/croutine.c ****     ***************************************************************************
+   5:SRC/RTOS/croutine.c ****     *                                                                         *
+   6:SRC/RTOS/croutine.c ****     * If you are:                                                             *
+   7:SRC/RTOS/croutine.c ****     *                                                                         *
+   8:SRC/RTOS/croutine.c ****     *    + New to FreeRTOS,                                                   *
+   9:SRC/RTOS/croutine.c ****     *    + Wanting to learn FreeRTOS or multitasking in general quickly       *
+  10:SRC/RTOS/croutine.c ****     *    + Looking for basic training,                                        *
+  11:SRC/RTOS/croutine.c ****     *    + Wanting to improve your FreeRTOS skills and productivity           *
+  12:SRC/RTOS/croutine.c ****     *                                                                         *
+  13:SRC/RTOS/croutine.c ****     * then take a look at the FreeRTOS eBook                                  *
+  14:SRC/RTOS/croutine.c ****     *                                                                         *
+  15:SRC/RTOS/croutine.c ****     *        "Using the FreeRTOS Real Time Kernel - a Practical Guide"        *
+  16:SRC/RTOS/croutine.c ****     *                  http://www.FreeRTOS.org/Documentation                  *
+  17:SRC/RTOS/croutine.c ****     *                                                                         *
+  18:SRC/RTOS/croutine.c ****     * A pdf reference manual is also available.  Both are usually delivered   *
+  19:SRC/RTOS/croutine.c ****     * to your inbox within 20 minutes to two hours when purchased between 8am *
+  20:SRC/RTOS/croutine.c ****     * and 8pm GMT (although please allow up to 24 hours in case of            *
+  21:SRC/RTOS/croutine.c ****     * exceptional circumstances).  Thank you for your support!                *
+  22:SRC/RTOS/croutine.c ****     *                                                                         *
+  23:SRC/RTOS/croutine.c ****     ***************************************************************************
+  24:SRC/RTOS/croutine.c **** 
+  25:SRC/RTOS/croutine.c ****     This file is part of the FreeRTOS distribution.
+  26:SRC/RTOS/croutine.c **** 
+  27:SRC/RTOS/croutine.c ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  28:SRC/RTOS/croutine.c ****     the terms of the GNU General Public License (version 2) as published by the
+  29:SRC/RTOS/croutine.c ****     Free Software Foundation AND MODIFIED BY the FreeRTOS exception.
+  30:SRC/RTOS/croutine.c ****     ***NOTE*** The exception to the GPL is included to allow you to distribute
+  31:SRC/RTOS/croutine.c ****     a combined work that includes FreeRTOS without being obliged to provide the
+  32:SRC/RTOS/croutine.c ****     source code for proprietary components outside of the FreeRTOS kernel.
+  33:SRC/RTOS/croutine.c ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT
+  34:SRC/RTOS/croutine.c ****     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  35:SRC/RTOS/croutine.c ****     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+  36:SRC/RTOS/croutine.c ****     more details. You should have received a copy of the GNU General Public 
+  37:SRC/RTOS/croutine.c ****     License and the FreeRTOS license exception along with FreeRTOS; if not it 
+  38:SRC/RTOS/croutine.c ****     can be viewed here: http://www.freertos.org/a00114.html and also obtained 
+  39:SRC/RTOS/croutine.c ****     by writing to Richard Barry, contact details for whom are available on the
+  40:SRC/RTOS/croutine.c ****     FreeRTOS WEB site.
+  41:SRC/RTOS/croutine.c **** 
+  42:SRC/RTOS/croutine.c ****     1 tab == 4 spaces!
+  43:SRC/RTOS/croutine.c **** 
+  44:SRC/RTOS/croutine.c ****     http://www.FreeRTOS.org - Documentation, latest information, license and
+  45:SRC/RTOS/croutine.c ****     contact details.
+  46:SRC/RTOS/croutine.c **** 
+  47:SRC/RTOS/croutine.c ****     http://www.SafeRTOS.com - A version that is certified for use in safety
+  48:SRC/RTOS/croutine.c ****     critical systems.
+  49:SRC/RTOS/croutine.c **** 
+  50:SRC/RTOS/croutine.c ****     http://www.OpenRTOS.com - Commercial support, development, porting,
+  51:SRC/RTOS/croutine.c ****     licensing and training services.
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 3
+
+
+  52:SRC/RTOS/croutine.c **** */
+  53:SRC/RTOS/croutine.c **** 
+  54:SRC/RTOS/croutine.c **** #include "FreeRTOS.h"
+  55:SRC/RTOS/croutine.c **** #include "task.h"
+  56:SRC/RTOS/croutine.c **** #include "croutine.h"
+  57:SRC/RTOS/croutine.c **** 
+  58:SRC/RTOS/croutine.c **** /*
+  59:SRC/RTOS/croutine.c ****  * Some kernel aware debuggers require data to be viewed to be global, rather
+  60:SRC/RTOS/croutine.c ****  * than file scope.
+  61:SRC/RTOS/croutine.c ****  */
+  62:SRC/RTOS/croutine.c **** #ifdef portREMOVE_STATIC_QUALIFIER
+  63:SRC/RTOS/croutine.c **** 	#define static
+  64:SRC/RTOS/croutine.c **** #endif
+  65:SRC/RTOS/croutine.c **** 
+  66:SRC/RTOS/croutine.c **** 
+  67:SRC/RTOS/croutine.c **** /* Lists for ready and blocked co-routines. --------------------*/
+  68:SRC/RTOS/croutine.c **** static xList pxReadyCoRoutineLists[ configMAX_CO_ROUTINE_PRIORITIES ];	/*< Prioritised ready co-rou
+  69:SRC/RTOS/croutine.c **** static xList xDelayedCoRoutineList1;									/*< Delayed co-routines. */
+  70:SRC/RTOS/croutine.c **** static xList xDelayedCoRoutineList2;									/*< Delayed co-routines (two lists are used - one for 
+  71:SRC/RTOS/croutine.c **** static xList * pxDelayedCoRoutineList;									/*< Points to the delayed co-routine list currently 
+  72:SRC/RTOS/croutine.c **** static xList * pxOverflowDelayedCoRoutineList;							/*< Points to the delayed co-routine list curr
+  73:SRC/RTOS/croutine.c **** static xList xPendingReadyCoRoutineList;											/*< Holds co-routines that have been readied by 
+  74:SRC/RTOS/croutine.c **** 
+  75:SRC/RTOS/croutine.c **** /* Other file private variables. --------------------------------*/
+  76:SRC/RTOS/croutine.c **** corCRCB * pxCurrentCoRoutine = NULL;
+  77:SRC/RTOS/croutine.c **** static unsigned portBASE_TYPE uxTopCoRoutineReadyPriority = 0;
+  78:SRC/RTOS/croutine.c **** static portTickType xCoRoutineTickCount = 0, xLastTickCount = 0, xPassedTicks = 0;
+  79:SRC/RTOS/croutine.c **** 
+  80:SRC/RTOS/croutine.c **** /* The initial state of the co-routine when it is created. */
+  81:SRC/RTOS/croutine.c **** #define corINITIAL_STATE	( 0 )
+  82:SRC/RTOS/croutine.c **** 
+  83:SRC/RTOS/croutine.c **** /*
+  84:SRC/RTOS/croutine.c ****  * Place the co-routine represented by pxCRCB into the appropriate ready queue
+  85:SRC/RTOS/croutine.c ****  * for the priority.  It is inserted at the end of the list.
+  86:SRC/RTOS/croutine.c ****  *
+  87:SRC/RTOS/croutine.c ****  * This macro accesses the co-routine ready lists and therefore must not be
+  88:SRC/RTOS/croutine.c ****  * used from within an ISR.
+  89:SRC/RTOS/croutine.c ****  */
+  90:SRC/RTOS/croutine.c **** #define prvAddCoRoutineToReadyQueue( pxCRCB )																		\
+  91:SRC/RTOS/croutine.c **** {																													\
+  92:SRC/RTOS/croutine.c **** 	if( pxCRCB->uxPriority > uxTopCoRoutineReadyPriority )															\
+  93:SRC/RTOS/croutine.c **** 	{																												\
+  94:SRC/RTOS/croutine.c **** 		uxTopCoRoutineReadyPriority = pxCRCB->uxPriority;															\
+  95:SRC/RTOS/croutine.c **** 	}																												\
+  96:SRC/RTOS/croutine.c **** 	vListInsertEnd( ( xList * ) &( pxReadyCoRoutineLists[ pxCRCB->uxPriority ] ), &( pxCRCB->xGenericL
+  97:SRC/RTOS/croutine.c **** }	
+  98:SRC/RTOS/croutine.c **** 
+  99:SRC/RTOS/croutine.c **** /*
+ 100:SRC/RTOS/croutine.c ****  * Utility to ready all the lists used by the scheduler.  This is called
+ 101:SRC/RTOS/croutine.c ****  * automatically upon the creation of the first co-routine.
+ 102:SRC/RTOS/croutine.c ****  */
+ 103:SRC/RTOS/croutine.c **** static void prvInitialiseCoRoutineLists( void );
+ 104:SRC/RTOS/croutine.c **** 
+ 105:SRC/RTOS/croutine.c **** /*
+ 106:SRC/RTOS/croutine.c ****  * Co-routines that are readied by an interrupt cannot be placed directly into
+ 107:SRC/RTOS/croutine.c ****  * the ready lists (there is no mutual exclusion).  Instead they are placed in
+ 108:SRC/RTOS/croutine.c ****  * in the pending ready list in order that they can later be moved to the ready
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 4
+
+
+ 109:SRC/RTOS/croutine.c ****  * list by the co-routine scheduler.
+ 110:SRC/RTOS/croutine.c ****  */
+ 111:SRC/RTOS/croutine.c **** static void prvCheckPendingReadyList( void );
+ 112:SRC/RTOS/croutine.c **** 
+ 113:SRC/RTOS/croutine.c **** /*
+ 114:SRC/RTOS/croutine.c ****  * Macro that looks at the list of co-routines that are currently delayed to
+ 115:SRC/RTOS/croutine.c ****  * see if any require waking.
+ 116:SRC/RTOS/croutine.c ****  *
+ 117:SRC/RTOS/croutine.c ****  * Co-routines are stored in the queue in the order of their wake time -
+ 118:SRC/RTOS/croutine.c ****  * meaning once one co-routine has been found whose timer has not expired
+ 119:SRC/RTOS/croutine.c ****  * we need not look any further down the list.
+ 120:SRC/RTOS/croutine.c ****  */
+ 121:SRC/RTOS/croutine.c **** static void prvCheckDelayedList( void );
+ 122:SRC/RTOS/croutine.c **** 
+ 123:SRC/RTOS/croutine.c **** /*-----------------------------------------------------------*/
+ 124:SRC/RTOS/croutine.c **** 
+ 125:SRC/RTOS/croutine.c **** signed portBASE_TYPE xCoRoutineCreate( crCOROUTINE_CODE pxCoRoutineCode, unsigned portBASE_TYPE uxP
+ 126:SRC/RTOS/croutine.c **** {
+  60              	0, pretend = 0, frame = 20
+  61              		@ frame_needed = 0, uses_anonymous_args = 0
+  62              		str	lr, [sp, #-4]!	@,
+  63              	.LCFI0:
+  64 0000 04E02DE5 		sub	sp, sp, #20	@,,
+  65              	.LCFI1:
+  66 0004 14D04DE2 		str	r0, [sp, #8]	@ pxCoRoutineCode, pxCoRoutineCode
+  67              		str	r1, [sp, #4]	@ uxPriority, uxPriority
+  68 0008 08008DE5 		str	r2, [sp, #0]	@ uxIndex, uxIndex
+  69 000c 04108DE5 		.loc 1 131 0
+  70 0010 00208DE5 		mov	r0, #56	@,
+ 127:SRC/RTOS/croutine.c **** signed portBASE_TYPE xReturn;
+ 128:SRC/RTOS/croutine.c **** corCRCB *pxCoRoutine;
+ 129:SRC/RTOS/croutine.c **** 
+ 130:SRC/RTOS/croutine.c **** 	/* Allocate the memory that will store the co-routine control block. */
+ 131:SRC/RTOS/croutine.c **** 	pxCoRoutine = ( corCRCB * ) pvPortMalloc( sizeof( corCRCB ) );
+  71              	alloc	@
+  72 0014 3800A0E3 		mov	r3, r0	@ D.2963,
+  73 0018 FEFFFFEB 		str	r3, [sp, #16]	@ D.2963, pxCoRoutine
+  74 001c 0030A0E1 		.loc 1 132 0
+  75 0020 10308DE5 		ldr	r3, [sp, #16]	@ tmp147, pxCoRoutine
+ 132:SRC/RTOS/croutine.c **** 	if( pxCoRoutine )
+  76              	r3, #0	@ tmp147,
+  77 0024 10309DE5 		beq	.L2	@,
+  78 0028 000053E3 		.loc 1 136 0
+  79 002c 4300000A 		ldr	r3, .L8	@ tmp148,
+ 133:SRC/RTOS/croutine.c **** 	{
+ 134:SRC/RTOS/croutine.c **** 		/* If pxCurrentCoRoutine is NULL then this is the first co-routine to
+ 135:SRC/RTOS/croutine.c **** 		be created and the co-routine data structures need initialising. */
+ 136:SRC/RTOS/croutine.c **** 		if( pxCurrentCoRoutine == NULL )
+  80              		r3, [r3, #0]	@ pxCurrentCoRoutine.0, pxCurrentCoRoutine
+  81 0030 24319FE5 		cmp	r3, #0	@ pxCurrentCoRoutine.0,
+  82 0034 003093E5 		bne	.L3	@,
+  83 0038 000053E3 		.loc 1 138 0
+  84 003c 0300001A 		ldr	r2, .L8	@ tmp149,
+ 137:SRC/RTOS/croutine.c **** 		{
+ 138:SRC/RTOS/croutine.c **** 			pxCurrentCoRoutine = pxCoRoutine;
+  85              	r3, [sp, #16]	@ tmp150, pxCoRoutine
+  86 0040 14219FE5 		str	r3, [r2, #0]	@ tmp150, pxCurrentCoRoutine
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 5
+
+
+  87 0044 10309DE5 		.loc 1 139 0
+  88 0048 003082E5 		bl	prvInitialiseCoRoutineLists	@
+ 139:SRC/RTOS/croutine.c **** 			prvInitialiseCoRoutineLists();
+  89              	
+  90 004c 800100EB 		.loc 1 143 0
+  91              		ldr	r3, [sp, #4]	@ tmp151, uxPriority
+ 140:SRC/RTOS/croutine.c **** 		}
+ 141:SRC/RTOS/croutine.c **** 
+ 142:SRC/RTOS/croutine.c **** 		/* Check the priority is within limits. */
+ 143:SRC/RTOS/croutine.c **** 		if( uxPriority >= configMAX_CO_ROUTINE_PRIORITIES )
+  92              	mp	r3, #1	@ tmp151,
+  93 0050 04309DE5 		bls	.L4	@,
+  94 0054 010053E3 		.loc 1 145 0
+  95 0058 0100009A 		mov	r3, #1	@ tmp152,
+ 144:SRC/RTOS/croutine.c **** 		{
+ 145:SRC/RTOS/croutine.c **** 			uxPriority = configMAX_CO_ROUTINE_PRIORITIES - 1;
+  96              		r3, [sp, #4]	@ tmp152, uxPriority
+  97 005c 0130A0E3 	.L4:
+  98 0060 04308DE5 		.loc 1 149 0
+  99              		ldr	r2, [sp, #16]	@ tmp153, pxCoRoutine
+ 146:SRC/RTOS/croutine.c **** 		}
+ 147:SRC/RTOS/croutine.c **** 
+ 148:SRC/RTOS/croutine.c **** 		/* Fill out the co-routine control block from the function parameters. */
+ 149:SRC/RTOS/croutine.c **** 		pxCoRoutine->uxState = corINITIAL_STATE;
+ 100              		r3, #0	@ tmp155,
+ 101 0064 10209DE5 		strh	r3, [r2, #52]	@ movhi	@ tmp154, <variable>.uxState
+ 102 0068 0030A0E3 		.loc 1 150 0
+ 103 006c B433C2E1 		ldr	r2, [sp, #16]	@ tmp156, pxCoRoutine
+ 150:SRC/RTOS/croutine.c **** 		pxCoRoutine->uxPriority = uxPriority;
+ 104              		r3, [sp, #4]	@ tmp157, uxPriority
+ 105 0070 10209DE5 		str	r3, [r2, #44]	@ tmp157, <variable>.uxPriority
+ 106 0074 04309DE5 		.loc 1 151 0
+ 107 0078 2C3082E5 		ldr	r2, [sp, #16]	@ tmp158, pxCoRoutine
+ 151:SRC/RTOS/croutine.c **** 		pxCoRoutine->uxIndex = uxIndex;
+ 108              		r3, [sp, #0]	@ tmp159, uxIndex
+ 109 007c 10209DE5 		str	r3, [r2, #48]	@ tmp159, <variable>.uxIndex
+ 110 0080 00309DE5 		.loc 1 152 0
+ 111 0084 303082E5 		ldr	r2, [sp, #16]	@ tmp160, pxCoRoutine
+ 152:SRC/RTOS/croutine.c **** 		pxCoRoutine->pxCoRoutineFunction = pxCoRoutineCode;
+ 112              		r3, [sp, #8]	@ tmp161, pxCoRoutineCode
+ 113 0088 10209DE5 		str	r3, [r2, #0]	@ tmp161, <variable>.pxCoRoutineFunction
+ 114 008c 08309DE5 		.loc 1 155 0
+ 115 0090 003082E5 		ldr	r3, [sp, #16]	@ tmp162, pxCoRoutine
+ 153:SRC/RTOS/croutine.c **** 
+ 154:SRC/RTOS/croutine.c **** 		/* Initialise all the other co-routine control block parameters. */
+ 155:SRC/RTOS/croutine.c **** 		vListInitialiseItem( &( pxCoRoutine->xGenericListItem ) );
+ 116              		r3, r3, #4	@ D.2965, tmp162,
+ 117 0094 10309DE5 		mov	r0, r3	@, D.2965
+ 118 0098 043083E2 		bl	vListInitialiseItem	@
+ 119 009c 0300A0E1 		.loc 1 156 0
+ 120 00a0 FEFFFFEB 		ldr	r3, [sp, #16]	@ tmp163, pxCoRoutine
+ 156:SRC/RTOS/croutine.c **** 		vListInitialiseItem( &( pxCoRoutine->xEventListItem ) );
+ 121              	r3, r3, #24	@ D.2966, tmp163,
+ 122 00a4 10309DE5 		mov	r0, r3	@, D.2966
+ 123 00a8 183083E2 		bl	vListInitialiseItem	@
+ 124 00ac 0300A0E1 		.loc 1 161 0
+ 125 00b0 FEFFFFEB 		ldr	r2, [sp, #16]	@ tmp164, pxCoRoutine
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 6
+
+
+ 157:SRC/RTOS/croutine.c **** 
+ 158:SRC/RTOS/croutine.c **** 		/* Set the co-routine control block as a link back from the xListItem.
+ 159:SRC/RTOS/croutine.c **** 		This is so we can get back to the containing CRCB from a generic item
+ 160:SRC/RTOS/croutine.c **** 		in a list. */
+ 161:SRC/RTOS/croutine.c **** 		listSET_LIST_ITEM_OWNER( &( pxCoRoutine->xGenericListItem ), pxCoRoutine );
+ 126              	r3, [sp, #16]	@ tmp165, pxCoRoutine
+ 127 00b4 10209DE5 		str	r3, [r2, #16]	@ tmp165, <variable>.xGenericListItem.pvOwner
+ 128 00b8 10309DE5 		.loc 1 162 0
+ 129 00bc 103082E5 		ldr	r2, [sp, #16]	@ tmp166, pxCoRoutine
+ 162:SRC/RTOS/croutine.c **** 		listSET_LIST_ITEM_OWNER( &( pxCoRoutine->xEventListItem ), pxCoRoutine );
+ 130              		r3, [sp, #16]	@ tmp167, pxCoRoutine
+ 131 00c0 10209DE5 		str	r3, [r2, #36]	@ tmp167, <variable>.xEventListItem.pvOwner
+ 132 00c4 10309DE5 		.loc 1 165 0
+ 133 00c8 243082E5 		ldr	r3, [sp, #4]	@ tmp168, uxPriority
+ 163:SRC/RTOS/croutine.c **** 	
+ 164:SRC/RTOS/croutine.c **** 		/* Event lists are always in priority order. */
+ 165:SRC/RTOS/croutine.c **** 		listSET_LIST_ITEM_VALUE( &( pxCoRoutine->xEventListItem ), configMAX_PRIORITIES - ( portTickType 
+ 134              		r2, r3, #4	@ D.2967, tmp168,
+ 135 00cc 04309DE5 		ldr	r3, [sp, #16]	@ tmp169, pxCoRoutine
+ 136 00d0 042063E2 		str	r2, [r3, #24]	@ D.2967, <variable>.xEventListItem.xItemValue
+ 137 00d4 10309DE5 		.loc 1 169 0
+ 138 00d8 182083E5 		ldr	r3, [sp, #16]	@ tmp170, pxCoRoutine
+ 166:SRC/RTOS/croutine.c **** 		
+ 167:SRC/RTOS/croutine.c **** 		/* Now the co-routine has been initialised it can be added to the ready
+ 168:SRC/RTOS/croutine.c **** 		list at the correct priority. */
+ 169:SRC/RTOS/croutine.c **** 		prvAddCoRoutineToReadyQueue( pxCoRoutine );
+ 139              	r2, [r3, #44]	@ D.2968, <variable>.uxPriority
+ 140 00dc 10309DE5 		ldr	r3, .L8+4	@ tmp171,
+ 141 00e0 2C2093E5 		ldr	r3, [r3, #0]	@ uxTopCoRoutineReadyPriority.1, uxTopCoRoutineReadyPriority
+ 142 00e4 74309FE5 		cmp	r2, r3	@ D.2968, uxTopCoRoutineReadyPriority.1
+ 143 00e8 003093E5 		bls	.L5	@,
+ 144 00ec 030052E1 		ldr	r3, [sp, #16]	@ tmp172, pxCoRoutine
+ 145 00f0 0300009A 		ldr	r2, [r3, #44]	@ uxTopCoRoutineReadyPriority.2, <variable>.uxPriority
+ 146 00f4 10309DE5 		ldr	r3, .L8+4	@ tmp173,
+ 147 00f8 2C2093E5 		str	r2, [r3, #0]	@ uxTopCoRoutineReadyPriority.2, uxTopCoRoutineReadyPriority
+ 148 00fc 5C309FE5 	.L5:
+ 149 0100 002083E5 		ldr	r3, [sp, #16]	@ tmp174, pxCoRoutine
+ 150              		ldr	r3, [r3, #44]	@ D.2971, <variable>.uxPriority
+ 151 0104 10309DE5 		mov	r2, r3, asl #2	@ tmp176, tmp175,
+ 152 0108 2C3093E5 		mov	r3, r2, asl #2	@ tmp177, tmp176,
+ 153 010c 0321A0E1 		add	r2, r2, r3	@ D.2972, tmp176, tmp177
+ 154 0110 0231A0E1 		ldr	r3, .L8+8	@ tmp178,
+ 155 0114 032082E0 		add	r2, r2, r3	@ D.2973, D.2972, tmp178
+ 156 0118 44309FE5 		ldr	r3, [sp, #16]	@ tmp179, pxCoRoutine
+ 157 011c 032082E0 		add	r3, r3, #4	@ D.2974, tmp179,
+ 158 0120 10309DE5 		mov	r0, r2	@, D.2973
+ 159 0124 043083E2 		mov	r1, r3	@, D.2974
+ 160 0128 0200A0E1 		bl	vListInsertEnd	@
+ 161 012c 0310A0E1 		.loc 1 171 0
+ 162 0130 FEFFFFEB 		mov	r3, #1	@ tmp180,
+ 170:SRC/RTOS/croutine.c **** 
+ 171:SRC/RTOS/croutine.c **** 		xReturn = pdPASS;
+ 163              	180, xReturn
+ 164 0134 0130A0E3 		b	.L6	@
+ 165 0138 0C308DE5 	.L2:
+ 166 013c 010000EA 		.loc 1 175 0
+ 167              		mvn	r3, #0	@ tmp181,
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 7
+
+
+ 172:SRC/RTOS/croutine.c **** 	}
+ 173:SRC/RTOS/croutine.c **** 	else
+ 174:SRC/RTOS/croutine.c **** 	{		
+ 175:SRC/RTOS/croutine.c **** 		xReturn = errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY;
+ 168              	r3, [sp, #12]	@ tmp181, xReturn
+ 169 0140 0030E0E3 	.L6:
+ 170 0144 0C308DE5 		.loc 1 178 0
+ 171              		ldr	r3, [sp, #12]	@ D.2975, xReturn
+ 176:SRC/RTOS/croutine.c **** 	}
+ 177:SRC/RTOS/croutine.c **** 	
+ 178:SRC/RTOS/croutine.c **** 	return xReturn;	
+ 172              	c 1 179 0
+ 173 0148 0C309DE5 		mov	r0, r3	@, <result>
+ 179:SRC/RTOS/croutine.c **** }
+ 174              	dd	sp, sp, #20	@,,
+ 175 014c 0300A0E1 		ldr	lr, [sp], #4
+ 176 0150 14D08DE2 		bx	lr
+ 177 0154 04E09DE4 	.L9:
+ 178 0158 1EFF2FE1 		.align	2
+ 179              	.L8:
+ 180              		.word	pxCurrentCoRoutine
+ 181              		.word	uxTopCoRoutineReadyPriority
+ 182 015c 00000000 		.word	pxReadyCoRoutineLists
+ 183 0160 04000000 	.LFE2:
+ 184 0164 14000000 		.size	xCoRoutineCreate, .-xCoRoutineCreate
+ 185              		.align	2
+ 186              		.global	vCoRoutineAddToDelayedList
+ 187              		.type	vCoRoutineAddToDelayedList, %function
+ 188              	vCoRoutineAddToDelayedList:
+ 189              	.LFB3:
+ 190              		.loc 1 183 0
+ 191              		@ Function supports interworking.
+ 180:SRC/RTOS/croutine.c **** /*-----------------------------------------------------------*/
+ 181:SRC/RTOS/croutine.c **** 
+ 182:SRC/RTOS/croutine.c **** void vCoRoutineAddToDelayedList( portTickType xTicksToDelay, xList *pxEventList )
+ 183:SRC/RTOS/croutine.c **** {
+ 192              	nd = 0, frame = 12
+ 193              		@ frame_needed = 0, uses_anonymous_args = 0
+ 194              		str	lr, [sp, #-4]!	@,
+ 195              	.LCFI2:
+ 196 0168 04E02DE5 		sub	sp, sp, #12	@,,
+ 197              	.LCFI3:
+ 198 016c 0CD04DE2 		str	r0, [sp, #4]	@ xTicksToDelay, xTicksToDelay
+ 199              		str	r1, [sp, #0]	@ pxEventList, pxEventList
+ 200 0170 04008DE5 		.loc 1 188 0
+ 201 0174 00108DE5 		ldr	r3, .L15	@ tmp146,
+ 184:SRC/RTOS/croutine.c **** portTickType xTimeToWake;
+ 185:SRC/RTOS/croutine.c **** 
+ 186:SRC/RTOS/croutine.c **** 	/* Calculate the time to wake - this may overflow but this is
+ 187:SRC/RTOS/croutine.c **** 	not a problem. */
+ 188:SRC/RTOS/croutine.c **** 	xTimeToWake = xCoRoutineTickCount + xTicksToDelay;
+ 202              	r3, #0]	@ xCoRoutineTickCount.3, xCoRoutineTickCount
+ 203 0178 B8309FE5 		ldr	r3, [sp, #4]	@ tmp147, xTicksToDelay
+ 204 017c 002093E5 		add	r3, r2, r3	@ tmp148, xCoRoutineTickCount.3, tmp147
+ 205 0180 04309DE5 		str	r3, [sp, #8]	@ tmp148, xTimeToWake
+ 206 0184 033082E0 		.loc 1 193 0
+ 207 0188 08308DE5 		ldr	r3, .L15+4	@ tmp149,
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 8
+
+
+ 189:SRC/RTOS/croutine.c **** 
+ 190:SRC/RTOS/croutine.c **** 	/* We must remove ourselves from the ready list before adding
+ 191:SRC/RTOS/croutine.c **** 	ourselves to the blocked list as the same list item is used for
+ 192:SRC/RTOS/croutine.c **** 	both lists. */
+ 193:SRC/RTOS/croutine.c **** 	vListRemove( ( xListItem * ) &( pxCurrentCoRoutine->xGenericListItem ) );
+ 208              	3, [r3, #0]	@ pxCurrentCoRoutine.4, pxCurrentCoRoutine
+ 209 018c A8309FE5 		add	r3, r3, #4	@ D.2993, pxCurrentCoRoutine.4,
+ 210 0190 003093E5 		mov	r0, r3	@, D.2993
+ 211 0194 043083E2 		bl	vListRemove	@
+ 212 0198 0300A0E1 		.loc 1 196 0
+ 213 019c FEFFFFEB 		ldr	r3, .L15+4	@ tmp150,
+ 194:SRC/RTOS/croutine.c **** 
+ 195:SRC/RTOS/croutine.c **** 	/* The list item will be inserted in wake time order. */
+ 196:SRC/RTOS/croutine.c **** 	listSET_LIST_ITEM_VALUE( &( pxCurrentCoRoutine->xGenericListItem ), xTimeToWake );
+ 214              	2, [r3, #0]	@ pxCurrentCoRoutine.5, pxCurrentCoRoutine
+ 215 01a0 94309FE5 		ldr	r3, [sp, #8]	@ tmp151, xTimeToWake
+ 216 01a4 002093E5 		str	r3, [r2, #4]	@ tmp151, <variable>.xGenericListItem.xItemValue
+ 217 01a8 08309DE5 		.loc 1 198 0
+ 218 01ac 043082E5 		ldr	r3, .L15	@ tmp152,
+ 197:SRC/RTOS/croutine.c **** 
+ 198:SRC/RTOS/croutine.c **** 	if( xTimeToWake < xCoRoutineTickCount )
+ 219              	r2, [r3, #0]	@ xCoRoutineTickCount.6, xCoRoutineTickCount
+ 220 01b0 80309FE5 		ldr	r3, [sp, #8]	@ tmp153, xTimeToWake
+ 221 01b4 002093E5 		cmp	r3, r2	@ tmp153, xCoRoutineTickCount.6
+ 222 01b8 08309DE5 		bcs	.L11	@,
+ 223 01bc 020053E1 		.loc 1 202 0
+ 224 01c0 0800002A 		ldr	r3, .L15+8	@ tmp154,
+ 199:SRC/RTOS/croutine.c **** 	{
+ 200:SRC/RTOS/croutine.c **** 		/* Wake time has overflowed.  Place this item in the
+ 201:SRC/RTOS/croutine.c **** 		overflow list. */
+ 202:SRC/RTOS/croutine.c **** 		vListInsert( ( xList * ) pxOverflowDelayedCoRoutineList, ( xListItem * ) &( pxCurrentCoRoutine->x
+ 225              	2, [r3, #0]	@ pxOverflowDelayedCoRoutineList.7, pxOverflowDelayedCoRoutineList
+ 226 01c4 74309FE5 		ldr	r3, .L15+4	@ tmp155,
+ 227 01c8 002093E5 		ldr	r3, [r3, #0]	@ pxCurrentCoRoutine.8, pxCurrentCoRoutine
+ 228 01cc 68309FE5 		add	r3, r3, #4	@ D.2998, pxCurrentCoRoutine.8,
+ 229 01d0 003093E5 		mov	r0, r2	@, pxOverflowDelayedCoRoutineList.7
+ 230 01d4 043083E2 		mov	r1, r3	@, D.2998
+ 231 01d8 0200A0E1 		bl	vListInsert	@
+ 232 01dc 0310A0E1 		b	.L12	@
+ 233 01e0 FEFFFFEB 	.L11:
+ 234 01e4 070000EA 		.loc 1 208 0
+ 235              		ldr	r3, .L15+12	@ tmp156,
+ 203:SRC/RTOS/croutine.c **** 	}
+ 204:SRC/RTOS/croutine.c **** 	else
+ 205:SRC/RTOS/croutine.c **** 	{
+ 206:SRC/RTOS/croutine.c **** 		/* The wake time has not overflowed, so we can use the
+ 207:SRC/RTOS/croutine.c **** 		current block list. */
+ 208:SRC/RTOS/croutine.c **** 		vListInsert( ( xList * ) pxDelayedCoRoutineList, ( xListItem * ) &( pxCurrentCoRoutine->xGenericL
+ 236              	3, #0]	@ pxDelayedCoRoutineList.9, pxDelayedCoRoutineList
+ 237 01e8 54309FE5 		ldr	r3, .L15+4	@ tmp157,
+ 238 01ec 002093E5 		ldr	r3, [r3, #0]	@ pxCurrentCoRoutine.10, pxCurrentCoRoutine
+ 239 01f0 44309FE5 		add	r3, r3, #4	@ D.3001, pxCurrentCoRoutine.10,
+ 240 01f4 003093E5 		mov	r0, r2	@, pxDelayedCoRoutineList.9
+ 241 01f8 043083E2 		mov	r1, r3	@, D.3001
+ 242 01fc 0200A0E1 		bl	vListInsert	@
+ 243 0200 0310A0E1 	.L12:
+ 244 0204 FEFFFFEB 		.loc 1 211 0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 9
+
+
+ 245              		ldr	r3, [sp, #0]	@ tmp158, pxEventList
+ 209:SRC/RTOS/croutine.c **** 	}
+ 210:SRC/RTOS/croutine.c **** 
+ 211:SRC/RTOS/croutine.c **** 	if( pxEventList )
+ 246              	0	@ tmp158,
+ 247 0208 00309DE5 		beq	.L14	@,
+ 248 020c 000053E3 		.loc 1 215 0
+ 249 0210 0500000A 		ldr	r3, .L15+4	@ tmp159,
+ 212:SRC/RTOS/croutine.c **** 	{
+ 213:SRC/RTOS/croutine.c **** 		/* Also add the co-routine to an event list.  If this is done then the
+ 214:SRC/RTOS/croutine.c **** 		function must be called with interrupts disabled. */
+ 215:SRC/RTOS/croutine.c **** 		vListInsert( pxEventList, &( pxCurrentCoRoutine->xEventListItem ) );
+ 250              		r3, [r3, #0]	@ pxCurrentCoRoutine.11, pxCurrentCoRoutine
+ 251 0214 20309FE5 		add	r3, r3, #24	@ D.3003, pxCurrentCoRoutine.11,
+ 252 0218 003093E5 		ldr	r0, [sp, #0]	@, pxEventList
+ 253 021c 183083E2 		mov	r1, r3	@, D.3003
+ 254 0220 00009DE5 		bl	vListInsert	@
+ 255 0224 0310A0E1 	.L14:
+ 256 0228 FEFFFFEB 		.loc 1 217 0
+ 257              		add	sp, sp, #12	@,,
+ 216:SRC/RTOS/croutine.c **** 	}
+ 217:SRC/RTOS/croutine.c **** }
+ 258              	 [sp], #4
+ 259 022c 0CD08DE2 		bx	lr
+ 260 0230 04E09DE4 	.L16:
+ 261 0234 1EFF2FE1 		.align	2
+ 262              	.L15:
+ 263              		.word	xCoRoutineTickCount
+ 264              		.word	pxCurrentCoRoutine
+ 265 0238 08000000 		.word	pxOverflowDelayedCoRoutineList
+ 266 023c 00000000 		.word	pxDelayedCoRoutineList
+ 267 0240 68000000 	.LFE3:
+ 268 0244 64000000 		.size	vCoRoutineAddToDelayedList, .-vCoRoutineAddToDelayedList
+ 269              		.align	2
+ 270              		.type	prvCheckPendingReadyList, %function
+ 271              	prvCheckPendingReadyList:
+ 272              	.LFB4:
+ 273              		.loc 1 221 0
+ 274              		@ Function supports interworking.
+ 218:SRC/RTOS/croutine.c **** /*-----------------------------------------------------------*/
+ 219:SRC/RTOS/croutine.c **** 
+ 220:SRC/RTOS/croutine.c **** static void prvCheckPendingReadyList( void )
+ 221:SRC/RTOS/croutine.c **** {
+ 275              	end = 0, frame = 8
+ 276              		@ frame_needed = 0, uses_anonymous_args = 0
+ 277              		str	lr, [sp, #-4]!	@,
+ 278              	.LCFI4:
+ 279 0248 04E02DE5 		sub	sp, sp, #8	@,,
+ 280              	.LCFI5:
+ 281 024c 08D04DE2 		b	.L18	@
+ 282              	.L22:
+ 283 0250 340000EA 	.LBB2:
+ 284              		.loc 1 230 0
+ 285              	@ 230 "SRC/RTOS/croutine.c" 1
+ 222:SRC/RTOS/croutine.c **** 	/* Are there any co-routines waiting to get moved to the ready list?  These
+ 223:SRC/RTOS/croutine.c **** 	are co-routines that have been readied by an ISR.  The ISR cannot access
+ 224:SRC/RTOS/croutine.c **** 	the	ready lists itself. */
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 10
+
+
+ 225:SRC/RTOS/croutine.c **** 	while( !listLIST_IS_EMPTY( &xPendingReadyCoRoutineList ) )
+ 226:SRC/RTOS/croutine.c **** 	{
+ 227:SRC/RTOS/croutine.c **** 		corCRCB *pxUnblockedCRCB;
+ 228:SRC/RTOS/croutine.c **** 
+ 229:SRC/RTOS/croutine.c **** 		/* The pending ready list can be accessed by an ISR. */
+ 230:SRC/RTOS/croutine.c **** 		portDISABLE_INTERRUPTS();
+ 286              	 {R0}		
+ 287              		MRS	R0, CPSR		
+ 288 0254 01002DE9 		ORR	R0, R0, #0xC0	
+ 289 0258 00000FE1 		MSR	CPSR, R0		
+ 290 025c C00080E3 		LDMIA	SP!, {R0}			
+ 291 0260 00F029E1 	@ 0 "" 2
+ 292 0264 0100BDE8 		.loc 1 232 0
+ 293              		ldr	r3, .L24	@ tmp147,
+ 231:SRC/RTOS/croutine.c **** 		{	
+ 232:SRC/RTOS/croutine.c **** 			pxUnblockedCRCB = ( corCRCB * ) listGET_OWNER_OF_HEAD_ENTRY( (&xPendingReadyCoRoutineList) );			
+ 294              	 [r3, #0]	@ D.3017, xPendingReadyCoRoutineList.uxNumberOfItems
+ 295 0268 D4309FE5 		cmp	r3, #0	@ D.3017,
+ 296 026c 003093E5 		beq	.L19	@,
+ 297 0270 000053E3 		ldr	r3, .L24	@ tmp148,
+ 298 0274 0400000A 		ldr	r3, [r3, #12]	@ D.3018, xPendingReadyCoRoutineList.xListEnd.pxNext
+ 299 0278 C4309FE5 		ldr	r3, [r3, #12]	@ D.3019, <variable>.pvOwner
+ 300 027c 0C3093E5 		str	r3, [sp, #0]	@ D.3019, iftmp.12
+ 301 0280 0C3093E5 		b	.L20	@
+ 302 0284 00308DE5 	.L19:
+ 303 0288 010000EA 		mov	r3, #0	@,
+ 304              		str	r3, [sp, #0]	@, iftmp.12
+ 305 028c 0030A0E3 	.L20:
+ 306 0290 00308DE5 		ldr	r3, [sp, #0]	@, iftmp.12
+ 307              		str	r3, [sp, #4]	@, pxUnblockedCRCB
+ 308 0294 00309DE5 		.loc 1 233 0
+ 309 0298 04308DE5 		ldr	r3, [sp, #4]	@ tmp149, pxUnblockedCRCB
+ 233:SRC/RTOS/croutine.c **** 			vListRemove( &( pxUnblockedCRCB->xEventListItem ) );
+ 310              		@ D.3020, tmp149,
+ 311 029c 04309DE5 		mov	r0, r3	@, D.3020
+ 312 02a0 183083E2 		bl	vListRemove	@
+ 313 02a4 0300A0E1 		.loc 1 235 0
+ 314 02a8 FEFFFFEB 	@ 235 "SRC/RTOS/croutine.c" 1
+ 234:SRC/RTOS/croutine.c **** 		}
+ 235:SRC/RTOS/croutine.c **** 		portENABLE_INTERRUPTS();
+ 315              	B	SP!, {R0}		
+ 316              		MRS	R0, CPSR		
+ 317 02ac 01002DE9 		BIC	R0, R0, #0xC0	
+ 318 02b0 00000FE1 		MSR	CPSR, R0		
+ 319 02b4 C000C0E3 		LDMIA	SP!, {R0}			
+ 320 02b8 00F029E1 	@ 0 "" 2
+ 321 02bc 0100BDE8 		.loc 1 237 0
+ 322              		ldr	r3, [sp, #4]	@ tmp150, pxUnblockedCRCB
+ 236:SRC/RTOS/croutine.c **** 
+ 237:SRC/RTOS/croutine.c **** 		vListRemove( &( pxUnblockedCRCB->xGenericListItem ) );
+ 323              	 r3, #4	@ D.3021, tmp150,
+ 324 02c0 04309DE5 		mov	r0, r3	@, D.3021
+ 325 02c4 043083E2 		bl	vListRemove	@
+ 326 02c8 0300A0E1 		.loc 1 238 0
+ 327 02cc FEFFFFEB 		ldr	r3, [sp, #4]	@ tmp151, pxUnblockedCRCB
+ 238:SRC/RTOS/croutine.c **** 		prvAddCoRoutineToReadyQueue( pxUnblockedCRCB );	
+ 328              	r2, [r3, #44]	@ D.3022, <variable>.uxPriority
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 11
+
+
+ 329 02d0 04309DE5 		ldr	r3, .L24+4	@ tmp152,
+ 330 02d4 2C2093E5 		ldr	r3, [r3, #0]	@ uxTopCoRoutineReadyPriority.13, uxTopCoRoutineReadyPriority
+ 331 02d8 68309FE5 		cmp	r2, r3	@ D.3022, uxTopCoRoutineReadyPriority.13
+ 332 02dc 003093E5 		bls	.L21	@,
+ 333 02e0 030052E1 		ldr	r3, [sp, #4]	@ tmp153, pxUnblockedCRCB
+ 334 02e4 0300009A 		ldr	r2, [r3, #44]	@ uxTopCoRoutineReadyPriority.14, <variable>.uxPriority
+ 335 02e8 04309DE5 		ldr	r3, .L24+4	@ tmp154,
+ 336 02ec 2C2093E5 		str	r2, [r3, #0]	@ uxTopCoRoutineReadyPriority.14, uxTopCoRoutineReadyPriority
+ 337 02f0 50309FE5 	.L21:
+ 338 02f4 002083E5 		ldr	r3, [sp, #4]	@ tmp155, pxUnblockedCRCB
+ 339              		ldr	r3, [r3, #44]	@ D.3025, <variable>.uxPriority
+ 340 02f8 04309DE5 		mov	r2, r3, asl #2	@ tmp157, tmp156,
+ 341 02fc 2C3093E5 		mov	r3, r2, asl #2	@ tmp158, tmp157,
+ 342 0300 0321A0E1 		add	r2, r2, r3	@ D.3026, tmp157, tmp158
+ 343 0304 0231A0E1 		ldr	r3, .L24+8	@ tmp159,
+ 344 0308 032082E0 		add	r2, r2, r3	@ D.3027, D.3026, tmp159
+ 345 030c 38309FE5 		ldr	r3, [sp, #4]	@ tmp160, pxUnblockedCRCB
+ 346 0310 032082E0 		add	r3, r3, #4	@ D.3028, tmp160,
+ 347 0314 04309DE5 		mov	r0, r2	@, D.3027
+ 348 0318 043083E2 		mov	r1, r3	@, D.3028
+ 349 031c 0200A0E1 		bl	vListInsertEnd	@
+ 350 0320 0310A0E1 	.L18:
+ 351 0324 FEFFFFEB 	.LBE2:
+ 352              		.loc 1 225 0
+ 353              		ldr	r3, .L24	@ tmp161,
+ 354              		ldr	r3, [r3, #0]	@ D.3029, xPendingReadyCoRoutineList.uxNumberOfItems
+ 355 0328 14309FE5 		cmp	r3, #0	@ D.3029,
+ 356 032c 003093E5 		bne	.L22	@,
+ 357 0330 000053E3 		.loc 1 240 0
+ 358 0334 C6FFFF1A 		add	sp, sp, #8	@,,
+ 239:SRC/RTOS/croutine.c **** 	}
+ 240:SRC/RTOS/croutine.c **** }
+ 359              		.align	2
+ 360 0338 08D08DE2 	.L24:
+ 361 033c 04E09DE4 		.word	xPendingReadyCoRoutineList
+ 362 0340 1EFF2FE1 		.word	uxTopCoRoutineReadyPriority
+ 363              		.word	pxReadyCoRoutineLists
+ 364              	.LFE4:
+ 365              		.size	prvCheckPendingReadyList, .-prvCheckPendingReadyList
+ 366 0344 6C000000 		.align	2
+ 367 0348 04000000 		.type	prvCheckDelayedList, %function
+ 368 034c 14000000 	prvCheckDelayedList:
+ 369              	.LFB5:
+ 370              		.loc 1 244 0
+ 371              		@ Function supports interworking.
+ 372              		@ args = 0, pretend = 0, frame = 12
+ 373              		@ frame_needed = 0, uses_anonymous_args = 0
+ 374              		str	lr, [sp, #-4]!	@,
+ 241:SRC/RTOS/croutine.c **** /*-----------------------------------------------------------*/
+ 242:SRC/RTOS/croutine.c **** 
+ 243:SRC/RTOS/croutine.c **** static void prvCheckDelayedList( void )
+ 244:SRC/RTOS/croutine.c **** {
+ 375              	 sp, #12	@,,
+ 376              	.LCFI7:
+ 377              		.loc 1 247 0
+ 378              		bl	xTaskGetTickCount	@
+ 379 0350 04E02DE5 		mov	r2, r0	@ D.3046,
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 12
+
+
+ 380              		ldr	r3, .L37	@ tmp162,
+ 381 0354 0CD04DE2 		ldr	r3, [r3, #0]	@ xLastTickCount.15, xLastTickCount
+ 382              		rsb	r2, r3, r2	@ xPassedTicks.16, xLastTickCount.15, D.3046
+ 245:SRC/RTOS/croutine.c **** corCRCB *pxCRCB;
+ 246:SRC/RTOS/croutine.c **** 
+ 247:SRC/RTOS/croutine.c **** 	xPassedTicks = xTaskGetTickCount() - xLastTickCount;
+ 383              	 .L37+4	@ tmp163,
+ 384 0358 FEFFFFEB 		str	r2, [r3, #0]	@ xPassedTicks.16, xPassedTicks
+ 385 035c 0020A0E1 		b	.L27	@
+ 386 0360 B0319FE5 	.L35:
+ 387 0364 003093E5 		.loc 1 250 0
+ 388 0368 022063E0 		ldr	r3, .L37+8	@ tmp164,
+ 389 036c A8319FE5 		ldr	r3, [r3, #0]	@ xCoRoutineTickCount.17, xCoRoutineTickCount
+ 390 0370 002083E5 		add	r2, r3, #1	@ xCoRoutineTickCount.18, xCoRoutineTickCount.17,
+ 391 0374 5C0000EA 		ldr	r3, .L37+8	@ tmp165,
+ 392              		str	r2, [r3, #0]	@ xCoRoutineTickCount.18, xCoRoutineTickCount
+ 248:SRC/RTOS/croutine.c **** 	while( xPassedTicks )
+ 249:SRC/RTOS/croutine.c **** 	{
+ 250:SRC/RTOS/croutine.c **** 		xCoRoutineTickCount++;
+ 393              	1 0
+ 394 0378 A0319FE5 		ldr	r3, .L37+4	@ tmp166,
+ 395 037c 003093E5 		ldr	r3, [r3, #0]	@ xPassedTicks.19, xPassedTicks
+ 396 0380 012083E2 		sub	r2, r3, #1	@ xPassedTicks.20, xPassedTicks.19,
+ 397 0384 94319FE5 		ldr	r3, .L37+4	@ tmp167,
+ 398 0388 002083E5 		str	r2, [r3, #0]	@ xPassedTicks.20, xPassedTicks
+ 251:SRC/RTOS/croutine.c **** 		xPassedTicks--;
+ 399              	1 254 0
+ 400 038c 88319FE5 		ldr	r3, .L37+8	@ tmp168,
+ 401 0390 003093E5 		ldr	r3, [r3, #0]	@ xCoRoutineTickCount.21, xCoRoutineTickCount
+ 402 0394 012043E2 		cmp	r3, #0	@ xCoRoutineTickCount.21,
+ 403 0398 7C319FE5 		bne	.L29	@,
+ 404 039c 002083E5 	.LBB3:
+ 252:SRC/RTOS/croutine.c **** 
+ 253:SRC/RTOS/croutine.c **** 		/* If the tick count has overflowed we need to swap the ready lists. */
+ 254:SRC/RTOS/croutine.c **** 		if( xCoRoutineTickCount == 0 )
+ 405              	1 260 0
+ 406 03a0 78319FE5 		ldr	r3, .L37+12	@ tmp169,
+ 407 03a4 003093E5 		ldr	r3, [r3, #0]	@ tmp170, pxDelayedCoRoutineList
+ 408 03a8 000053E3 		str	r3, [sp, #8]	@ tmp170, pxTemp
+ 409 03ac 3C00001A 		.loc 1 261 0
+ 410              		ldr	r3, .L37+16	@ tmp171,
+ 255:SRC/RTOS/croutine.c **** 		{
+ 256:SRC/RTOS/croutine.c **** 			xList * pxTemp;
+ 257:SRC/RTOS/croutine.c **** 
+ 258:SRC/RTOS/croutine.c **** 			/* Tick count has overflowed so we need to swap the delay lists.  If there are
+ 259:SRC/RTOS/croutine.c **** 			any items in pxDelayedCoRoutineList here then there is an error! */
+ 260:SRC/RTOS/croutine.c **** 			pxTemp = pxDelayedCoRoutineList;
+ 411              	2, [r3, #0]	@ pxOverflowDelayedCoRoutineList.22, pxOverflowDelayedCoRoutineList
+ 412 03b0 6C319FE5 		ldr	r3, .L37+12	@ tmp172,
+ 413 03b4 003093E5 		str	r2, [r3, #0]	@ pxOverflowDelayedCoRoutineList.22, pxDelayedCoRoutineList
+ 414 03b8 08308DE5 		.loc 1 262 0
+ 261:SRC/RTOS/croutine.c **** 			pxDelayedCoRoutineList = pxOverflowDelayedCoRoutineList;
+ 415              		r2, .L37+16	@ tmp173,
+ 416 03bc 64319FE5 		ldr	r3, [sp, #8]	@ tmp174, pxTemp
+ 417 03c0 002093E5 		str	r3, [r2, #0]	@ tmp174, pxOverflowDelayedCoRoutineList
+ 418 03c4 58319FE5 		b	.L29	@
+ 419 03c8 002083E5 	.L34:
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 13
+
+
+ 262:SRC/RTOS/croutine.c **** 			pxOverflowDelayedCoRoutineList = pxTemp;
+ 420              	:
+ 421 03cc 54219FE5 		.loc 1 268 0
+ 422 03d0 08309DE5 		ldr	r3, [sp, #4]	@ tmp175, pxCRCB
+ 423 03d4 003082E5 		ldr	r2, [r3, #4]	@ D.3055, <variable>.xGenericListItem.xItemValue
+ 424 03d8 310000EA 		ldr	r3, .L37+8	@ tmp176,
+ 425              		ldr	r3, [r3, #0]	@ xCoRoutineTickCount.23, xCoRoutineTickCount
+ 426              		cmp	r2, r3	@ D.3055, xCoRoutineTickCount.23
+ 263:SRC/RTOS/croutine.c **** 		}
+ 264:SRC/RTOS/croutine.c **** 
+ 265:SRC/RTOS/croutine.c **** 		/* See if this tick has made a timeout expire. */
+ 266:SRC/RTOS/croutine.c **** 		while( ( pxCRCB = ( corCRCB * ) listGET_OWNER_OF_HEAD_ENTRY( pxDelayedCoRoutineList ) ) != NULL )
+ 267:SRC/RTOS/croutine.c **** 		{	
+ 268:SRC/RTOS/croutine.c **** 			if( xCoRoutineTickCount < listGET_LIST_ITEM_VALUE( &( pxCRCB->xGenericListItem ) ) )				
+ 427              	27	@,
+ 428 03dc 04309DE5 		.loc 1 274 0
+ 429 03e0 042093E5 	@ 274 "SRC/RTOS/croutine.c" 1
+ 430 03e4 34319FE5 		STMDB	SP!, {R0}		
+ 431 03e8 003093E5 		MRS	R0, CPSR		
+ 432 03ec 030052E1 		ORR	R0, R0, #0xC0	
+ 433 03f0 3D00008A 		MSR	CPSR, R0		
+ 269:SRC/RTOS/croutine.c **** 			{			
+ 270:SRC/RTOS/croutine.c **** 				/* Timeout not yet expired. */																			
+ 271:SRC/RTOS/croutine.c **** 				break;																				
+ 272:SRC/RTOS/croutine.c **** 			}																						
+ 273:SRC/RTOS/croutine.c **** 
+ 274:SRC/RTOS/croutine.c **** 			portDISABLE_INTERRUPTS();
+ 434              	SP!, {R0}			
+ 435              	@ 0 "" 2
+ 436 03f4 01002DE9 		.loc 1 281 0
+ 437 03f8 00000FE1 		ldr	r3, [sp, #4]	@ tmp177, pxCRCB
+ 438 03fc C00080E3 		add	r3, r3, #4	@ D.3057, tmp177,
+ 439 0400 00F029E1 		mov	r0, r3	@, D.3057
+ 440 0404 0100BDE8 		bl	vListRemove	@
+ 441              		.loc 1 284 0
+ 275:SRC/RTOS/croutine.c **** 			{
+ 276:SRC/RTOS/croutine.c **** 				/* The event could have occurred just before this critical
+ 277:SRC/RTOS/croutine.c **** 				section.  If this is the case then the generic list item will
+ 278:SRC/RTOS/croutine.c **** 				have been moved to the pending ready list and the following
+ 279:SRC/RTOS/croutine.c **** 				line is still valid.  Also the pvContainer parameter will have
+ 280:SRC/RTOS/croutine.c **** 				been set to NULL so the following lines are also valid. */
+ 281:SRC/RTOS/croutine.c **** 				vListRemove( &( pxCRCB->xGenericListItem ) );											
+ 442              	 [sp, #4]	@ tmp178, pxCRCB
+ 443 0408 04309DE5 		ldr	r3, [r3, #40]	@ D.3058, <variable>.xEventListItem.pvContainer
+ 444 040c 043083E2 		cmp	r3, #0	@ D.3058,
+ 445 0410 0300A0E1 		beq	.L30	@,
+ 446 0414 FEFFFFEB 		.loc 1 286 0
+ 282:SRC/RTOS/croutine.c **** 
+ 283:SRC/RTOS/croutine.c **** 				/* Is the co-routine waiting on an event also? */												
+ 284:SRC/RTOS/croutine.c **** 				if( pxCRCB->xEventListItem.pvContainer )													
+ 447              	r3, [sp, #4]	@ tmp179, pxCRCB
+ 448 0418 04309DE5 		add	r3, r3, #24	@ D.3059, tmp179,
+ 449 041c 283093E5 		mov	r0, r3	@, D.3059
+ 450 0420 000053E3 		bl	vListRemove	@
+ 451 0424 0300000A 	.L30:
+ 285:SRC/RTOS/croutine.c **** 				{															
+ 286:SRC/RTOS/croutine.c **** 					vListRemove( &( pxCRCB->xEventListItem ) );											
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 14
+
+
+ 452              	 1 289 0
+ 453 0428 04309DE5 	@ 289 "SRC/RTOS/croutine.c" 1
+ 454 042c 183083E2 		STMDB	SP!, {R0}		
+ 455 0430 0300A0E1 		MRS	R0, CPSR		
+ 456 0434 FEFFFFEB 		BIC	R0, R0, #0xC0	
+ 457              		MSR	CPSR, R0		
+ 287:SRC/RTOS/croutine.c **** 				}
+ 288:SRC/RTOS/croutine.c **** 			}
+ 289:SRC/RTOS/croutine.c **** 			portENABLE_INTERRUPTS();
+ 458              		SP!, {R0}			
+ 459              	@ 0 "" 2
+ 460 0438 01002DE9 		.loc 1 291 0
+ 461 043c 00000FE1 		ldr	r3, [sp, #4]	@ tmp180, pxCRCB
+ 462 0440 C000C0E3 		ldr	r2, [r3, #44]	@ D.3060, <variable>.uxPriority
+ 463 0444 00F029E1 		ldr	r3, .L37+20	@ tmp181,
+ 464 0448 0100BDE8 		ldr	r3, [r3, #0]	@ uxTopCoRoutineReadyPriority.24, uxTopCoRoutineReadyPriority
+ 465              		cmp	r2, r3	@ D.3060, uxTopCoRoutineReadyPriority.24
+ 290:SRC/RTOS/croutine.c **** 
+ 291:SRC/RTOS/croutine.c **** 			prvAddCoRoutineToReadyQueue( pxCRCB );													
+ 466              	1	@,
+ 467 044c 04309DE5 		ldr	r3, [sp, #4]	@ tmp182, pxCRCB
+ 468 0450 2C2093E5 		ldr	r2, [r3, #44]	@ uxTopCoRoutineReadyPriority.25, <variable>.uxPriority
+ 469 0454 D0309FE5 		ldr	r3, .L37+20	@ tmp183,
+ 470 0458 003093E5 		str	r2, [r3, #0]	@ uxTopCoRoutineReadyPriority.25, uxTopCoRoutineReadyPriority
+ 471 045c 030052E1 	.L31:
+ 472 0460 0300009A 		ldr	r3, [sp, #4]	@ tmp184, pxCRCB
+ 473 0464 04309DE5 		ldr	r3, [r3, #44]	@ D.3063, <variable>.uxPriority
+ 474 0468 2C2093E5 		mov	r2, r3, asl #2	@ tmp186, tmp185,
+ 475 046c B8309FE5 		mov	r3, r2, asl #2	@ tmp187, tmp186,
+ 476 0470 002083E5 		add	r2, r2, r3	@ D.3064, tmp186, tmp187
+ 477              		ldr	r3, .L37+24	@ tmp188,
+ 478 0474 04309DE5 		add	r2, r2, r3	@ D.3065, D.3064, tmp188
+ 479 0478 2C3093E5 		ldr	r3, [sp, #4]	@ tmp189, pxCRCB
+ 480 047c 0321A0E1 		add	r3, r3, #4	@ D.3066, tmp189,
+ 481 0480 0231A0E1 		mov	r0, r2	@, D.3065
+ 482 0484 032082E0 		mov	r1, r3	@, D.3066
+ 483 0488 A0309FE5 		bl	vListInsertEnd	@
+ 484 048c 032082E0 	.L29:
+ 485 0490 04309DE5 		.loc 1 266 0
+ 486 0494 043083E2 		ldr	r3, .L37+12	@ tmp190,
+ 487 0498 0200A0E1 		ldr	r3, [r3, #0]	@ pxDelayedCoRoutineList.27, pxDelayedCoRoutineList
+ 488 049c 0310A0E1 		ldr	r3, [r3, #0]	@ D.3069, <variable>.uxNumberOfItems
+ 489 04a0 FEFFFFEB 		cmp	r3, #0	@ D.3069,
+ 490              		beq	.L32	@,
+ 491              		ldr	r3, .L37+12	@ tmp191,
+ 492 04a4 78309FE5 		ldr	r3, [r3, #0]	@ pxDelayedCoRoutineList.28, pxDelayedCoRoutineList
+ 493 04a8 003093E5 		ldr	r3, [r3, #12]	@ D.3071, <variable>.xListEnd.pxNext
+ 494 04ac 003093E5 		ldr	r3, [r3, #12]	@ D.3072, <variable>.pvOwner
+ 495 04b0 000053E3 		str	r3, [sp, #0]	@ D.3072, iftmp.26
+ 496 04b4 0500000A 		b	.L33	@
+ 497 04b8 64309FE5 	.L32:
+ 498 04bc 003093E5 		mov	r3, #0	@,
+ 499 04c0 0C3093E5 		str	r3, [sp, #0]	@, iftmp.26
+ 500 04c4 0C3093E5 	.L33:
+ 501 04c8 00308DE5 		ldr	r3, [sp, #0]	@, iftmp.26
+ 502 04cc 010000EA 		str	r3, [sp, #4]	@, pxCRCB
+ 503              		ldr	r3, [sp, #4]	@ tmp192, pxCRCB
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 15
+
+
+ 504 04d0 0030A0E3 		cmp	r3, #0	@ tmp192,
+ 505 04d4 00308DE5 		bne	.L34	@,
+ 506              	.L27:
+ 507 04d8 00309DE5 		.loc 1 248 0
+ 508 04dc 04308DE5 		ldr	r3, .L37+4	@ tmp193,
+ 509 04e0 04309DE5 		ldr	r3, [r3, #0]	@ xPassedTicks.29, xPassedTicks
+ 510 04e4 000053E3 		cmp	r3, #0	@ xPassedTicks.29,
+ 511 04e8 BBFFFF1A 		bne	.L35	@,
+ 512              		.loc 1 295 0
+ 513              		ldr	r3, .L37+8	@ tmp194,
+ 514 04ec 28309FE5 		ldr	r2, [r3, #0]	@ xCoRoutineTickCount.30, xCoRoutineTickCount
+ 515 04f0 003093E5 		ldr	r3, .L37	@ tmp195,
+ 516 04f4 000053E3 		str	r2, [r3, #0]	@ xCoRoutineTickCount.30, xLastTickCount
+ 517 04f8 9EFFFF1A 		.loc 1 296 0
+ 292:SRC/RTOS/croutine.c **** 		}																									
+ 293:SRC/RTOS/croutine.c **** 	}
+ 294:SRC/RTOS/croutine.c **** 
+ 295:SRC/RTOS/croutine.c **** 	xLastTickCount = xCoRoutineTickCount;
+ 518              		.align	2
+ 519 04fc 1C309FE5 	.L37:
+ 520 0500 002093E5 		.word	xLastTickCount
+ 521 0504 0C309FE5 		.word	xPassedTicks
+ 522 0508 002083E5 		.word	xCoRoutineTickCount
+ 296:SRC/RTOS/croutine.c **** }
+ 523              	d	pxDelayedCoRoutineList
+ 524 050c 0CD08DE2 		.word	pxOverflowDelayedCoRoutineList
+ 525 0510 04E09DE4 		.word	uxTopCoRoutineReadyPriority
+ 526 0514 1EFF2FE1 		.word	pxReadyCoRoutineLists
+ 527              	.LFE5:
+ 528              		.size	prvCheckDelayedList, .-prvCheckDelayedList
+ 529              		.align	2
+ 530 0518 0C000000 		.global	vCoRoutineSchedule
+ 531 051c 10000000 		.type	vCoRoutineSchedule, %function
+ 532 0520 08000000 	vCoRoutineSchedule:
+ 533 0524 64000000 	.LFB6:
+ 534 0528 68000000 		.loc 1 300 0
+ 535 052c 04000000 		@ Function supports interworking.
+ 536 0530 14000000 		@ args = 0, pretend = 0, frame = 4
+ 537              		@ frame_needed = 0, uses_anonymous_args = 0
+ 538              		str	lr, [sp, #-4]!	@,
+ 539              	.LCFI8:
+ 540              		sub	sp, sp, #4	@,,
+ 541              	.LCFI9:
+ 542              		.loc 1 302 0
+ 543              		bl	prvCheckPendingReadyList	@
+ 297:SRC/RTOS/croutine.c **** /*-----------------------------------------------------------*/
+ 298:SRC/RTOS/croutine.c **** 
+ 299:SRC/RTOS/croutine.c **** void vCoRoutineSchedule( void )
+ 300:SRC/RTOS/croutine.c **** {
+ 544              	CheckDelayedList	@
+ 545              		b	.L40	@
+ 546              	.L42:
+ 547              		.loc 1 310 0
+ 548 0534 04E02DE5 		ldr	r3, .L45	@ tmp157,
+ 549              		ldr	r3, [r3, #0]	@ uxTopCoRoutineReadyPriority.31, uxTopCoRoutineReadyPriority
+ 550 0538 04D04DE2 		cmp	r3, #0	@ uxTopCoRoutineReadyPriority.31,
+ 551              		beq	.L44	@,
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 16
+
+
+ 301:SRC/RTOS/croutine.c **** 	/* See if any co-routines readied by events need moving to the ready lists. */
+ 302:SRC/RTOS/croutine.c **** 	prvCheckPendingReadyList();
+ 552              	315 0
+ 553 053c 41FFFFEB 		ldr	r3, .L45	@ tmp158,
+ 303:SRC/RTOS/croutine.c **** 
+ 304:SRC/RTOS/croutine.c **** 	/* See if any delayed co-routines have timed out. */
+ 305:SRC/RTOS/croutine.c **** 	prvCheckDelayedList();
+ 554              	dr	r3, [r3, #0]	@ uxTopCoRoutineReadyPriority.32, uxTopCoRoutineReadyPriority
+ 555 0540 82FFFFEB 		sub	r2, r3, #1	@ uxTopCoRoutineReadyPriority.33, uxTopCoRoutineReadyPriority.32,
+ 556 0544 080000EA 		ldr	r3, .L45	@ tmp159,
+ 557              		str	r2, [r3, #0]	@ uxTopCoRoutineReadyPriority.33, uxTopCoRoutineReadyPriority
+ 306:SRC/RTOS/croutine.c **** 
+ 307:SRC/RTOS/croutine.c **** 	/* Find the highest priority queue that contains ready co-routines. */
+ 308:SRC/RTOS/croutine.c **** 	while( listLIST_IS_EMPTY( &( pxReadyCoRoutineLists[ uxTopCoRoutineReadyPriority ] ) ) )
+ 309:SRC/RTOS/croutine.c **** 	{
+ 310:SRC/RTOS/croutine.c **** 		if( uxTopCoRoutineReadyPriority == 0 )
+ 558              	:
+ 559 0548 F8309FE5 		.loc 1 308 0
+ 560 054c 003093E5 		ldr	r3, .L45	@ tmp160,
+ 561 0550 000053E3 		ldr	r3, [r3, #0]	@ uxTopCoRoutineReadyPriority.34, uxTopCoRoutineReadyPriority
+ 562 0554 3800000A 		mov	r2, r3, asl #2	@ tmp162, tmp161,
+ 311:SRC/RTOS/croutine.c **** 		{
+ 312:SRC/RTOS/croutine.c **** 			/* No more co-routines to check. */
+ 313:SRC/RTOS/croutine.c **** 			return;
+ 314:SRC/RTOS/croutine.c **** 		}
+ 315:SRC/RTOS/croutine.c **** 		--uxTopCoRoutineReadyPriority;
+ 563              	r3, r2, asl #2	@ tmp163, tmp162,
+ 564 0558 E8309FE5 		add	r2, r2, r3	@ D.3096, tmp162, tmp163
+ 565 055c 003093E5 		ldr	r3, .L45+4	@ tmp164,
+ 566 0560 012043E2 		add	r3, r2, r3	@ D.3097, D.3096, tmp164
+ 567 0564 DC309FE5 		ldr	r3, [r3, #0]	@ D.3098, <variable>.uxNumberOfItems
+ 568 0568 002083E5 		cmp	r3, #0	@ D.3098,
+ 569              		beq	.L42	@,
+ 570              	.LBB4:
+ 571 056c D4309FE5 		.loc 1 320 0
+ 572 0570 003093E5 		ldr	r3, .L45	@ tmp165,
+ 573 0574 0321A0E1 		ldr	r3, [r3, #0]	@ uxTopCoRoutineReadyPriority.35, uxTopCoRoutineReadyPriority
+ 574 0578 0231A0E1 		mov	r2, r3, asl #2	@ tmp167, tmp166,
+ 575 057c 032082E0 		mov	r3, r2, asl #2	@ tmp168, tmp167,
+ 576 0580 C4309FE5 		add	r2, r2, r3	@ D.3100, tmp167, tmp168
+ 577 0584 033082E0 		ldr	r3, .L45+4	@ tmp169,
+ 578 0588 003093E5 		add	r3, r2, r3	@ tmp170, D.3100, tmp169
+ 579 058c 000053E3 		str	r3, [sp, #0]	@ tmp170, pxConstList
+ 580 0590 ECFFFF0A 		ldr	r3, [sp, #0]	@ tmp171, pxConstList
+ 581              		ldr	r3, [r3, #4]	@ D.3101, <variable>.pxIndex
+ 316:SRC/RTOS/croutine.c **** 	}
+ 317:SRC/RTOS/croutine.c **** 
+ 318:SRC/RTOS/croutine.c **** 	/* listGET_OWNER_OF_NEXT_ENTRY walks through the list, so the co-routines
+ 319:SRC/RTOS/croutine.c **** 	 of the	same priority get an equal share of the processor time. */
+ 320:SRC/RTOS/croutine.c **** 	listGET_OWNER_OF_NEXT_ENTRY( pxCurrentCoRoutine, &( pxReadyCoRoutineLists[ uxTopCoRoutineReadyPrio
+ 582              	 D.3102, <variable>.pxNext
+ 583 0594 AC309FE5 		ldr	r3, [sp, #0]	@ tmp172, pxConstList
+ 584 0598 003093E5 		str	r2, [r3, #4]	@ D.3102, <variable>.pxIndex
+ 585 059c 0321A0E1 		ldr	r3, [sp, #0]	@ tmp173, pxConstList
+ 586 05a0 0231A0E1 		ldr	r2, [r3, #4]	@ D.3103, <variable>.pxIndex
+ 587 05a4 032082E0 		ldr	r3, [sp, #0]	@ tmp174, pxConstList
+ 588 05a8 9C309FE5 		add	r3, r3, #8	@ D.3104, tmp174,
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 17
+
+
+ 589 05ac 033082E0 		cmp	r2, r3	@ D.3103, D.3105
+ 590 05b0 00308DE5 		bne	.L43	@,
+ 591 05b4 00309DE5 		ldr	r3, [sp, #0]	@ tmp175, pxConstList
+ 592 05b8 043093E5 		ldr	r3, [r3, #4]	@ D.3106, <variable>.pxIndex
+ 593 05bc 042093E5 		ldr	r2, [r3, #4]	@ D.3107, <variable>.pxNext
+ 594 05c0 00309DE5 		ldr	r3, [sp, #0]	@ tmp176, pxConstList
+ 595 05c4 042083E5 		str	r2, [r3, #4]	@ D.3107, <variable>.pxIndex
+ 596 05c8 00309DE5 	.L43:
+ 597 05cc 042093E5 		ldr	r3, [sp, #0]	@ tmp177, pxConstList
+ 598 05d0 00309DE5 		ldr	r3, [r3, #4]	@ D.3108, <variable>.pxIndex
+ 599 05d4 083083E2 		ldr	r3, [r3, #12]	@ D.3109, <variable>.pvOwner
+ 600 05d8 030052E1 		mov	r2, r3	@ pxCurrentCoRoutine.36, D.3109
+ 601 05dc 0400001A 		ldr	r3, .L45+8	@ tmp178,
+ 602 05e0 00309DE5 		str	r2, [r3, #0]	@ pxCurrentCoRoutine.36, pxCurrentCoRoutine
+ 603 05e4 043093E5 	.LBE4:
+ 604 05e8 042093E5 		.loc 1 323 0
+ 605 05ec 00309DE5 		ldr	r3, .L45+8	@ tmp179,
+ 606 05f0 042083E5 		ldr	r3, [r3, #0]	@ pxCurrentCoRoutine.37, pxCurrentCoRoutine
+ 607              		ldr	ip, [r3, #0]	@ D.3112, <variable>.pxCoRoutineFunction
+ 608 05f4 00309DE5 		ldr	r3, .L45+8	@ tmp180,
+ 609 05f8 043093E5 		ldr	r2, [r3, #0]	@ pxCurrentCoRoutine.38, pxCurrentCoRoutine
+ 610 05fc 0C3093E5 		ldr	r3, .L45+8	@ tmp181,
+ 611 0600 0320A0E1 		ldr	r3, [r3, #0]	@ pxCurrentCoRoutine.39, pxCurrentCoRoutine
+ 612 0604 44309FE5 		ldr	r3, [r3, #48]	@ D.3115, <variable>.uxIndex
+ 613 0608 002083E5 		mov	r0, r2	@, pxCurrentCoRoutine.38
+ 614              		mov	r1, r3	@, D.3115
+ 321:SRC/RTOS/croutine.c **** 
+ 322:SRC/RTOS/croutine.c **** 	/* Call the co-routine. */
+ 323:SRC/RTOS/croutine.c **** 	( pxCurrentCoRoutine->pxCoRoutineFunction )( pxCurrentCoRoutine, pxCurrentCoRoutine->uxIndex );
+ 615              	
+ 616 060c 3C309FE5 		.loc 1 326 0
+ 617 0610 003093E5 		add	sp, sp, #4	@,,
+ 618 0614 00C093E5 		ldr	lr, [sp], #4
+ 619 0618 30309FE5 		bx	lr
+ 620 061c 002093E5 	.L46:
+ 621 0620 28309FE5 		.align	2
+ 622 0624 003093E5 	.L45:
+ 623 0628 303093E5 		.word	uxTopCoRoutineReadyPriority
+ 624 062c 0200A0E1 		.word	pxReadyCoRoutineLists
+ 625 0630 0310A0E1 		.word	pxCurrentCoRoutine
+ 626 0634 0FE0A0E1 	.LFE6:
+ 627 0638 1CFF2FE1 		.size	vCoRoutineSchedule, .-vCoRoutineSchedule
+ 628              		.align	2
+ 324:SRC/RTOS/croutine.c **** 
+ 325:SRC/RTOS/croutine.c **** 	return;
+ 326:SRC/RTOS/croutine.c **** }
+ 629              	tialiseCoRoutineLists, %function
+ 630 063c 04D08DE2 	prvInitialiseCoRoutineLists:
+ 631 0640 04E09DE4 	.LFB7:
+ 632 0644 1EFF2FE1 		.loc 1 330 0
+ 633              		@ Function supports interworking.
+ 634              		@ args = 0, pretend = 0, frame = 4
+ 635              		@ frame_needed = 0, uses_anonymous_args = 0
+ 636 0648 04000000 		str	lr, [sp, #-4]!	@,
+ 637 064c 14000000 	.LCFI10:
+ 638 0650 00000000 		sub	sp, sp, #4	@,,
+ 639              	.LCFI11:
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 18
+
+
+ 640              		.loc 1 333 0
+ 641              		mov	r3, #0	@ tmp135,
+ 642              		str	r3, [sp, #0]	@ tmp135, uxPriority
+ 643              		b	.L48	@
+ 644              	.L49:
+ 327:SRC/RTOS/croutine.c **** /*-----------------------------------------------------------*/
+ 328:SRC/RTOS/croutine.c **** 
+ 329:SRC/RTOS/croutine.c **** static void prvInitialiseCoRoutineLists( void )
+ 330:SRC/RTOS/croutine.c **** {
+ 645              	dr	r3, [sp, #0]	@ tmp136, uxPriority
+ 646              		mov	r2, r3, asl #2	@ tmp138, tmp137,
+ 647              		mov	r3, r2, asl #2	@ tmp139, tmp138,
+ 648              		add	r2, r2, r3	@ D.3127, tmp138, tmp139
+ 649 0654 04E02DE5 		ldr	r3, .L51	@ tmp140,
+ 650              		add	r3, r2, r3	@ D.3128, D.3127, tmp140
+ 651 0658 04D04DE2 		mov	r0, r3	@, D.3128
+ 652              		bl	vListInitialise	@
+ 331:SRC/RTOS/croutine.c **** unsigned portBASE_TYPE uxPriority;
+ 332:SRC/RTOS/croutine.c **** 
+ 333:SRC/RTOS/croutine.c **** 	for( uxPriority = 0; uxPriority < configMAX_CO_ROUTINE_PRIORITIES; uxPriority++ )
+ 653              	333 0
+ 654 065c 0030A0E3 		ldr	r3, [sp, #0]	@ tmp141, uxPriority
+ 655 0660 00308DE5 		add	r3, r3, #1	@ tmp142, tmp141,
+ 656 0664 0A0000EA 		str	r3, [sp, #0]	@ tmp142, uxPriority
+ 657              	.L48:
+ 334:SRC/RTOS/croutine.c **** 	{
+ 335:SRC/RTOS/croutine.c **** 		vListInitialise( ( xList * ) &( pxReadyCoRoutineLists[ uxPriority ] ) );
+ 658              	r3, [sp, #0]	@ tmp143, uxPriority
+ 659 0668 00309DE5 		cmp	r3, #1	@ tmp143,
+ 660 066c 0321A0E1 		bls	.L49	@,
+ 661 0670 0231A0E1 		.loc 1 338 0
+ 662 0674 032082E0 		ldr	r0, .L51+4	@,
+ 663 0678 5C309FE5 		bl	vListInitialise	@
+ 664 067c 033082E0 		.loc 1 339 0
+ 665 0680 0300A0E1 		ldr	r0, .L51+8	@,
+ 666 0684 FEFFFFEB 		bl	vListInitialise	@
+ 667              		.loc 1 340 0
+ 668 0688 00309DE5 		ldr	r0, .L51+12	@,
+ 669 068c 013083E2 		bl	vListInitialise	@
+ 670 0690 00308DE5 		.loc 1 344 0
+ 671              		ldr	r2, .L51+16	@ tmp144,
+ 672 0694 00309DE5 		ldr	r3, .L51+4	@ tmp145,
+ 673 0698 010053E3 		str	r3, [r2, #0]	@ tmp145, pxDelayedCoRoutineList
+ 674 069c F1FFFF9A 		.loc 1 345 0
+ 336:SRC/RTOS/croutine.c **** 	}
+ 337:SRC/RTOS/croutine.c **** 
+ 338:SRC/RTOS/croutine.c **** 	vListInitialise( ( xList * ) &xDelayedCoRoutineList1 );
+ 675              	@ tmp146,
+ 676 06a0 38009FE5 		ldr	r3, .L51+8	@ tmp147,
+ 677 06a4 FEFFFFEB 		str	r3, [r2, #0]	@ tmp147, pxOverflowDelayedCoRoutineList
+ 339:SRC/RTOS/croutine.c **** 	vListInitialise( ( xList * ) &xDelayedCoRoutineList2 );
+ 678              	oc 1 346 0
+ 679 06a8 34009FE5 		add	sp, sp, #4	@,,
+ 680 06ac FEFFFFEB 		ldr	lr, [sp], #4
+ 340:SRC/RTOS/croutine.c **** 	vListInitialise( ( xList * ) &xPendingReadyCoRoutineList );
+ 681              		lr
+ 682 06b0 30009FE5 	.L52:
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 19
+
+
+ 683 06b4 FEFFFFEB 		.align	2
+ 341:SRC/RTOS/croutine.c **** 
+ 342:SRC/RTOS/croutine.c **** 	/* Start with pxDelayedCoRoutineList using list1 and the
+ 343:SRC/RTOS/croutine.c **** 	pxOverflowDelayedCoRoutineList using list2. */
+ 344:SRC/RTOS/croutine.c **** 	pxDelayedCoRoutineList = &xDelayedCoRoutineList1;
+ 684              	1:
+ 685 06b8 2C209FE5 		.word	pxReadyCoRoutineLists
+ 686 06bc 1C309FE5 		.word	xDelayedCoRoutineList1
+ 687 06c0 003082E5 		.word	xDelayedCoRoutineList2
+ 345:SRC/RTOS/croutine.c **** 	pxOverflowDelayedCoRoutineList = &xDelayedCoRoutineList2;
+ 688              	rd	xPendingReadyCoRoutineList
+ 689 06c4 24209FE5 		.word	pxDelayedCoRoutineList
+ 690 06c8 14309FE5 		.word	pxOverflowDelayedCoRoutineList
+ 691 06cc 003082E5 	.LFE7:
+ 346:SRC/RTOS/croutine.c **** }
+ 692              	ze	prvInitialiseCoRoutineLists, .-prvInitialiseCoRoutineLists
+ 693 06d0 04D08DE2 		.align	2
+ 694 06d4 04E09DE4 		.global	xCoRoutineRemoveFromEventList
+ 695 06d8 1EFF2FE1 		.type	xCoRoutineRemoveFromEventList, %function
+ 696              	xCoRoutineRemoveFromEventList:
+ 697              	.LFB8:
+ 698              		.loc 1 350 0
+ 699 06dc 14000000 		@ Function supports interworking.
+ 700 06e0 3C000000 		@ args = 0, pretend = 0, frame = 16
+ 701 06e4 50000000 		@ frame_needed = 0, uses_anonymous_args = 0
+ 702 06e8 6C000000 		str	lr, [sp, #-4]!	@,
+ 703 06ec 64000000 	.LCFI12:
+ 704 06f0 68000000 		sub	sp, sp, #16	@,,
+ 705              	.LCFI13:
+ 706              		str	r0, [sp, #4]	@ pxEventList, pxEventList
+ 707              		.loc 1 356 0
+ 708              		ldr	r3, [sp, #4]	@ tmp144, pxEventList
+ 709              		ldr	r3, [r3, #0]	@ D.3135, <variable>.uxNumberOfItems
+ 710              		cmp	r3, #0	@ D.3135,
+ 711              		beq	.L54	@,
+ 347:SRC/RTOS/croutine.c **** /*-----------------------------------------------------------*/
+ 348:SRC/RTOS/croutine.c **** 
+ 349:SRC/RTOS/croutine.c **** signed portBASE_TYPE xCoRoutineRemoveFromEventList( const xList *pxEventList )
+ 350:SRC/RTOS/croutine.c **** {
+ 712              	tmp145, pxEventList
+ 713              		ldr	r3, [r3, #12]	@ D.3136, <variable>.xListEnd.pxNext
+ 714              		ldr	r3, [r3, #12]	@ D.3137, <variable>.pvOwner
+ 715              		str	r3, [sp, #0]	@ D.3137, iftmp.40
+ 716 06f4 04E02DE5 		b	.L55	@
+ 717              	.L54:
+ 718 06f8 10D04DE2 		mov	r3, #0	@,
+ 719              		str	r3, [sp, #0]	@, iftmp.40
+ 720 06fc 04008DE5 	.L55:
+ 351:SRC/RTOS/croutine.c **** corCRCB *pxUnblockedCRCB;
+ 352:SRC/RTOS/croutine.c **** signed portBASE_TYPE xReturn;
+ 353:SRC/RTOS/croutine.c **** 
+ 354:SRC/RTOS/croutine.c **** 	/* This function is called from within an interrupt.  It can only access
+ 355:SRC/RTOS/croutine.c **** 	event lists and the pending ready list. */
+ 356:SRC/RTOS/croutine.c **** 	pxUnblockedCRCB = ( corCRCB * ) listGET_OWNER_OF_HEAD_ENTRY( pxEventList );
+ 721              	[sp, #0]	@, iftmp.40
+ 722 0700 04309DE5 		str	r3, [sp, #8]	@, pxUnblockedCRCB
+ 723 0704 003093E5 		.loc 1 357 0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 20
+
+
+ 724 0708 000053E3 		ldr	r3, [sp, #8]	@ tmp146, pxUnblockedCRCB
+ 725 070c 0400000A 		add	r3, r3, #24	@ D.3138, tmp146,
+ 726 0710 04309DE5 		mov	r0, r3	@, D.3138
+ 727 0714 0C3093E5 		bl	vListRemove	@
+ 728 0718 0C3093E5 		.loc 1 358 0
+ 729 071c 00308DE5 		ldr	r3, [sp, #8]	@ tmp147, pxUnblockedCRCB
+ 730 0720 010000EA 		add	r3, r3, #24	@ D.3139, tmp147,
+ 731              		ldr	r0, .L59	@,
+ 732 0724 0030A0E3 		mov	r1, r3	@, D.3139
+ 733 0728 00308DE5 		bl	vListInsertEnd	@
+ 734              		.loc 1 360 0
+ 735 072c 00309DE5 		ldr	r3, [sp, #8]	@ tmp148, pxUnblockedCRCB
+ 736 0730 08308DE5 		ldr	r2, [r3, #44]	@ D.3140, <variable>.uxPriority
+ 357:SRC/RTOS/croutine.c **** 	vListRemove( &( pxUnblockedCRCB->xEventListItem ) );
+ 737              	@ tmp149,
+ 738 0734 08309DE5 		ldr	r3, [r3, #0]	@ pxCurrentCoRoutine.41, pxCurrentCoRoutine
+ 739 0738 183083E2 		ldr	r3, [r3, #44]	@ D.3142, <variable>.uxPriority
+ 740 073c 0300A0E1 		cmp	r2, r3	@ D.3140, D.3142
+ 741 0740 FEFFFFEB 		bcc	.L56	@,
+ 358:SRC/RTOS/croutine.c **** 	vListInsertEnd( ( xList * ) &( xPendingReadyCoRoutineList ), &( pxUnblockedCRCB->xEventListItem ) 
+ 742              	 1 362 0
+ 743 0744 08309DE5 		mov	r3, #1	@ tmp150,
+ 744 0748 183083E2 		str	r3, [sp, #12]	@ tmp150, xReturn
+ 745 074c 48009FE5 		b	.L57	@
+ 746 0750 0310A0E1 	.L56:
+ 747 0754 FEFFFFEB 		.loc 1 366 0
+ 359:SRC/RTOS/croutine.c **** 
+ 360:SRC/RTOS/croutine.c **** 	if( pxUnblockedCRCB->uxPriority >= pxCurrentCoRoutine->uxPriority )
+ 748              	3, #0	@ tmp151,
+ 749 0758 08309DE5 		str	r3, [sp, #12]	@ tmp151, xReturn
+ 750 075c 2C2093E5 	.L57:
+ 751 0760 38309FE5 		.loc 1 369 0
+ 752 0764 003093E5 		ldr	r3, [sp, #12]	@ D.3143, xReturn
+ 753 0768 2C3093E5 		.loc 1 370 0
+ 754 076c 030052E1 		mov	r0, r3	@, <result>
+ 755 0770 0200003A 		add	sp, sp, #16	@,,
+ 361:SRC/RTOS/croutine.c **** 	{
+ 362:SRC/RTOS/croutine.c **** 		xReturn = pdTRUE;
+ 756              	 [sp], #4
+ 757 0774 0130A0E3 		bx	lr
+ 758 0778 0C308DE5 	.L60:
+ 759 077c 010000EA 		.align	2
+ 760              	.L59:
+ 363:SRC/RTOS/croutine.c **** 	}
+ 364:SRC/RTOS/croutine.c **** 	else
+ 365:SRC/RTOS/croutine.c **** 	{
+ 366:SRC/RTOS/croutine.c **** 		xReturn = pdFALSE;
+ 761              	d	xPendingReadyCoRoutineList
+ 762 0780 0030A0E3 		.word	pxCurrentCoRoutine
+ 763 0784 0C308DE5 	.LFE8:
+ 764              		.size	xCoRoutineRemoveFromEventList, .-xCoRoutineRemoveFromEventList
+ 367:SRC/RTOS/croutine.c **** 	}
+ 368:SRC/RTOS/croutine.c **** 
+ 369:SRC/RTOS/croutine.c **** 	return xReturn;
+ 765              	s
+ 766 0788 0C309DE5 		.align	2
+ 370:SRC/RTOS/croutine.c **** }
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 21
+
+
+ 767              	ReadyCoRoutineLists:
+ 768 078c 0300A0E1 		.space	40
+ 769 0790 10D08DE2 		.align	2
+ 770 0794 04E09DE4 	xDelayedCoRoutineList1:
+ 771 0798 1EFF2FE1 		.space	20
+ 772              		.align	2
+ 773              	xDelayedCoRoutineList2:
+ 774              		.space	20
+ 775 079c 6C000000 		.align	2
+ 776 07a0 00000000 	pxDelayedCoRoutineList:
+ 777              		.space	4
+ 778              		.align	2
+ 779              	pxOverflowDelayedCoRoutineList:
+ 780              		.space	4
+ 781              		.align	2
+ 782 0014 00000000 	xPendingReadyCoRoutineList:
+ 782      00000000 
+ 782      00000000 
+ 782      00000000 
+ 782      00000000 
+ 783              		.space	20
+ 784              		.section	.debug_frame,"",%progbits
+ 785 003c 00000000 	.Lframe0:
+ 785      00000000 
+ 785      00000000 
+ 785      00000000 
+ 785      00000000 
+ 786              		.4byte	.LECIE0-.LSCIE0
+ 787              	.LSCIE0:
+ 788 0050 00000000 		.4byte	0xffffffff
+ 788      00000000 
+ 788      00000000 
+ 788      00000000 
+ 788      00000000 
+ 789              		.byte	0x1
+ 790              		.ascii	"\000"
+ 791 0064 00000000 		.uleb128 0x1
+ 792              		.sleb128 -4
+ 793              		.byte	0xe
+ 794 0068 00000000 		.byte	0xc
+ 795              		.uleb128 0xd
+ 796              		.uleb128 0x0
+ 797 006c 00000000 		.align	2
+ 797      00000000 
+ 797      00000000 
+ 797      00000000 
+ 797      00000000 
+ 798              	.LECIE0:
+ 799              	.LSFDE0:
+ 800 0000 0C000000 		.4byte	.LEFDE0-.LASFDE0
+ 801              	.LASFDE0:
+ 802 0004 FFFFFFFF 		.4byte	.Lframe0
+ 803 0008 01       		.4byte	.LFB2
+ 804 0009 00       		.4byte	.LFE2-.LFB2
+ 805 000a 01       		.byte	0x4
+ 806 000b 7C       		.4byte	.LCFI0-.LFB2
+ 807 000c 0E       		.byte	0xe
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 22
+
+
+ 808 000d 0C       		.uleb128 0x4
+ 809 000e 0D       		.byte	0x4
+ 810 000f 00       		.4byte	.LCFI1-.LCFI0
+ 811              		.byte	0xe
+ 812              		.uleb128 0x18
+ 813              		.byte	0x8e
+ 814 0010 14000000 		.uleb128 0x1
+ 815              		.align	2
+ 816 0014 00000000 	.LEFDE0:
+ 817 0018 00000000 	.LSFDE2:
+ 818 001c 68010000 		.4byte	.LEFDE2-.LASFDE2
+ 819 0020 44       	.LASFDE2:
+ 820              		.4byte	.Lframe0
+ 821 0021 0E       		.4byte	.LFB3
+ 822 0022 04       		.4byte	.LFE3-.LFB3
+ 823 0023 44       		.byte	0x4
+ 824              		.4byte	.LCFI2-.LFB3
+ 825 0024 0E       		.byte	0xe
+ 826 0025 18       		.uleb128 0x4
+ 827 0026 8E       		.byte	0x4
+ 828 0027 01       		.4byte	.LCFI3-.LCFI2
+ 829              		.byte	0xe
+ 830              		.uleb128 0x10
+ 831              		.byte	0x8e
+ 832 0028 14000000 		.uleb128 0x1
+ 833              		.align	2
+ 834 002c 00000000 	.LEFDE2:
+ 835 0030 68010000 	.LSFDE4:
+ 836 0034 E0000000 		.4byte	.LEFDE4-.LASFDE4
+ 837 0038 44       	.LASFDE4:
+ 838              		.4byte	.Lframe0
+ 839 0039 0E       		.4byte	.LFB4
+ 840 003a 04       		.4byte	.LFE4-.LFB4
+ 841 003b 44       		.byte	0x4
+ 842              		.4byte	.LCFI4-.LFB4
+ 843 003c 0E       		.byte	0xe
+ 844 003d 10       		.uleb128 0x4
+ 845 003e 8E       		.byte	0x4
+ 846 003f 01       		.4byte	.LCFI5-.LCFI4
+ 847              		.byte	0xe
+ 848              		.uleb128 0xc
+ 849              		.byte	0x8e
+ 850 0040 14000000 		.uleb128 0x1
+ 851              		.align	2
+ 852 0044 00000000 	.LEFDE4:
+ 853 0048 48020000 	.LSFDE6:
+ 854 004c 08010000 		.4byte	.LEFDE6-.LASFDE6
+ 855 0050 44       	.LASFDE6:
+ 856              		.4byte	.Lframe0
+ 857 0051 0E       		.4byte	.LFB5
+ 858 0052 04       		.4byte	.LFE5-.LFB5
+ 859 0053 44       		.byte	0x4
+ 860              		.4byte	.LCFI6-.LFB5
+ 861 0054 0E       		.byte	0xe
+ 862 0055 0C       		.uleb128 0x4
+ 863 0056 8E       		.byte	0x4
+ 864 0057 01       		.4byte	.LCFI7-.LCFI6
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 23
+
+
+ 865              		.byte	0xe
+ 866              		.uleb128 0x10
+ 867              		.byte	0x8e
+ 868 0058 14000000 		.uleb128 0x1
+ 869              		.align	2
+ 870 005c 00000000 	.LEFDE6:
+ 871 0060 50030000 	.LSFDE8:
+ 872 0064 E4010000 		.4byte	.LEFDE8-.LASFDE8
+ 873 0068 44       	.LASFDE8:
+ 874              		.4byte	.Lframe0
+ 875 0069 0E       		.4byte	.LFB6
+ 876 006a 04       		.4byte	.LFE6-.LFB6
+ 877 006b 44       		.byte	0x4
+ 878              		.4byte	.LCFI8-.LFB6
+ 879 006c 0E       		.byte	0xe
+ 880 006d 10       		.uleb128 0x4
+ 881 006e 8E       		.byte	0x4
+ 882 006f 01       		.4byte	.LCFI9-.LCFI8
+ 883              		.byte	0xe
+ 884              		.uleb128 0x8
+ 885              		.byte	0x8e
+ 886 0070 14000000 		.uleb128 0x1
+ 887              		.align	2
+ 888 0074 00000000 	.LEFDE8:
+ 889 0078 34050000 	.LSFDE10:
+ 890 007c 20010000 		.4byte	.LEFDE10-.LASFDE10
+ 891 0080 44       	.LASFDE10:
+ 892              		.4byte	.Lframe0
+ 893 0081 0E       		.4byte	.LFB7
+ 894 0082 04       		.4byte	.LFE7-.LFB7
+ 895 0083 44       		.byte	0x4
+ 896              		.4byte	.LCFI10-.LFB7
+ 897 0084 0E       		.byte	0xe
+ 898 0085 08       		.uleb128 0x4
+ 899 0086 8E       		.byte	0x4
+ 900 0087 01       		.4byte	.LCFI11-.LCFI10
+ 901              		.byte	0xe
+ 902              		.uleb128 0x8
+ 903              		.byte	0x8e
+ 904 0088 14000000 		.uleb128 0x1
+ 905              		.align	2
+ 906 008c 00000000 	.LEFDE10:
+ 907 0090 54060000 	.LSFDE12:
+ 908 0094 A0000000 		.4byte	.LEFDE12-.LASFDE12
+ 909 0098 44       	.LASFDE12:
+ 910              		.4byte	.Lframe0
+ 911 0099 0E       		.4byte	.LFB8
+ 912 009a 04       		.4byte	.LFE8-.LFB8
+ 913 009b 44       		.byte	0x4
+ 914              		.4byte	.LCFI12-.LFB8
+ 915 009c 0E       		.byte	0xe
+ 916 009d 08       		.uleb128 0x4
+ 917 009e 8E       		.byte	0x4
+ 918 009f 01       		.4byte	.LCFI13-.LCFI12
+ 919              		.byte	0xe
+ 920              		.uleb128 0x14
+ 921              		.byte	0x8e
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 24
+
+
+ 922 00a0 14000000 		.uleb128 0x1
+ 923              		.align	2
+ 924 00a4 00000000 	.LEFDE12:
+ 925 00a8 F4060000 		.text
+ 926 00ac B0000000 	.Letext0:
+ 927 00b0 44       		.section	.debug_loc,"",%progbits
+ 928              	.Ldebug_loc0:
+ 929 00b1 0E       	.LLST0:
+ 930 00b2 04       		.4byte	.LFB2-.Ltext0
+ 931 00b3 44       		.4byte	.LCFI0-.Ltext0
+ 932              		.2byte	0x1
+ 933 00b4 0E       		.byte	0x5d
+ 934 00b5 14       		.4byte	.LCFI0-.Ltext0
+ 935 00b6 8E       		.4byte	.LCFI1-.Ltext0
+ 936 00b7 01       		.2byte	0x2
+ 937              		.byte	0x7d
+ 938              		.sleb128 4
+ 939              		.4byte	.LCFI1-.Ltext0
+ 940              		.4byte	.LFE2-.Ltext0
+ 941              		.2byte	0x2
+ 942              		.byte	0x7d
+ 943              		.sleb128 24
+ 944 0000 00000000 		.4byte	0x0
+ 945 0004 04000000 		.4byte	0x0
+ 946 0008 0100     	.LLST1:
+ 947 000a 5D       		.4byte	.LFB3-.Ltext0
+ 948 000b 04000000 		.4byte	.LCFI2-.Ltext0
+ 949 000f 08000000 		.2byte	0x1
+ 950 0013 0200     		.byte	0x5d
+ 951 0015 7D       		.4byte	.LCFI2-.Ltext0
+ 952 0016 04       		.4byte	.LCFI3-.Ltext0
+ 953 0017 08000000 		.2byte	0x2
+ 954 001b 68010000 		.byte	0x7d
+ 955 001f 0200     		.sleb128 4
+ 956 0021 7D       		.4byte	.LCFI3-.Ltext0
+ 957 0022 18       		.4byte	.LFE3-.Ltext0
+ 958 0023 00000000 		.2byte	0x2
+ 959 0027 00000000 		.byte	0x7d
+ 960              		.sleb128 16
+ 961 002b 68010000 		.4byte	0x0
+ 962 002f 6C010000 		.4byte	0x0
+ 963 0033 0100     	.LLST2:
+ 964 0035 5D       		.4byte	.LFB4-.Ltext0
+ 965 0036 6C010000 		.4byte	.LCFI4-.Ltext0
+ 966 003a 70010000 		.2byte	0x1
+ 967 003e 0200     		.byte	0x5d
+ 968 0040 7D       		.4byte	.LCFI4-.Ltext0
+ 969 0041 04       		.4byte	.LCFI5-.Ltext0
+ 970 0042 70010000 		.2byte	0x2
+ 971 0046 48020000 		.byte	0x7d
+ 972 004a 0200     		.sleb128 4
+ 973 004c 7D       		.4byte	.LCFI5-.Ltext0
+ 974 004d 10       		.4byte	.LFE4-.Ltext0
+ 975 004e 00000000 		.2byte	0x2
+ 976 0052 00000000 		.byte	0x7d
+ 977              		.sleb128 12
+ 978 0056 48020000 		.4byte	0x0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 25
+
+
+ 979 005a 4C020000 		.4byte	0x0
+ 980 005e 0100     	.LLST3:
+ 981 0060 5D       		.4byte	.LFB5-.Ltext0
+ 982 0061 4C020000 		.4byte	.LCFI6-.Ltext0
+ 983 0065 50020000 		.2byte	0x1
+ 984 0069 0200     		.byte	0x5d
+ 985 006b 7D       		.4byte	.LCFI6-.Ltext0
+ 986 006c 04       		.4byte	.LCFI7-.Ltext0
+ 987 006d 50020000 		.2byte	0x2
+ 988 0071 50030000 		.byte	0x7d
+ 989 0075 0200     		.sleb128 4
+ 990 0077 7D       		.4byte	.LCFI7-.Ltext0
+ 991 0078 0C       		.4byte	.LFE5-.Ltext0
+ 992 0079 00000000 		.2byte	0x2
+ 993 007d 00000000 		.byte	0x7d
+ 994              		.sleb128 16
+ 995 0081 50030000 		.4byte	0x0
+ 996 0085 54030000 		.4byte	0x0
+ 997 0089 0100     	.LLST4:
+ 998 008b 5D       		.4byte	.LFB6-.Ltext0
+ 999 008c 54030000 		.4byte	.LCFI8-.Ltext0
+ 1000 0090 58030000 		.2byte	0x1
+ 1001 0094 0200     		.byte	0x5d
+ 1002 0096 7D       		.4byte	.LCFI8-.Ltext0
+ 1003 0097 04       		.4byte	.LCFI9-.Ltext0
+ 1004 0098 58030000 		.2byte	0x2
+ 1005 009c 34050000 		.byte	0x7d
+ 1006 00a0 0200     		.sleb128 4
+ 1007 00a2 7D       		.4byte	.LCFI9-.Ltext0
+ 1008 00a3 10       		.4byte	.LFE6-.Ltext0
+ 1009 00a4 00000000 		.2byte	0x2
+ 1010 00a8 00000000 		.byte	0x7d
+ 1011              		.sleb128 8
+ 1012 00ac 34050000 		.4byte	0x0
+ 1013 00b0 38050000 		.4byte	0x0
+ 1014 00b4 0100     	.LLST5:
+ 1015 00b6 5D       		.4byte	.LFB7-.Ltext0
+ 1016 00b7 38050000 		.4byte	.LCFI10-.Ltext0
+ 1017 00bb 3C050000 		.2byte	0x1
+ 1018 00bf 0200     		.byte	0x5d
+ 1019 00c1 7D       		.4byte	.LCFI10-.Ltext0
+ 1020 00c2 04       		.4byte	.LCFI11-.Ltext0
+ 1021 00c3 3C050000 		.2byte	0x2
+ 1022 00c7 54060000 		.byte	0x7d
+ 1023 00cb 0200     		.sleb128 4
+ 1024 00cd 7D       		.4byte	.LCFI11-.Ltext0
+ 1025 00ce 08       		.4byte	.LFE7-.Ltext0
+ 1026 00cf 00000000 		.2byte	0x2
+ 1027 00d3 00000000 		.byte	0x7d
+ 1028              		.sleb128 8
+ 1029 00d7 54060000 		.4byte	0x0
+ 1030 00db 58060000 		.4byte	0x0
+ 1031 00df 0100     	.LLST6:
+ 1032 00e1 5D       		.4byte	.LFB8-.Ltext0
+ 1033 00e2 58060000 		.4byte	.LCFI12-.Ltext0
+ 1034 00e6 5C060000 		.2byte	0x1
+ 1035 00ea 0200     		.byte	0x5d
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 26
+
+
+ 1036 00ec 7D       		.4byte	.LCFI12-.Ltext0
+ 1037 00ed 04       		.4byte	.LCFI13-.Ltext0
+ 1038 00ee 5C060000 		.2byte	0x2
+ 1039 00f2 F4060000 		.byte	0x7d
+ 1040 00f6 0200     		.sleb128 4
+ 1041 00f8 7D       		.4byte	.LCFI13-.Ltext0
+ 1042 00f9 08       		.4byte	.LFE8-.Ltext0
+ 1043 00fa 00000000 		.2byte	0x2
+ 1044 00fe 00000000 		.byte	0x7d
+ 1045              		.sleb128 20
+ 1046 0102 F4060000 		.4byte	0x0
+ 1047 0106 F8060000 		.4byte	0x0
+ 1048 010a 0100     		.file 2 "INC/RTOS/list.h"
+ 1049 010c 5D       		.file 3 "INC/RTOS/portmacro.h"
+ 1050 010d F8060000 		.file 4 "INC/RTOS/croutine.h"
+ 1051 0111 FC060000 		.section	.debug_info
+ 1052 0115 0200     		.4byte	0x4c8
+ 1053 0117 7D       		.2byte	0x2
+ 1054 0118 04       		.4byte	.Ldebug_abbrev0
+ 1055 0119 FC060000 		.byte	0x4
+ 1056 011d A4070000 		.uleb128 0x1
+ 1057 0121 0200     		.4byte	.LASF62
+ 1058 0123 7D       		.byte	0x1
+ 1059 0124 14       		.4byte	.LASF63
+ 1060 0125 00000000 		.4byte	.LASF64
+ 1061 0129 00000000 		.4byte	.Ltext0
+ 1062              		.4byte	.Letext0
+ 1063              		.4byte	.Ldebug_line0
+ 1064              		.uleb128 0x2
+ 1065              		.byte	0x4
+ 1066 0000 C8040000 		.byte	0x5
+ 1067 0004 0200     		.4byte	.LASF0
+ 1068 0006 00000000 		.uleb128 0x2
+ 1069 000a 04       		.byte	0x4
+ 1070 000b 01       		.byte	0x7
+ 1071 000c C0000000 		.4byte	.LASF1
+ 1072 0010 01       		.uleb128 0x3
+ 1073 0011 6C000000 		.byte	0x4
+ 1074 0015 2E020000 		.byte	0x5
+ 1075 0019 00000000 		.ascii	"int\000"
+ 1076 001d A4070000 		.uleb128 0x4
+ 1077 0021 00000000 		.byte	0x4
+ 1078 0025 02       		.uleb128 0x2
+ 1079 0026 04       		.byte	0x1
+ 1080 0027 05       		.byte	0x6
+ 1081 0028 3B010000 		.4byte	.LASF2
+ 1082 002c 02       		.uleb128 0x2
+ 1083 002d 04       		.byte	0x1
+ 1084 002e 07       		.byte	0x8
+ 1085 002f 06030000 		.4byte	.LASF3
+ 1086 0033 03       		.uleb128 0x2
+ 1087 0034 04       		.byte	0x2
+ 1088 0035 05       		.byte	0x5
+ 1089 0036 696E7400 		.4byte	.LASF4
+ 1090 003a 04       		.uleb128 0x2
+ 1091 003b 04       		.byte	0x2
+ 1092 003c 02       		.byte	0x7
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 27
+
+
+ 1093 003d 01       		.4byte	.LASF5
+ 1094 003e 06       		.uleb128 0x2
+ 1095 003f D0010000 		.byte	0x4
+ 1096 0043 02       		.byte	0x7
+ 1097 0044 01       		.4byte	.LASF6
+ 1098 0045 08       		.uleb128 0x2
+ 1099 0046 A1010000 		.byte	0x8
+ 1100 004a 02       		.byte	0x5
+ 1101 004b 02       		.4byte	.LASF7
+ 1102 004c 05       		.uleb128 0x2
+ 1103 004d 55000000 		.byte	0x8
+ 1104 0051 02       		.byte	0x7
+ 1105 0052 02       		.4byte	.LASF8
+ 1106 0053 07       		.uleb128 0x5
+ 1107 0054 7B020000 		.byte	0x4
+ 1108 0058 02       		.byte	0x7
+ 1109 0059 04       		.uleb128 0x2
+ 1110 005a 07       		.byte	0x1
+ 1111 005b 02020000 		.byte	0x8
+ 1112 005f 02       		.4byte	.LASF9
+ 1113 0060 08       		.uleb128 0x6
+ 1114 0061 05       		.4byte	.LASF15
+ 1115 0062 0A010000 		.byte	0x3
+ 1116 0066 02       		.byte	0x6b
+ 1117 0067 08       		.4byte	0x2c
+ 1118 0068 07       		.uleb128 0x7
+ 1119 0069 DC010000 		.4byte	.LASF17
+ 1120 006d 05       		.byte	0x14
+ 1121 006e 04       		.byte	0x2
+ 1122 006f 07       		.byte	0x63
+ 1123 0070 02       		.4byte	0xd5
+ 1124 0071 01       		.uleb128 0x8
+ 1125 0072 08       		.4byte	.LASF10
+ 1126 0073 B1020000 		.byte	0x2
+ 1127 0077 06       		.byte	0x64
+ 1128 0078 5F000000 		.4byte	0x77
+ 1129 007c 03       		.byte	0x2
+ 1130 007d 6B       		.byte	0x23
+ 1131 007e 2C000000 		.uleb128 0x0
+ 1132 0082 07       		.uleb128 0x8
+ 1133 0083 5C010000 		.4byte	.LASF11
+ 1134 0087 14       		.byte	0x2
+ 1135 0088 02       		.byte	0x65
+ 1136 0089 63       		.4byte	0xd5
+ 1137 008a D5000000 		.byte	0x2
+ 1138 008e 08       		.byte	0x23
+ 1139 008f 4A010000 		.uleb128 0x4
+ 1140 0093 02       		.uleb128 0x8
+ 1141 0094 64       		.4byte	.LASF12
+ 1142 0095 77000000 		.byte	0x2
+ 1143 0099 02       		.byte	0x66
+ 1144 009a 23       		.4byte	0xd5
+ 1145 009b 00       		.byte	0x2
+ 1146 009c 08       		.byte	0x23
+ 1147 009d C7020000 		.uleb128 0x8
+ 1148 00a1 02       		.uleb128 0x8
+ 1149 00a2 65       		.4byte	.LASF13
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 28
+
+
+ 1150 00a3 D5000000 		.byte	0x2
+ 1151 00a7 02       		.byte	0x67
+ 1152 00a8 23       		.4byte	0x3a
+ 1153 00a9 04       		.byte	0x2
+ 1154 00aa 08       		.byte	0x23
+ 1155 00ab 80000000 		.uleb128 0xc
+ 1156 00af 02       		.uleb128 0x8
+ 1157 00b0 66       		.4byte	.LASF14
+ 1158 00b1 D5000000 		.byte	0x2
+ 1159 00b5 02       		.byte	0x68
+ 1160 00b6 23       		.4byte	0x3a
+ 1161 00b7 08       		.byte	0x2
+ 1162 00b8 08       		.byte	0x23
+ 1163 00b9 ED000000 		.uleb128 0x10
+ 1164 00bd 02       		.byte	0x0
+ 1165 00be 67       		.uleb128 0x9
+ 1166 00bf 3A000000 		.byte	0x4
+ 1167 00c3 02       		.4byte	0xdb
+ 1168 00c4 23       		.uleb128 0xa
+ 1169 00c5 0C       		.4byte	.LASF17
+ 1170 00c6 08       		.4byte	0x82
+ 1171 00c7 22020000 		.uleb128 0x6
+ 1172 00cb 02       		.4byte	.LASF16
+ 1173 00cc 68       		.byte	0x2
+ 1174 00cd 3A000000 		.byte	0x6a
+ 1175 00d1 02       		.4byte	0x82
+ 1176 00d2 23       		.uleb128 0x7
+ 1177 00d3 10       		.4byte	.LASF18
+ 1178 00d4 00       		.byte	0xc
+ 1179 00d5 09       		.byte	0x2
+ 1180 00d6 04       		.byte	0x6d
+ 1181 00d7 DB000000 		.4byte	0x126
+ 1182 00db 0A       		.uleb128 0x8
+ 1183 00dc 5C010000 		.4byte	.LASF10
+ 1184 00e0 82000000 		.byte	0x2
+ 1185 00e4 06       		.byte	0x6e
+ 1186 00e5 56030000 		.4byte	0x77
+ 1187 00e9 02       		.byte	0x2
+ 1188 00ea 6A       		.byte	0x23
+ 1189 00eb 82000000 		.uleb128 0x0
+ 1190 00ef 07       		.uleb128 0x8
+ 1191 00f0 F5030000 		.4byte	.LASF11
+ 1192 00f4 0C       		.byte	0x2
+ 1193 00f5 02       		.byte	0x6f
+ 1194 00f6 6D       		.4byte	0xd5
+ 1195 00f7 26010000 		.byte	0x2
+ 1196 00fb 08       		.byte	0x23
+ 1197 00fc 4A010000 		.uleb128 0x4
+ 1198 0100 02       		.uleb128 0x8
+ 1199 0101 6E       		.4byte	.LASF12
+ 1200 0102 77000000 		.byte	0x2
+ 1201 0106 02       		.byte	0x70
+ 1202 0107 23       		.4byte	0xd5
+ 1203 0108 00       		.byte	0x2
+ 1204 0109 08       		.byte	0x23
+ 1205 010a C7020000 		.uleb128 0x8
+ 1206 010e 02       		.byte	0x0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 29
+
+
+ 1207 010f 6F       		.uleb128 0x6
+ 1208 0110 D5000000 		.4byte	.LASF19
+ 1209 0114 02       		.byte	0x2
+ 1210 0115 23       		.byte	0x72
+ 1211 0116 04       		.4byte	0xef
+ 1212 0117 08       		.uleb128 0x7
+ 1213 0118 80000000 		.4byte	.LASF20
+ 1214 011c 02       		.byte	0x14
+ 1215 011d 70       		.byte	0x2
+ 1216 011e D5000000 		.byte	0x78
+ 1217 0122 02       		.4byte	0x168
+ 1218 0123 23       		.uleb128 0x8
+ 1219 0124 08       		.4byte	.LASF21
+ 1220 0125 00       		.byte	0x2
+ 1221 0126 06       		.byte	0x79
+ 1222 0127 93010000 		.4byte	0x168
+ 1223 012b 02       		.byte	0x2
+ 1224 012c 72       		.byte	0x23
+ 1225 012d EF000000 		.uleb128 0x0
+ 1226 0131 07       		.uleb128 0x8
+ 1227 0132 44010000 		.4byte	.LASF22
+ 1228 0136 14       		.byte	0x2
+ 1229 0137 02       		.byte	0x7a
+ 1230 0138 78       		.4byte	0x16d
+ 1231 0139 68010000 		.byte	0x2
+ 1232 013d 08       		.byte	0x23
+ 1233 013e 46030000 		.uleb128 0x4
+ 1234 0142 02       		.uleb128 0x8
+ 1235 0143 79       		.4byte	.LASF23
+ 1236 0144 68010000 		.byte	0x2
+ 1237 0148 02       		.byte	0x7b
+ 1238 0149 23       		.4byte	0x178
+ 1239 014a 00       		.byte	0x2
+ 1240 014b 08       		.byte	0x23
+ 1241 014c ED030000 		.uleb128 0x8
+ 1242 0150 02       		.byte	0x0
+ 1243 0151 7A       		.uleb128 0xb
+ 1244 0152 6D010000 		.4byte	0x2c
+ 1245 0156 02       		.uleb128 0x9
+ 1246 0157 23       		.byte	0x4
+ 1247 0158 04       		.4byte	0x173
+ 1248 0159 08       		.uleb128 0xb
+ 1249 015a 7C030000 		.4byte	0xe4
+ 1250 015e 02       		.uleb128 0xb
+ 1251 015f 7B       		.4byte	0x126
+ 1252 0160 78010000 		.uleb128 0x6
+ 1253 0164 02       		.4byte	.LASF24
+ 1254 0165 23       		.byte	0x2
+ 1255 0166 08       		.byte	0x7c
+ 1256 0167 00       		.4byte	0x131
+ 1257 0168 0B       		.uleb128 0x6
+ 1258 0169 2C000000 		.4byte	.LASF25
+ 1259 016d 09       		.byte	0x4
+ 1260 016e 04       		.byte	0x49
+ 1261 016f 73010000 		.4byte	0x3a
+ 1262 0173 0B       		.uleb128 0x6
+ 1263 0174 E4000000 		.4byte	.LASF26
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 30
+
+
+ 1264 0178 0B       		.byte	0x4
+ 1265 0179 26010000 		.byte	0x4c
+ 1266 017d 06       		.4byte	0x19e
+ 1267 017e 24010000 		.uleb128 0x9
+ 1268 0182 02       		.byte	0x4
+ 1269 0183 7C       		.4byte	0x1a4
+ 1270 0184 31010000 		.uleb128 0xc
+ 1271 0188 06       		.byte	0x1
+ 1272 0189 2A010000 		.4byte	0x1b5
+ 1273 018d 04       		.uleb128 0xd
+ 1274 018e 49       		.4byte	0x188
+ 1275 018f 3A000000 		.uleb128 0xd
+ 1276 0193 06       		.4byte	0x2c
+ 1277 0194 B6020000 		.byte	0x0
+ 1278 0198 04       		.uleb128 0x7
+ 1279 0199 4C       		.4byte	.LASF27
+ 1280 019a 9E010000 		.byte	0x38
+ 1281 019e 09       		.byte	0x4
+ 1282 019f 04       		.byte	0x4f
+ 1283 01a0 A4010000 		.4byte	0x216
+ 1284 01a4 0C       		.uleb128 0x8
+ 1285 01a5 01       		.4byte	.LASF28
+ 1286 01a6 B5010000 		.byte	0x4
+ 1287 01aa 0D       		.byte	0x50
+ 1288 01ab 88010000 		.4byte	0x193
+ 1289 01af 0D       		.byte	0x2
+ 1290 01b0 2C000000 		.byte	0x23
+ 1291 01b4 00       		.uleb128 0x0
+ 1292 01b5 07       		.uleb128 0x8
+ 1293 01b6 ED020000 		.4byte	.LASF29
+ 1294 01ba 38       		.byte	0x4
+ 1295 01bb 04       		.byte	0x51
+ 1296 01bc 4F       		.4byte	0xe4
+ 1297 01bd 16020000 		.byte	0x2
+ 1298 01c1 08       		.byte	0x23
+ 1299 01c2 AF010000 		.uleb128 0x4
+ 1300 01c6 04       		.uleb128 0x8
+ 1301 01c7 50       		.4byte	.LASF30
+ 1302 01c8 93010000 		.byte	0x4
+ 1303 01cc 02       		.byte	0x52
+ 1304 01cd 23       		.4byte	0xe4
+ 1305 01ce 00       		.byte	0x2
+ 1306 01cf 08       		.byte	0x23
+ 1307 01d0 DC000000 		.uleb128 0x18
+ 1308 01d4 04       		.uleb128 0x8
+ 1309 01d5 51       		.4byte	.LASF31
+ 1310 01d6 E4000000 		.byte	0x4
+ 1311 01da 02       		.byte	0x53
+ 1312 01db 23       		.4byte	0x2c
+ 1313 01dc 04       		.byte	0x2
+ 1314 01dd 08       		.byte	0x23
+ 1315 01de F3010000 		.uleb128 0x2c
+ 1316 01e2 04       		.uleb128 0x8
+ 1317 01e3 52       		.4byte	.LASF32
+ 1318 01e4 E4000000 		.byte	0x4
+ 1319 01e8 02       		.byte	0x54
+ 1320 01e9 23       		.4byte	0x2c
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 31
+
+
+ 1321 01ea 18       		.byte	0x2
+ 1322 01eb 08       		.byte	0x23
+ 1323 01ec E2030000 		.uleb128 0x30
+ 1324 01f0 04       		.uleb128 0x8
+ 1325 01f1 53       		.4byte	.LASF33
+ 1326 01f2 2C000000 		.byte	0x4
+ 1327 01f6 02       		.byte	0x55
+ 1328 01f7 23       		.4byte	0x51
+ 1329 01f8 2C       		.byte	0x2
+ 1330 01f9 08       		.byte	0x23
+ 1331 01fa 73020000 		.uleb128 0x34
+ 1332 01fe 04       		.byte	0x0
+ 1333 01ff 54       		.uleb128 0x6
+ 1334 0200 2C000000 		.4byte	.LASF34
+ 1335 0204 02       		.byte	0x4
+ 1336 0205 23       		.byte	0x56
+ 1337 0206 30       		.4byte	0x1b5
+ 1338 0207 08       		.uleb128 0xe
+ 1339 0208 4D000000 		.byte	0x1
+ 1340 020c 04       		.4byte	.LASF50
+ 1341 020d 55       		.byte	0x1
+ 1342 020e 51000000 		.byte	0x7e
+ 1343 0212 02       		.byte	0x1
+ 1344 0213 23       		.4byte	0x25
+ 1345 0214 34       		.4byte	.LFB2
+ 1346 0215 00       		.4byte	.LFE2
+ 1347 0216 06       		.4byte	.LLST0
+ 1348 0217 A9020000 		.4byte	0x285
+ 1349 021b 04       		.uleb128 0xf
+ 1350 021c 56       		.4byte	.LASF35
+ 1351 021d B5010000 		.byte	0x1
+ 1352 0221 0E       		.byte	0x7d
+ 1353 0222 01       		.4byte	0x193
+ 1354 0223 0C000000 		.byte	0x2
+ 1355 0227 01       		.byte	0x91
+ 1356 0228 7E       		.sleb128 -16
+ 1357 0229 01       		.uleb128 0xf
+ 1358 022a 25000000 		.4byte	.LASF31
+ 1359 022e 00000000 		.byte	0x1
+ 1360 0232 68010000 		.byte	0x7d
+ 1361 0236 00000000 		.4byte	0x2c
+ 1362 023a 85020000 		.byte	0x2
+ 1363 023e 0F       		.byte	0x91
+ 1364 023f 3D000000 		.sleb128 -20
+ 1365 0243 01       		.uleb128 0xf
+ 1366 0244 7D       		.4byte	.LASF32
+ 1367 0245 93010000 		.byte	0x1
+ 1368 0249 02       		.byte	0x7d
+ 1369 024a 91       		.4byte	0x2c
+ 1370 024b 70       		.byte	0x2
+ 1371 024c 0F       		.byte	0x91
+ 1372 024d E2030000 		.sleb128 -24
+ 1373 0251 01       		.uleb128 0x10
+ 1374 0252 7D       		.4byte	.LASF36
+ 1375 0253 2C000000 		.byte	0x1
+ 1376 0257 02       		.byte	0x7f
+ 1377 0258 91       		.4byte	0x25
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 32
+
+
+ 1378 0259 6C       		.byte	0x2
+ 1379 025a 0F       		.byte	0x91
+ 1380 025b 73020000 		.sleb128 -12
+ 1381 025f 01       		.uleb128 0x10
+ 1382 0260 7D       		.4byte	.LASF37
+ 1383 0261 2C000000 		.byte	0x1
+ 1384 0265 02       		.byte	0x80
+ 1385 0266 91       		.4byte	0x285
+ 1386 0267 68       		.byte	0x2
+ 1387 0268 10       		.byte	0x91
+ 1388 0269 AA030000 		.sleb128 -8
+ 1389 026d 01       		.byte	0x0
+ 1390 026e 7F       		.uleb128 0x9
+ 1391 026f 25000000 		.byte	0x4
+ 1392 0273 02       		.4byte	0x216
+ 1393 0274 91       		.uleb128 0x11
+ 1394 0275 74       		.byte	0x1
+ 1395 0276 10       		.4byte	.LASF46
+ 1396 0277 31000000 		.byte	0x1
+ 1397 027b 01       		.byte	0xb7
+ 1398 027c 80       		.byte	0x1
+ 1399 027d 85020000 		.4byte	.LFB3
+ 1400 0281 02       		.4byte	.LFE3
+ 1401 0282 91       		.4byte	.LLST1
+ 1402 0283 78       		.4byte	0x2cf
+ 1403 0284 00       		.uleb128 0xf
+ 1404 0285 09       		.4byte	.LASF38
+ 1405 0286 04       		.byte	0x1
+ 1406 0287 16020000 		.byte	0xb6
+ 1407 028b 11       		.4byte	0x77
+ 1408 028c 01       		.byte	0x2
+ 1409 028d 8E020000 		.byte	0x91
+ 1410 0291 01       		.sleb128 -12
+ 1411 0292 B7       		.uleb128 0xf
+ 1412 0293 01       		.4byte	.LASF39
+ 1413 0294 68010000 		.byte	0x1
+ 1414 0298 48020000 		.byte	0xb6
+ 1415 029c 2B000000 		.4byte	0x2cf
+ 1416 02a0 CF020000 		.byte	0x2
+ 1417 02a4 0F       		.byte	0x91
+ 1418 02a5 F5000000 		.sleb128 -16
+ 1419 02a9 01       		.uleb128 0x10
+ 1420 02aa B6       		.4byte	.LASF40
+ 1421 02ab 77000000 		.byte	0x1
+ 1422 02af 02       		.byte	0xb8
+ 1423 02b0 91       		.4byte	0x77
+ 1424 02b1 74       		.byte	0x2
+ 1425 02b2 0F       		.byte	0x91
+ 1426 02b3 00000000 		.sleb128 -8
+ 1427 02b7 01       		.byte	0x0
+ 1428 02b8 B6       		.uleb128 0x9
+ 1429 02b9 CF020000 		.byte	0x4
+ 1430 02bd 02       		.4byte	0x17d
+ 1431 02be 91       		.uleb128 0x12
+ 1432 02bf 70       		.4byte	.LASF42
+ 1433 02c0 10       		.byte	0x1
+ 1434 02c1 05040000 		.byte	0xdd
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 33
+
+
+ 1435 02c5 01       		.byte	0x1
+ 1436 02c6 B8       		.4byte	.LFB4
+ 1437 02c7 77000000 		.4byte	.LFE4
+ 1438 02cb 02       		.4byte	.LLST2
+ 1439 02cc 91       		.4byte	0x306
+ 1440 02cd 78       		.uleb128 0x13
+ 1441 02ce 00       		.4byte	.LBB2
+ 1442 02cf 09       		.4byte	.LBE2
+ 1443 02d0 04       		.uleb128 0x10
+ 1444 02d1 7D010000 		.4byte	.LASF41
+ 1445 02d5 12       		.byte	0x1
+ 1446 02d6 67010000 		.byte	0xe3
+ 1447 02da 01       		.4byte	0x285
+ 1448 02db DD       		.byte	0x2
+ 1449 02dc 01       		.byte	0x91
+ 1450 02dd 48020000 		.sleb128 -8
+ 1451 02e1 50030000 		.byte	0x0
+ 1452 02e5 56000000 		.byte	0x0
+ 1453 02e9 06030000 		.uleb128 0x12
+ 1454 02ed 13       		.4byte	.LASF43
+ 1455 02ee 54020000 		.byte	0x1
+ 1456 02f2 28030000 		.byte	0xf4
+ 1457 02f6 10       		.byte	0x1
+ 1458 02f7 CC000000 		.4byte	.LFB5
+ 1459 02fb 01       		.4byte	.LFE5
+ 1460 02fc E3       		.4byte	.LLST3
+ 1461 02fd 85020000 		.4byte	0x346
+ 1462 0301 02       		.uleb128 0x10
+ 1463 0302 91       		.4byte	.LASF44
+ 1464 0303 78       		.byte	0x1
+ 1465 0304 00       		.byte	0xf5
+ 1466 0305 00       		.4byte	0x285
+ 1467 0306 12       		.byte	0x2
+ 1468 0307 1D000000 		.byte	0x91
+ 1469 030b 01       		.sleb128 -12
+ 1470 030c F4       		.uleb128 0x13
+ 1471 030d 01       		.4byte	.LBB3
+ 1472 030e 50030000 		.4byte	.LBE3
+ 1473 0312 34050000 		.uleb128 0x14
+ 1474 0316 81000000 		.4byte	.LASF45
+ 1475 031a 46030000 		.byte	0x1
+ 1476 031e 10       		.2byte	0x100
+ 1477 031f 55010000 		.4byte	0x2cf
+ 1478 0323 01       		.byte	0x2
+ 1479 0324 F5       		.byte	0x91
+ 1480 0325 85020000 		.sleb128 -8
+ 1481 0329 02       		.byte	0x0
+ 1482 032a 91       		.byte	0x0
+ 1483 032b 74       		.uleb128 0x15
+ 1484 032c 13       		.byte	0x1
+ 1485 032d B0030000 		.4byte	.LASF47
+ 1486 0331 DC030000 		.byte	0x1
+ 1487 0335 14       		.2byte	0x12c
+ 1488 0336 03010000 		.byte	0x1
+ 1489 033a 01       		.4byte	.LFB6
+ 1490 033b 0001     		.4byte	.LFE6
+ 1491 033d CF020000 		.4byte	.LLST4
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 34
+
+
+ 1492 0341 02       		.4byte	0x37a
+ 1493 0342 91       		.uleb128 0x13
+ 1494 0343 78       		.4byte	.LBB4
+ 1495 0344 00       		.4byte	.LBE4
+ 1496 0345 00       		.uleb128 0x14
+ 1497 0346 15       		.4byte	.LASF48
+ 1498 0347 01       		.byte	0x1
+ 1499 0348 80010000 		.2byte	0x140
+ 1500 034c 01       		.4byte	0x37a
+ 1501 034d 2C01     		.byte	0x2
+ 1502 034f 01       		.byte	0x91
+ 1503 0350 34050000 		.sleb128 -8
+ 1504 0354 54060000 		.byte	0x0
+ 1505 0358 AC000000 		.byte	0x0
+ 1506 035c 7A030000 		.uleb128 0x16
+ 1507 0360 13       		.4byte	0x2cf
+ 1508 0361 94050000 		.uleb128 0x17
+ 1509 0365 0C060000 		.4byte	.LASF49
+ 1510 0369 14       		.byte	0x1
+ 1511 036a 18010000 		.2byte	0x14a
+ 1512 036e 01       		.byte	0x1
+ 1513 036f 4001     		.4byte	.LFB7
+ 1514 0371 7A030000 		.4byte	.LFE7
+ 1515 0375 02       		.4byte	.LLST5
+ 1516 0376 91       		.4byte	0x3a8
+ 1517 0377 78       		.uleb128 0x14
+ 1518 0378 00       		.4byte	.LASF31
+ 1519 0379 00       		.byte	0x1
+ 1520 037a 16       		.2byte	0x14b
+ 1521 037b CF020000 		.4byte	0x2c
+ 1522 037f 17       		.byte	0x2
+ 1523 0380 60030000 		.byte	0x91
+ 1524 0384 01       		.sleb128 -8
+ 1525 0385 4A01     		.byte	0x0
+ 1526 0387 01       		.uleb128 0x18
+ 1527 0388 54060000 		.byte	0x1
+ 1528 038c F4060000 		.4byte	.LASF51
+ 1529 0390 D7000000 		.byte	0x1
+ 1530 0394 A8030000 		.2byte	0x15e
+ 1531 0398 14       		.byte	0x1
+ 1532 0399 E2030000 		.4byte	0x25
+ 1533 039d 01       		.4byte	.LFB8
+ 1534 039e 4B01     		.4byte	.LFE8
+ 1535 03a0 2C000000 		.4byte	.LLST6
+ 1536 03a4 02       		.4byte	0x3f4
+ 1537 03a5 91       		.uleb128 0x19
+ 1538 03a6 78       		.4byte	.LASF39
+ 1539 03a7 00       		.byte	0x1
+ 1540 03a8 18       		.2byte	0x15d
+ 1541 03a9 01       		.4byte	0x3f4
+ 1542 03aa 8B000000 		.byte	0x2
+ 1543 03ae 01       		.byte	0x91
+ 1544 03af 5E01     		.sleb128 -16
+ 1545 03b1 01       		.uleb128 0x14
+ 1546 03b2 25000000 		.4byte	.LASF41
+ 1547 03b6 F4060000 		.byte	0x1
+ 1548 03ba A4070000 		.2byte	0x15f
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 35
+
+
+ 1549 03be 02010000 		.4byte	0x285
+ 1550 03c2 F4030000 		.byte	0x2
+ 1551 03c6 19       		.byte	0x91
+ 1552 03c7 00000000 		.sleb128 -12
+ 1553 03cb 01       		.uleb128 0x14
+ 1554 03cc 5D01     		.4byte	.LASF36
+ 1555 03ce F4030000 		.byte	0x1
+ 1556 03d2 02       		.2byte	0x160
+ 1557 03d3 91       		.4byte	0x25
+ 1558 03d4 70       		.byte	0x2
+ 1559 03d5 14       		.byte	0x91
+ 1560 03d6 CC000000 		.sleb128 -8
+ 1561 03da 01       		.byte	0x0
+ 1562 03db 5F01     		.uleb128 0x9
+ 1563 03dd 85020000 		.byte	0x4
+ 1564 03e1 02       		.4byte	0x3fa
+ 1565 03e2 91       		.uleb128 0x16
+ 1566 03e3 74       		.4byte	0x17d
+ 1567 03e4 14       		.uleb128 0x1a
+ 1568 03e5 AA030000 		.4byte	0x17d
+ 1569 03e9 01       		.4byte	0x40f
+ 1570 03ea 6001     		.uleb128 0x1b
+ 1571 03ec 25000000 		.4byte	0x6d
+ 1572 03f0 02       		.byte	0x1
+ 1573 03f1 91       		.byte	0x0
+ 1574 03f2 78       		.uleb128 0x10
+ 1575 03f3 00       		.4byte	.LASF52
+ 1576 03f4 09       		.byte	0x1
+ 1577 03f5 04       		.byte	0x44
+ 1578 03f6 FA030000 		.4byte	0x3ff
+ 1579 03fa 16       		.byte	0x5
+ 1580 03fb 7D010000 		.byte	0x3
+ 1581 03ff 1A       		.4byte	pxReadyCoRoutineLists
+ 1582 0400 7D010000 		.uleb128 0x10
+ 1583 0404 0F040000 		.4byte	.LASF53
+ 1584 0408 1B       		.byte	0x1
+ 1585 0409 6D000000 		.byte	0x45
+ 1586 040d 01       		.4byte	0x17d
+ 1587 040e 00       		.byte	0x5
+ 1588 040f 10       		.byte	0x3
+ 1589 0410 85030000 		.4byte	xDelayedCoRoutineList1
+ 1590 0414 01       		.uleb128 0x10
+ 1591 0415 44       		.4byte	.LASF54
+ 1592 0416 FF030000 		.byte	0x1
+ 1593 041a 05       		.byte	0x46
+ 1594 041b 03       		.4byte	0x17d
+ 1595 041c 14000000 		.byte	0x5
+ 1596 0420 10       		.byte	0x3
+ 1597 0421 18030000 		.4byte	xDelayedCoRoutineList2
+ 1598 0425 01       		.uleb128 0x10
+ 1599 0426 45       		.4byte	.LASF55
+ 1600 0427 7D010000 		.byte	0x1
+ 1601 042b 05       		.byte	0x47
+ 1602 042c 03       		.4byte	0x2cf
+ 1603 042d 3C000000 		.byte	0x5
+ 1604 0431 10       		.byte	0x3
+ 1605 0432 2F030000 		.4byte	pxDelayedCoRoutineList
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 36
+
+
+ 1606 0436 01       		.uleb128 0x10
+ 1607 0437 46       		.4byte	.LASF56
+ 1608 0438 7D010000 		.byte	0x1
+ 1609 043c 05       		.byte	0x48
+ 1610 043d 03       		.4byte	0x2cf
+ 1611 043e 50000000 		.byte	0x5
+ 1612 0442 10       		.byte	0x3
+ 1613 0443 A9000000 		.4byte	pxOverflowDelayedCoRoutineList
+ 1614 0447 01       		.uleb128 0x10
+ 1615 0448 47       		.4byte	.LASF57
+ 1616 0449 CF020000 		.byte	0x1
+ 1617 044d 05       		.byte	0x49
+ 1618 044e 03       		.4byte	0x17d
+ 1619 044f 64000000 		.byte	0x5
+ 1620 0453 10       		.byte	0x3
+ 1621 0454 CE020000 		.4byte	xPendingReadyCoRoutineList
+ 1622 0458 01       		.uleb128 0x10
+ 1623 0459 48       		.4byte	.LASF58
+ 1624 045a CF020000 		.byte	0x1
+ 1625 045e 05       		.byte	0x4d
+ 1626 045f 03       		.4byte	0x2c
+ 1627 0460 68000000 		.byte	0x5
+ 1628 0464 10       		.byte	0x3
+ 1629 0465 58020000 		.4byte	uxTopCoRoutineReadyPriority
+ 1630 0469 01       		.uleb128 0x10
+ 1631 046a 49       		.4byte	.LASF59
+ 1632 046b 7D010000 		.byte	0x1
+ 1633 046f 05       		.byte	0x4e
+ 1634 0470 03       		.4byte	0x77
+ 1635 0471 6C000000 		.byte	0x5
+ 1636 0475 10       		.byte	0x3
+ 1637 0476 C6030000 		.4byte	xCoRoutineTickCount
+ 1638 047a 01       		.uleb128 0x10
+ 1639 047b 4D       		.4byte	.LASF60
+ 1640 047c 2C000000 		.byte	0x1
+ 1641 0480 05       		.byte	0x4e
+ 1642 0481 03       		.4byte	0x77
+ 1643 0482 04000000 		.byte	0x5
+ 1644 0486 10       		.byte	0x3
+ 1645 0487 B2030000 		.4byte	xLastTickCount
+ 1646 048b 01       		.uleb128 0x10
+ 1647 048c 4E       		.4byte	.LASF61
+ 1648 048d 77000000 		.byte	0x1
+ 1649 0491 05       		.byte	0x4e
+ 1650 0492 03       		.4byte	0x77
+ 1651 0493 08000000 		.byte	0x5
+ 1652 0497 10       		.byte	0x3
+ 1653 0498 9B030000 		.4byte	xPassedTicks
+ 1654 049c 01       		.uleb128 0x1c
+ 1655 049d 4E       		.4byte	.LASF65
+ 1656 049e 77000000 		.byte	0x1
+ 1657 04a2 05       		.byte	0x4c
+ 1658 04a3 03       		.4byte	0x285
+ 1659 04a4 0C000000 		.byte	0x1
+ 1660 04a8 10       		.byte	0x5
+ 1661 04a9 C3010000 		.byte	0x3
+ 1662 04ad 01       		.4byte	pxCurrentCoRoutine
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 37
+
+
+ 1663 04ae 4E       		.byte	0x0
+ 1664 04af 77000000 		.section	.debug_abbrev
+ 1665 04b3 05       		.uleb128 0x1
+ 1666 04b4 03       		.uleb128 0x11
+ 1667 04b5 10000000 		.byte	0x1
+ 1668 04b9 1C       		.uleb128 0x25
+ 1669 04ba 0F020000 		.uleb128 0xe
+ 1670 04be 01       		.uleb128 0x13
+ 1671 04bf 4C       		.uleb128 0xb
+ 1672 04c0 85020000 		.uleb128 0x3
+ 1673 04c4 01       		.uleb128 0xe
+ 1674 04c5 05       		.uleb128 0x1b
+ 1675 04c6 03       		.uleb128 0xe
+ 1676 04c7 00000000 		.uleb128 0x11
+ 1677 04cb 00       		.uleb128 0x1
+ 1678              		.uleb128 0x12
+ 1679 0000 01       		.uleb128 0x1
+ 1680 0001 11       		.uleb128 0x10
+ 1681 0002 01       		.uleb128 0x6
+ 1682 0003 25       		.byte	0x0
+ 1683 0004 0E       		.byte	0x0
+ 1684 0005 13       		.uleb128 0x2
+ 1685 0006 0B       		.uleb128 0x24
+ 1686 0007 03       		.byte	0x0
+ 1687 0008 0E       		.uleb128 0xb
+ 1688 0009 1B       		.uleb128 0xb
+ 1689 000a 0E       		.uleb128 0x3e
+ 1690 000b 11       		.uleb128 0xb
+ 1691 000c 01       		.uleb128 0x3
+ 1692 000d 12       		.uleb128 0xe
+ 1693 000e 01       		.byte	0x0
+ 1694 000f 10       		.byte	0x0
+ 1695 0010 06       		.uleb128 0x3
+ 1696 0011 00       		.uleb128 0x24
+ 1697 0012 00       		.byte	0x0
+ 1698 0013 02       		.uleb128 0xb
+ 1699 0014 24       		.uleb128 0xb
+ 1700 0015 00       		.uleb128 0x3e
+ 1701 0016 0B       		.uleb128 0xb
+ 1702 0017 0B       		.uleb128 0x3
+ 1703 0018 3E       		.uleb128 0x8
+ 1704 0019 0B       		.byte	0x0
+ 1705 001a 03       		.byte	0x0
+ 1706 001b 0E       		.uleb128 0x4
+ 1707 001c 00       		.uleb128 0xf
+ 1708 001d 00       		.byte	0x0
+ 1709 001e 03       		.uleb128 0xb
+ 1710 001f 24       		.uleb128 0xb
+ 1711 0020 00       		.byte	0x0
+ 1712 0021 0B       		.byte	0x0
+ 1713 0022 0B       		.uleb128 0x5
+ 1714 0023 3E       		.uleb128 0x24
+ 1715 0024 0B       		.byte	0x0
+ 1716 0025 03       		.uleb128 0xb
+ 1717 0026 08       		.uleb128 0xb
+ 1718 0027 00       		.uleb128 0x3e
+ 1719 0028 00       		.uleb128 0xb
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 38
+
+
+ 1720 0029 04       		.byte	0x0
+ 1721 002a 0F       		.byte	0x0
+ 1722 002b 00       		.uleb128 0x6
+ 1723 002c 0B       		.uleb128 0x16
+ 1724 002d 0B       		.byte	0x0
+ 1725 002e 00       		.uleb128 0x3
+ 1726 002f 00       		.uleb128 0xe
+ 1727 0030 05       		.uleb128 0x3a
+ 1728 0031 24       		.uleb128 0xb
+ 1729 0032 00       		.uleb128 0x3b
+ 1730 0033 0B       		.uleb128 0xb
+ 1731 0034 0B       		.uleb128 0x49
+ 1732 0035 3E       		.uleb128 0x13
+ 1733 0036 0B       		.byte	0x0
+ 1734 0037 00       		.byte	0x0
+ 1735 0038 00       		.uleb128 0x7
+ 1736 0039 06       		.uleb128 0x13
+ 1737 003a 16       		.byte	0x1
+ 1738 003b 00       		.uleb128 0x3
+ 1739 003c 03       		.uleb128 0xe
+ 1740 003d 0E       		.uleb128 0xb
+ 1741 003e 3A       		.uleb128 0xb
+ 1742 003f 0B       		.uleb128 0x3a
+ 1743 0040 3B       		.uleb128 0xb
+ 1744 0041 0B       		.uleb128 0x3b
+ 1745 0042 49       		.uleb128 0xb
+ 1746 0043 13       		.uleb128 0x1
+ 1747 0044 00       		.uleb128 0x13
+ 1748 0045 00       		.byte	0x0
+ 1749 0046 07       		.byte	0x0
+ 1750 0047 13       		.uleb128 0x8
+ 1751 0048 01       		.uleb128 0xd
+ 1752 0049 03       		.byte	0x0
+ 1753 004a 0E       		.uleb128 0x3
+ 1754 004b 0B       		.uleb128 0xe
+ 1755 004c 0B       		.uleb128 0x3a
+ 1756 004d 3A       		.uleb128 0xb
+ 1757 004e 0B       		.uleb128 0x3b
+ 1758 004f 3B       		.uleb128 0xb
+ 1759 0050 0B       		.uleb128 0x49
+ 1760 0051 01       		.uleb128 0x13
+ 1761 0052 13       		.uleb128 0x38
+ 1762 0053 00       		.uleb128 0xa
+ 1763 0054 00       		.byte	0x0
+ 1764 0055 08       		.byte	0x0
+ 1765 0056 0D       		.uleb128 0x9
+ 1766 0057 00       		.uleb128 0xf
+ 1767 0058 03       		.byte	0x0
+ 1768 0059 0E       		.uleb128 0xb
+ 1769 005a 3A       		.uleb128 0xb
+ 1770 005b 0B       		.uleb128 0x49
+ 1771 005c 3B       		.uleb128 0x13
+ 1772 005d 0B       		.byte	0x0
+ 1773 005e 49       		.byte	0x0
+ 1774 005f 13       		.uleb128 0xa
+ 1775 0060 38       		.uleb128 0x35
+ 1776 0061 0A       		.byte	0x0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 39
+
+
+ 1777 0062 00       		.uleb128 0x3
+ 1778 0063 00       		.uleb128 0xe
+ 1779 0064 09       		.uleb128 0x49
+ 1780 0065 0F       		.uleb128 0x13
+ 1781 0066 00       		.byte	0x0
+ 1782 0067 0B       		.byte	0x0
+ 1783 0068 0B       		.uleb128 0xb
+ 1784 0069 49       		.uleb128 0x35
+ 1785 006a 13       		.byte	0x0
+ 1786 006b 00       		.uleb128 0x49
+ 1787 006c 00       		.uleb128 0x13
+ 1788 006d 0A       		.byte	0x0
+ 1789 006e 35       		.byte	0x0
+ 1790 006f 00       		.uleb128 0xc
+ 1791 0070 03       		.uleb128 0x15
+ 1792 0071 0E       		.byte	0x1
+ 1793 0072 49       		.uleb128 0x27
+ 1794 0073 13       		.uleb128 0xc
+ 1795 0074 00       		.uleb128 0x1
+ 1796 0075 00       		.uleb128 0x13
+ 1797 0076 0B       		.byte	0x0
+ 1798 0077 35       		.byte	0x0
+ 1799 0078 00       		.uleb128 0xd
+ 1800 0079 49       		.uleb128 0x5
+ 1801 007a 13       		.byte	0x0
+ 1802 007b 00       		.uleb128 0x49
+ 1803 007c 00       		.uleb128 0x13
+ 1804 007d 0C       		.byte	0x0
+ 1805 007e 15       		.byte	0x0
+ 1806 007f 01       		.uleb128 0xe
+ 1807 0080 27       		.uleb128 0x2e
+ 1808 0081 0C       		.byte	0x1
+ 1809 0082 01       		.uleb128 0x3f
+ 1810 0083 13       		.uleb128 0xc
+ 1811 0084 00       		.uleb128 0x3
+ 1812 0085 00       		.uleb128 0xe
+ 1813 0086 0D       		.uleb128 0x3a
+ 1814 0087 05       		.uleb128 0xb
+ 1815 0088 00       		.uleb128 0x3b
+ 1816 0089 49       		.uleb128 0xb
+ 1817 008a 13       		.uleb128 0x27
+ 1818 008b 00       		.uleb128 0xc
+ 1819 008c 00       		.uleb128 0x49
+ 1820 008d 0E       		.uleb128 0x13
+ 1821 008e 2E       		.uleb128 0x11
+ 1822 008f 01       		.uleb128 0x1
+ 1823 0090 3F       		.uleb128 0x12
+ 1824 0091 0C       		.uleb128 0x1
+ 1825 0092 03       		.uleb128 0x40
+ 1826 0093 0E       		.uleb128 0x6
+ 1827 0094 3A       		.uleb128 0x1
+ 1828 0095 0B       		.uleb128 0x13
+ 1829 0096 3B       		.byte	0x0
+ 1830 0097 0B       		.byte	0x0
+ 1831 0098 27       		.uleb128 0xf
+ 1832 0099 0C       		.uleb128 0x5
+ 1833 009a 49       		.byte	0x0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 40
+
+
+ 1834 009b 13       		.uleb128 0x3
+ 1835 009c 11       		.uleb128 0xe
+ 1836 009d 01       		.uleb128 0x3a
+ 1837 009e 12       		.uleb128 0xb
+ 1838 009f 01       		.uleb128 0x3b
+ 1839 00a0 40       		.uleb128 0xb
+ 1840 00a1 06       		.uleb128 0x49
+ 1841 00a2 01       		.uleb128 0x13
+ 1842 00a3 13       		.uleb128 0x2
+ 1843 00a4 00       		.uleb128 0xa
+ 1844 00a5 00       		.byte	0x0
+ 1845 00a6 0F       		.byte	0x0
+ 1846 00a7 05       		.uleb128 0x10
+ 1847 00a8 00       		.uleb128 0x34
+ 1848 00a9 03       		.byte	0x0
+ 1849 00aa 0E       		.uleb128 0x3
+ 1850 00ab 3A       		.uleb128 0xe
+ 1851 00ac 0B       		.uleb128 0x3a
+ 1852 00ad 3B       		.uleb128 0xb
+ 1853 00ae 0B       		.uleb128 0x3b
+ 1854 00af 49       		.uleb128 0xb
+ 1855 00b0 13       		.uleb128 0x49
+ 1856 00b1 02       		.uleb128 0x13
+ 1857 00b2 0A       		.uleb128 0x2
+ 1858 00b3 00       		.uleb128 0xa
+ 1859 00b4 00       		.byte	0x0
+ 1860 00b5 10       		.byte	0x0
+ 1861 00b6 34       		.uleb128 0x11
+ 1862 00b7 00       		.uleb128 0x2e
+ 1863 00b8 03       		.byte	0x1
+ 1864 00b9 0E       		.uleb128 0x3f
+ 1865 00ba 3A       		.uleb128 0xc
+ 1866 00bb 0B       		.uleb128 0x3
+ 1867 00bc 3B       		.uleb128 0xe
+ 1868 00bd 0B       		.uleb128 0x3a
+ 1869 00be 49       		.uleb128 0xb
+ 1870 00bf 13       		.uleb128 0x3b
+ 1871 00c0 02       		.uleb128 0xb
+ 1872 00c1 0A       		.uleb128 0x27
+ 1873 00c2 00       		.uleb128 0xc
+ 1874 00c3 00       		.uleb128 0x11
+ 1875 00c4 11       		.uleb128 0x1
+ 1876 00c5 2E       		.uleb128 0x12
+ 1877 00c6 01       		.uleb128 0x1
+ 1878 00c7 3F       		.uleb128 0x40
+ 1879 00c8 0C       		.uleb128 0x6
+ 1880 00c9 03       		.uleb128 0x1
+ 1881 00ca 0E       		.uleb128 0x13
+ 1882 00cb 3A       		.byte	0x0
+ 1883 00cc 0B       		.byte	0x0
+ 1884 00cd 3B       		.uleb128 0x12
+ 1885 00ce 0B       		.uleb128 0x2e
+ 1886 00cf 27       		.byte	0x1
+ 1887 00d0 0C       		.uleb128 0x3
+ 1888 00d1 11       		.uleb128 0xe
+ 1889 00d2 01       		.uleb128 0x3a
+ 1890 00d3 12       		.uleb128 0xb
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 41
+
+
+ 1891 00d4 01       		.uleb128 0x3b
+ 1892 00d5 40       		.uleb128 0xb
+ 1893 00d6 06       		.uleb128 0x27
+ 1894 00d7 01       		.uleb128 0xc
+ 1895 00d8 13       		.uleb128 0x11
+ 1896 00d9 00       		.uleb128 0x1
+ 1897 00da 00       		.uleb128 0x12
+ 1898 00db 12       		.uleb128 0x1
+ 1899 00dc 2E       		.uleb128 0x40
+ 1900 00dd 01       		.uleb128 0x6
+ 1901 00de 03       		.uleb128 0x1
+ 1902 00df 0E       		.uleb128 0x13
+ 1903 00e0 3A       		.byte	0x0
+ 1904 00e1 0B       		.byte	0x0
+ 1905 00e2 3B       		.uleb128 0x13
+ 1906 00e3 0B       		.uleb128 0xb
+ 1907 00e4 27       		.byte	0x1
+ 1908 00e5 0C       		.uleb128 0x11
+ 1909 00e6 11       		.uleb128 0x1
+ 1910 00e7 01       		.uleb128 0x12
+ 1911 00e8 12       		.uleb128 0x1
+ 1912 00e9 01       		.byte	0x0
+ 1913 00ea 40       		.byte	0x0
+ 1914 00eb 06       		.uleb128 0x14
+ 1915 00ec 01       		.uleb128 0x34
+ 1916 00ed 13       		.byte	0x0
+ 1917 00ee 00       		.uleb128 0x3
+ 1918 00ef 00       		.uleb128 0xe
+ 1919 00f0 13       		.uleb128 0x3a
+ 1920 00f1 0B       		.uleb128 0xb
+ 1921 00f2 01       		.uleb128 0x3b
+ 1922 00f3 11       		.uleb128 0x5
+ 1923 00f4 01       		.uleb128 0x49
+ 1924 00f5 12       		.uleb128 0x13
+ 1925 00f6 01       		.uleb128 0x2
+ 1926 00f7 00       		.uleb128 0xa
+ 1927 00f8 00       		.byte	0x0
+ 1928 00f9 14       		.byte	0x0
+ 1929 00fa 34       		.uleb128 0x15
+ 1930 00fb 00       		.uleb128 0x2e
+ 1931 00fc 03       		.byte	0x1
+ 1932 00fd 0E       		.uleb128 0x3f
+ 1933 00fe 3A       		.uleb128 0xc
+ 1934 00ff 0B       		.uleb128 0x3
+ 1935 0100 3B       		.uleb128 0xe
+ 1936 0101 05       		.uleb128 0x3a
+ 1937 0102 49       		.uleb128 0xb
+ 1938 0103 13       		.uleb128 0x3b
+ 1939 0104 02       		.uleb128 0x5
+ 1940 0105 0A       		.uleb128 0x27
+ 1941 0106 00       		.uleb128 0xc
+ 1942 0107 00       		.uleb128 0x11
+ 1943 0108 15       		.uleb128 0x1
+ 1944 0109 2E       		.uleb128 0x12
+ 1945 010a 01       		.uleb128 0x1
+ 1946 010b 3F       		.uleb128 0x40
+ 1947 010c 0C       		.uleb128 0x6
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 42
+
+
+ 1948 010d 03       		.uleb128 0x1
+ 1949 010e 0E       		.uleb128 0x13
+ 1950 010f 3A       		.byte	0x0
+ 1951 0110 0B       		.byte	0x0
+ 1952 0111 3B       		.uleb128 0x16
+ 1953 0112 05       		.uleb128 0x26
+ 1954 0113 27       		.byte	0x0
+ 1955 0114 0C       		.uleb128 0x49
+ 1956 0115 11       		.uleb128 0x13
+ 1957 0116 01       		.byte	0x0
+ 1958 0117 12       		.byte	0x0
+ 1959 0118 01       		.uleb128 0x17
+ 1960 0119 40       		.uleb128 0x2e
+ 1961 011a 06       		.byte	0x1
+ 1962 011b 01       		.uleb128 0x3
+ 1963 011c 13       		.uleb128 0xe
+ 1964 011d 00       		.uleb128 0x3a
+ 1965 011e 00       		.uleb128 0xb
+ 1966 011f 16       		.uleb128 0x3b
+ 1967 0120 26       		.uleb128 0x5
+ 1968 0121 00       		.uleb128 0x27
+ 1969 0122 49       		.uleb128 0xc
+ 1970 0123 13       		.uleb128 0x11
+ 1971 0124 00       		.uleb128 0x1
+ 1972 0125 00       		.uleb128 0x12
+ 1973 0126 17       		.uleb128 0x1
+ 1974 0127 2E       		.uleb128 0x40
+ 1975 0128 01       		.uleb128 0x6
+ 1976 0129 03       		.uleb128 0x1
+ 1977 012a 0E       		.uleb128 0x13
+ 1978 012b 3A       		.byte	0x0
+ 1979 012c 0B       		.byte	0x0
+ 1980 012d 3B       		.uleb128 0x18
+ 1981 012e 05       		.uleb128 0x2e
+ 1982 012f 27       		.byte	0x1
+ 1983 0130 0C       		.uleb128 0x3f
+ 1984 0131 11       		.uleb128 0xc
+ 1985 0132 01       		.uleb128 0x3
+ 1986 0133 12       		.uleb128 0xe
+ 1987 0134 01       		.uleb128 0x3a
+ 1988 0135 40       		.uleb128 0xb
+ 1989 0136 06       		.uleb128 0x3b
+ 1990 0137 01       		.uleb128 0x5
+ 1991 0138 13       		.uleb128 0x27
+ 1992 0139 00       		.uleb128 0xc
+ 1993 013a 00       		.uleb128 0x49
+ 1994 013b 18       		.uleb128 0x13
+ 1995 013c 2E       		.uleb128 0x11
+ 1996 013d 01       		.uleb128 0x1
+ 1997 013e 3F       		.uleb128 0x12
+ 1998 013f 0C       		.uleb128 0x1
+ 1999 0140 03       		.uleb128 0x40
+ 2000 0141 0E       		.uleb128 0x6
+ 2001 0142 3A       		.uleb128 0x1
+ 2002 0143 0B       		.uleb128 0x13
+ 2003 0144 3B       		.byte	0x0
+ 2004 0145 05       		.byte	0x0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 43
+
+
+ 2005 0146 27       		.uleb128 0x19
+ 2006 0147 0C       		.uleb128 0x5
+ 2007 0148 49       		.byte	0x0
+ 2008 0149 13       		.uleb128 0x3
+ 2009 014a 11       		.uleb128 0xe
+ 2010 014b 01       		.uleb128 0x3a
+ 2011 014c 12       		.uleb128 0xb
+ 2012 014d 01       		.uleb128 0x3b
+ 2013 014e 40       		.uleb128 0x5
+ 2014 014f 06       		.uleb128 0x49
+ 2015 0150 01       		.uleb128 0x13
+ 2016 0151 13       		.uleb128 0x2
+ 2017 0152 00       		.uleb128 0xa
+ 2018 0153 00       		.byte	0x0
+ 2019 0154 19       		.byte	0x0
+ 2020 0155 05       		.uleb128 0x1a
+ 2021 0156 00       		.uleb128 0x1
+ 2022 0157 03       		.byte	0x1
+ 2023 0158 0E       		.uleb128 0x49
+ 2024 0159 3A       		.uleb128 0x13
+ 2025 015a 0B       		.uleb128 0x1
+ 2026 015b 3B       		.uleb128 0x13
+ 2027 015c 05       		.byte	0x0
+ 2028 015d 49       		.byte	0x0
+ 2029 015e 13       		.uleb128 0x1b
+ 2030 015f 02       		.uleb128 0x21
+ 2031 0160 0A       		.byte	0x0
+ 2032 0161 00       		.uleb128 0x49
+ 2033 0162 00       		.uleb128 0x13
+ 2034 0163 1A       		.uleb128 0x2f
+ 2035 0164 01       		.uleb128 0xb
+ 2036 0165 01       		.byte	0x0
+ 2037 0166 49       		.byte	0x0
+ 2038 0167 13       		.uleb128 0x1c
+ 2039 0168 01       		.uleb128 0x34
+ 2040 0169 13       		.byte	0x0
+ 2041 016a 00       		.uleb128 0x3
+ 2042 016b 00       		.uleb128 0xe
+ 2043 016c 1B       		.uleb128 0x3a
+ 2044 016d 21       		.uleb128 0xb
+ 2045 016e 00       		.uleb128 0x3b
+ 2046 016f 49       		.uleb128 0xb
+ 2047 0170 13       		.uleb128 0x49
+ 2048 0171 2F       		.uleb128 0x13
+ 2049 0172 0B       		.uleb128 0x3f
+ 2050 0173 00       		.uleb128 0xc
+ 2051 0174 00       		.uleb128 0x2
+ 2052 0175 1C       		.uleb128 0xa
+ 2053 0176 34       		.byte	0x0
+ 2054 0177 00       		.byte	0x0
+ 2055 0178 03       		.byte	0x0
+ 2056 0179 0E       		.section	.debug_pubnames,"",%progbits
+ 2057 017a 3A       		.4byte	0x92
+ 2058 017b 0B       		.2byte	0x2
+ 2059 017c 3B       		.4byte	.Ldebug_info0
+ 2060 017d 0B       		.4byte	0x4cc
+ 2061 017e 49       		.4byte	0x221
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 44
+
+
+ 2062 017f 13       		.ascii	"xCoRoutineCreate\000"
+ 2063 0180 3F       		.4byte	0x28b
+ 2064 0181 0C       		.ascii	"vCoRoutineAddToDelayedList\000"
+ 2065 0182 02       		.4byte	0x346
+ 2066 0183 0A       		.ascii	"vCoRoutineSchedule\000"
+ 2067 0184 00       		.4byte	0x3a8
+ 2068 0185 00       		.ascii	"xCoRoutineRemoveFromEventList\000"
+ 2069 0186 00       		.4byte	0x4b9
+ 2070              		.ascii	"pxCurrentCoRoutine\000"
+ 2071 0000 92000000 		.4byte	0x0
+ 2072 0004 0200     		.section	.debug_aranges,"",%progbits
+ 2073 0006 00000000 		.4byte	0x1c
+ 2074 000a CC040000 		.2byte	0x2
+ 2075 000e 21020000 		.4byte	.Ldebug_info0
+ 2076 0012 78436F52 		.byte	0x4
+ 2076      6F757469 
+ 2076      6E654372 
+ 2076      65617465 
+ 2076      00
+ 2077 0023 8B020000 		.byte	0x0
+ 2078 0027 76436F52 		.2byte	0x0
+ 2078      6F757469 
+ 2078      6E654164 
+ 2078      64546F44 
+ 2078      656C6179 
+ 2079 0042 46030000 		.2byte	0x0
+ 2080 0046 76436F52 		.4byte	.Ltext0
+ 2080      6F757469 
+ 2080      6E655363 
+ 2080      68656475 
+ 2080      6C6500
+ 2081 0059 A8030000 		.4byte	.Letext0-.Ltext0
+ 2082 005d 78436F52 		.4byte	0x0
+ 2082      6F757469 
+ 2082      6E655265 
+ 2082      6D6F7665 
+ 2082      46726F6D 
+ 2083 007b B9040000 		.4byte	0x0
+ 2084 007f 70784375 		.section	.debug_str,"MS",%progbits,1
+ 2084      7272656E 
+ 2084      74436F52 
+ 2084      6F757469 
+ 2084      6E6500
+ 2085 0092 00000000 	.LASF39:
+ 2086              		.ascii	"pxEventList\000"
+ 2087 0000 1C000000 	.LASF50:
+ 2088 0004 0200     		.ascii	"xCoRoutineCreate\000"
+ 2089 0006 00000000 	.LASF43:
+ 2090 000a 04       		.ascii	"prvCheckDelayedList\000"
+ 2091 000b 00       	.LASF37:
+ 2092 000c 0000     		.ascii	"pxCoRoutine\000"
+ 2093 000e 0000     	.LASF35:
+ 2094 0010 00000000 		.ascii	"pxCoRoutineCode\000"
+ 2095 0014 A4070000 	.LASF33:
+ 2096 0018 00000000 		.ascii	"uxState\000"
+ 2097 001c 00000000 	.LASF4:
+ 2098              		.ascii	"short int\000"
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 45
+
+
+ 2099              	.LASF15:
+ 2100 0000 70784576 		.ascii	"portTickType\000"
+ 2100      656E744C 
+ 2100      69737400 
+ 2101              	.LASF63:
+ 2102 000c 78436F52 		.ascii	"SRC/RTOS/croutine.c\000"
+ 2102      6F757469 
+ 2102      6E654372 
+ 2102      65617465 
+ 2102      00
+ 2103              	.LASF12:
+ 2104 001d 70727643 		.ascii	"pxPrevious\000"
+ 2104      6865636B 
+ 2104      44656C61 
+ 2104      7965644C 
+ 2104      69737400 
+ 2105              	.LASF51:
+ 2106 0031 7078436F 		.ascii	"xCoRoutineRemoveFromEventList\000"
+ 2106      526F7574 
+ 2106      696E6500 
+ 2107              	.LASF55:
+ 2108 003d 7078436F 		.ascii	"pxDelayedCoRoutineList\000"
+ 2108      526F7574 
+ 2108      696E6543 
+ 2108      6F646500 
+ 2109              	.LASF62:
+ 2110 004d 75785374 		.ascii	"GNU C 4.3.3\000"
+ 2110      61746500 
+ 2111              	.LASF41:
+ 2112 0055 73686F72 		.ascii	"pxUnblockedCRCB\000"
+ 2112      7420696E 
+ 2112      7400
+ 2113              	.LASF29:
+ 2114 005f 706F7274 		.ascii	"xGenericListItem\000"
+ 2114      5469636B 
+ 2114      54797065 
+ 2114      00
+ 2115              	.LASF13:
+ 2116 006c 5352432F 		.ascii	"pvOwner\000"
+ 2116      52544F53 
+ 2116      2F63726F 
+ 2116      7574696E 
+ 2116      652E6300 
+ 2117              	.LASF38:
+ 2118 0080 70785072 		.ascii	"xTicksToDelay\000"
+ 2118      6576696F 
+ 2118      757300
+ 2119              	.LASF45:
+ 2120 008b 78436F52 		.ascii	"pxTemp\000"
+ 2120      6F757469 
+ 2120      6E655265 
+ 2120      6D6F7665 
+ 2120      46726F6D 
+ 2121              	.LASF7:
+ 2122 00a9 70784465 		.ascii	"long long int\000"
+ 2122      6C617965 
+ 2122      64436F52 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 46
+
+
+ 2122      6F757469 
+ 2122      6E654C69 
+ 2123              	.LASF48:
+ 2124 00c0 474E5520 		.ascii	"pxConstList\000"
+ 2124      4320342E 
+ 2124      332E3300 
+ 2125              	.LASF24:
+ 2126 00cc 7078556E 		.ascii	"xList\000"
+ 2126      626C6F63 
+ 2126      6B656443 
+ 2126      52434200 
+ 2127              	.LASF25:
+ 2128 00dc 7847656E 		.ascii	"xCoRoutineHandle\000"
+ 2128      65726963 
+ 2128      4C697374 
+ 2128      4974656D 
+ 2128      00
+ 2129              	.LASF0:
+ 2130 00ed 70764F77 		.ascii	"long int\000"
+ 2130      6E657200 
+ 2131              	.LASF20:
+ 2132 00f5 78546963 		.ascii	"xLIST\000"
+ 2132      6B73546F 
+ 2132      44656C61 
+ 2132      7900
+ 2133              	.LASF10:
+ 2134 0103 70785465 		.ascii	"xItemValue\000"
+ 2134      6D7000
+ 2135              	.LASF44:
+ 2136 010a 6C6F6E67 		.ascii	"pxCRCB\000"
+ 2136      206C6F6E 
+ 2136      6720696E 
+ 2136      7400
+ 2137              	.LASF17:
+ 2138 0118 7078436F 		.ascii	"xLIST_ITEM\000"
+ 2138      6E73744C 
+ 2138      69737400 
+ 2139              	.LASF42:
+ 2140 0124 784C6973 		.ascii	"prvCheckPendingReadyList\000"
+ 2140      7400
+ 2141              	.LASF47:
+ 2142 012a 78436F52 		.ascii	"vCoRoutineSchedule\000"
+ 2142      6F757469 
+ 2142      6E654861 
+ 2142      6E646C65 
+ 2142      00
+ 2143              	.LASF19:
+ 2144 013b 6C6F6E67 		.ascii	"xMiniListItem\000"
+ 2144      20696E74 
+ 2144      00
+ 2145              	.LASF3:
+ 2146 0144 784C4953 		.ascii	"unsigned char\000"
+ 2146      5400
+ 2147              	.LASF28:
+ 2148 014a 78497465 		.ascii	"pxCoRoutineFunction\000"
+ 2148      6D56616C 
+ 2148      756500
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 47
+
+
+ 2149              	.LASF61:
+ 2150 0155 70784352 		.ascii	"xPassedTicks\000"
+ 2150      434200
+ 2151              	.LASF2:
+ 2152 015c 784C4953 		.ascii	"signed char\000"
+ 2152      545F4954 
+ 2152      454D00
+ 2153              	.LASF8:
+ 2154 0167 70727643 		.ascii	"long long unsigned int\000"
+ 2154      6865636B 
+ 2154      50656E64 
+ 2154      696E6752 
+ 2154      65616479 
+ 2155              	.LASF30:
+ 2156 0180 76436F52 		.ascii	"xEventListItem\000"
+ 2156      6F757469 
+ 2156      6E655363 
+ 2156      68656475 
+ 2156      6C6500
+ 2157              	.LASF6:
+ 2158 0193 784D696E 		.ascii	"unsigned int\000"
+ 2158      694C6973 
+ 2158      74497465 
+ 2158      6D00
+ 2159              	.LASF65:
+ 2160 01a1 756E7369 		.ascii	"pxCurrentCoRoutine\000"
+ 2160      676E6564 
+ 2160      20636861 
+ 2160      7200
+ 2161              	.LASF14:
+ 2162 01af 7078436F 		.ascii	"pvContainer\000"
+ 2162      526F7574 
+ 2162      696E6546 
+ 2162      756E6374 
+ 2162      696F6E00 
+ 2163              	.LASF64:
+ 2164 01c3 78506173 		.ascii	"E:\\Projekty\\ARM\\Eclipse\\AT91SAM7Sxxx_RTOS\000"
+ 2164      73656454 
+ 2164      69636B73 
+ 2164      00
+ 2165              	.LASF57:
+ 2166 01d0 7369676E 		.ascii	"xPendingReadyCoRoutineList\000"
+ 2166      65642063 
+ 2166      68617200 
+ 2167              	.LASF32:
+ 2168 01dc 6C6F6E67 		.ascii	"uxIndex\000"
+ 2168      206C6F6E 
+ 2168      6720756E 
+ 2168      7369676E 
+ 2168      65642069 
+ 2169              	.LASF5:
+ 2170 01f3 78457665 		.ascii	"short unsigned int\000"
+ 2170      6E744C69 
+ 2170      73744974 
+ 2170      656D00
+ 2171              	.LASF46:
+ 2172 0202 756E7369 		.ascii	"vCoRoutineAddToDelayedList\000"
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 48
+
+
+ 2172      676E6564 
+ 2172      20696E74 
+ 2172      00
+ 2173              	.LASF34:
+ 2174 020f 70784375 		.ascii	"corCRCB\000"
+ 2174      7272656E 
+ 2174      74436F52 
+ 2174      6F757469 
+ 2174      6E6500
+ 2175              	.LASF9:
+ 2176 0222 7076436F 		.ascii	"char\000"
+ 2176      6E746169 
+ 2176      6E657200 
+ 2177              	.LASF26:
+ 2178 022e 453A5C50 		.ascii	"crCOROUTINE_CODE\000"
+ 2178      726F6A65 
+ 2178      6B74795C 
+ 2178      41524D5C 
+ 2178      45636C69 
+ 2179              	.LASF11:
+ 2180 0258 7850656E 		.ascii	"pxNext\000"
+ 2180      64696E67 
+ 2180      52656164 
+ 2180      79436F52 
+ 2180      6F757469 
+ 2181              	.LASF56:
+ 2182 0273 7578496E 		.ascii	"pxOverflowDelayedCoRoutineList\000"
+ 2182      64657800 
+ 2183              	.LASF27:
+ 2184 027b 73686F72 		.ascii	"corCoRoutineControlBlock\000"
+ 2184      7420756E 
+ 2184      7369676E 
+ 2184      65642069 
+ 2184      6E7400
+ 2185              	.LASF1:
+ 2186 028e 76436F52 		.ascii	"long unsigned int\000"
+ 2186      6F757469 
+ 2186      6E654164 
+ 2186      64546F44 
+ 2186      656C6179 
+ 2187              	.LASF53:
+ 2188 02a9 636F7243 		.ascii	"xDelayedCoRoutineList1\000"
+ 2188      52434200 
+ 2189              	.LASF54:
+ 2190 02b1 63686172 		.ascii	"xDelayedCoRoutineList2\000"
+ 2190      00
+ 2191              	.LASF21:
+ 2192 02b6 6372434F 		.ascii	"uxNumberOfItems\000"
+ 2192      524F5554 
+ 2192      494E455F 
+ 2192      434F4445 
+ 2192      00
+ 2193              	.LASF16:
+ 2194 02c7 70784E65 		.ascii	"xListItem\000"
+ 2194      787400
+ 2195              	.LASF49:
+ 2196 02ce 70784F76 		.ascii	"prvInitialiseCoRoutineLists\000"
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 49
+
+
+ 2196      6572666C 
+ 2196      6F774465 
+ 2196      6C617965 
+ 2196      64436F52 
+ 2197              	.LASF23:
+ 2198 02ed 636F7243 		.ascii	"xListEnd\000"
+ 2198      6F526F75 
+ 2198      74696E65 
+ 2198      436F6E74 
+ 2198      726F6C42 
+ 2199              	.LASF52:
+ 2200 0306 6C6F6E67 		.ascii	"pxReadyCoRoutineLists\000"
+ 2200      20756E73 
+ 2200      69676E65 
+ 2200      6420696E 
+ 2200      7400
+ 2201              	.LASF60:
+ 2202 0318 7844656C 		.ascii	"xLastTickCount\000"
+ 2202      61796564 
+ 2202      436F526F 
+ 2202      7574696E 
+ 2202      654C6973 
+ 2203              	.LASF36:
+ 2204 032f 7844656C 		.ascii	"xReturn\000"
+ 2204      61796564 
+ 2204      436F526F 
+ 2204      7574696E 
+ 2204      654C6973 
+ 2205              	.LASF59:
+ 2206 0346 75784E75 		.ascii	"xCoRoutineTickCount\000"
+ 2206      6D626572 
+ 2206      4F664974 
+ 2206      656D7300 
+ 2207              	.LASF58:
+ 2208 0356 784C6973 		.ascii	"uxTopCoRoutineReadyPriority\000"
+ 2208      74497465 
+ 2208      6D00
+ 2209              	.LASF31:
+ 2210 0360 70727649 		.ascii	"uxPriority\000"
+ 2210      6E697469 
+ 2210      616C6973 
+ 2210      65436F52 
+ 2210      6F757469 
+ 2211              	.LASF22:
+ 2212 037c 784C6973 		.ascii	"pxIndex\000"
+ 2212      74456E64 
+ 2212      00
+ 2213              	.LASF18:
+ 2214 0385 70785265 		.ascii	"xMINI_LIST_ITEM\000"
+ 2214      61647943 
+ 2214      6F526F75 
+ 2214      74696E65 
+ 2214      4C697374 
+ 2215              	.LASF40:
+ 2216 039b 784C6173 		.ascii	"xTimeToWake\000"
+ 2216      74546963 
+ 2216      6B436F75 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 50
+
+
+ 2216      6E7400
+ 2217              		.ident	"GCC: (GNU) 4.3.3"
+ 2218 03aa 78526574 	...
+ 2218      75726E00 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s 			page 51
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 croutine.c
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:39     .bss:00000000 pxCurrentCoRoutine
+                             .bss:00000000 $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:42     .bss:00000004 uxTopCoRoutineReadyPriority
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:45     .bss:00000008 xCoRoutineTickCount
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:48     .bss:0000000c xLastTickCount
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:51     .bss:00000010 xPassedTicks
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:57     .text:00000000 xCoRoutineCreate
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:64     .text:00000000 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:643    .text:00000654 prvInitialiseCoRoutineLists
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:182    .text:0000015c $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:781    .bss:00000014 pxReadyCoRoutineLists
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:190    .text:00000168 vCoRoutineAddToDelayedList
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:196    .text:00000168 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:265    .text:00000238 $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:793    .bss:00000068 pxOverflowDelayedCoRoutineList
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:790    .bss:00000064 pxDelayedCoRoutineList
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:273    .text:00000248 prvCheckPendingReadyList
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:279    .text:00000248 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:366    .text:00000344 $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:796    .bss:0000006c xPendingReadyCoRoutineList
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:373    .text:00000350 prvCheckDelayedList
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:379    .text:00000350 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:530    .text:00000518 $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:542    .text:00000534 vCoRoutineSchedule
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:548    .text:00000534 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:636    .text:00000648 $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:649    .text:00000654 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:699    .text:000006dc $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:784    .bss:0000003c xDelayedCoRoutineList1
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:787    .bss:00000050 xDelayedCoRoutineList2
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:710    .text:000006f4 xCoRoutineRemoveFromEventList
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:716    .text:000006f4 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccn3ptW3.s:775    .text:0000079c $d
+
+UNDEFINED SYMBOLS
+pvPortMalloc
+vListInitialiseItem
+vListInsertEnd
+vListRemove
+vListInsert
+xTaskGetTickCount
+vListInitialise

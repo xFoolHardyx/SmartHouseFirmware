@@ -1,0 +1,1762 @@
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 1
+
+
+   1              		.file	"port.c"
+   2              	@ GNU C (GCC) version 4.3.3 (arm-elf)
+   3              	@	compiled by GNU C version 3.4.5 (mingw special), GMP version 4.2.2, MPFR version 2.3.1.
+   4              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+   5              	@ options passed:  -I . -IINC/ -IINC/RTOS/ -imultilib interwork -iprefix
+   6              	@ d:\programy\mikrokontrolery\arm\yagarto\bin\../lib/gcc/arm-elf/4.3.3/ -MD
+   7              	@ SRC/RTOS/port.d -MF .dep/port.o.d -MP -MQ SRC/RTOS/port.o
+   8              	@ -D__USES_INITFINI__ SRC/RTOS/port.c -mcpu=arm7tdmi -mthumb-interwork
+   9              	@ -auxbase-strip SRC/RTOS/port.o -gdwarf-2 -O0 -Wall -Wstrict-prototypes
+  10              	@ -fomit-frame-pointer -fverbose-asm
+  11              	@ options enabled:  -falign-loops -fargument-alias -fauto-inc-dec
+  12              	@ -fbranch-count-reg -fcommon -fearly-inlining
+  13              	@ -feliminate-unused-debug-types -ffunction-cse -fgcse-lm -fident -fivopts
+  14              	@ -fkeep-static-consts -fleading-underscore -fmath-errno
+  15              	@ -fmerge-debug-strings -fmove-loop-invariants -fomit-frame-pointer
+  16              	@ -fpeephole -freg-struct-return -fsched-interblock -fsched-spec
+  17              	@ -fsched-stalled-insns-dep -fsigned-zeros -fsplit-ivs-in-unroller
+  18              	@ -ftoplevel-reorder -ftrapping-math -ftree-cselim -ftree-loop-im
+  19              	@ -ftree-loop-ivcanon -ftree-loop-optimize -ftree-parallelize-loops=
+  20              	@ -ftree-reassoc -ftree-scev-cprop -ftree-vect-loop-version -fverbose-asm
+  21              	@ -fzero-initialized-in-bss -mlittle-endian -msched-prolog
+  22              	@ -mthumb-interwork
+  23              	
+  24              		.section	.debug_abbrev,"",%progbits
+  25              	.Ldebug_abbrev0:
+  26              		.section	.debug_info,"",%progbits
+  27              	.Ldebug_info0:
+  28              		.section	.debug_line,"",%progbits
+  29              	.Ldebug_line0:
+  30 0000 A2000000 		.text
+  30      02005300 
+  30      00000201 
+  30      FB0E0D00 
+  30      01010101 
+  31              	.Ltext0:
+  32              	@ Compiler executable checksum: aefe8b2555dadc8858779d7450a1d1fb
+  33              	
+  34              		.align	2
+  35              		.global	pxPortInitialiseStack
+  36              		.type	pxPortInitialiseStack, %function
+  37              	pxPortInitialiseStack:
+  38              	.LFB2:
+  39              		.file 1 "SRC/RTOS/port.c"
+   1:SRC/RTOS/port.c **** /*
+   2:SRC/RTOS/port.c ****     FreeRTOS V6.0.2 - Copyright (C) 2010 Real Time Engineers Ltd.
+   3:SRC/RTOS/port.c **** 
+   4:SRC/RTOS/port.c ****     ***************************************************************************
+   5:SRC/RTOS/port.c ****     *                                                                         *
+   6:SRC/RTOS/port.c ****     * If you are:                                                             *
+   7:SRC/RTOS/port.c ****     *                                                                         *
+   8:SRC/RTOS/port.c ****     *    + New to FreeRTOS,                                                   *
+   9:SRC/RTOS/port.c ****     *    + Wanting to learn FreeRTOS or multitasking in general quickly       *
+  10:SRC/RTOS/port.c ****     *    + Looking for basic training,                                        *
+  11:SRC/RTOS/port.c ****     *    + Wanting to improve your FreeRTOS skills and productivity           *
+  12:SRC/RTOS/port.c ****     *                                                                         *
+  13:SRC/RTOS/port.c ****     * then take a look at the FreeRTOS eBook                                  *
+  14:SRC/RTOS/port.c ****     *                                                                         *
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 2
+
+
+  15:SRC/RTOS/port.c ****     *        "Using the FreeRTOS Real Time Kernel - a Practical Guide"        *
+  16:SRC/RTOS/port.c ****     *                  http://www.FreeRTOS.org/Documentation                  *
+  17:SRC/RTOS/port.c ****     *                                                                         *
+  18:SRC/RTOS/port.c ****     * A pdf reference manual is also available.  Both are usually delivered   *
+  19:SRC/RTOS/port.c ****     * to your inbox within 20 minutes to two hours when purchased between 8am *
+  20:SRC/RTOS/port.c ****     * and 8pm GMT (although please allow up to 24 hours in case of            *
+  21:SRC/RTOS/port.c ****     * exceptional circumstances).  Thank you for your support!                *
+  22:SRC/RTOS/port.c ****     *                                                                         *
+  23:SRC/RTOS/port.c ****     ***************************************************************************
+  24:SRC/RTOS/port.c **** 
+  25:SRC/RTOS/port.c ****     This file is part of the FreeRTOS distribution.
+  26:SRC/RTOS/port.c **** 
+  27:SRC/RTOS/port.c ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  28:SRC/RTOS/port.c ****     the terms of the GNU General Public License (version 2) as published by the
+  29:SRC/RTOS/port.c ****     Free Software Foundation AND MODIFIED BY the FreeRTOS exception.
+  30:SRC/RTOS/port.c ****     ***NOTE*** The exception to the GPL is included to allow you to distribute
+  31:SRC/RTOS/port.c ****     a combined work that includes FreeRTOS without being obliged to provide the
+  32:SRC/RTOS/port.c ****     source code for proprietary components outside of the FreeRTOS kernel.
+  33:SRC/RTOS/port.c ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT
+  34:SRC/RTOS/port.c ****     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  35:SRC/RTOS/port.c ****     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+  36:SRC/RTOS/port.c ****     more details. You should have received a copy of the GNU General Public 
+  37:SRC/RTOS/port.c ****     License and the FreeRTOS license exception along with FreeRTOS; if not it 
+  38:SRC/RTOS/port.c ****     can be viewed here: http://www.freertos.org/a00114.html and also obtained 
+  39:SRC/RTOS/port.c ****     by writing to Richard Barry, contact details for whom are available on the
+  40:SRC/RTOS/port.c ****     FreeRTOS WEB site.
+  41:SRC/RTOS/port.c **** 
+  42:SRC/RTOS/port.c ****     1 tab == 4 spaces!
+  43:SRC/RTOS/port.c **** 
+  44:SRC/RTOS/port.c ****     http://www.FreeRTOS.org - Documentation, latest information, license and
+  45:SRC/RTOS/port.c ****     contact details.
+  46:SRC/RTOS/port.c **** 
+  47:SRC/RTOS/port.c ****     http://www.SafeRTOS.com - A version that is certified for use in safety
+  48:SRC/RTOS/port.c ****     critical systems.
+  49:SRC/RTOS/port.c **** 
+  50:SRC/RTOS/port.c ****     http://www.OpenRTOS.com - Commercial support, development, porting,
+  51:SRC/RTOS/port.c ****     licensing and training services.
+  52:SRC/RTOS/port.c **** */
+  53:SRC/RTOS/port.c **** 
+  54:SRC/RTOS/port.c **** 
+  55:SRC/RTOS/port.c **** /*-----------------------------------------------------------
+  56:SRC/RTOS/port.c ****  * Implementation of functions defined in portable.h for the ARM7 port.
+  57:SRC/RTOS/port.c ****  *
+  58:SRC/RTOS/port.c ****  * Components that can be compiled to either ARM or THUMB mode are
+  59:SRC/RTOS/port.c ****  * contained in this file.  The ISR routines, which can only be compiled
+  60:SRC/RTOS/port.c ****  * to ARM mode are contained in portISR.c.
+  61:SRC/RTOS/port.c ****  *----------------------------------------------------------*/
+  62:SRC/RTOS/port.c **** 
+  63:SRC/RTOS/port.c **** /*
+  64:SRC/RTOS/port.c **** 	Changes from V2.5.2
+  65:SRC/RTOS/port.c **** 		
+  66:SRC/RTOS/port.c **** 	+ ulCriticalNesting is now saved as part of the task context, as is 
+  67:SRC/RTOS/port.c **** 	  therefore added to the initial task stack during pxPortInitialiseStack.
+  68:SRC/RTOS/port.c **** */
+  69:SRC/RTOS/port.c **** 
+  70:SRC/RTOS/port.c **** 
+  71:SRC/RTOS/port.c **** /* Standard includes. */
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 3
+
+
+  72:SRC/RTOS/port.c **** #include <stdlib.h>
+  73:SRC/RTOS/port.c **** 
+  74:SRC/RTOS/port.c **** /* Scheduler includes. */
+  75:SRC/RTOS/port.c **** #include "FreeRTOS.h"
+  76:SRC/RTOS/port.c **** #include "task.h"
+  77:SRC/RTOS/port.c **** 
+  78:SRC/RTOS/port.c **** /* Processor constants. */
+  79:SRC/RTOS/port.c **** #include "AT91SAM7X256.h"
+  80:SRC/RTOS/port.c **** 
+  81:SRC/RTOS/port.c **** /* Constants required to setup the task context. */
+  82:SRC/RTOS/port.c **** #define portINITIAL_SPSR				( ( portSTACK_TYPE ) 0x1f ) /* System mode, ARM mode, interrupts enable
+  83:SRC/RTOS/port.c **** #define portTHUMB_MODE_BIT				( ( portSTACK_TYPE ) 0x20 )
+  84:SRC/RTOS/port.c **** #define portINSTRUCTION_SIZE			( ( portSTACK_TYPE ) 4 )
+  85:SRC/RTOS/port.c **** #define portNO_CRITICAL_SECTION_NESTING	( ( portSTACK_TYPE ) 0 )
+  86:SRC/RTOS/port.c **** 
+  87:SRC/RTOS/port.c **** /* Constants required to setup the tick ISR. */
+  88:SRC/RTOS/port.c **** #define portENABLE_TIMER			( ( unsigned char ) 0x01 )
+  89:SRC/RTOS/port.c **** #define portPRESCALE_VALUE			0x00
+  90:SRC/RTOS/port.c **** #define portINTERRUPT_ON_MATCH		( ( unsigned long ) 0x01 )
+  91:SRC/RTOS/port.c **** #define portRESET_COUNT_ON_MATCH	( ( unsigned long ) 0x02 )
+  92:SRC/RTOS/port.c **** 
+  93:SRC/RTOS/port.c **** /* Constants required to setup the PIT. */
+  94:SRC/RTOS/port.c **** #define portPIT_CLOCK_DIVISOR			( ( unsigned long ) 16 )
+  95:SRC/RTOS/port.c **** #define portPIT_COUNTER_VALUE			( ( ( configCPU_CLOCK_HZ / portPIT_CLOCK_DIVISOR ) / 1000UL ) * por
+  96:SRC/RTOS/port.c **** 
+  97:SRC/RTOS/port.c **** #define portINT_LEVEL_SENSITIVE  0
+  98:SRC/RTOS/port.c **** #define portPIT_ENABLE      	( ( unsigned short ) 0x1 << 24 )
+  99:SRC/RTOS/port.c **** #define portPIT_INT_ENABLE     	( ( unsigned short ) 0x1 << 25 )
+ 100:SRC/RTOS/port.c **** /*-----------------------------------------------------------*/
+ 101:SRC/RTOS/port.c **** 
+ 102:SRC/RTOS/port.c **** /* Setup the timer to generate the tick interrupts. */
+ 103:SRC/RTOS/port.c **** static void prvSetupTimerInterrupt( void );
+ 104:SRC/RTOS/port.c **** 
+ 105:SRC/RTOS/port.c **** /* 
+ 106:SRC/RTOS/port.c ****  * The scheduler can only be started from ARM mode, so 
+ 107:SRC/RTOS/port.c ****  * vPortISRStartFirstSTask() is defined in portISR.c. 
+ 108:SRC/RTOS/port.c ****  */
+ 109:SRC/RTOS/port.c **** extern void vPortISRStartFirstTask( void );
+ 110:SRC/RTOS/port.c **** 
+ 111:SRC/RTOS/port.c **** /*-----------------------------------------------------------*/
+ 112:SRC/RTOS/port.c **** 
+ 113:SRC/RTOS/port.c **** /* 
+ 114:SRC/RTOS/port.c ****  * Initialise the stack of a task to look exactly as if a call to 
+ 115:SRC/RTOS/port.c ****  * portSAVE_CONTEXT had been called.
+ 116:SRC/RTOS/port.c ****  *
+ 117:SRC/RTOS/port.c ****  * See header file for description. 
+ 118:SRC/RTOS/port.c ****  */
+ 119:SRC/RTOS/port.c **** portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE pxCode, void *pvPa
+ 120:SRC/RTOS/port.c **** {
+  40              	rworking.
+  41              		@ args = 0, pretend = 0, frame = 16
+  42              		@ frame_needed = 0, uses_anonymous_args = 0
+  43              		@ link register save eliminated.
+  44              		sub	sp, sp, #16	@,,
+  45 0000 10D04DE2 	.LCFI0:
+  46              		str	r0, [sp, #8]	@ pxTopOfStack, pxTopOfStack
+  47 0004 08008DE5 		str	r1, [sp, #4]	@ pxCode, pxCode
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 4
+
+
+  48 0008 04108DE5 		str	r2, [sp, #0]	@ pvParameters, pvParameters
+  49 000c 00208DE5 		.loc 1 123 0
+ 121:SRC/RTOS/port.c **** portSTACK_TYPE *pxOriginalTOS;
+ 122:SRC/RTOS/port.c **** 
+ 123:SRC/RTOS/port.c **** 	pxOriginalTOS = pxTopOfStack;
+  50              	sp, #8]	@ tmp139, pxTopOfStack
+  51 0010 08309DE5 		str	r3, [sp, #12]	@ tmp139, pxOriginalTOS
+  52 0014 0C308DE5 		.loc 1 131 0
+ 124:SRC/RTOS/port.c **** 
+ 125:SRC/RTOS/port.c **** 	/* Setup the initial stack of the task.  The stack is set exactly as 
+ 126:SRC/RTOS/port.c **** 	expected by the portRESTORE_CONTEXT() macro. */
+ 127:SRC/RTOS/port.c **** 
+ 128:SRC/RTOS/port.c **** 	/* First on the stack is the return address - which in this case is the
+ 129:SRC/RTOS/port.c **** 	start of the task.  The offset is added to make the return address appear
+ 130:SRC/RTOS/port.c **** 	as it would within an IRQ ISR. */
+ 131:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) pxCode + portINSTRUCTION_SIZE;		
+  53              	r	r3, [sp, #4]	@ tmp140, pxCode
+  54 0018 04309DE5 		add	r3, r3, #4	@ D.3285, tmp140,
+  55 001c 043083E2 		mov	r2, r3	@ D.3286, D.3285
+  56 0020 0320A0E1 		ldr	r3, [sp, #8]	@ tmp141, pxTopOfStack
+  57 0024 08309DE5 		str	r2, [r3, #0]	@ D.3286,
+  58 0028 002083E5 		.loc 1 132 0
+ 132:SRC/RTOS/port.c **** 	pxTopOfStack--;
+  59              	3, [sp, #8]	@ tmp142, pxTopOfStack
+  60 002c 08309DE5 		sub	r3, r3, #4	@ tmp143, tmp142,
+  61 0030 043043E2 		str	r3, [sp, #8]	@ tmp143, pxTopOfStack
+  62 0034 08308DE5 		.loc 1 134 0
+ 133:SRC/RTOS/port.c **** 
+ 134:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) 0x00000000;	/* R14 */
+  63              		r2, [sp, #8]	@ tmp144, pxTopOfStack
+  64 0038 08209DE5 		mov	r3, #0	@ tmp145,
+  65 003c 0030A0E3 		str	r3, [r2, #0]	@ tmp145,
+  66 0040 003082E5 		.loc 1 135 0
+ 135:SRC/RTOS/port.c **** 	pxTopOfStack--;	
+  67              		r3, [sp, #8]	@ tmp146, pxTopOfStack
+  68 0044 08309DE5 		sub	r3, r3, #4	@ tmp147, tmp146,
+  69 0048 043043E2 		str	r3, [sp, #8]	@ tmp147, pxTopOfStack
+  70 004c 08308DE5 		.loc 1 136 0
+ 136:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
+  71              		r2, [sp, #12]	@ pxOriginalTOS.0, pxOriginalTOS
+  72 0050 0C209DE5 		ldr	r3, [sp, #8]	@ tmp148, pxTopOfStack
+  73 0054 08309DE5 		str	r2, [r3, #0]	@ pxOriginalTOS.0,
+  74 0058 002083E5 		.loc 1 137 0
+ 137:SRC/RTOS/port.c **** 	pxTopOfStack--;
+  75              		r3, [sp, #8]	@ tmp149, pxTopOfStack
+  76 005c 08309DE5 		sub	r3, r3, #4	@ tmp150, tmp149,
+  77 0060 043043E2 		str	r3, [sp, #8]	@ tmp150, pxTopOfStack
+  78 0064 08308DE5 		.loc 1 138 0
+ 138:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) 0x12121212;	/* R12 */
+  79              		r2, [sp, #8]	@ tmp151, pxTopOfStack
+  80 0068 08209DE5 		mov	r3, #4608	@ tmp152,
+  81 006c 123CA0E3 		add	r3, r3, #18	@ tmp152, tmp152,
+  82 0070 123083E2 		orr	r3, r3, r3, asl #16	@, tmp152, tmp152, tmp152,
+  83 0074 033883E1 		str	r3, [r2, #0]	@ tmp152,
+  84 0078 003082E5 		.loc 1 139 0
+ 139:SRC/RTOS/port.c **** 	pxTopOfStack--;	
+  85              	3, [sp, #8]	@ tmp153, pxTopOfStack
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 5
+
+
+  86 007c 08309DE5 		sub	r3, r3, #4	@ tmp154, tmp153,
+  87 0080 043043E2 		str	r3, [sp, #8]	@ tmp154, pxTopOfStack
+  88 0084 08308DE5 		.loc 1 140 0
+ 140:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) 0x11111111;	/* R11 */
+  89              		r2, [sp, #8]	@ tmp155, pxTopOfStack
+  90 0088 08209DE5 		mov	r3, #4352	@ tmp156,
+  91 008c 113CA0E3 		add	r3, r3, #17	@ tmp156, tmp156,
+  92 0090 113083E2 		orr	r3, r3, r3, asl #16	@, tmp156, tmp156, tmp156,
+  93 0094 033883E1 		str	r3, [r2, #0]	@ tmp156,
+  94 0098 003082E5 		.loc 1 141 0
+ 141:SRC/RTOS/port.c **** 	pxTopOfStack--;	
+  95              	3, [sp, #8]	@ tmp157, pxTopOfStack
+  96 009c 08309DE5 		sub	r3, r3, #4	@ tmp158, tmp157,
+  97 00a0 043043E2 		str	r3, [sp, #8]	@ tmp158, pxTopOfStack
+  98 00a4 08308DE5 		.loc 1 142 0
+ 142:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) 0x10101010;	/* R10 */
+  99              		r2, [sp, #8]	@ tmp159, pxTopOfStack
+ 100 00a8 08209DE5 		mov	r3, #4096	@ tmp160,
+ 101 00ac 013AA0E3 		add	r3, r3, #16	@ tmp160, tmp160,
+ 102 00b0 103083E2 		orr	r3, r3, r3, asl #16	@, tmp160, tmp160, tmp160,
+ 103 00b4 033883E1 		str	r3, [r2, #0]	@ tmp160,
+ 104 00b8 003082E5 		.loc 1 143 0
+ 143:SRC/RTOS/port.c **** 	pxTopOfStack--;	
+ 105              	3, [sp, #8]	@ tmp161, pxTopOfStack
+ 106 00bc 08309DE5 		sub	r3, r3, #4	@ tmp162, tmp161,
+ 107 00c0 043043E2 		str	r3, [sp, #8]	@ tmp162, pxTopOfStack
+ 108 00c4 08308DE5 		.loc 1 144 0
+ 144:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) 0x09090909;	/* R9 */
+ 109              		r2, [sp, #8]	@ tmp163, pxTopOfStack
+ 110 00c8 08209DE5 		mov	r3, #2304	@ tmp164,
+ 111 00cc 093CA0E3 		add	r3, r3, #9	@ tmp164, tmp164,
+ 112 00d0 093083E2 		orr	r3, r3, r3, asl #16	@, tmp164, tmp164, tmp164,
+ 113 00d4 033883E1 		str	r3, [r2, #0]	@ tmp164,
+ 114 00d8 003082E5 		.loc 1 145 0
+ 145:SRC/RTOS/port.c **** 	pxTopOfStack--;	
+ 115              	3, [sp, #8]	@ tmp165, pxTopOfStack
+ 116 00dc 08309DE5 		sub	r3, r3, #4	@ tmp166, tmp165,
+ 117 00e0 043043E2 		str	r3, [sp, #8]	@ tmp166, pxTopOfStack
+ 118 00e4 08308DE5 		.loc 1 146 0
+ 146:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) 0x08080808;	/* R8 */
+ 119              		r2, [sp, #8]	@ tmp167, pxTopOfStack
+ 120 00e8 08209DE5 		mov	r3, #2048	@ tmp168,
+ 121 00ec 023BA0E3 		add	r3, r3, #8	@ tmp168, tmp168,
+ 122 00f0 083083E2 		orr	r3, r3, r3, asl #16	@, tmp168, tmp168, tmp168,
+ 123 00f4 033883E1 		str	r3, [r2, #0]	@ tmp168,
+ 124 00f8 003082E5 		.loc 1 147 0
+ 147:SRC/RTOS/port.c **** 	pxTopOfStack--;	
+ 125              	3, [sp, #8]	@ tmp169, pxTopOfStack
+ 126 00fc 08309DE5 		sub	r3, r3, #4	@ tmp170, tmp169,
+ 127 0100 043043E2 		str	r3, [sp, #8]	@ tmp170, pxTopOfStack
+ 128 0104 08308DE5 		.loc 1 148 0
+ 148:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) 0x07070707;	/* R7 */
+ 129              		r2, [sp, #8]	@ tmp171, pxTopOfStack
+ 130 0108 08209DE5 		mov	r3, #1792	@ tmp172,
+ 131 010c 073CA0E3 		add	r3, r3, #7	@ tmp172, tmp172,
+ 132 0110 073083E2 		orr	r3, r3, r3, asl #16	@, tmp172, tmp172, tmp172,
+ 133 0114 033883E1 		str	r3, [r2, #0]	@ tmp172,
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 6
+
+
+ 134 0118 003082E5 		.loc 1 149 0
+ 149:SRC/RTOS/port.c **** 	pxTopOfStack--;	
+ 135              	3, [sp, #8]	@ tmp173, pxTopOfStack
+ 136 011c 08309DE5 		sub	r3, r3, #4	@ tmp174, tmp173,
+ 137 0120 043043E2 		str	r3, [sp, #8]	@ tmp174, pxTopOfStack
+ 138 0124 08308DE5 		.loc 1 150 0
+ 150:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) 0x06060606;	/* R6 */
+ 139              		r2, [sp, #8]	@ tmp175, pxTopOfStack
+ 140 0128 08209DE5 		mov	r3, #1536	@ tmp176,
+ 141 012c 063CA0E3 		add	r3, r3, #6	@ tmp176, tmp176,
+ 142 0130 063083E2 		orr	r3, r3, r3, asl #16	@, tmp176, tmp176, tmp176,
+ 143 0134 033883E1 		str	r3, [r2, #0]	@ tmp176,
+ 144 0138 003082E5 		.loc 1 151 0
+ 151:SRC/RTOS/port.c **** 	pxTopOfStack--;	
+ 145              	3, [sp, #8]	@ tmp177, pxTopOfStack
+ 146 013c 08309DE5 		sub	r3, r3, #4	@ tmp178, tmp177,
+ 147 0140 043043E2 		str	r3, [sp, #8]	@ tmp178, pxTopOfStack
+ 148 0144 08308DE5 		.loc 1 152 0
+ 152:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) 0x05050505;	/* R5 */
+ 149              		r2, [sp, #8]	@ tmp179, pxTopOfStack
+ 150 0148 08209DE5 		mov	r3, #1280	@ tmp180,
+ 151 014c 053CA0E3 		add	r3, r3, #5	@ tmp180, tmp180,
+ 152 0150 053083E2 		orr	r3, r3, r3, asl #16	@, tmp180, tmp180, tmp180,
+ 153 0154 033883E1 		str	r3, [r2, #0]	@ tmp180,
+ 154 0158 003082E5 		.loc 1 153 0
+ 153:SRC/RTOS/port.c **** 	pxTopOfStack--;	
+ 155              	3, [sp, #8]	@ tmp181, pxTopOfStack
+ 156 015c 08309DE5 		sub	r3, r3, #4	@ tmp182, tmp181,
+ 157 0160 043043E2 		str	r3, [sp, #8]	@ tmp182, pxTopOfStack
+ 158 0164 08308DE5 		.loc 1 154 0
+ 154:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) 0x04040404;	/* R4 */
+ 159              		r2, [sp, #8]	@ tmp183, pxTopOfStack
+ 160 0168 08209DE5 		mov	r3, #1024	@ tmp184,
+ 161 016c 013BA0E3 		add	r3, r3, #4	@ tmp184, tmp184,
+ 162 0170 043083E2 		orr	r3, r3, r3, asl #16	@, tmp184, tmp184, tmp184,
+ 163 0174 033883E1 		str	r3, [r2, #0]	@ tmp184,
+ 164 0178 003082E5 		.loc 1 155 0
+ 155:SRC/RTOS/port.c **** 	pxTopOfStack--;	
+ 165              	3, [sp, #8]	@ tmp185, pxTopOfStack
+ 166 017c 08309DE5 		sub	r3, r3, #4	@ tmp186, tmp185,
+ 167 0180 043043E2 		str	r3, [sp, #8]	@ tmp186, pxTopOfStack
+ 168 0184 08308DE5 		.loc 1 156 0
+ 156:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) 0x03030303;	/* R3 */
+ 169              		r2, [sp, #8]	@ tmp187, pxTopOfStack
+ 170 0188 08209DE5 		mov	r3, #768	@ tmp188,
+ 171 018c 033CA0E3 		add	r3, r3, #3	@ tmp188, tmp188,
+ 172 0190 033083E2 		orr	r3, r3, r3, asl #16	@, tmp188, tmp188, tmp188,
+ 173 0194 033883E1 		str	r3, [r2, #0]	@ tmp188,
+ 174 0198 003082E5 		.loc 1 157 0
+ 157:SRC/RTOS/port.c **** 	pxTopOfStack--;	
+ 175              	3, [sp, #8]	@ tmp189, pxTopOfStack
+ 176 019c 08309DE5 		sub	r3, r3, #4	@ tmp190, tmp189,
+ 177 01a0 043043E2 		str	r3, [sp, #8]	@ tmp190, pxTopOfStack
+ 178 01a4 08308DE5 		.loc 1 158 0
+ 158:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) 0x02020202;	/* R2 */
+ 179              		r2, [sp, #8]	@ tmp191, pxTopOfStack
+ 180 01a8 08209DE5 		mov	r3, #512	@ tmp192,
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 7
+
+
+ 181 01ac 023CA0E3 		add	r3, r3, #2	@ tmp192, tmp192,
+ 182 01b0 023083E2 		orr	r3, r3, r3, asl #16	@, tmp192, tmp192, tmp192,
+ 183 01b4 033883E1 		str	r3, [r2, #0]	@ tmp192,
+ 184 01b8 003082E5 		.loc 1 159 0
+ 159:SRC/RTOS/port.c **** 	pxTopOfStack--;	
+ 185              	3, [sp, #8]	@ tmp193, pxTopOfStack
+ 186 01bc 08309DE5 		sub	r3, r3, #4	@ tmp194, tmp193,
+ 187 01c0 043043E2 		str	r3, [sp, #8]	@ tmp194, pxTopOfStack
+ 188 01c4 08308DE5 		.loc 1 160 0
+ 160:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) 0x01010101;	/* R1 */
+ 189              		r2, [sp, #8]	@ tmp195, pxTopOfStack
+ 190 01c8 08209DE5 		mov	r3, #256	@ tmp196,
+ 191 01cc 013CA0E3 		add	r3, r3, #1	@ tmp196, tmp196,
+ 192 01d0 013083E2 		orr	r3, r3, r3, asl #16	@, tmp196, tmp196, tmp196,
+ 193 01d4 033883E1 		str	r3, [r2, #0]	@ tmp196,
+ 194 01d8 003082E5 		.loc 1 161 0
+ 161:SRC/RTOS/port.c **** 	pxTopOfStack--;	
+ 195              	3, [sp, #8]	@ tmp197, pxTopOfStack
+ 196 01dc 08309DE5 		sub	r3, r3, #4	@ tmp198, tmp197,
+ 197 01e0 043043E2 		str	r3, [sp, #8]	@ tmp198, pxTopOfStack
+ 198 01e4 08308DE5 		.loc 1 165 0
+ 162:SRC/RTOS/port.c **** 
+ 163:SRC/RTOS/port.c **** 	/* When the task starts is will expect to find the function parameter in
+ 164:SRC/RTOS/port.c **** 	R0. */
+ 165:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) pvParameters; /* R0 */
+ 199              		r2, [sp, #0]	@ pvParameters.1, pvParameters
+ 200 01e8 00209DE5 		ldr	r3, [sp, #8]	@ tmp199, pxTopOfStack
+ 201 01ec 08309DE5 		str	r2, [r3, #0]	@ pvParameters.1,
+ 202 01f0 002083E5 		.loc 1 166 0
+ 166:SRC/RTOS/port.c **** 	pxTopOfStack--;
+ 203              		r3, [sp, #8]	@ tmp200, pxTopOfStack
+ 204 01f4 08309DE5 		sub	r3, r3, #4	@ tmp201, tmp200,
+ 205 01f8 043043E2 		str	r3, [sp, #8]	@ tmp201, pxTopOfStack
+ 206 01fc 08308DE5 		.loc 1 170 0
+ 167:SRC/RTOS/port.c **** 
+ 168:SRC/RTOS/port.c **** 	/* The last thing onto the stack is the status register, which is set for
+ 169:SRC/RTOS/port.c **** 	system mode, with interrupts enabled. */
+ 170:SRC/RTOS/port.c **** 	*pxTopOfStack = ( portSTACK_TYPE ) portINITIAL_SPSR;
+ 207              		r2, [sp, #8]	@ tmp202, pxTopOfStack
+ 208 0200 08209DE5 		mov	r3, #31	@ tmp203,
+ 209 0204 1F30A0E3 		str	r3, [r2, #0]	@ tmp203,
+ 210 0208 003082E5 		.loc 1 179 0
+ 171:SRC/RTOS/port.c **** 
+ 172:SRC/RTOS/port.c **** 	#ifdef THUMB_INTERWORK
+ 173:SRC/RTOS/port.c **** 	{
+ 174:SRC/RTOS/port.c **** 		/* We want the task to start in thumb mode. */
+ 175:SRC/RTOS/port.c **** 		*pxTopOfStack |= portTHUMB_MODE_BIT;
+ 176:SRC/RTOS/port.c **** 	}
+ 177:SRC/RTOS/port.c **** 	#endif
+ 178:SRC/RTOS/port.c **** 
+ 179:SRC/RTOS/port.c **** 	pxTopOfStack--;
+ 211              		r3, [sp, #8]	@ tmp204, pxTopOfStack
+ 212 020c 08309DE5 		sub	r3, r3, #4	@ tmp205, tmp204,
+ 213 0210 043043E2 		str	r3, [sp, #8]	@ tmp205, pxTopOfStack
+ 214 0214 08308DE5 		.loc 1 185 0
+ 180:SRC/RTOS/port.c **** 
+ 181:SRC/RTOS/port.c **** 	/* Some optimisation levels use the stack differently to others.  This 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 8
+
+
+ 182:SRC/RTOS/port.c **** 	means the interrupt flags cannot always be stored on the stack and will
+ 183:SRC/RTOS/port.c **** 	instead be stored in a variable, which is then saved as part of the
+ 184:SRC/RTOS/port.c **** 	tasks context. */
+ 185:SRC/RTOS/port.c **** 	*pxTopOfStack = portNO_CRITICAL_SECTION_NESTING;
+ 215              		r2, [sp, #8]	@ tmp206, pxTopOfStack
+ 216 0218 08209DE5 		mov	r3, #0	@ tmp207,
+ 217 021c 0030A0E3 		str	r3, [r2, #0]	@ tmp207,
+ 218 0220 003082E5 		.loc 1 187 0
+ 186:SRC/RTOS/port.c **** 
+ 187:SRC/RTOS/port.c **** 	return pxTopOfStack;
+ 219              		r3, [sp, #8]	@ D.3289, pxTopOfStack
+ 220 0224 08309DE5 		.loc 1 188 0
+ 188:SRC/RTOS/port.c **** }
+ 221              	ov	r0, r3	@, <result>
+ 222 0228 0300A0E1 		add	sp, sp, #16	@,,
+ 223 022c 10D08DE2 		bx	lr
+ 224 0230 1EFF2FE1 	.LFE2:
+ 225              		.size	pxPortInitialiseStack, .-pxPortInitialiseStack
+ 226              		.align	2
+ 227              		.global	xPortStartScheduler
+ 228              		.type	xPortStartScheduler, %function
+ 229              	xPortStartScheduler:
+ 230              	.LFB3:
+ 231              		.loc 1 192 0
+ 189:SRC/RTOS/port.c **** /*-----------------------------------------------------------*/
+ 190:SRC/RTOS/port.c **** 
+ 191:SRC/RTOS/port.c **** portBASE_TYPE xPortStartScheduler( void )
+ 192:SRC/RTOS/port.c **** {
+ 232              	 supports interworking.
+ 233              		@ args = 0, pretend = 0, frame = 0
+ 234              		@ frame_needed = 0, uses_anonymous_args = 0
+ 235              		str	lr, [sp, #-4]!	@,
+ 236 0234 04E02DE5 	.LCFI1:
+ 237              		.loc 1 195 0
+ 193:SRC/RTOS/port.c **** 	/* Start the timer that generates the tick ISR.  Interrupts are disabled
+ 194:SRC/RTOS/port.c **** 	here already. */
+ 195:SRC/RTOS/port.c **** 	prvSetupTimerInterrupt();
+ 238              	vSetupTimerInterrupt	@
+ 239 0238 050000EB 		.loc 1 198 0
+ 196:SRC/RTOS/port.c **** 
+ 197:SRC/RTOS/port.c **** 	/* Start the first task. */
+ 198:SRC/RTOS/port.c **** 	vPortISRStartFirstTask();	
+ 240              	l	vPortISRStartFirstTask	@
+ 241 023c FEFFFFEB 		.loc 1 201 0
+ 199:SRC/RTOS/port.c **** 
+ 200:SRC/RTOS/port.c **** 	/* Should not get here! */
+ 201:SRC/RTOS/port.c **** 	return 0;
+ 242              	ov	r3, #0	@ D.3294,
+ 243 0240 0030A0E3 		.loc 1 202 0
+ 202:SRC/RTOS/port.c **** }
+ 244              	ov	r0, r3	@, <result>
+ 245 0244 0300A0E1 		ldr	lr, [sp], #4
+ 246 0248 04E09DE4 		bx	lr
+ 247 024c 1EFF2FE1 	.LFE3:
+ 248              		.size	xPortStartScheduler, .-xPortStartScheduler
+ 249              		.align	2
+ 250              		.global	vPortEndScheduler
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 9
+
+
+ 251              		.type	vPortEndScheduler, %function
+ 252              	vPortEndScheduler:
+ 253              	.LFB4:
+ 254              		.loc 1 206 0
+ 203:SRC/RTOS/port.c **** /*-----------------------------------------------------------*/
+ 204:SRC/RTOS/port.c **** 
+ 205:SRC/RTOS/port.c **** void vPortEndScheduler( void )
+ 206:SRC/RTOS/port.c **** {
+ 255              	 supports interworking.
+ 256              		@ args = 0, pretend = 0, frame = 0
+ 257              		@ frame_needed = 0, uses_anonymous_args = 0
+ 258              		@ link register save eliminated.
+ 259              		.loc 1 209 0
+ 207:SRC/RTOS/port.c **** 	/* It is unlikely that the ARM port will require this function as there
+ 208:SRC/RTOS/port.c **** 	is nothing to return to.  */
+ 209:SRC/RTOS/port.c **** }
+ 260              	r	@
+ 261 0250 1EFF2FE1 	.LFE4:
+ 262              		.size	vPortEndScheduler, .-vPortEndScheduler
+ 263              		.align	2
+ 264              		.type	prvSetupTimerInterrupt, %function
+ 265              	prvSetupTimerInterrupt:
+ 266              	.LFB5:
+ 267              		.loc 1 216 0
+ 210:SRC/RTOS/port.c **** /*-----------------------------------------------------------*/
+ 211:SRC/RTOS/port.c **** 
+ 212:SRC/RTOS/port.c **** /*
+ 213:SRC/RTOS/port.c ****  * Setup the timer 0 to generate the tick interrupts at the required frequency.
+ 214:SRC/RTOS/port.c ****  */
+ 215:SRC/RTOS/port.c **** static void prvSetupTimerInterrupt( void )
+ 216:SRC/RTOS/port.c **** {
+ 268              	ion supports interworking.
+ 269              		@ args = 0, pretend = 0, frame = 8
+ 270              		@ frame_needed = 0, uses_anonymous_args = 0
+ 271              		@ link register save eliminated.
+ 272              		sub	sp, sp, #8	@,,
+ 273 0254 08D04DE2 	.LCFI2:
+ 274              		.loc 1 217 0
+ 217:SRC/RTOS/port.c **** AT91PS_PITC pxPIT = AT91C_BASE_PITC;
+ 275              	, #-1509949440	@ tmp139,
+ 276 0258 A634A0E3 		mov	r3, r3, asr #21	@ tmp139, tmp139,
+ 277 025c C33AA0E1 		str	r3, [sp, #0]	@ tmp139, pxPIT
+ 278 0260 00308DE5 	.LBB2:
+ 279              		.loc 1 229 0
+ 218:SRC/RTOS/port.c **** 
+ 219:SRC/RTOS/port.c **** 	/* Setup the AIC for PIT interrupts.  The interrupt routine chosen depends
+ 220:SRC/RTOS/port.c **** 	on whether the preemptive or cooperative scheduler is being used. */
+ 221:SRC/RTOS/port.c **** 	#if configUSE_PREEMPTION == 0
+ 222:SRC/RTOS/port.c **** 
+ 223:SRC/RTOS/port.c **** 		extern void ( vNonPreemptiveTick ) ( void );
+ 224:SRC/RTOS/port.c **** 		AT91F_AIC_ConfigureIt( AT91C_ID_SYS, AT91C_AIC_PRIOR_HIGHEST, portINT_LEVEL_SENSITIVE, ( void (*)
+ 225:SRC/RTOS/port.c **** 
+ 226:SRC/RTOS/port.c **** 	#else
+ 227:SRC/RTOS/port.c **** 		
+ 228:SRC/RTOS/port.c **** 		extern void ( vPreemptiveTick )( void );
+ 229:SRC/RTOS/port.c **** 		AT91F_AIC_ConfigureIt( AT91C_ID_SYS, AT91C_AIC_PRIOR_HIGHEST, portINT_LEVEL_SENSITIVE, ( void (*)
+ 280              	r3, #2	@ tmp140,
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 10
+
+
+ 281 0264 0230A0E3 		str	r3, [sp, #4]	@ tmp140, mask
+ 282 0268 04308DE5 		mov	r3, #-2147483648	@ D.3307,
+ 283 026c 0231A0E3 		mov	r3, r3, asr #19	@ D.3307, D.3307,
+ 284 0270 C339A0E1 		ldr	r2, [sp, #4]	@ tmp141, mask
+ 285 0274 04209DE5 		str	r2, [r3, #292]	@ tmp141, <variable>.AIC_IDCR
+ 286 0278 242183E5 		mov	r3, #-2147483648	@ D.3308,
+ 287 027c 0231A0E3 		mov	r3, r3, asr #19	@ D.3308, D.3308,
+ 288 0280 C339A0E1 		ldr	r2, .L9	@ vPreemptiveTick.2,
+ 289 0284 4C209FE5 		str	r2, [r3, #132]	@ vPreemptiveTick.2, <variable>.AIC_SVR
+ 290 0288 842083E5 		mov	r3, #-2147483648	@ D.3310,
+ 291 028c 0231A0E3 		mov	r3, r3, asr #19	@ D.3310, D.3310,
+ 292 0290 C339A0E1 		mov	r2, #7	@ tmp142,
+ 293 0294 0720A0E3 		str	r2, [r3, #4]	@ tmp142, <variable>.AIC_SMR
+ 294 0298 042083E5 		mov	r3, #-2147483648	@ D.3311,
+ 295 029c 0231A0E3 		mov	r3, r3, asr #19	@ D.3311, D.3311,
+ 296 02a0 C339A0E1 		ldr	r2, [sp, #4]	@ tmp143, mask
+ 297 02a4 04209DE5 		str	r2, [r3, #296]	@ tmp143, <variable>.AIC_ICCR
+ 298 02a8 282183E5 	.LBE2:
+ 299              		.loc 1 234 0
+ 230:SRC/RTOS/port.c **** 
+ 231:SRC/RTOS/port.c **** 	#endif
+ 232:SRC/RTOS/port.c **** 
+ 233:SRC/RTOS/port.c **** 	/* Configure the PIT period. */
+ 234:SRC/RTOS/port.c **** 	pxPIT->PITC_PIMR = portPIT_ENABLE | portPIT_INT_ENABLE | portPIT_COUNTER_VALUE;
+ 300              	tmp144, pxPIT
+ 301 02ac 00209DE5 		mov	r3, #50331648	@ tmp145,
+ 302 02b0 0334A0E3 		add	r3, r3, #3424	@ tmp145, tmp145,
+ 303 02b4 D63E83E2 		add	r3, r3, #13	@ tmp145, tmp145,
+ 304 02b8 0D3083E2 		str	r3, [r2, #0]	@ tmp145, <variable>.PITC_PIMR
+ 305 02bc 003082E5 		.loc 1 238 0
+ 235:SRC/RTOS/port.c **** 
+ 236:SRC/RTOS/port.c **** 	/* Enable the interrupt.  Global interrupts are disables at this point so 
+ 237:SRC/RTOS/port.c **** 	this is safe. */
+ 238:SRC/RTOS/port.c ****     AT91C_BASE_AIC->AIC_IECR = 0x1 << AT91C_ID_SYS;
+ 306              	3, #-2147483648	@ D.3312,
+ 307 02c0 0231A0E3 		mov	r3, r3, asr #19	@ D.3312, D.3312,
+ 308 02c4 C339A0E1 		mov	r2, #2	@ tmp146,
+ 309 02c8 0220A0E3 		str	r2, [r3, #288]	@ tmp146, <variable>.AIC_IECR
+ 310 02cc 202183E5 		.loc 1 239 0
+ 239:SRC/RTOS/port.c **** }
+ 311              	sp, sp, #8	@,,
+ 312 02d0 08D08DE2 		bx	lr
+ 313 02d4 1EFF2FE1 	.L10:
+ 314              		.align	2
+ 315              	.L9:
+ 316              		.word	vPreemptiveTick
+ 317 02d8 00000000 	.LFE5:
+ 318              		.size	prvSetupTimerInterrupt, .-prvSetupTimerInterrupt
+ 319              		.section	.debug_frame,"",%progbits
+ 320              	.Lframe0:
+ 321              		.4byte	.LECIE0-.LSCIE0
+ 322 0000 0C000000 	.LSCIE0:
+ 323              		.4byte	0xffffffff
+ 324 0004 FFFFFFFF 		.byte	0x1
+ 325 0008 01       		.ascii	"\000"
+ 326 0009 00       		.uleb128 0x1
+ 327 000a 01       		.sleb128 -4
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 11
+
+
+ 328 000b 7C       		.byte	0xe
+ 329 000c 0E       		.byte	0xc
+ 330 000d 0C       		.uleb128 0xd
+ 331 000e 0D       		.uleb128 0x0
+ 332 000f 00       		.align	2
+ 333              	.LECIE0:
+ 334              	.LSFDE0:
+ 335              		.4byte	.LEFDE0-.LASFDE0
+ 336 0010 10000000 	.LASFDE0:
+ 337              		.4byte	.Lframe0
+ 338 0014 00000000 		.4byte	.LFB2
+ 339 0018 00000000 		.4byte	.LFE2-.LFB2
+ 340 001c 34020000 		.byte	0x4
+ 341 0020 44       		.4byte	.LCFI0-.LFB2
+ 342              		.byte	0xe
+ 343 0021 0E       		.uleb128 0x10
+ 344 0022 10       		.align	2
+ 345 0023 00       	.LEFDE0:
+ 346              	.LSFDE2:
+ 347              		.4byte	.LEFDE2-.LASFDE2
+ 348 0024 14000000 	.LASFDE2:
+ 349              		.4byte	.Lframe0
+ 350 0028 00000000 		.4byte	.LFB3
+ 351 002c 34020000 		.4byte	.LFE3-.LFB3
+ 352 0030 1C000000 		.byte	0x4
+ 353 0034 44       		.4byte	.LCFI1-.LFB3
+ 354              		.byte	0xe
+ 355 0035 0E       		.uleb128 0x4
+ 356 0036 04       		.byte	0x8e
+ 357 0037 8E       		.uleb128 0x1
+ 358 0038 01       		.align	2
+ 359 0039 000000   	.LEFDE2:
+ 360              	.LSFDE4:
+ 361              		.4byte	.LEFDE4-.LASFDE4
+ 362 003c 0C000000 	.LASFDE4:
+ 363              		.4byte	.Lframe0
+ 364 0040 00000000 		.4byte	.LFB4
+ 365 0044 50020000 		.4byte	.LFE4-.LFB4
+ 366 0048 04000000 		.align	2
+ 367              	.LEFDE4:
+ 368              	.LSFDE6:
+ 369              		.4byte	.LEFDE6-.LASFDE6
+ 370 004c 10000000 	.LASFDE6:
+ 371              		.4byte	.Lframe0
+ 372 0050 00000000 		.4byte	.LFB5
+ 373 0054 54020000 		.4byte	.LFE5-.LFB5
+ 374 0058 88000000 		.byte	0x4
+ 375 005c 44       		.4byte	.LCFI2-.LFB5
+ 376              		.byte	0xe
+ 377 005d 0E       		.uleb128 0x8
+ 378 005e 08       		.align	2
+ 379 005f 00       	.LEFDE6:
+ 380              		.text
+ 381              	.Letext0:
+ 382              		.section	.debug_loc,"",%progbits
+ 383              	.Ldebug_loc0:
+ 384              	.LLST0:
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 12
+
+
+ 385              		.4byte	.LFB2-.Ltext0
+ 386 0000 00000000 		.4byte	.LCFI0-.Ltext0
+ 387 0004 04000000 		.2byte	0x1
+ 388 0008 0100     		.byte	0x5d
+ 389 000a 5D       		.4byte	.LCFI0-.Ltext0
+ 390 000b 04000000 		.4byte	.LFE2-.Ltext0
+ 391 000f 34020000 		.2byte	0x2
+ 392 0013 0200     		.byte	0x7d
+ 393 0015 7D       		.sleb128 16
+ 394 0016 10       		.4byte	0x0
+ 395 0017 00000000 		.4byte	0x0
+ 396 001b 00000000 	.LLST1:
+ 397              		.4byte	.LFB3-.Ltext0
+ 398 001f 34020000 		.4byte	.LCFI1-.Ltext0
+ 399 0023 38020000 		.2byte	0x1
+ 400 0027 0100     		.byte	0x5d
+ 401 0029 5D       		.4byte	.LCFI1-.Ltext0
+ 402 002a 38020000 		.4byte	.LFE3-.Ltext0
+ 403 002e 50020000 		.2byte	0x2
+ 404 0032 0200     		.byte	0x7d
+ 405 0034 7D       		.sleb128 4
+ 406 0035 04       		.4byte	0x0
+ 407 0036 00000000 		.4byte	0x0
+ 408 003a 00000000 	.LLST3:
+ 409              		.4byte	.LFB5-.Ltext0
+ 410 003e 54020000 		.4byte	.LCFI2-.Ltext0
+ 411 0042 58020000 		.2byte	0x1
+ 412 0046 0100     		.byte	0x5d
+ 413 0048 5D       		.4byte	.LCFI2-.Ltext0
+ 414 0049 58020000 		.4byte	.LFE5-.Ltext0
+ 415 004d DC020000 		.2byte	0x2
+ 416 0051 0200     		.byte	0x7d
+ 417 0053 7D       		.sleb128 8
+ 418 0054 08       		.4byte	0x0
+ 419 0055 00000000 		.4byte	0x0
+ 420 0059 00000000 		.file 2 "INC/AT91SAM7X256.h"
+ 421              		.file 3 "INC/RTOS/projdefs.h"
+ 422              		.section	.debug_info
+ 423              		.4byte	0x332
+ 424 0000 32030000 		.2byte	0x2
+ 425 0004 0200     		.4byte	.Ldebug_abbrev0
+ 426 0006 00000000 		.byte	0x4
+ 427 000a 04       		.uleb128 0x1
+ 428 000b 01       		.4byte	.LASF44
+ 429 000c EE000000 		.byte	0x1
+ 430 0010 01       		.4byte	.LASF45
+ 431 0011 23000000 		.4byte	.LASF46
+ 432 0015 E8010000 		.4byte	.Ltext0
+ 433 0019 00000000 		.4byte	.Letext0
+ 434 001d DC020000 		.4byte	.Ldebug_line0
+ 435 0021 00000000 		.uleb128 0x2
+ 436 0025 02       		.byte	0x4
+ 437 0026 04       		.byte	0x7
+ 438 0027 07       		.4byte	.LASF0
+ 439 0028 D4000000 		.uleb128 0x3
+ 440 002c 03       		.byte	0x4
+ 441 002d 04       		.byte	0x5
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 13
+
+
+ 442 002e 05       		.ascii	"int\000"
+ 443 002f 696E7400 		.uleb128 0x2
+ 444 0033 02       		.byte	0x1
+ 445 0034 01       		.byte	0x6
+ 446 0035 06       		.4byte	.LASF1
+ 447 0036 2B020000 		.uleb128 0x2
+ 448 003a 02       		.byte	0x1
+ 449 003b 01       		.byte	0x8
+ 450 003c 08       		.4byte	.LASF2
+ 451 003d AB000000 		.uleb128 0x2
+ 452 0041 02       		.byte	0x2
+ 453 0042 02       		.byte	0x5
+ 454 0043 05       		.4byte	.LASF3
+ 455 0044 19010000 		.uleb128 0x2
+ 456 0048 02       		.byte	0x2
+ 457 0049 02       		.byte	0x7
+ 458 004a 07       		.4byte	.LASF4
+ 459 004b 9F010000 		.uleb128 0x2
+ 460 004f 02       		.byte	0x4
+ 461 0050 04       		.byte	0x7
+ 462 0051 07       		.4byte	.LASF5
+ 463 0052 4C010000 		.uleb128 0x2
+ 464 0056 02       		.byte	0x8
+ 465 0057 08       		.byte	0x5
+ 466 0058 05       		.4byte	.LASF6
+ 467 0059 B2010000 		.uleb128 0x2
+ 468 005d 02       		.byte	0x8
+ 469 005e 08       		.byte	0x7
+ 470 005f 07       		.4byte	.LASF7
+ 471 0060 94000000 		.uleb128 0x2
+ 472 0064 02       		.byte	0x4
+ 473 0065 04       		.byte	0x5
+ 474 0066 05       		.4byte	.LASF8
+ 475 0067 1A020000 		.uleb128 0x4
+ 476 006b 04       		.byte	0x4
+ 477 006c 04       		.byte	0x7
+ 478 006d 07       		.uleb128 0x5
+ 479 006e 05       		.byte	0x4
+ 480 006f 04       		.uleb128 0x2
+ 481 0070 02       		.byte	0x1
+ 482 0071 01       		.byte	0x8
+ 483 0072 08       		.4byte	.LASF9
+ 484 0073 C0010000 		.uleb128 0x6
+ 485 0077 06       		.4byte	.LASF36
+ 486 0078 FA000000 		.byte	0x3
+ 487 007c 03       		.byte	0x3a
+ 488 007d 3A       		.4byte	0x82
+ 489 007e 82000000 		.uleb128 0x7
+ 490 0082 07       		.byte	0x4
+ 491 0083 04       		.4byte	0x88
+ 492 0084 88000000 		.uleb128 0x8
+ 493 0088 08       		.byte	0x1
+ 494 0089 01       		.4byte	0x94
+ 495 008a 94000000 		.uleb128 0x9
+ 496 008e 09       		.4byte	0x6e
+ 497 008f 6E000000 		.byte	0x0
+ 498 0093 00       		.uleb128 0xa
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 14
+
+
+ 499 0094 0A       		.4byte	0x4f
+ 500 0095 4F000000 		.uleb128 0xb
+ 501 0099 0B       		.4byte	0x4f
+ 502 009a 4F000000 		.4byte	0xa9
+ 503 009e A9000000 		.uleb128 0xc
+ 504 00a2 0C       		.4byte	0x6b
+ 505 00a3 6B000000 		.byte	0x1f
+ 506 00a7 1F       		.byte	0x0
+ 507 00a8 00       		.uleb128 0xb
+ 508 00a9 0B       		.4byte	0x4f
+ 509 00aa 4F000000 		.4byte	0xb9
+ 510 00ae B9000000 		.uleb128 0xc
+ 511 00b2 0C       		.4byte	0x6b
+ 512 00b3 6B000000 		.byte	0x1
+ 513 00b7 01       		.byte	0x0
+ 514 00b8 00       		.uleb128 0xb
+ 515 00b9 0B       		.4byte	0x4f
+ 516 00ba 4F000000 		.4byte	0xc9
+ 517 00be C9000000 		.uleb128 0xc
+ 518 00c2 0C       		.4byte	0x6b
+ 519 00c3 6B000000 		.byte	0x0
+ 520 00c7 00       		.byte	0x0
+ 521 00c8 00       		.uleb128 0xd
+ 522 00c9 0D       		.4byte	.LASF30
+ 523 00ca 89000000 		.2byte	0x14c
+ 524 00ce 4C01     		.byte	0x2
+ 525 00d0 02       		.byte	0xd9
+ 526 00d1 D9       		.4byte	0x202
+ 527 00d2 02020000 		.uleb128 0xe
+ 528 00d6 0E       		.4byte	.LASF10
+ 529 00d7 7B010000 		.byte	0x2
+ 530 00db 02       		.byte	0xda
+ 531 00dc DA       		.4byte	0x202
+ 532 00dd 02020000 		.byte	0x2
+ 533 00e1 02       		.byte	0x23
+ 534 00e2 23       		.uleb128 0x0
+ 535 00e3 00       		.uleb128 0xe
+ 536 00e4 0E       		.4byte	.LASF11
+ 537 00e5 E6000000 		.byte	0x2
+ 538 00e9 02       		.byte	0xdb
+ 539 00ea DB       		.4byte	0x207
+ 540 00eb 07020000 		.byte	0x3
+ 541 00ef 03       		.byte	0x23
+ 542 00f0 23       		.uleb128 0x80
+ 543 00f1 8001     		.uleb128 0xe
+ 544 00f3 0E       		.4byte	.LASF12
+ 545 00f4 23020000 		.byte	0x2
+ 546 00f8 02       		.byte	0xdc
+ 547 00f9 DC       		.4byte	0x94
+ 548 00fa 94000000 		.byte	0x3
+ 549 00fe 03       		.byte	0x23
+ 550 00ff 23       		.uleb128 0x100
+ 551 0100 8002     		.uleb128 0xe
+ 552 0102 0E       		.4byte	.LASF13
+ 553 0103 12020000 		.byte	0x2
+ 554 0107 02       		.byte	0xdd
+ 555 0108 DD       		.4byte	0x94
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 15
+
+
+ 556 0109 94000000 		.byte	0x3
+ 557 010d 03       		.byte	0x23
+ 558 010e 23       		.uleb128 0x104
+ 559 010f 8402     		.uleb128 0xe
+ 560 0111 0E       		.4byte	.LASF14
+ 561 0112 C3000000 		.byte	0x2
+ 562 0116 02       		.byte	0xde
+ 563 0117 DE       		.4byte	0x94
+ 564 0118 94000000 		.byte	0x3
+ 565 011c 03       		.byte	0x23
+ 566 011d 23       		.uleb128 0x108
+ 567 011e 8802     		.uleb128 0xe
+ 568 0120 0E       		.4byte	.LASF15
+ 569 0121 73010000 		.byte	0x2
+ 570 0125 02       		.byte	0xdf
+ 571 0126 DF       		.4byte	0x94
+ 572 0127 94000000 		.byte	0x3
+ 573 012b 03       		.byte	0x23
+ 574 012c 23       		.uleb128 0x10c
+ 575 012d 8C02     		.uleb128 0xe
+ 576 012f 0E       		.4byte	.LASF16
+ 577 0130 53000000 		.byte	0x2
+ 578 0134 02       		.byte	0xe0
+ 579 0135 E0       		.4byte	0x94
+ 580 0136 94000000 		.byte	0x3
+ 581 013a 03       		.byte	0x23
+ 582 013b 23       		.uleb128 0x110
+ 583 013c 9002     		.uleb128 0xe
+ 584 013e 0E       		.4byte	.LASF17
+ 585 013f 0C000000 		.byte	0x2
+ 586 0143 02       		.byte	0xe1
+ 587 0144 E1       		.4byte	0x94
+ 588 0145 94000000 		.byte	0x3
+ 589 0149 03       		.byte	0x23
+ 590 014a 23       		.uleb128 0x114
+ 591 014b 9402     		.uleb128 0xe
+ 592 014d 0E       		.4byte	.LASF18
+ 593 014e 65000000 		.byte	0x2
+ 594 0152 02       		.byte	0xe2
+ 595 0153 E2       		.4byte	0x20c
+ 596 0154 0C020000 		.byte	0x3
+ 597 0158 03       		.byte	0x23
+ 598 0159 23       		.uleb128 0x118
+ 599 015a 9802     		.uleb128 0xe
+ 600 015c 0E       		.4byte	.LASF19
+ 601 015d 10010000 		.byte	0x2
+ 602 0161 02       		.byte	0xe3
+ 603 0162 E3       		.4byte	0x94
+ 604 0163 94000000 		.byte	0x3
+ 605 0167 03       		.byte	0x23
+ 606 0168 23       		.uleb128 0x120
+ 607 0169 A002     		.uleb128 0xe
+ 608 016b 0E       		.4byte	.LASF20
+ 609 016c 42000000 		.byte	0x2
+ 610 0170 02       		.byte	0xe4
+ 611 0171 E4       		.4byte	0x94
+ 612 0172 94000000 		.byte	0x3
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 16
+
+
+ 613 0176 03       		.byte	0x23
+ 614 0177 23       		.uleb128 0x124
+ 615 0178 A402     		.uleb128 0xe
+ 616 017a 0E       		.4byte	.LASF21
+ 617 017b D2010000 		.byte	0x2
+ 618 017f 02       		.byte	0xe5
+ 619 0180 E5       		.4byte	0x94
+ 620 0181 94000000 		.byte	0x3
+ 621 0185 03       		.byte	0x23
+ 622 0186 23       		.uleb128 0x128
+ 623 0187 A802     		.uleb128 0xe
+ 624 0189 0E       		.4byte	.LASF22
+ 625 018a CB000000 		.byte	0x2
+ 626 018e 02       		.byte	0xe6
+ 627 018f E6       		.4byte	0x94
+ 628 0190 94000000 		.byte	0x3
+ 629 0194 03       		.byte	0x23
+ 630 0195 23       		.uleb128 0x12c
+ 631 0196 AC02     		.uleb128 0xe
+ 632 0198 0E       		.4byte	.LASF23
+ 633 0199 33000000 		.byte	0x2
+ 634 019d 02       		.byte	0xe7
+ 635 019e E7       		.4byte	0x94
+ 636 019f 94000000 		.byte	0x3
+ 637 01a3 03       		.byte	0x23
+ 638 01a4 23       		.uleb128 0x130
+ 639 01a5 B002     		.uleb128 0xe
+ 640 01a7 0E       		.4byte	.LASF24
+ 641 01a8 6F000000 		.byte	0x2
+ 642 01ac 02       		.byte	0xe8
+ 643 01ad E8       		.4byte	0x94
+ 644 01ae 94000000 		.byte	0x3
+ 645 01b2 03       		.byte	0x23
+ 646 01b3 23       		.uleb128 0x134
+ 647 01b4 B402     		.uleb128 0xe
+ 648 01b6 0E       		.4byte	.LASF25
+ 649 01b7 4B000000 		.byte	0x2
+ 650 01bb 02       		.byte	0xe9
+ 651 01bc E9       		.4byte	0x94
+ 652 01bd 94000000 		.byte	0x3
+ 653 01c1 03       		.byte	0x23
+ 654 01c2 23       		.uleb128 0x138
+ 655 01c3 B802     		.uleb128 0xe
+ 656 01c5 0E       		.4byte	.LASF26
+ 657 01c6 63010000 		.byte	0x2
+ 658 01ca 02       		.byte	0xea
+ 659 01cb EA       		.4byte	0x211
+ 660 01cc 11020000 		.byte	0x3
+ 661 01d0 03       		.byte	0x23
+ 662 01d1 23       		.uleb128 0x13c
+ 663 01d2 BC02     		.uleb128 0xe
+ 664 01d4 0E       		.4byte	.LASF27
+ 665 01d5 80000000 		.byte	0x2
+ 666 01d9 02       		.byte	0xeb
+ 667 01da EB       		.4byte	0x94
+ 668 01db 94000000 		.byte	0x3
+ 669 01df 03       		.byte	0x23
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 17
+
+
+ 670 01e0 23       		.uleb128 0x140
+ 671 01e1 C002     		.uleb128 0xe
+ 672 01e3 0E       		.4byte	.LASF28
+ 673 01e4 77000000 		.byte	0x2
+ 674 01e8 02       		.byte	0xec
+ 675 01e9 EC       		.4byte	0x94
+ 676 01ea 94000000 		.byte	0x3
+ 677 01ee 03       		.byte	0x23
+ 678 01ef 23       		.uleb128 0x144
+ 679 01f0 C402     		.uleb128 0xe
+ 680 01f2 0E       		.4byte	.LASF29
+ 681 01f3 83010000 		.byte	0x2
+ 682 01f7 02       		.byte	0xed
+ 683 01f8 ED       		.4byte	0x94
+ 684 01f9 94000000 		.byte	0x3
+ 685 01fd 03       		.byte	0x23
+ 686 01fe 23       		.uleb128 0x148
+ 687 01ff C802     		.byte	0x0
+ 688 0201 00       		.uleb128 0xa
+ 689 0202 0A       		.4byte	0x99
+ 690 0203 99000000 		.uleb128 0xa
+ 691 0207 0A       		.4byte	0x99
+ 692 0208 99000000 		.uleb128 0xa
+ 693 020c 0A       		.4byte	0xa9
+ 694 020d A9000000 		.uleb128 0xa
+ 695 0211 0A       		.4byte	0xb9
+ 696 0212 B9000000 		.uleb128 0xf
+ 697 0216 0F       		.4byte	.LASF31
+ 698 0217 93010000 		.byte	0x10
+ 699 021b 10       		.byte	0x2
+ 700 021c 02       		.2byte	0x224
+ 701 021d 2402     		.4byte	0x260
+ 702 021f 60020000 		.uleb128 0x10
+ 703 0223 10       		.4byte	.LASF32
+ 704 0224 06010000 		.byte	0x2
+ 705 0228 02       		.2byte	0x225
+ 706 0229 2502     		.4byte	0x94
+ 707 022b 94000000 		.byte	0x2
+ 708 022f 02       		.byte	0x23
+ 709 0230 23       		.uleb128 0x0
+ 710 0231 00       		.uleb128 0x10
+ 711 0232 10       		.4byte	.LASF33
+ 712 0233 59010000 		.byte	0x2
+ 713 0237 02       		.2byte	0x226
+ 714 0238 2602     		.4byte	0x94
+ 715 023a 94000000 		.byte	0x2
+ 716 023e 02       		.byte	0x23
+ 717 023f 23       		.uleb128 0x4
+ 718 0240 04       		.uleb128 0x10
+ 719 0241 10       		.4byte	.LASF34
+ 720 0242 5B000000 		.byte	0x2
+ 721 0246 02       		.2byte	0x227
+ 722 0247 2702     		.4byte	0x94
+ 723 0249 94000000 		.byte	0x2
+ 724 024d 02       		.byte	0x23
+ 725 024e 23       		.uleb128 0x8
+ 726 024f 08       		.uleb128 0x10
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 18
+
+
+ 727 0250 10       		.4byte	.LASF35
+ 728 0251 B9000000 		.byte	0x2
+ 729 0255 02       		.2byte	0x228
+ 730 0256 2802     		.4byte	0x94
+ 731 0258 94000000 		.byte	0x2
+ 732 025c 02       		.byte	0x23
+ 733 025d 23       		.uleb128 0xc
+ 734 025e 0C       		.byte	0x0
+ 735 025f 00       		.uleb128 0x11
+ 736 0260 11       		.4byte	.LASF37
+ 737 0261 00000000 		.byte	0x2
+ 738 0265 02       		.2byte	0x229
+ 739 0266 2902     		.4byte	0x26c
+ 740 0268 6C020000 		.uleb128 0x7
+ 741 026c 07       		.byte	0x4
+ 742 026d 04       		.4byte	0x216
+ 743 026e 16020000 		.uleb128 0x7
+ 744 0272 07       		.byte	0x4
+ 745 0273 04       		.4byte	0x25
+ 746 0274 25000000 		.uleb128 0x12
+ 747 0278 12       		.byte	0x1
+ 748 0279 01       		.4byte	.LASF47
+ 749 027a 4B020000 		.byte	0x1
+ 750 027e 01       		.byte	0x78
+ 751 027f 78       		.byte	0x1
+ 752 0280 01       		.4byte	0x272
+ 753 0281 72020000 		.4byte	.LFB2
+ 754 0285 00000000 		.4byte	.LFE2
+ 755 0289 34020000 		.4byte	.LLST0
+ 756 028d 00000000 		.4byte	0x2ce
+ 757 0291 CE020000 		.uleb128 0x13
+ 758 0295 13       		.4byte	.LASF38
+ 759 0296 DB010000 		.byte	0x1
+ 760 029a 01       		.byte	0x77
+ 761 029b 77       		.4byte	0x272
+ 762 029c 72020000 		.byte	0x2
+ 763 02a0 02       		.byte	0x91
+ 764 02a1 91       		.sleb128 -8
+ 765 02a2 78       		.uleb128 0x13
+ 766 02a3 13       		.4byte	.LASF39
+ 767 02a4 8C010000 		.byte	0x1
+ 768 02a8 01       		.byte	0x77
+ 769 02a9 77       		.4byte	0x77
+ 770 02aa 77000000 		.byte	0x2
+ 771 02ae 02       		.byte	0x91
+ 772 02af 91       		.sleb128 -12
+ 773 02b0 74       		.uleb128 0x13
+ 774 02b1 13       		.4byte	.LASF40
+ 775 02b2 C5010000 		.byte	0x1
+ 776 02b6 01       		.byte	0x77
+ 777 02b7 77       		.4byte	0x6e
+ 778 02b8 6E000000 		.byte	0x2
+ 779 02bc 02       		.byte	0x91
+ 780 02bd 91       		.sleb128 -16
+ 781 02be 70       		.uleb128 0x14
+ 782 02bf 14       		.4byte	.LASF41
+ 783 02c0 15000000 		.byte	0x1
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 19
+
+
+ 784 02c4 01       		.byte	0x79
+ 785 02c5 79       		.4byte	0x272
+ 786 02c6 72020000 		.byte	0x2
+ 787 02ca 02       		.byte	0x91
+ 788 02cb 91       		.sleb128 -4
+ 789 02cc 7C       		.byte	0x0
+ 790 02cd 00       		.uleb128 0x15
+ 791 02ce 15       		.byte	0x1
+ 792 02cf 01       		.4byte	.LASF48
+ 793 02d0 37020000 		.byte	0x1
+ 794 02d4 01       		.byte	0xc0
+ 795 02d5 C0       		.byte	0x1
+ 796 02d6 01       		.4byte	0x64
+ 797 02d7 64000000 		.4byte	.LFB3
+ 798 02db 34020000 		.4byte	.LFE3
+ 799 02df 50020000 		.4byte	.LLST1
+ 800 02e3 1F000000 		.uleb128 0x16
+ 801 02e7 16       		.byte	0x1
+ 802 02e8 01       		.4byte	.LASF49
+ 803 02e9 3A010000 		.byte	0x1
+ 804 02ed 01       		.byte	0xce
+ 805 02ee CE       		.byte	0x1
+ 806 02ef 01       		.4byte	.LFB4
+ 807 02f0 50020000 		.4byte	.LFE4
+ 808 02f4 54020000 		.byte	0x1
+ 809 02f8 01       		.byte	0x5d
+ 810 02f9 5D       		.uleb128 0x17
+ 811 02fa 17       		.4byte	.LASF50
+ 812 02fb 23010000 		.byte	0x1
+ 813 02ff 01       		.byte	0xd8
+ 814 0300 D8       		.byte	0x1
+ 815 0301 01       		.4byte	.LFB5
+ 816 0302 54020000 		.4byte	.LFE5
+ 817 0306 DC020000 		.4byte	.LLST3
+ 818 030a 3E000000 		.uleb128 0x14
+ 819 030e 14       		.4byte	.LASF42
+ 820 030f 6D010000 		.byte	0x1
+ 821 0313 01       		.byte	0xd9
+ 822 0314 D9       		.4byte	0x260
+ 823 0315 60020000 		.byte	0x2
+ 824 0319 02       		.byte	0x91
+ 825 031a 91       		.sleb128 -8
+ 826 031b 78       		.uleb128 0x18
+ 827 031c 18       		.4byte	.LBB2
+ 828 031d 64020000 		.4byte	.LBE2
+ 829 0321 AC020000 		.uleb128 0x14
+ 830 0325 14       		.4byte	.LASF43
+ 831 0326 3D000000 		.byte	0x1
+ 832 032a 01       		.byte	0xe5
+ 833 032b E5       		.4byte	0x4f
+ 834 032c 4F000000 		.byte	0x2
+ 835 0330 02       		.byte	0x91
+ 836 0331 91       		.sleb128 -4
+ 837 0332 7C       		.byte	0x0
+ 838 0333 00       		.byte	0x0
+ 839 0334 00       		.byte	0x0
+ 840 0335 00       		.section	.debug_abbrev
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 20
+
+
+ 841              		.uleb128 0x1
+ 842 0000 01       		.uleb128 0x11
+ 843 0001 11       		.byte	0x1
+ 844 0002 01       		.uleb128 0x25
+ 845 0003 25       		.uleb128 0xe
+ 846 0004 0E       		.uleb128 0x13
+ 847 0005 13       		.uleb128 0xb
+ 848 0006 0B       		.uleb128 0x3
+ 849 0007 03       		.uleb128 0xe
+ 850 0008 0E       		.uleb128 0x1b
+ 851 0009 1B       		.uleb128 0xe
+ 852 000a 0E       		.uleb128 0x11
+ 853 000b 11       		.uleb128 0x1
+ 854 000c 01       		.uleb128 0x12
+ 855 000d 12       		.uleb128 0x1
+ 856 000e 01       		.uleb128 0x10
+ 857 000f 10       		.uleb128 0x6
+ 858 0010 06       		.byte	0x0
+ 859 0011 00       		.byte	0x0
+ 860 0012 00       		.uleb128 0x2
+ 861 0013 02       		.uleb128 0x24
+ 862 0014 24       		.byte	0x0
+ 863 0015 00       		.uleb128 0xb
+ 864 0016 0B       		.uleb128 0xb
+ 865 0017 0B       		.uleb128 0x3e
+ 866 0018 3E       		.uleb128 0xb
+ 867 0019 0B       		.uleb128 0x3
+ 868 001a 03       		.uleb128 0xe
+ 869 001b 0E       		.byte	0x0
+ 870 001c 00       		.byte	0x0
+ 871 001d 00       		.uleb128 0x3
+ 872 001e 03       		.uleb128 0x24
+ 873 001f 24       		.byte	0x0
+ 874 0020 00       		.uleb128 0xb
+ 875 0021 0B       		.uleb128 0xb
+ 876 0022 0B       		.uleb128 0x3e
+ 877 0023 3E       		.uleb128 0xb
+ 878 0024 0B       		.uleb128 0x3
+ 879 0025 03       		.uleb128 0x8
+ 880 0026 08       		.byte	0x0
+ 881 0027 00       		.byte	0x0
+ 882 0028 00       		.uleb128 0x4
+ 883 0029 04       		.uleb128 0x24
+ 884 002a 24       		.byte	0x0
+ 885 002b 00       		.uleb128 0xb
+ 886 002c 0B       		.uleb128 0xb
+ 887 002d 0B       		.uleb128 0x3e
+ 888 002e 3E       		.uleb128 0xb
+ 889 002f 0B       		.byte	0x0
+ 890 0030 00       		.byte	0x0
+ 891 0031 00       		.uleb128 0x5
+ 892 0032 05       		.uleb128 0xf
+ 893 0033 0F       		.byte	0x0
+ 894 0034 00       		.uleb128 0xb
+ 895 0035 0B       		.uleb128 0xb
+ 896 0036 0B       		.byte	0x0
+ 897 0037 00       		.byte	0x0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 21
+
+
+ 898 0038 00       		.uleb128 0x6
+ 899 0039 06       		.uleb128 0x16
+ 900 003a 16       		.byte	0x0
+ 901 003b 00       		.uleb128 0x3
+ 902 003c 03       		.uleb128 0xe
+ 903 003d 0E       		.uleb128 0x3a
+ 904 003e 3A       		.uleb128 0xb
+ 905 003f 0B       		.uleb128 0x3b
+ 906 0040 3B       		.uleb128 0xb
+ 907 0041 0B       		.uleb128 0x49
+ 908 0042 49       		.uleb128 0x13
+ 909 0043 13       		.byte	0x0
+ 910 0044 00       		.byte	0x0
+ 911 0045 00       		.uleb128 0x7
+ 912 0046 07       		.uleb128 0xf
+ 913 0047 0F       		.byte	0x0
+ 914 0048 00       		.uleb128 0xb
+ 915 0049 0B       		.uleb128 0xb
+ 916 004a 0B       		.uleb128 0x49
+ 917 004b 49       		.uleb128 0x13
+ 918 004c 13       		.byte	0x0
+ 919 004d 00       		.byte	0x0
+ 920 004e 00       		.uleb128 0x8
+ 921 004f 08       		.uleb128 0x15
+ 922 0050 15       		.byte	0x1
+ 923 0051 01       		.uleb128 0x27
+ 924 0052 27       		.uleb128 0xc
+ 925 0053 0C       		.uleb128 0x1
+ 926 0054 01       		.uleb128 0x13
+ 927 0055 13       		.byte	0x0
+ 928 0056 00       		.byte	0x0
+ 929 0057 00       		.uleb128 0x9
+ 930 0058 09       		.uleb128 0x5
+ 931 0059 05       		.byte	0x0
+ 932 005a 00       		.uleb128 0x49
+ 933 005b 49       		.uleb128 0x13
+ 934 005c 13       		.byte	0x0
+ 935 005d 00       		.byte	0x0
+ 936 005e 00       		.uleb128 0xa
+ 937 005f 0A       		.uleb128 0x35
+ 938 0060 35       		.byte	0x0
+ 939 0061 00       		.uleb128 0x49
+ 940 0062 49       		.uleb128 0x13
+ 941 0063 13       		.byte	0x0
+ 942 0064 00       		.byte	0x0
+ 943 0065 00       		.uleb128 0xb
+ 944 0066 0B       		.uleb128 0x1
+ 945 0067 01       		.byte	0x1
+ 946 0068 01       		.uleb128 0x49
+ 947 0069 49       		.uleb128 0x13
+ 948 006a 13       		.uleb128 0x1
+ 949 006b 01       		.uleb128 0x13
+ 950 006c 13       		.byte	0x0
+ 951 006d 00       		.byte	0x0
+ 952 006e 00       		.uleb128 0xc
+ 953 006f 0C       		.uleb128 0x21
+ 954 0070 21       		.byte	0x0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 22
+
+
+ 955 0071 00       		.uleb128 0x49
+ 956 0072 49       		.uleb128 0x13
+ 957 0073 13       		.uleb128 0x2f
+ 958 0074 2F       		.uleb128 0xb
+ 959 0075 0B       		.byte	0x0
+ 960 0076 00       		.byte	0x0
+ 961 0077 00       		.uleb128 0xd
+ 962 0078 0D       		.uleb128 0x13
+ 963 0079 13       		.byte	0x1
+ 964 007a 01       		.uleb128 0x3
+ 965 007b 03       		.uleb128 0xe
+ 966 007c 0E       		.uleb128 0xb
+ 967 007d 0B       		.uleb128 0x5
+ 968 007e 05       		.uleb128 0x3a
+ 969 007f 3A       		.uleb128 0xb
+ 970 0080 0B       		.uleb128 0x3b
+ 971 0081 3B       		.uleb128 0xb
+ 972 0082 0B       		.uleb128 0x1
+ 973 0083 01       		.uleb128 0x13
+ 974 0084 13       		.byte	0x0
+ 975 0085 00       		.byte	0x0
+ 976 0086 00       		.uleb128 0xe
+ 977 0087 0E       		.uleb128 0xd
+ 978 0088 0D       		.byte	0x0
+ 979 0089 00       		.uleb128 0x3
+ 980 008a 03       		.uleb128 0xe
+ 981 008b 0E       		.uleb128 0x3a
+ 982 008c 3A       		.uleb128 0xb
+ 983 008d 0B       		.uleb128 0x3b
+ 984 008e 3B       		.uleb128 0xb
+ 985 008f 0B       		.uleb128 0x49
+ 986 0090 49       		.uleb128 0x13
+ 987 0091 13       		.uleb128 0x38
+ 988 0092 38       		.uleb128 0xa
+ 989 0093 0A       		.byte	0x0
+ 990 0094 00       		.byte	0x0
+ 991 0095 00       		.uleb128 0xf
+ 992 0096 0F       		.uleb128 0x13
+ 993 0097 13       		.byte	0x1
+ 994 0098 01       		.uleb128 0x3
+ 995 0099 03       		.uleb128 0xe
+ 996 009a 0E       		.uleb128 0xb
+ 997 009b 0B       		.uleb128 0xb
+ 998 009c 0B       		.uleb128 0x3a
+ 999 009d 3A       		.uleb128 0xb
+ 1000 009e 0B       		.uleb128 0x3b
+ 1001 009f 3B       		.uleb128 0x5
+ 1002 00a0 05       		.uleb128 0x1
+ 1003 00a1 01       		.uleb128 0x13
+ 1004 00a2 13       		.byte	0x0
+ 1005 00a3 00       		.byte	0x0
+ 1006 00a4 00       		.uleb128 0x10
+ 1007 00a5 10       		.uleb128 0xd
+ 1008 00a6 0D       		.byte	0x0
+ 1009 00a7 00       		.uleb128 0x3
+ 1010 00a8 03       		.uleb128 0xe
+ 1011 00a9 0E       		.uleb128 0x3a
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 23
+
+
+ 1012 00aa 3A       		.uleb128 0xb
+ 1013 00ab 0B       		.uleb128 0x3b
+ 1014 00ac 3B       		.uleb128 0x5
+ 1015 00ad 05       		.uleb128 0x49
+ 1016 00ae 49       		.uleb128 0x13
+ 1017 00af 13       		.uleb128 0x38
+ 1018 00b0 38       		.uleb128 0xa
+ 1019 00b1 0A       		.byte	0x0
+ 1020 00b2 00       		.byte	0x0
+ 1021 00b3 00       		.uleb128 0x11
+ 1022 00b4 11       		.uleb128 0x16
+ 1023 00b5 16       		.byte	0x0
+ 1024 00b6 00       		.uleb128 0x3
+ 1025 00b7 03       		.uleb128 0xe
+ 1026 00b8 0E       		.uleb128 0x3a
+ 1027 00b9 3A       		.uleb128 0xb
+ 1028 00ba 0B       		.uleb128 0x3b
+ 1029 00bb 3B       		.uleb128 0x5
+ 1030 00bc 05       		.uleb128 0x49
+ 1031 00bd 49       		.uleb128 0x13
+ 1032 00be 13       		.byte	0x0
+ 1033 00bf 00       		.byte	0x0
+ 1034 00c0 00       		.uleb128 0x12
+ 1035 00c1 12       		.uleb128 0x2e
+ 1036 00c2 2E       		.byte	0x1
+ 1037 00c3 01       		.uleb128 0x3f
+ 1038 00c4 3F       		.uleb128 0xc
+ 1039 00c5 0C       		.uleb128 0x3
+ 1040 00c6 03       		.uleb128 0xe
+ 1041 00c7 0E       		.uleb128 0x3a
+ 1042 00c8 3A       		.uleb128 0xb
+ 1043 00c9 0B       		.uleb128 0x3b
+ 1044 00ca 3B       		.uleb128 0xb
+ 1045 00cb 0B       		.uleb128 0x27
+ 1046 00cc 27       		.uleb128 0xc
+ 1047 00cd 0C       		.uleb128 0x49
+ 1048 00ce 49       		.uleb128 0x13
+ 1049 00cf 13       		.uleb128 0x11
+ 1050 00d0 11       		.uleb128 0x1
+ 1051 00d1 01       		.uleb128 0x12
+ 1052 00d2 12       		.uleb128 0x1
+ 1053 00d3 01       		.uleb128 0x40
+ 1054 00d4 40       		.uleb128 0x6
+ 1055 00d5 06       		.uleb128 0x1
+ 1056 00d6 01       		.uleb128 0x13
+ 1057 00d7 13       		.byte	0x0
+ 1058 00d8 00       		.byte	0x0
+ 1059 00d9 00       		.uleb128 0x13
+ 1060 00da 13       		.uleb128 0x5
+ 1061 00db 05       		.byte	0x0
+ 1062 00dc 00       		.uleb128 0x3
+ 1063 00dd 03       		.uleb128 0xe
+ 1064 00de 0E       		.uleb128 0x3a
+ 1065 00df 3A       		.uleb128 0xb
+ 1066 00e0 0B       		.uleb128 0x3b
+ 1067 00e1 3B       		.uleb128 0xb
+ 1068 00e2 0B       		.uleb128 0x49
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 24
+
+
+ 1069 00e3 49       		.uleb128 0x13
+ 1070 00e4 13       		.uleb128 0x2
+ 1071 00e5 02       		.uleb128 0xa
+ 1072 00e6 0A       		.byte	0x0
+ 1073 00e7 00       		.byte	0x0
+ 1074 00e8 00       		.uleb128 0x14
+ 1075 00e9 14       		.uleb128 0x34
+ 1076 00ea 34       		.byte	0x0
+ 1077 00eb 00       		.uleb128 0x3
+ 1078 00ec 03       		.uleb128 0xe
+ 1079 00ed 0E       		.uleb128 0x3a
+ 1080 00ee 3A       		.uleb128 0xb
+ 1081 00ef 0B       		.uleb128 0x3b
+ 1082 00f0 3B       		.uleb128 0xb
+ 1083 00f1 0B       		.uleb128 0x49
+ 1084 00f2 49       		.uleb128 0x13
+ 1085 00f3 13       		.uleb128 0x2
+ 1086 00f4 02       		.uleb128 0xa
+ 1087 00f5 0A       		.byte	0x0
+ 1088 00f6 00       		.byte	0x0
+ 1089 00f7 00       		.uleb128 0x15
+ 1090 00f8 15       		.uleb128 0x2e
+ 1091 00f9 2E       		.byte	0x0
+ 1092 00fa 00       		.uleb128 0x3f
+ 1093 00fb 3F       		.uleb128 0xc
+ 1094 00fc 0C       		.uleb128 0x3
+ 1095 00fd 03       		.uleb128 0xe
+ 1096 00fe 0E       		.uleb128 0x3a
+ 1097 00ff 3A       		.uleb128 0xb
+ 1098 0100 0B       		.uleb128 0x3b
+ 1099 0101 3B       		.uleb128 0xb
+ 1100 0102 0B       		.uleb128 0x27
+ 1101 0103 27       		.uleb128 0xc
+ 1102 0104 0C       		.uleb128 0x49
+ 1103 0105 49       		.uleb128 0x13
+ 1104 0106 13       		.uleb128 0x11
+ 1105 0107 11       		.uleb128 0x1
+ 1106 0108 01       		.uleb128 0x12
+ 1107 0109 12       		.uleb128 0x1
+ 1108 010a 01       		.uleb128 0x40
+ 1109 010b 40       		.uleb128 0x6
+ 1110 010c 06       		.byte	0x0
+ 1111 010d 00       		.byte	0x0
+ 1112 010e 00       		.uleb128 0x16
+ 1113 010f 16       		.uleb128 0x2e
+ 1114 0110 2E       		.byte	0x0
+ 1115 0111 00       		.uleb128 0x3f
+ 1116 0112 3F       		.uleb128 0xc
+ 1117 0113 0C       		.uleb128 0x3
+ 1118 0114 03       		.uleb128 0xe
+ 1119 0115 0E       		.uleb128 0x3a
+ 1120 0116 3A       		.uleb128 0xb
+ 1121 0117 0B       		.uleb128 0x3b
+ 1122 0118 3B       		.uleb128 0xb
+ 1123 0119 0B       		.uleb128 0x27
+ 1124 011a 27       		.uleb128 0xc
+ 1125 011b 0C       		.uleb128 0x11
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 25
+
+
+ 1126 011c 11       		.uleb128 0x1
+ 1127 011d 01       		.uleb128 0x12
+ 1128 011e 12       		.uleb128 0x1
+ 1129 011f 01       		.uleb128 0x40
+ 1130 0120 40       		.uleb128 0xa
+ 1131 0121 0A       		.byte	0x0
+ 1132 0122 00       		.byte	0x0
+ 1133 0123 00       		.uleb128 0x17
+ 1134 0124 17       		.uleb128 0x2e
+ 1135 0125 2E       		.byte	0x1
+ 1136 0126 01       		.uleb128 0x3
+ 1137 0127 03       		.uleb128 0xe
+ 1138 0128 0E       		.uleb128 0x3a
+ 1139 0129 3A       		.uleb128 0xb
+ 1140 012a 0B       		.uleb128 0x3b
+ 1141 012b 3B       		.uleb128 0xb
+ 1142 012c 0B       		.uleb128 0x27
+ 1143 012d 27       		.uleb128 0xc
+ 1144 012e 0C       		.uleb128 0x11
+ 1145 012f 11       		.uleb128 0x1
+ 1146 0130 01       		.uleb128 0x12
+ 1147 0131 12       		.uleb128 0x1
+ 1148 0132 01       		.uleb128 0x40
+ 1149 0133 40       		.uleb128 0x6
+ 1150 0134 06       		.byte	0x0
+ 1151 0135 00       		.byte	0x0
+ 1152 0136 00       		.uleb128 0x18
+ 1153 0137 18       		.uleb128 0xb
+ 1154 0138 0B       		.byte	0x1
+ 1155 0139 01       		.uleb128 0x11
+ 1156 013a 11       		.uleb128 0x1
+ 1157 013b 01       		.uleb128 0x12
+ 1158 013c 12       		.uleb128 0x1
+ 1159 013d 01       		.byte	0x0
+ 1160 013e 00       		.byte	0x0
+ 1161 013f 00       		.byte	0x0
+ 1162 0140 00       		.section	.debug_pubnames,"",%progbits
+ 1163              		.4byte	0x56
+ 1164 0000 56000000 		.2byte	0x2
+ 1165 0004 0200     		.4byte	.Ldebug_info0
+ 1166 0006 00000000 		.4byte	0x336
+ 1167 000a 36030000 		.4byte	0x278
+ 1168 000e 78020000 		.ascii	"pxPortInitialiseStack\000"
+ 1169 0012 7078506F 		.4byte	0x2ce
+ 1169      7274496E 
+ 1169      69746961 
+ 1169      6C697365 
+ 1169      53746163 
+ 1170 0028 CE020000 		.ascii	"xPortStartScheduler\000"
+ 1171 002c 78506F72 		.4byte	0x2e7
+ 1171      74537461 
+ 1171      72745363 
+ 1171      68656475 
+ 1171      6C657200 
+ 1172 0040 E7020000 		.ascii	"vPortEndScheduler\000"
+ 1173 0044 76506F72 		.4byte	0x0
+ 1173      74456E64 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 26
+
+
+ 1173      53636865 
+ 1173      64756C65 
+ 1173      7200
+ 1174 0056 00000000 		.section	.debug_aranges,"",%progbits
+ 1175              		.4byte	0x1c
+ 1176 0000 1C000000 		.2byte	0x2
+ 1177 0004 0200     		.4byte	.Ldebug_info0
+ 1178 0006 00000000 		.byte	0x4
+ 1179 000a 04       		.byte	0x0
+ 1180 000b 00       		.2byte	0x0
+ 1181 000c 0000     		.2byte	0x0
+ 1182 000e 0000     		.4byte	.Ltext0
+ 1183 0010 00000000 		.4byte	.Letext0-.Ltext0
+ 1184 0014 DC020000 		.4byte	0x0
+ 1185 0018 00000000 		.4byte	0x0
+ 1186 001c 00000000 		.section	.debug_str,"MS",%progbits,1
+ 1187              	.LASF37:
+ 1188              		.ascii	"AT91PS_PITC\000"
+ 1189 0000 41543931 	.LASF17:
+ 1189      50535F50 
+ 1189      49544300 
+ 1190              		.ascii	"AIC_CISR\000"
+ 1191 000c 4149435F 	.LASF41:
+ 1191      43495352 
+ 1191      00
+ 1192              		.ascii	"pxOriginalTOS\000"
+ 1193 0015 70784F72 	.LASF45:
+ 1193      6967696E 
+ 1193      616C544F 
+ 1193      5300
+ 1194              		.ascii	"SRC/RTOS/port.c\000"
+ 1195 0023 5352432F 	.LASF23:
+ 1195      52544F53 
+ 1195      2F706F72 
+ 1195      742E6300 
+ 1196              		.ascii	"AIC_EOICR\000"
+ 1197 0033 4149435F 	.LASF43:
+ 1197      454F4943 
+ 1197      5200
+ 1198              		.ascii	"mask\000"
+ 1199 003d 6D61736B 	.LASF20:
+ 1199      00
+ 1200              		.ascii	"AIC_IDCR\000"
+ 1201 0042 4149435F 	.LASF25:
+ 1201      49444352 
+ 1201      00
+ 1202              		.ascii	"AIC_DCR\000"
+ 1203 004b 4149435F 	.LASF16:
+ 1203      44435200 
+ 1204              		.ascii	"AIC_IMR\000"
+ 1205 0053 4149435F 	.LASF34:
+ 1205      494D5200 
+ 1206              		.ascii	"PITC_PIVR\000"
+ 1207 005b 50495443 	.LASF18:
+ 1207      5F504956 
+ 1207      5200
+ 1208              		.ascii	"Reserved0\000"
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 27
+
+
+ 1209 0065 52657365 	.LASF24:
+ 1209      72766564 
+ 1209      3000
+ 1210              		.ascii	"AIC_SPU\000"
+ 1211 006f 4149435F 	.LASF28:
+ 1211      53505500 
+ 1212              		.ascii	"AIC_FFDR\000"
+ 1213 0077 4149435F 	.LASF27:
+ 1213      46464452 
+ 1213      00
+ 1214              		.ascii	"AIC_FFER\000"
+ 1215 0080 4149435F 	.LASF30:
+ 1215      46464552 
+ 1215      00
+ 1216              		.ascii	"_AT91S_AIC\000"
+ 1217 0089 5F415439 	.LASF7:
+ 1217      31535F41 
+ 1217      494300
+ 1218              		.ascii	"long long unsigned int\000"
+ 1219 0094 6C6F6E67 	.LASF2:
+ 1219      206C6F6E 
+ 1219      6720756E 
+ 1219      7369676E 
+ 1219      65642069 
+ 1220              		.ascii	"unsigned char\000"
+ 1221 00ab 756E7369 	.LASF35:
+ 1221      676E6564 
+ 1221      20636861 
+ 1221      7200
+ 1222              		.ascii	"PITC_PIIR\000"
+ 1223 00b9 50495443 	.LASF14:
+ 1223      5F504949 
+ 1223      5200
+ 1224              		.ascii	"AIC_ISR\000"
+ 1225 00c3 4149435F 	.LASF22:
+ 1225      49535200 
+ 1226              		.ascii	"AIC_ISCR\000"
+ 1227 00cb 4149435F 	.LASF0:
+ 1227      49534352 
+ 1227      00
+ 1228              		.ascii	"long unsigned int\000"
+ 1229 00d4 6C6F6E67 	.LASF11:
+ 1229      20756E73 
+ 1229      69676E65 
+ 1229      6420696E 
+ 1229      7400
+ 1230              		.ascii	"AIC_SVR\000"
+ 1231 00e6 4149435F 	.LASF44:
+ 1231      53565200 
+ 1232              		.ascii	"GNU C 4.3.3\000"
+ 1233 00ee 474E5520 	.LASF36:
+ 1233      4320342E 
+ 1233      332E3300 
+ 1234              		.ascii	"pdTASK_CODE\000"
+ 1235 00fa 70645441 	.LASF32:
+ 1235      534B5F43 
+ 1235      4F444500 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 28
+
+
+ 1236              		.ascii	"PITC_PIMR\000"
+ 1237 0106 50495443 	.LASF19:
+ 1237      5F50494D 
+ 1237      5200
+ 1238              		.ascii	"AIC_IECR\000"
+ 1239 0110 4149435F 	.LASF3:
+ 1239      49454352 
+ 1239      00
+ 1240              		.ascii	"short int\000"
+ 1241 0119 73686F72 	.LASF50:
+ 1241      7420696E 
+ 1241      7400
+ 1242              		.ascii	"prvSetupTimerInterrupt\000"
+ 1243 0123 70727653 	.LASF49:
+ 1243      65747570 
+ 1243      54696D65 
+ 1243      72496E74 
+ 1243      65727275 
+ 1244              		.ascii	"vPortEndScheduler\000"
+ 1245 013a 76506F72 	.LASF5:
+ 1245      74456E64 
+ 1245      53636865 
+ 1245      64756C65 
+ 1245      7200
+ 1246              		.ascii	"unsigned int\000"
+ 1247 014c 756E7369 	.LASF33:
+ 1247      676E6564 
+ 1247      20696E74 
+ 1247      00
+ 1248              		.ascii	"PITC_PISR\000"
+ 1249 0159 50495443 	.LASF26:
+ 1249      5F504953 
+ 1249      5200
+ 1250              		.ascii	"Reserved1\000"
+ 1251 0163 52657365 	.LASF42:
+ 1251      72766564 
+ 1251      3100
+ 1252              		.ascii	"pxPIT\000"
+ 1253 016d 70785049 	.LASF15:
+ 1253      5400
+ 1254              		.ascii	"AIC_IPR\000"
+ 1255 0173 4149435F 	.LASF10:
+ 1255      49505200 
+ 1256              		.ascii	"AIC_SMR\000"
+ 1257 017b 4149435F 	.LASF29:
+ 1257      534D5200 
+ 1258              		.ascii	"AIC_FFSR\000"
+ 1259 0183 4149435F 	.LASF39:
+ 1259      46465352 
+ 1259      00
+ 1260              		.ascii	"pxCode\000"
+ 1261 018c 7078436F 	.LASF31:
+ 1261      646500
+ 1262              		.ascii	"_AT91S_PITC\000"
+ 1263 0193 5F415439 	.LASF4:
+ 1263      31535F50 
+ 1263      49544300 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 29
+
+
+ 1264              		.ascii	"short unsigned int\000"
+ 1265 019f 73686F72 	.LASF6:
+ 1265      7420756E 
+ 1265      7369676E 
+ 1265      65642069 
+ 1265      6E7400
+ 1266              		.ascii	"long long int\000"
+ 1267 01b2 6C6F6E67 	.LASF9:
+ 1267      206C6F6E 
+ 1267      6720696E 
+ 1267      7400
+ 1268              		.ascii	"char\000"
+ 1269 01c0 63686172 	.LASF40:
+ 1269      00
+ 1270              		.ascii	"pvParameters\000"
+ 1271 01c5 70765061 	.LASF21:
+ 1271      72616D65 
+ 1271      74657273 
+ 1271      00
+ 1272              		.ascii	"AIC_ICCR\000"
+ 1273 01d2 4149435F 	.LASF38:
+ 1273      49434352 
+ 1273      00
+ 1274              		.ascii	"pxTopOfStack\000"
+ 1275 01db 7078546F 	.LASF46:
+ 1275      704F6653 
+ 1275      7461636B 
+ 1275      00
+ 1276              		.ascii	"E:\\Projekty\\ARM\\Eclipse\\AT91SAM7Sxxx_RTOS\000"
+ 1277 01e8 453A5C50 	.LASF13:
+ 1277      726F6A65 
+ 1277      6B74795C 
+ 1277      41524D5C 
+ 1277      45636C69 
+ 1278              		.ascii	"AIC_FVR\000"
+ 1279 0212 4149435F 	.LASF8:
+ 1279      46565200 
+ 1280              		.ascii	"long int\000"
+ 1281 021a 6C6F6E67 	.LASF12:
+ 1281      20696E74 
+ 1281      00
+ 1282              		.ascii	"AIC_IVR\000"
+ 1283 0223 4149435F 	.LASF1:
+ 1283      49565200 
+ 1284              		.ascii	"signed char\000"
+ 1285 022b 7369676E 	.LASF48:
+ 1285      65642063 
+ 1285      68617200 
+ 1286              		.ascii	"xPortStartScheduler\000"
+ 1287 0237 78506F72 	.LASF47:
+ 1287      74537461 
+ 1287      72745363 
+ 1287      68656475 
+ 1287      6C657200 
+ 1288              		.ascii	"pxPortInitialiseStack\000"
+ 1289 024b 7078506F 		.ident	"GCC: (GNU) 4.3.3"
+ 1289      7274496E 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 30
+
+
+ 1289      69746961 
+ 1289      6C697365 
+ 1289      53746163 
+ 1290              	...
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s 			page 31
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 port.c
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s:37     .text:00000000 pxPortInitialiseStack
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s:45     .text:00000000 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s:230    .text:00000234 xPortStartScheduler
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s:266    .text:00000254 prvSetupTimerInterrupt
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s:253    .text:00000250 vPortEndScheduler
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPlq3Kz.s:317    .text:000002d8 $d
+
+UNDEFINED SYMBOLS
+vPortISRStartFirstTask
+vPreemptiveTick

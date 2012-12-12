@@ -1,0 +1,1486 @@
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 1
+
+
+   1              		.file	"list.c"
+   2              	@ GNU C (GCC) version 4.3.3 (arm-elf)
+   3              	@	compiled by GNU C version 3.4.5 (mingw special), GMP version 4.2.2, MPFR version 2.3.1.
+   4              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+   5              	@ options passed:  -I . -IINC/ -IINC/RTOS/ -imultilib interwork -iprefix
+   6              	@ d:\programy\mikrokontrolery\arm\yagarto\bin\../lib/gcc/arm-elf/4.3.3/ -MD
+   7              	@ SRC/RTOS/list.d -MF .dep/list.o.d -MP -MQ SRC/RTOS/list.o
+   8              	@ -D__USES_INITFINI__ SRC/RTOS/list.c -mcpu=arm7tdmi -mthumb-interwork
+   9              	@ -auxbase-strip SRC/RTOS/list.o -gdwarf-2 -O0 -Wall -Wstrict-prototypes
+  10              	@ -fomit-frame-pointer -fverbose-asm
+  11              	@ options enabled:  -falign-loops -fargument-alias -fauto-inc-dec
+  12              	@ -fbranch-count-reg -fcommon -fearly-inlining
+  13              	@ -feliminate-unused-debug-types -ffunction-cse -fgcse-lm -fident -fivopts
+  14              	@ -fkeep-static-consts -fleading-underscore -fmath-errno
+  15              	@ -fmerge-debug-strings -fmove-loop-invariants -fomit-frame-pointer
+  16              	@ -fpeephole -freg-struct-return -fsched-interblock -fsched-spec
+  17              	@ -fsched-stalled-insns-dep -fsigned-zeros -fsplit-ivs-in-unroller
+  18              	@ -ftoplevel-reorder -ftrapping-math -ftree-cselim -ftree-loop-im
+  19              	@ -ftree-loop-ivcanon -ftree-loop-optimize -ftree-parallelize-loops=
+  20              	@ -ftree-reassoc -ftree-scev-cprop -ftree-vect-loop-version -fverbose-asm
+  21              	@ -fzero-initialized-in-bss -mlittle-endian -msched-prolog
+  22              	@ -mthumb-interwork
+  23              	
+  24              		.section	.debug_abbrev,"",%progbits
+  25              	.Ldebug_abbrev0:
+  26              		.section	.debug_info,"",%progbits
+  27              	.Ldebug_info0:
+  28              		.section	.debug_line,"",%progbits
+  29              	.Ldebug_line0:
+  30 0000 8A000000 		.text
+  30      02004800 
+  30      00000201 
+  30      FB0E0D00 
+  30      01010101 
+  31              	.Ltext0:
+  32              	@ Compiler executable checksum: aefe8b2555dadc8858779d7450a1d1fb
+  33              	
+  34              		.align	2
+  35              		.global	vListInitialise
+  36              		.type	vListInitialise, %function
+  37              	vListInitialise:
+  38              	.LFB2:
+  39              		.file 1 "SRC/RTOS/list.c"
+   1:SRC/RTOS/list.c **** /*
+   2:SRC/RTOS/list.c ****     FreeRTOS V6.0.2 - Copyright (C) 2010 Real Time Engineers Ltd.
+   3:SRC/RTOS/list.c **** 
+   4:SRC/RTOS/list.c ****     ***************************************************************************
+   5:SRC/RTOS/list.c ****     *                                                                         *
+   6:SRC/RTOS/list.c ****     * If you are:                                                             *
+   7:SRC/RTOS/list.c ****     *                                                                         *
+   8:SRC/RTOS/list.c ****     *    + New to FreeRTOS,                                                   *
+   9:SRC/RTOS/list.c ****     *    + Wanting to learn FreeRTOS or multitasking in general quickly       *
+  10:SRC/RTOS/list.c ****     *    + Looking for basic training,                                        *
+  11:SRC/RTOS/list.c ****     *    + Wanting to improve your FreeRTOS skills and productivity           *
+  12:SRC/RTOS/list.c ****     *                                                                         *
+  13:SRC/RTOS/list.c ****     * then take a look at the FreeRTOS eBook                                  *
+  14:SRC/RTOS/list.c ****     *                                                                         *
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 2
+
+
+  15:SRC/RTOS/list.c ****     *        "Using the FreeRTOS Real Time Kernel - a Practical Guide"        *
+  16:SRC/RTOS/list.c ****     *                  http://www.FreeRTOS.org/Documentation                  *
+  17:SRC/RTOS/list.c ****     *                                                                         *
+  18:SRC/RTOS/list.c ****     * A pdf reference manual is also available.  Both are usually delivered   *
+  19:SRC/RTOS/list.c ****     * to your inbox within 20 minutes to two hours when purchased between 8am *
+  20:SRC/RTOS/list.c ****     * and 8pm GMT (although please allow up to 24 hours in case of            *
+  21:SRC/RTOS/list.c ****     * exceptional circumstances).  Thank you for your support!                *
+  22:SRC/RTOS/list.c ****     *                                                                         *
+  23:SRC/RTOS/list.c ****     ***************************************************************************
+  24:SRC/RTOS/list.c **** 
+  25:SRC/RTOS/list.c ****     This file is part of the FreeRTOS distribution.
+  26:SRC/RTOS/list.c **** 
+  27:SRC/RTOS/list.c ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  28:SRC/RTOS/list.c ****     the terms of the GNU General Public License (version 2) as published by the
+  29:SRC/RTOS/list.c ****     Free Software Foundation AND MODIFIED BY the FreeRTOS exception.
+  30:SRC/RTOS/list.c ****     ***NOTE*** The exception to the GPL is included to allow you to distribute
+  31:SRC/RTOS/list.c ****     a combined work that includes FreeRTOS without being obliged to provide the
+  32:SRC/RTOS/list.c ****     source code for proprietary components outside of the FreeRTOS kernel.
+  33:SRC/RTOS/list.c ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT
+  34:SRC/RTOS/list.c ****     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  35:SRC/RTOS/list.c ****     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+  36:SRC/RTOS/list.c ****     more details. You should have received a copy of the GNU General Public 
+  37:SRC/RTOS/list.c ****     License and the FreeRTOS license exception along with FreeRTOS; if not it 
+  38:SRC/RTOS/list.c ****     can be viewed here: http://www.freertos.org/a00114.html and also obtained 
+  39:SRC/RTOS/list.c ****     by writing to Richard Barry, contact details for whom are available on the
+  40:SRC/RTOS/list.c ****     FreeRTOS WEB site.
+  41:SRC/RTOS/list.c **** 
+  42:SRC/RTOS/list.c ****     1 tab == 4 spaces!
+  43:SRC/RTOS/list.c **** 
+  44:SRC/RTOS/list.c ****     http://www.FreeRTOS.org - Documentation, latest information, license and
+  45:SRC/RTOS/list.c ****     contact details.
+  46:SRC/RTOS/list.c **** 
+  47:SRC/RTOS/list.c ****     http://www.SafeRTOS.com - A version that is certified for use in safety
+  48:SRC/RTOS/list.c ****     critical systems.
+  49:SRC/RTOS/list.c **** 
+  50:SRC/RTOS/list.c ****     http://www.OpenRTOS.com - Commercial support, development, porting,
+  51:SRC/RTOS/list.c ****     licensing and training services.
+  52:SRC/RTOS/list.c **** */
+  53:SRC/RTOS/list.c **** 
+  54:SRC/RTOS/list.c **** 
+  55:SRC/RTOS/list.c **** #include <stdlib.h>
+  56:SRC/RTOS/list.c **** #include "FreeRTOS.h"
+  57:SRC/RTOS/list.c **** #include "list.h"
+  58:SRC/RTOS/list.c **** 
+  59:SRC/RTOS/list.c **** /*-----------------------------------------------------------
+  60:SRC/RTOS/list.c ****  * PUBLIC LIST API documented in list.h
+  61:SRC/RTOS/list.c ****  *----------------------------------------------------------*/
+  62:SRC/RTOS/list.c **** 
+  63:SRC/RTOS/list.c **** void vListInitialise( xList *pxList )
+  64:SRC/RTOS/list.c **** {
+  40              	working.
+  41              		@ args = 0, pretend = 0, frame = 4
+  42              		@ frame_needed = 0, uses_anonymous_args = 0
+  43              		@ link register save eliminated.
+  44              		sub	sp, sp, #4	@,,
+  45 0000 04D04DE2 	.LCFI0:
+  46              		str	r0, [sp, #0]	@ pxList, pxList
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 3
+
+
+  47 0004 00008DE5 		.loc 1 68 0
+  65:SRC/RTOS/list.c **** 	/* The list structure contains a list item which is used to mark the
+  66:SRC/RTOS/list.c **** 	end of the list.  To initialise the list the list end is inserted
+  67:SRC/RTOS/list.c **** 	as the only list entry. */
+  68:SRC/RTOS/list.c **** 	pxList->pxIndex = ( xListItem * ) &( pxList->xListEnd );
+  48              	 [sp, #0]	@ tmp139, pxList
+  49 0008 00309DE5 		add	r3, r3, #8	@ D.3170, tmp139,
+  50 000c 083083E2 		mov	r2, r3	@ D.3171, D.3170
+  51 0010 0320A0E1 		ldr	r3, [sp, #0]	@ tmp140, pxList
+  52 0014 00309DE5 		str	r2, [r3, #4]	@ D.3171, <variable>.pxIndex
+  53 0018 042083E5 		.loc 1 72 0
+  69:SRC/RTOS/list.c **** 
+  70:SRC/RTOS/list.c **** 	/* The list end value is the highest possible value in the list to
+  71:SRC/RTOS/list.c **** 	ensure it remains at the end of the list. */
+  72:SRC/RTOS/list.c **** 	pxList->xListEnd.xItemValue = portMAX_DELAY;
+  54              	2, [sp, #0]	@ tmp141, pxList
+  55 001c 00209DE5 		mvn	r3, #0	@ tmp142,
+  56 0020 0030E0E3 		str	r3, [r2, #8]	@ tmp142, <variable>.xListEnd.xItemValue
+  57 0024 083082E5 		.loc 1 76 0
+  73:SRC/RTOS/list.c **** 
+  74:SRC/RTOS/list.c **** 	/* The list end next and previous pointers point to itself so we know
+  75:SRC/RTOS/list.c **** 	when the list is empty. */
+  76:SRC/RTOS/list.c **** 	pxList->xListEnd.pxNext = ( xListItem * ) &( pxList->xListEnd );
+  58              		r3, [sp, #0]	@ tmp143, pxList
+  59 0028 00309DE5 		add	r3, r3, #8	@ D.3172, tmp143,
+  60 002c 083083E2 		mov	r2, r3	@ D.3173, D.3172
+  61 0030 0320A0E1 		ldr	r3, [sp, #0]	@ tmp144, pxList
+  62 0034 00309DE5 		str	r2, [r3, #12]	@ D.3173, <variable>.xListEnd.pxNext
+  63 0038 0C2083E5 		.loc 1 77 0
+  77:SRC/RTOS/list.c **** 	pxList->xListEnd.pxPrevious = ( xListItem * ) &( pxList->xListEnd );
+  64              	3, [sp, #0]	@ tmp145, pxList
+  65 003c 00309DE5 		add	r3, r3, #8	@ D.3174, tmp145,
+  66 0040 083083E2 		mov	r2, r3	@ D.3175, D.3174
+  67 0044 0320A0E1 		ldr	r3, [sp, #0]	@ tmp146, pxList
+  68 0048 00309DE5 		str	r2, [r3, #16]	@ D.3175, <variable>.xListEnd.pxPrevious
+  69 004c 102083E5 		.loc 1 79 0
+  78:SRC/RTOS/list.c **** 
+  79:SRC/RTOS/list.c **** 	pxList->uxNumberOfItems = 0;
+  70              	2, [sp, #0]	@ tmp147, pxList
+  71 0050 00209DE5 		mov	r3, #0	@ tmp148,
+  72 0054 0030A0E3 		str	r3, [r2, #0]	@ tmp148, <variable>.uxNumberOfItems
+  73 0058 003082E5 		.loc 1 80 0
+  80:SRC/RTOS/list.c **** }
+  74              		sp, sp, #4	@,,
+  75 005c 04D08DE2 		bx	lr
+  76 0060 1EFF2FE1 	.LFE2:
+  77              		.size	vListInitialise, .-vListInitialise
+  78              		.align	2
+  79              		.global	vListInitialiseItem
+  80              		.type	vListInitialiseItem, %function
+  81              	vListInitialiseItem:
+  82              	.LFB3:
+  83              		.loc 1 84 0
+  81:SRC/RTOS/list.c **** /*-----------------------------------------------------------*/
+  82:SRC/RTOS/list.c **** 
+  83:SRC/RTOS/list.c **** void vListInitialiseItem( xListItem *pxItem )
+  84:SRC/RTOS/list.c **** {
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 4
+
+
+  84              	n supports interworking.
+  85              		@ args = 0, pretend = 0, frame = 4
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              		@ link register save eliminated.
+  88              		sub	sp, sp, #4	@,,
+  89 0064 04D04DE2 	.LCFI1:
+  90              		str	r0, [sp, #0]	@ pxItem, pxItem
+  91 0068 00008DE5 		.loc 1 86 0
+  85:SRC/RTOS/list.c **** 	/* Make sure the list item is not recorded as being on a list. */
+  86:SRC/RTOS/list.c **** 	pxItem->pvContainer = NULL;
+  92              	 [sp, #0]	@ tmp133, pxItem
+  93 006c 00209DE5 		mov	r3, #0	@ tmp134,
+  94 0070 0030A0E3 		str	r3, [r2, #16]	@ tmp134, <variable>.pvContainer
+  95 0074 103082E5 		.loc 1 87 0
+  87:SRC/RTOS/list.c **** }
+  96              		sp, sp, #4	@,,
+  97 0078 04D08DE2 		bx	lr
+  98 007c 1EFF2FE1 	.LFE3:
+  99              		.size	vListInitialiseItem, .-vListInitialiseItem
+ 100              		.align	2
+ 101              		.global	vListInsertEnd
+ 102              		.type	vListInsertEnd, %function
+ 103              	vListInsertEnd:
+ 104              	.LFB4:
+ 105              		.loc 1 91 0
+  88:SRC/RTOS/list.c **** /*-----------------------------------------------------------*/
+  89:SRC/RTOS/list.c **** 
+  90:SRC/RTOS/list.c **** void vListInsertEnd( xList *pxList, xListItem *pxNewListItem )
+  91:SRC/RTOS/list.c **** {
+ 106              	n supports interworking.
+ 107              		@ args = 0, pretend = 0, frame = 12
+ 108              		@ frame_needed = 0, uses_anonymous_args = 0
+ 109              		@ link register save eliminated.
+ 110              		sub	sp, sp, #12	@,,
+ 111 0080 0CD04DE2 	.LCFI2:
+ 112              		str	r0, [sp, #4]	@ pxList, pxList
+ 113 0084 04008DE5 		str	r1, [sp, #0]	@ pxNewListItem, pxNewListItem
+ 114 0088 00108DE5 		.loc 1 98 0
+  92:SRC/RTOS/list.c **** volatile xListItem * pxIndex;
+  93:SRC/RTOS/list.c **** 
+  94:SRC/RTOS/list.c **** 	/* Insert a new list item into pxList, but rather than sort the list,
+  95:SRC/RTOS/list.c **** 	makes the new list item the last item to be removed by a call to
+  96:SRC/RTOS/list.c **** 	pvListGetOwnerOfNextEntry.  This means it has to be the item pointed to by
+  97:SRC/RTOS/list.c **** 	the pxIndex member. */
+  98:SRC/RTOS/list.c **** 	pxIndex = pxList->pxIndex;
+ 115              	[sp, #4]	@ tmp141, pxList
+ 116 008c 04309DE5 		ldr	r3, [r3, #4]	@ tmp142, <variable>.pxIndex
+ 117 0090 043093E5 		str	r3, [sp, #8]	@ tmp142, pxIndex
+ 118 0094 08308DE5 		.loc 1 100 0
+  99:SRC/RTOS/list.c **** 
+ 100:SRC/RTOS/list.c **** 	pxNewListItem->pxNext = pxIndex->pxNext;
+ 119              		r3, [sp, #8]	@ tmp143, pxIndex
+ 120 0098 08309DE5 		ldr	r2, [r3, #4]	@ D.3184, <variable>.pxNext
+ 121 009c 042093E5 		ldr	r3, [sp, #0]	@ tmp144, pxNewListItem
+ 122 00a0 00309DE5 		str	r2, [r3, #4]	@ D.3184, <variable>.pxNext
+ 123 00a4 042083E5 		.loc 1 101 0
+ 101:SRC/RTOS/list.c **** 	pxNewListItem->pxPrevious = pxList->pxIndex;
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 5
+
+
+ 124              	r3, [sp, #4]	@ tmp145, pxList
+ 125 00a8 04309DE5 		ldr	r2, [r3, #4]	@ D.3185, <variable>.pxIndex
+ 126 00ac 042093E5 		ldr	r3, [sp, #0]	@ tmp146, pxNewListItem
+ 127 00b0 00309DE5 		str	r2, [r3, #8]	@ D.3185, <variable>.pxPrevious
+ 128 00b4 082083E5 		.loc 1 102 0
+ 102:SRC/RTOS/list.c **** 	pxIndex->pxNext->pxPrevious = ( volatile xListItem * ) pxNewListItem;
+ 129              	r3, [sp, #8]	@ tmp147, pxIndex
+ 130 00b8 08309DE5 		ldr	r2, [r3, #4]	@ D.3186, <variable>.pxNext
+ 131 00bc 042093E5 		ldr	r3, [sp, #0]	@ pxNewListItem.0, pxNewListItem
+ 132 00c0 00309DE5 		str	r3, [r2, #8]	@ pxNewListItem.0, <variable>.pxPrevious
+ 133 00c4 083082E5 		.loc 1 103 0
+ 103:SRC/RTOS/list.c **** 	pxIndex->pxNext = ( volatile xListItem * ) pxNewListItem;
+ 134              	r2, [sp, #0]	@ pxNewListItem.1, pxNewListItem
+ 135 00c8 00209DE5 		ldr	r3, [sp, #8]	@ tmp148, pxIndex
+ 136 00cc 08309DE5 		str	r2, [r3, #4]	@ pxNewListItem.1, <variable>.pxNext
+ 137 00d0 042083E5 		.loc 1 104 0
+ 104:SRC/RTOS/list.c **** 	pxList->pxIndex = ( volatile xListItem * ) pxNewListItem;
+ 138              		r2, [sp, #0]	@ pxNewListItem.2, pxNewListItem
+ 139 00d4 00209DE5 		ldr	r3, [sp, #4]	@ tmp149, pxList
+ 140 00d8 04309DE5 		str	r2, [r3, #4]	@ pxNewListItem.2, <variable>.pxIndex
+ 141 00dc 042083E5 		.loc 1 107 0
+ 105:SRC/RTOS/list.c **** 
+ 106:SRC/RTOS/list.c **** 	/* Remember which list the item is in. */
+ 107:SRC/RTOS/list.c **** 	pxNewListItem->pvContainer = ( void * ) pxList;
+ 142              		r2, [sp, #0]	@ tmp150, pxNewListItem
+ 143 00e0 00209DE5 		ldr	r3, [sp, #4]	@ tmp151, pxList
+ 144 00e4 04309DE5 		str	r3, [r2, #16]	@ tmp151, <variable>.pvContainer
+ 145 00e8 103082E5 		.loc 1 109 0
+ 108:SRC/RTOS/list.c **** 
+ 109:SRC/RTOS/list.c **** 	( pxList->uxNumberOfItems )++;
+ 146              		r3, [sp, #4]	@ tmp152, pxList
+ 147 00ec 04309DE5 		ldr	r3, [r3, #0]	@ D.3190, <variable>.uxNumberOfItems
+ 148 00f0 003093E5 		add	r2, r3, #1	@ D.3191, D.3190,
+ 149 00f4 012083E2 		ldr	r3, [sp, #4]	@ tmp153, pxList
+ 150 00f8 04309DE5 		str	r2, [r3, #0]	@ D.3191, <variable>.uxNumberOfItems
+ 151 00fc 002083E5 		.loc 1 110 0
+ 110:SRC/RTOS/list.c **** }
+ 152              	p, sp, #12	@,,
+ 153 0100 0CD08DE2 		bx	lr
+ 154 0104 1EFF2FE1 	.LFE4:
+ 155              		.size	vListInsertEnd, .-vListInsertEnd
+ 156              		.align	2
+ 157              		.global	vListInsert
+ 158              		.type	vListInsert, %function
+ 159              	vListInsert:
+ 160              	.LFB5:
+ 161              		.loc 1 114 0
+ 111:SRC/RTOS/list.c **** /*-----------------------------------------------------------*/
+ 112:SRC/RTOS/list.c **** 
+ 113:SRC/RTOS/list.c **** void vListInsert( xList *pxList, xListItem *pxNewListItem )
+ 114:SRC/RTOS/list.c **** {
+ 162              	n supports interworking.
+ 163              		@ args = 0, pretend = 0, frame = 16
+ 164              		@ frame_needed = 0, uses_anonymous_args = 0
+ 165              		@ link register save eliminated.
+ 166              		sub	sp, sp, #16	@,,
+ 167 0108 10D04DE2 	.LCFI3:
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 6
+
+
+ 168              		str	r0, [sp, #4]	@ pxList, pxList
+ 169 010c 04008DE5 		str	r1, [sp, #0]	@ pxNewListItem, pxNewListItem
+ 170 0110 00108DE5 		.loc 1 119 0
+ 115:SRC/RTOS/list.c **** volatile xListItem *pxIterator;
+ 116:SRC/RTOS/list.c **** portTickType xValueOfInsertion;
+ 117:SRC/RTOS/list.c **** 
+ 118:SRC/RTOS/list.c **** 	/* Insert the new list item into the list, sorted in ulListItem order. */
+ 119:SRC/RTOS/list.c **** 	xValueOfInsertion = pxNewListItem->xItemValue;
+ 171              	[sp, #0]	@ tmp142, pxNewListItem
+ 172 0114 00309DE5 		ldr	r3, [r3, #0]	@ tmp143, <variable>.xItemValue
+ 173 0118 003093E5 		str	r3, [sp, #12]	@ tmp143, xValueOfInsertion
+ 174 011c 0C308DE5 		.loc 1 128 0
+ 120:SRC/RTOS/list.c **** 
+ 121:SRC/RTOS/list.c **** 	/* If the list already contains a list item with the same item value then
+ 122:SRC/RTOS/list.c **** 	the new list item should be placed after it.  This ensures that TCB's which
+ 123:SRC/RTOS/list.c **** 	are stored in ready lists (all of which have the same ulListItem value)
+ 124:SRC/RTOS/list.c **** 	get an equal share of the CPU.  However, if the xItemValue is the same as 
+ 125:SRC/RTOS/list.c **** 	the back marker the iteration loop below will not end.  This means we need
+ 126:SRC/RTOS/list.c **** 	to guard against this by checking the value first and modifying the 
+ 127:SRC/RTOS/list.c **** 	algorithm slightly if necessary. */
+ 128:SRC/RTOS/list.c **** 	if( xValueOfInsertion == portMAX_DELAY )
+ 175              		r3, [sp, #12]	@ tmp144, xValueOfInsertion
+ 176 0120 0C309DE5 		cmn	r3, #1	@ tmp144,
+ 177 0124 010073E3 		bne	.L8	@,
+ 178 0128 0300001A 		.loc 1 130 0
+ 129:SRC/RTOS/list.c **** 	{
+ 130:SRC/RTOS/list.c **** 		pxIterator = pxList->xListEnd.pxPrevious;
+ 179              		r3, [sp, #4]	@ tmp145, pxList
+ 180 012c 04309DE5 		ldr	r3, [r3, #16]	@ tmp146, <variable>.xListEnd.pxPrevious
+ 181 0130 103093E5 		str	r3, [sp, #8]	@ tmp146, pxIterator
+ 182 0134 08308DE5 		b	.L9	@
+ 183 0138 0C0000EA 	.L8:
+ 184              		.loc 1 150 0
+ 131:SRC/RTOS/list.c **** 	}
+ 132:SRC/RTOS/list.c **** 	else
+ 133:SRC/RTOS/list.c **** 	{
+ 134:SRC/RTOS/list.c **** 		/* *** NOTE ***********************************************************
+ 135:SRC/RTOS/list.c **** 		If you find your application is crashing here then likely causes are:
+ 136:SRC/RTOS/list.c **** 			1) Stack overflow - 
+ 137:SRC/RTOS/list.c **** 			   see http://www.freertos.org/Stacks-and-stack-overflow-checking.html
+ 138:SRC/RTOS/list.c **** 			2) Incorrect interrupt priority assignment, especially on Cortex M3 
+ 139:SRC/RTOS/list.c **** 			   parts where numerically high priority values denote low actual 
+ 140:SRC/RTOS/list.c **** 			   interrupt priories, which can seem counter intuitive.  See 
+ 141:SRC/RTOS/list.c **** 			   configMAX_SYSCALL_INTERRUPT_PRIORITY on http://www.freertos.org/a00110.html
+ 142:SRC/RTOS/list.c **** 			3) Calling an API function from within a critical section or when
+ 143:SRC/RTOS/list.c **** 			   the scheduler is suspended.
+ 144:SRC/RTOS/list.c **** 			4) Using a queue or semaphore before it has been initialised or
+ 145:SRC/RTOS/list.c **** 			   before the scheduler has been started (are interrupts firing
+ 146:SRC/RTOS/list.c **** 			   before vTaskStartScheduler() has been called?).
+ 147:SRC/RTOS/list.c **** 		See http://www.freertos.org/FAQHelp.html for more tips. 
+ 148:SRC/RTOS/list.c **** 		**********************************************************************/
+ 149:SRC/RTOS/list.c **** 		
+ 150:SRC/RTOS/list.c **** 		for( pxIterator = ( xListItem * ) &( pxList->xListEnd ); pxIterator->pxNext->xItemValue <= xValue
+ 185              	3, [sp, #4]	@ tmp147, pxList
+ 186 013c 04309DE5 		add	r3, r3, #8	@ D.3201, tmp147,
+ 187 0140 083083E2 		str	r3, [sp, #8]	@ D.3201, pxIterator
+ 188 0144 08308DE5 		b	.L10	@
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 7
+
+
+ 189 0148 020000EA 	.L11:
+ 190              		ldr	r3, [sp, #8]	@ tmp148, pxIterator
+ 191 014c 08309DE5 		ldr	r3, [r3, #4]	@ tmp149, <variable>.pxNext
+ 192 0150 043093E5 		str	r3, [sp, #8]	@ tmp149, pxIterator
+ 193 0154 08308DE5 	.L10:
+ 194              		ldr	r3, [sp, #8]	@ tmp150, pxIterator
+ 195 0158 08309DE5 		ldr	r3, [r3, #4]	@ D.3202, <variable>.pxNext
+ 196 015c 043093E5 		ldr	r2, [r3, #0]	@ D.3203, <variable>.xItemValue
+ 197 0160 002093E5 		ldr	r3, [sp, #12]	@ tmp151, xValueOfInsertion
+ 198 0164 0C309DE5 		cmp	r2, r3	@ D.3203, tmp151
+ 199 0168 030052E1 		bls	.L11	@,
+ 200 016c F6FFFF9A 	.L9:
+ 201              		.loc 1 157 0
+ 151:SRC/RTOS/list.c **** 		{
+ 152:SRC/RTOS/list.c **** 			/* There is nothing to do here, we are just iterating to the
+ 153:SRC/RTOS/list.c **** 			wanted insertion position. */
+ 154:SRC/RTOS/list.c **** 		}
+ 155:SRC/RTOS/list.c **** 	}
+ 156:SRC/RTOS/list.c **** 
+ 157:SRC/RTOS/list.c **** 	pxNewListItem->pxNext = pxIterator->pxNext;
+ 202              		@ tmp152, pxIterator
+ 203 0170 08309DE5 		ldr	r2, [r3, #4]	@ D.3204, <variable>.pxNext
+ 204 0174 042093E5 		ldr	r3, [sp, #0]	@ tmp153, pxNewListItem
+ 205 0178 00309DE5 		str	r2, [r3, #4]	@ D.3204, <variable>.pxNext
+ 206 017c 042083E5 		.loc 1 158 0
+ 158:SRC/RTOS/list.c **** 	pxNewListItem->pxNext->pxPrevious = ( volatile xListItem * ) pxNewListItem;
+ 207              	r3, [sp, #0]	@ tmp154, pxNewListItem
+ 208 0180 00309DE5 		ldr	r2, [r3, #4]	@ D.3205, <variable>.pxNext
+ 209 0184 042093E5 		ldr	r3, [sp, #0]	@ pxNewListItem.3, pxNewListItem
+ 210 0188 00309DE5 		str	r3, [r2, #8]	@ pxNewListItem.3, <variable>.pxPrevious
+ 211 018c 083082E5 		.loc 1 159 0
+ 159:SRC/RTOS/list.c **** 	pxNewListItem->pxPrevious = pxIterator;
+ 212              	r2, [sp, #0]	@ tmp155, pxNewListItem
+ 213 0190 00209DE5 		ldr	r3, [sp, #8]	@ tmp156, pxIterator
+ 214 0194 08309DE5 		str	r3, [r2, #8]	@ tmp156, <variable>.pxPrevious
+ 215 0198 083082E5 		.loc 1 160 0
+ 160:SRC/RTOS/list.c **** 	pxIterator->pxNext = ( volatile xListItem * ) pxNewListItem;
+ 216              		r2, [sp, #0]	@ pxNewListItem.4, pxNewListItem
+ 217 019c 00209DE5 		ldr	r3, [sp, #8]	@ tmp157, pxIterator
+ 218 01a0 08309DE5 		str	r2, [r3, #4]	@ pxNewListItem.4, <variable>.pxNext
+ 219 01a4 042083E5 		.loc 1 164 0
+ 161:SRC/RTOS/list.c **** 
+ 162:SRC/RTOS/list.c **** 	/* Remember which list the item is in.  This allows fast removal of the
+ 163:SRC/RTOS/list.c **** 	item later. */
+ 164:SRC/RTOS/list.c **** 	pxNewListItem->pvContainer = ( void * ) pxList;
+ 220              		r2, [sp, #0]	@ tmp158, pxNewListItem
+ 221 01a8 00209DE5 		ldr	r3, [sp, #4]	@ tmp159, pxList
+ 222 01ac 04309DE5 		str	r3, [r2, #16]	@ tmp159, <variable>.pvContainer
+ 223 01b0 103082E5 		.loc 1 166 0
+ 165:SRC/RTOS/list.c **** 
+ 166:SRC/RTOS/list.c **** 	( pxList->uxNumberOfItems )++;
+ 224              		r3, [sp, #4]	@ tmp160, pxList
+ 225 01b4 04309DE5 		ldr	r3, [r3, #0]	@ D.3208, <variable>.uxNumberOfItems
+ 226 01b8 003093E5 		add	r2, r3, #1	@ D.3209, D.3208,
+ 227 01bc 012083E2 		ldr	r3, [sp, #4]	@ tmp161, pxList
+ 228 01c0 04309DE5 		str	r2, [r3, #0]	@ D.3209, <variable>.uxNumberOfItems
+ 229 01c4 002083E5 		.loc 1 167 0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 8
+
+
+ 167:SRC/RTOS/list.c **** }
+ 230              	p, sp, #16	@,,
+ 231 01c8 10D08DE2 		bx	lr
+ 232 01cc 1EFF2FE1 	.LFE5:
+ 233              		.size	vListInsert, .-vListInsert
+ 234              		.align	2
+ 235              		.global	vListRemove
+ 236              		.type	vListRemove, %function
+ 237              	vListRemove:
+ 238              	.LFB6:
+ 239              		.loc 1 171 0
+ 168:SRC/RTOS/list.c **** /*-----------------------------------------------------------*/
+ 169:SRC/RTOS/list.c **** 
+ 170:SRC/RTOS/list.c **** void vListRemove( xListItem *pxItemToRemove )
+ 171:SRC/RTOS/list.c **** {
+ 240              	n supports interworking.
+ 241              		@ args = 0, pretend = 0, frame = 8
+ 242              		@ frame_needed = 0, uses_anonymous_args = 0
+ 243              		@ link register save eliminated.
+ 244              		sub	sp, sp, #8	@,,
+ 245 01d0 08D04DE2 	.LCFI4:
+ 246              		str	r0, [sp, #0]	@ pxItemToRemove, pxItemToRemove
+ 247 01d4 00008DE5 		.loc 1 174 0
+ 172:SRC/RTOS/list.c **** xList * pxList;
+ 173:SRC/RTOS/list.c **** 
+ 174:SRC/RTOS/list.c **** 	pxItemToRemove->pxNext->pxPrevious = pxItemToRemove->pxPrevious;
+ 248              	 [sp, #0]	@ tmp143, pxItemToRemove
+ 249 01d8 00309DE5 		ldr	r2, [r3, #4]	@ D.3217, <variable>.pxNext
+ 250 01dc 042093E5 		ldr	r3, [sp, #0]	@ tmp144, pxItemToRemove
+ 251 01e0 00309DE5 		ldr	r3, [r3, #8]	@ D.3218, <variable>.pxPrevious
+ 252 01e4 083093E5 		str	r3, [r2, #8]	@ D.3218, <variable>.pxPrevious
+ 253 01e8 083082E5 		.loc 1 175 0
+ 175:SRC/RTOS/list.c **** 	pxItemToRemove->pxPrevious->pxNext = pxItemToRemove->pxNext;
+ 254              	3, [sp, #0]	@ tmp145, pxItemToRemove
+ 255 01ec 00309DE5 		ldr	r2, [r3, #8]	@ D.3219, <variable>.pxPrevious
+ 256 01f0 082093E5 		ldr	r3, [sp, #0]	@ tmp146, pxItemToRemove
+ 257 01f4 00309DE5 		ldr	r3, [r3, #4]	@ D.3220, <variable>.pxNext
+ 258 01f8 043093E5 		str	r3, [r2, #4]	@ D.3220, <variable>.pxNext
+ 259 01fc 043082E5 		.loc 1 179 0
+ 176:SRC/RTOS/list.c **** 	
+ 177:SRC/RTOS/list.c **** 	/* The list item knows which list it is in.  Obtain the list from the list
+ 178:SRC/RTOS/list.c **** 	item. */
+ 179:SRC/RTOS/list.c **** 	pxList = ( xList * ) pxItemToRemove->pvContainer;
+ 260              	3, [sp, #0]	@ tmp147, pxItemToRemove
+ 261 0200 00309DE5 		ldr	r3, [r3, #16]	@ D.3221, <variable>.pvContainer
+ 262 0204 103093E5 		str	r3, [sp, #4]	@ D.3221, pxList
+ 263 0208 04308DE5 		.loc 1 182 0
+ 180:SRC/RTOS/list.c **** 
+ 181:SRC/RTOS/list.c **** 	/* Make sure the index is left pointing to a valid item. */
+ 182:SRC/RTOS/list.c **** 	if( pxList->pxIndex == pxItemToRemove )
+ 264              		r3, [sp, #4]	@ tmp148, pxList
+ 265 020c 04309DE5 		ldr	r2, [r3, #4]	@ D.3222, <variable>.pxIndex
+ 266 0210 042093E5 		ldr	r3, [sp, #0]	@ pxItemToRemove.5, pxItemToRemove
+ 267 0214 00309DE5 		cmp	r2, r3	@ D.3222, pxItemToRemove.5
+ 268 0218 030052E1 		bne	.L14	@,
+ 269 021c 0300001A 		.loc 1 184 0
+ 183:SRC/RTOS/list.c **** 	{
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 9
+
+
+ 184:SRC/RTOS/list.c **** 		pxList->pxIndex = pxItemToRemove->pxPrevious;
+ 270              	3, [sp, #0]	@ tmp149, pxItemToRemove
+ 271 0220 00309DE5 		ldr	r2, [r3, #8]	@ D.3224, <variable>.pxPrevious
+ 272 0224 082093E5 		ldr	r3, [sp, #4]	@ tmp150, pxList
+ 273 0228 04309DE5 		str	r2, [r3, #4]	@ D.3224, <variable>.pxIndex
+ 274 022c 042083E5 	.L14:
+ 275              		.loc 1 187 0
+ 185:SRC/RTOS/list.c **** 	}
+ 186:SRC/RTOS/list.c **** 
+ 187:SRC/RTOS/list.c **** 	pxItemToRemove->pvContainer = NULL;
+ 276              	2, [sp, #0]	@ tmp151, pxItemToRemove
+ 277 0230 00209DE5 		mov	r3, #0	@ tmp152,
+ 278 0234 0030A0E3 		str	r3, [r2, #16]	@ tmp152, <variable>.pvContainer
+ 279 0238 103082E5 		.loc 1 188 0
+ 188:SRC/RTOS/list.c **** 	( pxList->uxNumberOfItems )--;
+ 280              		r3, [sp, #4]	@ tmp153, pxList
+ 281 023c 04309DE5 		ldr	r3, [r3, #0]	@ D.3225, <variable>.uxNumberOfItems
+ 282 0240 003093E5 		sub	r2, r3, #1	@ D.3226, D.3225,
+ 283 0244 012043E2 		ldr	r3, [sp, #4]	@ tmp154, pxList
+ 284 0248 04309DE5 		str	r2, [r3, #0]	@ D.3226, <variable>.uxNumberOfItems
+ 285 024c 002083E5 		.loc 1 189 0
+ 189:SRC/RTOS/list.c **** }
+ 286              	p, sp, #8	@,,
+ 287 0250 08D08DE2 		bx	lr
+ 288 0254 1EFF2FE1 	.LFE6:
+ 289              		.size	vListRemove, .-vListRemove
+ 290              		.section	.debug_frame,"",%progbits
+ 291              	.Lframe0:
+ 292              		.4byte	.LECIE0-.LSCIE0
+ 293 0000 0C000000 	.LSCIE0:
+ 294              		.4byte	0xffffffff
+ 295 0004 FFFFFFFF 		.byte	0x1
+ 296 0008 01       		.ascii	"\000"
+ 297 0009 00       		.uleb128 0x1
+ 298 000a 01       		.sleb128 -4
+ 299 000b 7C       		.byte	0xe
+ 300 000c 0E       		.byte	0xc
+ 301 000d 0C       		.uleb128 0xd
+ 302 000e 0D       		.uleb128 0x0
+ 303 000f 00       		.align	2
+ 304              	.LECIE0:
+ 305              	.LSFDE0:
+ 306              		.4byte	.LEFDE0-.LASFDE0
+ 307 0010 10000000 	.LASFDE0:
+ 308              		.4byte	.Lframe0
+ 309 0014 00000000 		.4byte	.LFB2
+ 310 0018 00000000 		.4byte	.LFE2-.LFB2
+ 311 001c 64000000 		.byte	0x4
+ 312 0020 44       		.4byte	.LCFI0-.LFB2
+ 313              		.byte	0xe
+ 314 0021 0E       		.uleb128 0x4
+ 315 0022 04       		.align	2
+ 316 0023 00       	.LEFDE0:
+ 317              	.LSFDE2:
+ 318              		.4byte	.LEFDE2-.LASFDE2
+ 319 0024 10000000 	.LASFDE2:
+ 320              		.4byte	.Lframe0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 10
+
+
+ 321 0028 00000000 		.4byte	.LFB3
+ 322 002c 64000000 		.4byte	.LFE3-.LFB3
+ 323 0030 1C000000 		.byte	0x4
+ 324 0034 44       		.4byte	.LCFI1-.LFB3
+ 325              		.byte	0xe
+ 326 0035 0E       		.uleb128 0x4
+ 327 0036 04       		.align	2
+ 328 0037 00       	.LEFDE2:
+ 329              	.LSFDE4:
+ 330              		.4byte	.LEFDE4-.LASFDE4
+ 331 0038 10000000 	.LASFDE4:
+ 332              		.4byte	.Lframe0
+ 333 003c 00000000 		.4byte	.LFB4
+ 334 0040 80000000 		.4byte	.LFE4-.LFB4
+ 335 0044 88000000 		.byte	0x4
+ 336 0048 44       		.4byte	.LCFI2-.LFB4
+ 337              		.byte	0xe
+ 338 0049 0E       		.uleb128 0xc
+ 339 004a 0C       		.align	2
+ 340 004b 00       	.LEFDE4:
+ 341              	.LSFDE6:
+ 342              		.4byte	.LEFDE6-.LASFDE6
+ 343 004c 10000000 	.LASFDE6:
+ 344              		.4byte	.Lframe0
+ 345 0050 00000000 		.4byte	.LFB5
+ 346 0054 08010000 		.4byte	.LFE5-.LFB5
+ 347 0058 C8000000 		.byte	0x4
+ 348 005c 44       		.4byte	.LCFI3-.LFB5
+ 349              		.byte	0xe
+ 350 005d 0E       		.uleb128 0x10
+ 351 005e 10       		.align	2
+ 352 005f 00       	.LEFDE6:
+ 353              	.LSFDE8:
+ 354              		.4byte	.LEFDE8-.LASFDE8
+ 355 0060 10000000 	.LASFDE8:
+ 356              		.4byte	.Lframe0
+ 357 0064 00000000 		.4byte	.LFB6
+ 358 0068 D0010000 		.4byte	.LFE6-.LFB6
+ 359 006c 88000000 		.byte	0x4
+ 360 0070 44       		.4byte	.LCFI4-.LFB6
+ 361              		.byte	0xe
+ 362 0071 0E       		.uleb128 0x8
+ 363 0072 08       		.align	2
+ 364 0073 00       	.LEFDE8:
+ 365              		.text
+ 366              	.Letext0:
+ 367              		.section	.debug_loc,"",%progbits
+ 368              	.Ldebug_loc0:
+ 369              	.LLST0:
+ 370              		.4byte	.LFB2-.Ltext0
+ 371 0000 00000000 		.4byte	.LCFI0-.Ltext0
+ 372 0004 04000000 		.2byte	0x1
+ 373 0008 0100     		.byte	0x5d
+ 374 000a 5D       		.4byte	.LCFI0-.Ltext0
+ 375 000b 04000000 		.4byte	.LFE2-.Ltext0
+ 376 000f 64000000 		.2byte	0x2
+ 377 0013 0200     		.byte	0x7d
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 11
+
+
+ 378 0015 7D       		.sleb128 4
+ 379 0016 04       		.4byte	0x0
+ 380 0017 00000000 		.4byte	0x0
+ 381 001b 00000000 	.LLST1:
+ 382              		.4byte	.LFB3-.Ltext0
+ 383 001f 64000000 		.4byte	.LCFI1-.Ltext0
+ 384 0023 68000000 		.2byte	0x1
+ 385 0027 0100     		.byte	0x5d
+ 386 0029 5D       		.4byte	.LCFI1-.Ltext0
+ 387 002a 68000000 		.4byte	.LFE3-.Ltext0
+ 388 002e 80000000 		.2byte	0x2
+ 389 0032 0200     		.byte	0x7d
+ 390 0034 7D       		.sleb128 4
+ 391 0035 04       		.4byte	0x0
+ 392 0036 00000000 		.4byte	0x0
+ 393 003a 00000000 	.LLST2:
+ 394              		.4byte	.LFB4-.Ltext0
+ 395 003e 80000000 		.4byte	.LCFI2-.Ltext0
+ 396 0042 84000000 		.2byte	0x1
+ 397 0046 0100     		.byte	0x5d
+ 398 0048 5D       		.4byte	.LCFI2-.Ltext0
+ 399 0049 84000000 		.4byte	.LFE4-.Ltext0
+ 400 004d 08010000 		.2byte	0x2
+ 401 0051 0200     		.byte	0x7d
+ 402 0053 7D       		.sleb128 12
+ 403 0054 0C       		.4byte	0x0
+ 404 0055 00000000 		.4byte	0x0
+ 405 0059 00000000 	.LLST3:
+ 406              		.4byte	.LFB5-.Ltext0
+ 407 005d 08010000 		.4byte	.LCFI3-.Ltext0
+ 408 0061 0C010000 		.2byte	0x1
+ 409 0065 0100     		.byte	0x5d
+ 410 0067 5D       		.4byte	.LCFI3-.Ltext0
+ 411 0068 0C010000 		.4byte	.LFE5-.Ltext0
+ 412 006c D0010000 		.2byte	0x2
+ 413 0070 0200     		.byte	0x7d
+ 414 0072 7D       		.sleb128 16
+ 415 0073 10       		.4byte	0x0
+ 416 0074 00000000 		.4byte	0x0
+ 417 0078 00000000 	.LLST4:
+ 418              		.4byte	.LFB6-.Ltext0
+ 419 007c D0010000 		.4byte	.LCFI4-.Ltext0
+ 420 0080 D4010000 		.2byte	0x1
+ 421 0084 0100     		.byte	0x5d
+ 422 0086 5D       		.4byte	.LCFI4-.Ltext0
+ 423 0087 D4010000 		.4byte	.LFE6-.Ltext0
+ 424 008b 58020000 		.2byte	0x2
+ 425 008f 0200     		.byte	0x7d
+ 426 0091 7D       		.sleb128 8
+ 427 0092 08       		.4byte	0x0
+ 428 0093 00000000 		.4byte	0x0
+ 429 0097 00000000 		.file 2 "INC/RTOS/list.h"
+ 430              		.file 3 "INC/RTOS/portmacro.h"
+ 431              		.section	.debug_info
+ 432              		.4byte	0x2a9
+ 433 0000 A9020000 		.2byte	0x2
+ 434 0004 0200     		.4byte	.Ldebug_abbrev0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 12
+
+
+ 435 0006 00000000 		.byte	0x4
+ 436 000a 04       		.uleb128 0x1
+ 437 000b 01       		.4byte	.LASF35
+ 438 000c 9F000000 		.byte	0x1
+ 439 0010 01       		.4byte	.LASF36
+ 440 0011 29010000 		.4byte	.LASF37
+ 441 0015 8A010000 		.4byte	.Ltext0
+ 442 0019 00000000 		.4byte	.Letext0
+ 443 001d 58020000 		.4byte	.Ldebug_line0
+ 444 0021 00000000 		.uleb128 0x2
+ 445 0025 02       		.byte	0x4
+ 446 0026 04       		.byte	0x7
+ 447 0027 07       		.4byte	.LASF0
+ 448 0028 73000000 		.uleb128 0x3
+ 449 002c 03       		.byte	0x4
+ 450 002d 04       		.byte	0x5
+ 451 002e 05       		.ascii	"int\000"
+ 452 002f 696E7400 		.uleb128 0x2
+ 453 0033 02       		.byte	0x1
+ 454 0034 01       		.byte	0x6
+ 455 0035 06       		.4byte	.LASF1
+ 456 0036 CD010000 		.uleb128 0x2
+ 457 003a 02       		.byte	0x1
+ 458 003b 01       		.byte	0x8
+ 459 003c 08       		.4byte	.LASF2
+ 460 003d 65000000 		.uleb128 0x2
+ 461 0041 02       		.byte	0x2
+ 462 0042 02       		.byte	0x5
+ 463 0043 05       		.4byte	.LASF3
+ 464 0044 80010000 		.uleb128 0x2
+ 465 0048 02       		.byte	0x2
+ 466 0049 02       		.byte	0x7
+ 467 004a 07       		.4byte	.LASF4
+ 468 004b 39010000 		.uleb128 0x2
+ 469 004f 02       		.byte	0x4
+ 470 0050 04       		.byte	0x7
+ 471 0051 07       		.4byte	.LASF5
+ 472 0052 F3000000 		.uleb128 0x2
+ 473 0056 02       		.byte	0x8
+ 474 0057 08       		.byte	0x5
+ 475 0058 05       		.4byte	.LASF6
+ 476 0059 4C010000 		.uleb128 0x2
+ 477 005d 02       		.byte	0x8
+ 478 005e 08       		.byte	0x7
+ 479 005f 07       		.4byte	.LASF7
+ 480 0060 4E000000 		.uleb128 0x2
+ 481 0064 02       		.byte	0x4
+ 482 0065 04       		.byte	0x5
+ 483 0066 05       		.4byte	.LASF8
+ 484 0067 B4010000 		.uleb128 0x4
+ 485 006b 04       		.byte	0x4
+ 486 006c 04       		.byte	0x7
+ 487 006d 07       		.uleb128 0x5
+ 488 006e 05       		.byte	0x4
+ 489 006f 04       		.uleb128 0x2
+ 490 0070 02       		.byte	0x1
+ 491 0071 01       		.byte	0x8
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 13
+
+
+ 492 0072 08       		.4byte	.LASF9
+ 493 0073 64010000 		.uleb128 0x6
+ 494 0077 06       		.4byte	.LASF15
+ 495 0078 14000000 		.byte	0x3
+ 496 007c 03       		.byte	0x6b
+ 497 007d 6B       		.4byte	0x25
+ 498 007e 25000000 		.uleb128 0x7
+ 499 0082 07       		.4byte	.LASF17
+ 500 0083 43000000 		.byte	0x14
+ 501 0087 14       		.byte	0x2
+ 502 0088 02       		.byte	0x63
+ 503 0089 63       		.4byte	0xd5
+ 504 008a D5000000 		.uleb128 0x8
+ 505 008e 08       		.4byte	.LASF10
+ 506 008f 21000000 		.byte	0x2
+ 507 0093 02       		.byte	0x64
+ 508 0094 64       		.4byte	0x77
+ 509 0095 77000000 		.byte	0x2
+ 510 0099 02       		.byte	0x23
+ 511 009a 23       		.uleb128 0x0
+ 512 009b 00       		.uleb128 0x8
+ 513 009c 08       		.4byte	.LASF11
+ 514 009d 22010000 		.byte	0x2
+ 515 00a1 02       		.byte	0x65
+ 516 00a2 65       		.4byte	0xd5
+ 517 00a3 D5000000 		.byte	0x2
+ 518 00a7 02       		.byte	0x23
+ 519 00a8 23       		.uleb128 0x4
+ 520 00a9 04       		.uleb128 0x8
+ 521 00aa 08       		.4byte	.LASF12
+ 522 00ab 94000000 		.byte	0x2
+ 523 00af 02       		.byte	0x66
+ 524 00b0 66       		.4byte	0xd5
+ 525 00b1 D5000000 		.byte	0x2
+ 526 00b5 02       		.byte	0x23
+ 527 00b6 23       		.uleb128 0x8
+ 528 00b7 08       		.uleb128 0x8
+ 529 00b8 08       		.4byte	.LASF13
+ 530 00b9 3B000000 		.byte	0x2
+ 531 00bd 02       		.byte	0x67
+ 532 00be 67       		.4byte	0x6e
+ 533 00bf 6E000000 		.byte	0x2
+ 534 00c3 02       		.byte	0x23
+ 535 00c4 23       		.uleb128 0xc
+ 536 00c5 0C       		.uleb128 0x8
+ 537 00c6 08       		.4byte	.LASF14
+ 538 00c7 00000000 		.byte	0x2
+ 539 00cb 02       		.byte	0x68
+ 540 00cc 68       		.4byte	0x6e
+ 541 00cd 6E000000 		.byte	0x2
+ 542 00d1 02       		.byte	0x23
+ 543 00d2 23       		.uleb128 0x10
+ 544 00d3 10       		.byte	0x0
+ 545 00d4 00       		.uleb128 0x9
+ 546 00d5 09       		.byte	0x4
+ 547 00d6 04       		.4byte	0xdb
+ 548 00d7 DB000000 		.uleb128 0xa
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 14
+
+
+ 549 00db 0A       		.4byte	.LASF17
+ 550 00dc 43000000 		.4byte	0x82
+ 551 00e0 82000000 		.uleb128 0x6
+ 552 00e4 06       		.4byte	.LASF16
+ 553 00e5 5A010000 		.byte	0x2
+ 554 00e9 02       		.byte	0x6a
+ 555 00ea 6A       		.4byte	0x82
+ 556 00eb 82000000 		.uleb128 0x7
+ 557 00ef 07       		.4byte	.LASF18
+ 558 00f0 BD010000 		.byte	0xc
+ 559 00f4 0C       		.byte	0x2
+ 560 00f5 02       		.byte	0x6d
+ 561 00f6 6D       		.4byte	0x126
+ 562 00f7 26010000 		.uleb128 0x8
+ 563 00fb 08       		.4byte	.LASF10
+ 564 00fc 21000000 		.byte	0x2
+ 565 0100 02       		.byte	0x6e
+ 566 0101 6E       		.4byte	0x77
+ 567 0102 77000000 		.byte	0x2
+ 568 0106 02       		.byte	0x23
+ 569 0107 23       		.uleb128 0x0
+ 570 0108 00       		.uleb128 0x8
+ 571 0109 08       		.4byte	.LASF11
+ 572 010a 22010000 		.byte	0x2
+ 573 010e 02       		.byte	0x6f
+ 574 010f 6F       		.4byte	0xd5
+ 575 0110 D5000000 		.byte	0x2
+ 576 0114 02       		.byte	0x23
+ 577 0115 23       		.uleb128 0x4
+ 578 0116 04       		.uleb128 0x8
+ 579 0117 08       		.4byte	.LASF12
+ 580 0118 94000000 		.byte	0x2
+ 581 011c 02       		.byte	0x70
+ 582 011d 70       		.4byte	0xd5
+ 583 011e D5000000 		.byte	0x2
+ 584 0122 02       		.byte	0x23
+ 585 0123 23       		.uleb128 0x8
+ 586 0124 08       		.byte	0x0
+ 587 0125 00       		.uleb128 0x6
+ 588 0126 06       		.4byte	.LASF19
+ 589 0127 BF000000 		.byte	0x2
+ 590 012b 02       		.byte	0x72
+ 591 012c 72       		.4byte	0xef
+ 592 012d EF000000 		.uleb128 0x7
+ 593 0131 07       		.4byte	.LASF20
+ 594 0132 E0010000 		.byte	0x14
+ 595 0136 14       		.byte	0x2
+ 596 0137 02       		.byte	0x78
+ 597 0138 78       		.4byte	0x168
+ 598 0139 68010000 		.uleb128 0x8
+ 599 013d 08       		.4byte	.LASF21
+ 600 013e D4000000 		.byte	0x2
+ 601 0142 02       		.byte	0x79
+ 602 0143 79       		.4byte	0x168
+ 603 0144 68010000 		.byte	0x2
+ 604 0148 02       		.byte	0x23
+ 605 0149 23       		.uleb128 0x0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 15
+
+
+ 606 014a 00       		.uleb128 0x8
+ 607 014b 08       		.4byte	.LASF22
+ 608 014c 0C000000 		.byte	0x2
+ 609 0150 02       		.byte	0x7a
+ 610 0151 7A       		.4byte	0x16d
+ 611 0152 6D010000 		.byte	0x2
+ 612 0156 02       		.byte	0x23
+ 613 0157 23       		.uleb128 0x4
+ 614 0158 04       		.uleb128 0x8
+ 615 0159 08       		.4byte	.LASF23
+ 616 015a 32000000 		.byte	0x2
+ 617 015e 02       		.byte	0x7b
+ 618 015f 7B       		.4byte	0x178
+ 619 0160 78010000 		.byte	0x2
+ 620 0164 02       		.byte	0x23
+ 621 0165 23       		.uleb128 0x8
+ 622 0166 08       		.byte	0x0
+ 623 0167 00       		.uleb128 0xb
+ 624 0168 0B       		.4byte	0x25
+ 625 0169 25000000 		.uleb128 0x9
+ 626 016d 09       		.byte	0x4
+ 627 016e 04       		.4byte	0x173
+ 628 016f 73010000 		.uleb128 0xb
+ 629 0173 0B       		.4byte	0xe4
+ 630 0174 E4000000 		.uleb128 0xb
+ 631 0178 0B       		.4byte	0x126
+ 632 0179 26010000 		.uleb128 0x6
+ 633 017d 06       		.4byte	.LASF24
+ 634 017e 2C000000 		.byte	0x2
+ 635 0182 02       		.byte	0x7c
+ 636 0183 7C       		.4byte	0x131
+ 637 0184 31010000 		.uleb128 0xc
+ 638 0188 0C       		.byte	0x1
+ 639 0189 01       		.4byte	.LASF25
+ 640 018a 00010000 		.byte	0x1
+ 641 018e 01       		.byte	0x40
+ 642 018f 40       		.byte	0x1
+ 643 0190 01       		.4byte	.LFB2
+ 644 0191 00000000 		.4byte	.LFE2
+ 645 0195 64000000 		.4byte	.LLST0
+ 646 0199 00000000 		.4byte	0x1b0
+ 647 019d B0010000 		.uleb128 0xd
+ 648 01a1 0D       		.4byte	.LASF27
+ 649 01a2 D9010000 		.byte	0x1
+ 650 01a6 01       		.byte	0x3f
+ 651 01a7 3F       		.4byte	0x1b0
+ 652 01a8 B0010000 		.byte	0x2
+ 653 01ac 02       		.byte	0x91
+ 654 01ad 91       		.sleb128 -4
+ 655 01ae 7C       		.byte	0x0
+ 656 01af 00       		.uleb128 0x9
+ 657 01b0 09       		.byte	0x4
+ 658 01b1 04       		.4byte	0x17d
+ 659 01b2 7D010000 		.uleb128 0xc
+ 660 01b6 0C       		.byte	0x1
+ 661 01b7 01       		.4byte	.LASF26
+ 662 01b8 AB000000 		.byte	0x1
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 16
+
+
+ 663 01bc 01       		.byte	0x54
+ 664 01bd 54       		.byte	0x1
+ 665 01be 01       		.4byte	.LFB3
+ 666 01bf 64000000 		.4byte	.LFE3
+ 667 01c3 80000000 		.4byte	.LLST1
+ 668 01c7 1F000000 		.4byte	0x1de
+ 669 01cb DE010000 		.uleb128 0xd
+ 670 01cf 0D       		.4byte	.LASF28
+ 671 01d0 CD000000 		.byte	0x1
+ 672 01d4 01       		.byte	0x53
+ 673 01d5 53       		.4byte	0x1de
+ 674 01d6 DE010000 		.byte	0x2
+ 675 01da 02       		.byte	0x91
+ 676 01db 91       		.sleb128 -4
+ 677 01dc 7C       		.byte	0x0
+ 678 01dd 00       		.uleb128 0x9
+ 679 01de 09       		.byte	0x4
+ 680 01df 04       		.4byte	0xe4
+ 681 01e0 E4000000 		.uleb128 0xc
+ 682 01e4 0C       		.byte	0x1
+ 683 01e5 01       		.4byte	.LASF29
+ 684 01e6 E4000000 		.byte	0x1
+ 685 01ea 01       		.byte	0x5b
+ 686 01eb 5B       		.byte	0x1
+ 687 01ec 01       		.4byte	.LFB4
+ 688 01ed 80000000 		.4byte	.LFE4
+ 689 01f1 08010000 		.4byte	.LLST2
+ 690 01f5 3E000000 		.4byte	0x228
+ 691 01f9 28020000 		.uleb128 0xd
+ 692 01fd 0D       		.4byte	.LASF27
+ 693 01fe D9010000 		.byte	0x1
+ 694 0202 01       		.byte	0x5a
+ 695 0203 5A       		.4byte	0x1b0
+ 696 0204 B0010000 		.byte	0x2
+ 697 0208 02       		.byte	0x91
+ 698 0209 91       		.sleb128 -8
+ 699 020a 78       		.uleb128 0xd
+ 700 020b 0D       		.4byte	.LASF30
+ 701 020c E6010000 		.byte	0x1
+ 702 0210 01       		.byte	0x5a
+ 703 0211 5A       		.4byte	0x1de
+ 704 0212 DE010000 		.byte	0x2
+ 705 0216 02       		.byte	0x91
+ 706 0217 91       		.sleb128 -12
+ 707 0218 74       		.uleb128 0xe
+ 708 0219 0E       		.4byte	.LASF22
+ 709 021a 0C000000 		.byte	0x1
+ 710 021e 01       		.byte	0x5c
+ 711 021f 5C       		.4byte	0x16d
+ 712 0220 6D010000 		.byte	0x2
+ 713 0224 02       		.byte	0x91
+ 714 0225 91       		.sleb128 -4
+ 715 0226 7C       		.byte	0x0
+ 716 0227 00       		.uleb128 0xc
+ 717 0228 0C       		.byte	0x1
+ 718 0229 01       		.4byte	.LASF31
+ 719 022a F4010000 		.byte	0x1
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 17
+
+
+ 720 022e 01       		.byte	0x72
+ 721 022f 72       		.byte	0x1
+ 722 0230 01       		.4byte	.LFB5
+ 723 0231 08010000 		.4byte	.LFE5
+ 724 0235 D0010000 		.4byte	.LLST3
+ 725 0239 5D000000 		.4byte	0x27a
+ 726 023d 7A020000 		.uleb128 0xd
+ 727 0241 0D       		.4byte	.LASF27
+ 728 0242 D9010000 		.byte	0x1
+ 729 0246 01       		.byte	0x71
+ 730 0247 71       		.4byte	0x1b0
+ 731 0248 B0010000 		.byte	0x2
+ 732 024c 02       		.byte	0x91
+ 733 024d 91       		.sleb128 -12
+ 734 024e 74       		.uleb128 0xd
+ 735 024f 0D       		.4byte	.LASF30
+ 736 0250 E6010000 		.byte	0x1
+ 737 0254 01       		.byte	0x71
+ 738 0255 71       		.4byte	0x1de
+ 739 0256 DE010000 		.byte	0x2
+ 740 025a 02       		.byte	0x91
+ 741 025b 91       		.sleb128 -16
+ 742 025c 70       		.uleb128 0xe
+ 743 025d 0E       		.4byte	.LASF32
+ 744 025e 75010000 		.byte	0x1
+ 745 0262 01       		.byte	0x73
+ 746 0263 73       		.4byte	0x16d
+ 747 0264 6D010000 		.byte	0x2
+ 748 0268 02       		.byte	0x91
+ 749 0269 91       		.sleb128 -8
+ 750 026a 78       		.uleb128 0xe
+ 751 026b 0E       		.4byte	.LASF33
+ 752 026c 10010000 		.byte	0x1
+ 753 0270 01       		.byte	0x74
+ 754 0271 74       		.4byte	0x77
+ 755 0272 77000000 		.byte	0x2
+ 756 0276 02       		.byte	0x91
+ 757 0277 91       		.sleb128 -4
+ 758 0278 7C       		.byte	0x0
+ 759 0279 00       		.uleb128 0xf
+ 760 027a 0F       		.byte	0x1
+ 761 027b 01       		.4byte	.LASF38
+ 762 027c 69010000 		.byte	0x1
+ 763 0280 01       		.byte	0xab
+ 764 0281 AB       		.byte	0x1
+ 765 0282 01       		.4byte	.LFB6
+ 766 0283 D0010000 		.4byte	.LFE6
+ 767 0287 58020000 		.4byte	.LLST4
+ 768 028b 7C000000 		.uleb128 0xd
+ 769 028f 0D       		.4byte	.LASF34
+ 770 0290 85000000 		.byte	0x1
+ 771 0294 01       		.byte	0xaa
+ 772 0295 AA       		.4byte	0x1de
+ 773 0296 DE010000 		.byte	0x2
+ 774 029a 02       		.byte	0x91
+ 775 029b 91       		.sleb128 -8
+ 776 029c 78       		.uleb128 0xe
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 18
+
+
+ 777 029d 0E       		.4byte	.LASF27
+ 778 029e D9010000 		.byte	0x1
+ 779 02a2 01       		.byte	0xac
+ 780 02a3 AC       		.4byte	0x1b0
+ 781 02a4 B0010000 		.byte	0x2
+ 782 02a8 02       		.byte	0x91
+ 783 02a9 91       		.sleb128 -4
+ 784 02aa 7C       		.byte	0x0
+ 785 02ab 00       		.byte	0x0
+ 786 02ac 00       		.section	.debug_abbrev
+ 787              		.uleb128 0x1
+ 788 0000 01       		.uleb128 0x11
+ 789 0001 11       		.byte	0x1
+ 790 0002 01       		.uleb128 0x25
+ 791 0003 25       		.uleb128 0xe
+ 792 0004 0E       		.uleb128 0x13
+ 793 0005 13       		.uleb128 0xb
+ 794 0006 0B       		.uleb128 0x3
+ 795 0007 03       		.uleb128 0xe
+ 796 0008 0E       		.uleb128 0x1b
+ 797 0009 1B       		.uleb128 0xe
+ 798 000a 0E       		.uleb128 0x11
+ 799 000b 11       		.uleb128 0x1
+ 800 000c 01       		.uleb128 0x12
+ 801 000d 12       		.uleb128 0x1
+ 802 000e 01       		.uleb128 0x10
+ 803 000f 10       		.uleb128 0x6
+ 804 0010 06       		.byte	0x0
+ 805 0011 00       		.byte	0x0
+ 806 0012 00       		.uleb128 0x2
+ 807 0013 02       		.uleb128 0x24
+ 808 0014 24       		.byte	0x0
+ 809 0015 00       		.uleb128 0xb
+ 810 0016 0B       		.uleb128 0xb
+ 811 0017 0B       		.uleb128 0x3e
+ 812 0018 3E       		.uleb128 0xb
+ 813 0019 0B       		.uleb128 0x3
+ 814 001a 03       		.uleb128 0xe
+ 815 001b 0E       		.byte	0x0
+ 816 001c 00       		.byte	0x0
+ 817 001d 00       		.uleb128 0x3
+ 818 001e 03       		.uleb128 0x24
+ 819 001f 24       		.byte	0x0
+ 820 0020 00       		.uleb128 0xb
+ 821 0021 0B       		.uleb128 0xb
+ 822 0022 0B       		.uleb128 0x3e
+ 823 0023 3E       		.uleb128 0xb
+ 824 0024 0B       		.uleb128 0x3
+ 825 0025 03       		.uleb128 0x8
+ 826 0026 08       		.byte	0x0
+ 827 0027 00       		.byte	0x0
+ 828 0028 00       		.uleb128 0x4
+ 829 0029 04       		.uleb128 0x24
+ 830 002a 24       		.byte	0x0
+ 831 002b 00       		.uleb128 0xb
+ 832 002c 0B       		.uleb128 0xb
+ 833 002d 0B       		.uleb128 0x3e
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 19
+
+
+ 834 002e 3E       		.uleb128 0xb
+ 835 002f 0B       		.byte	0x0
+ 836 0030 00       		.byte	0x0
+ 837 0031 00       		.uleb128 0x5
+ 838 0032 05       		.uleb128 0xf
+ 839 0033 0F       		.byte	0x0
+ 840 0034 00       		.uleb128 0xb
+ 841 0035 0B       		.uleb128 0xb
+ 842 0036 0B       		.byte	0x0
+ 843 0037 00       		.byte	0x0
+ 844 0038 00       		.uleb128 0x6
+ 845 0039 06       		.uleb128 0x16
+ 846 003a 16       		.byte	0x0
+ 847 003b 00       		.uleb128 0x3
+ 848 003c 03       		.uleb128 0xe
+ 849 003d 0E       		.uleb128 0x3a
+ 850 003e 3A       		.uleb128 0xb
+ 851 003f 0B       		.uleb128 0x3b
+ 852 0040 3B       		.uleb128 0xb
+ 853 0041 0B       		.uleb128 0x49
+ 854 0042 49       		.uleb128 0x13
+ 855 0043 13       		.byte	0x0
+ 856 0044 00       		.byte	0x0
+ 857 0045 00       		.uleb128 0x7
+ 858 0046 07       		.uleb128 0x13
+ 859 0047 13       		.byte	0x1
+ 860 0048 01       		.uleb128 0x3
+ 861 0049 03       		.uleb128 0xe
+ 862 004a 0E       		.uleb128 0xb
+ 863 004b 0B       		.uleb128 0xb
+ 864 004c 0B       		.uleb128 0x3a
+ 865 004d 3A       		.uleb128 0xb
+ 866 004e 0B       		.uleb128 0x3b
+ 867 004f 3B       		.uleb128 0xb
+ 868 0050 0B       		.uleb128 0x1
+ 869 0051 01       		.uleb128 0x13
+ 870 0052 13       		.byte	0x0
+ 871 0053 00       		.byte	0x0
+ 872 0054 00       		.uleb128 0x8
+ 873 0055 08       		.uleb128 0xd
+ 874 0056 0D       		.byte	0x0
+ 875 0057 00       		.uleb128 0x3
+ 876 0058 03       		.uleb128 0xe
+ 877 0059 0E       		.uleb128 0x3a
+ 878 005a 3A       		.uleb128 0xb
+ 879 005b 0B       		.uleb128 0x3b
+ 880 005c 3B       		.uleb128 0xb
+ 881 005d 0B       		.uleb128 0x49
+ 882 005e 49       		.uleb128 0x13
+ 883 005f 13       		.uleb128 0x38
+ 884 0060 38       		.uleb128 0xa
+ 885 0061 0A       		.byte	0x0
+ 886 0062 00       		.byte	0x0
+ 887 0063 00       		.uleb128 0x9
+ 888 0064 09       		.uleb128 0xf
+ 889 0065 0F       		.byte	0x0
+ 890 0066 00       		.uleb128 0xb
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 20
+
+
+ 891 0067 0B       		.uleb128 0xb
+ 892 0068 0B       		.uleb128 0x49
+ 893 0069 49       		.uleb128 0x13
+ 894 006a 13       		.byte	0x0
+ 895 006b 00       		.byte	0x0
+ 896 006c 00       		.uleb128 0xa
+ 897 006d 0A       		.uleb128 0x35
+ 898 006e 35       		.byte	0x0
+ 899 006f 00       		.uleb128 0x3
+ 900 0070 03       		.uleb128 0xe
+ 901 0071 0E       		.uleb128 0x49
+ 902 0072 49       		.uleb128 0x13
+ 903 0073 13       		.byte	0x0
+ 904 0074 00       		.byte	0x0
+ 905 0075 00       		.uleb128 0xb
+ 906 0076 0B       		.uleb128 0x35
+ 907 0077 35       		.byte	0x0
+ 908 0078 00       		.uleb128 0x49
+ 909 0079 49       		.uleb128 0x13
+ 910 007a 13       		.byte	0x0
+ 911 007b 00       		.byte	0x0
+ 912 007c 00       		.uleb128 0xc
+ 913 007d 0C       		.uleb128 0x2e
+ 914 007e 2E       		.byte	0x1
+ 915 007f 01       		.uleb128 0x3f
+ 916 0080 3F       		.uleb128 0xc
+ 917 0081 0C       		.uleb128 0x3
+ 918 0082 03       		.uleb128 0xe
+ 919 0083 0E       		.uleb128 0x3a
+ 920 0084 3A       		.uleb128 0xb
+ 921 0085 0B       		.uleb128 0x3b
+ 922 0086 3B       		.uleb128 0xb
+ 923 0087 0B       		.uleb128 0x27
+ 924 0088 27       		.uleb128 0xc
+ 925 0089 0C       		.uleb128 0x11
+ 926 008a 11       		.uleb128 0x1
+ 927 008b 01       		.uleb128 0x12
+ 928 008c 12       		.uleb128 0x1
+ 929 008d 01       		.uleb128 0x40
+ 930 008e 40       		.uleb128 0x6
+ 931 008f 06       		.uleb128 0x1
+ 932 0090 01       		.uleb128 0x13
+ 933 0091 13       		.byte	0x0
+ 934 0092 00       		.byte	0x0
+ 935 0093 00       		.uleb128 0xd
+ 936 0094 0D       		.uleb128 0x5
+ 937 0095 05       		.byte	0x0
+ 938 0096 00       		.uleb128 0x3
+ 939 0097 03       		.uleb128 0xe
+ 940 0098 0E       		.uleb128 0x3a
+ 941 0099 3A       		.uleb128 0xb
+ 942 009a 0B       		.uleb128 0x3b
+ 943 009b 3B       		.uleb128 0xb
+ 944 009c 0B       		.uleb128 0x49
+ 945 009d 49       		.uleb128 0x13
+ 946 009e 13       		.uleb128 0x2
+ 947 009f 02       		.uleb128 0xa
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 21
+
+
+ 948 00a0 0A       		.byte	0x0
+ 949 00a1 00       		.byte	0x0
+ 950 00a2 00       		.uleb128 0xe
+ 951 00a3 0E       		.uleb128 0x34
+ 952 00a4 34       		.byte	0x0
+ 953 00a5 00       		.uleb128 0x3
+ 954 00a6 03       		.uleb128 0xe
+ 955 00a7 0E       		.uleb128 0x3a
+ 956 00a8 3A       		.uleb128 0xb
+ 957 00a9 0B       		.uleb128 0x3b
+ 958 00aa 3B       		.uleb128 0xb
+ 959 00ab 0B       		.uleb128 0x49
+ 960 00ac 49       		.uleb128 0x13
+ 961 00ad 13       		.uleb128 0x2
+ 962 00ae 02       		.uleb128 0xa
+ 963 00af 0A       		.byte	0x0
+ 964 00b0 00       		.byte	0x0
+ 965 00b1 00       		.uleb128 0xf
+ 966 00b2 0F       		.uleb128 0x2e
+ 967 00b3 2E       		.byte	0x1
+ 968 00b4 01       		.uleb128 0x3f
+ 969 00b5 3F       		.uleb128 0xc
+ 970 00b6 0C       		.uleb128 0x3
+ 971 00b7 03       		.uleb128 0xe
+ 972 00b8 0E       		.uleb128 0x3a
+ 973 00b9 3A       		.uleb128 0xb
+ 974 00ba 0B       		.uleb128 0x3b
+ 975 00bb 3B       		.uleb128 0xb
+ 976 00bc 0B       		.uleb128 0x27
+ 977 00bd 27       		.uleb128 0xc
+ 978 00be 0C       		.uleb128 0x11
+ 979 00bf 11       		.uleb128 0x1
+ 980 00c0 01       		.uleb128 0x12
+ 981 00c1 12       		.uleb128 0x1
+ 982 00c2 01       		.uleb128 0x40
+ 983 00c3 40       		.uleb128 0x6
+ 984 00c4 06       		.byte	0x0
+ 985 00c5 00       		.byte	0x0
+ 986 00c6 00       		.byte	0x0
+ 987 00c7 00       		.section	.debug_pubnames,"",%progbits
+ 988              		.4byte	0x6d
+ 989 0000 6D000000 		.2byte	0x2
+ 990 0004 0200     		.4byte	.Ldebug_info0
+ 991 0006 00000000 		.4byte	0x2ad
+ 992 000a AD020000 		.4byte	0x188
+ 993 000e 88010000 		.ascii	"vListInitialise\000"
+ 994 0012 764C6973 		.4byte	0x1b6
+ 994      74496E69 
+ 994      7469616C 
+ 994      69736500 
+ 995 0022 B6010000 		.ascii	"vListInitialiseItem\000"
+ 996 0026 764C6973 		.4byte	0x1e4
+ 996      74496E69 
+ 996      7469616C 
+ 996      69736549 
+ 996      74656D00 
+ 997 003a E4010000 		.ascii	"vListInsertEnd\000"
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 22
+
+
+ 998 003e 764C6973 		.4byte	0x228
+ 998      74496E73 
+ 998      65727445 
+ 998      6E6400
+ 999 004d 28020000 		.ascii	"vListInsert\000"
+ 1000 0051 764C6973 		.4byte	0x27a
+ 1000      74496E73 
+ 1000      65727400 
+ 1001 005d 7A020000 		.ascii	"vListRemove\000"
+ 1002 0061 764C6973 		.4byte	0x0
+ 1002      7452656D 
+ 1002      6F766500 
+ 1003 006d 00000000 		.section	.debug_aranges,"",%progbits
+ 1004              		.4byte	0x1c
+ 1005 0000 1C000000 		.2byte	0x2
+ 1006 0004 0200     		.4byte	.Ldebug_info0
+ 1007 0006 00000000 		.byte	0x4
+ 1008 000a 04       		.byte	0x0
+ 1009 000b 00       		.2byte	0x0
+ 1010 000c 0000     		.2byte	0x0
+ 1011 000e 0000     		.4byte	.Ltext0
+ 1012 0010 00000000 		.4byte	.Letext0-.Ltext0
+ 1013 0014 58020000 		.4byte	0x0
+ 1014 0018 00000000 		.4byte	0x0
+ 1015 001c 00000000 		.section	.debug_str,"MS",%progbits,1
+ 1016              	.LASF14:
+ 1017              		.ascii	"pvContainer\000"
+ 1018 0000 7076436F 	.LASF22:
+ 1018      6E746169 
+ 1018      6E657200 
+ 1019              		.ascii	"pxIndex\000"
+ 1020 000c 7078496E 	.LASF15:
+ 1020      64657800 
+ 1021              		.ascii	"portTickType\000"
+ 1022 0014 706F7274 	.LASF10:
+ 1022      5469636B 
+ 1022      54797065 
+ 1022      00
+ 1023              		.ascii	"xItemValue\000"
+ 1024 0021 78497465 	.LASF24:
+ 1024      6D56616C 
+ 1024      756500
+ 1025              		.ascii	"xList\000"
+ 1026 002c 784C6973 	.LASF23:
+ 1026      7400
+ 1027              		.ascii	"xListEnd\000"
+ 1028 0032 784C6973 	.LASF13:
+ 1028      74456E64 
+ 1028      00
+ 1029              		.ascii	"pvOwner\000"
+ 1030 003b 70764F77 	.LASF17:
+ 1030      6E657200 
+ 1031              		.ascii	"xLIST_ITEM\000"
+ 1032 0043 784C4953 	.LASF7:
+ 1032      545F4954 
+ 1032      454D00
+ 1033              		.ascii	"long long unsigned int\000"
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 23
+
+
+ 1034 004e 6C6F6E67 	.LASF2:
+ 1034      206C6F6E 
+ 1034      6720756E 
+ 1034      7369676E 
+ 1034      65642069 
+ 1035              		.ascii	"unsigned char\000"
+ 1036 0065 756E7369 	.LASF0:
+ 1036      676E6564 
+ 1036      20636861 
+ 1036      7200
+ 1037              		.ascii	"long unsigned int\000"
+ 1038 0073 6C6F6E67 	.LASF34:
+ 1038      20756E73 
+ 1038      69676E65 
+ 1038      6420696E 
+ 1038      7400
+ 1039              		.ascii	"pxItemToRemove\000"
+ 1040 0085 70784974 	.LASF12:
+ 1040      656D546F 
+ 1040      52656D6F 
+ 1040      766500
+ 1041              		.ascii	"pxPrevious\000"
+ 1042 0094 70785072 	.LASF35:
+ 1042      6576696F 
+ 1042      757300
+ 1043              		.ascii	"GNU C 4.3.3\000"
+ 1044 009f 474E5520 	.LASF26:
+ 1044      4320342E 
+ 1044      332E3300 
+ 1045              		.ascii	"vListInitialiseItem\000"
+ 1046 00ab 764C6973 	.LASF19:
+ 1046      74496E69 
+ 1046      7469616C 
+ 1046      69736549 
+ 1046      74656D00 
+ 1047              		.ascii	"xMiniListItem\000"
+ 1048 00bf 784D696E 	.LASF28:
+ 1048      694C6973 
+ 1048      74497465 
+ 1048      6D00
+ 1049              		.ascii	"pxItem\000"
+ 1050 00cd 70784974 	.LASF21:
+ 1050      656D00
+ 1051              		.ascii	"uxNumberOfItems\000"
+ 1052 00d4 75784E75 	.LASF29:
+ 1052      6D626572 
+ 1052      4F664974 
+ 1052      656D7300 
+ 1053              		.ascii	"vListInsertEnd\000"
+ 1054 00e4 764C6973 	.LASF5:
+ 1054      74496E73 
+ 1054      65727445 
+ 1054      6E6400
+ 1055              		.ascii	"unsigned int\000"
+ 1056 00f3 756E7369 	.LASF25:
+ 1056      676E6564 
+ 1056      20696E74 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 24
+
+
+ 1056      00
+ 1057              		.ascii	"vListInitialise\000"
+ 1058 0100 764C6973 	.LASF33:
+ 1058      74496E69 
+ 1058      7469616C 
+ 1058      69736500 
+ 1059              		.ascii	"xValueOfInsertion\000"
+ 1060 0110 7856616C 	.LASF11:
+ 1060      75654F66 
+ 1060      496E7365 
+ 1060      7274696F 
+ 1060      6E00
+ 1061              		.ascii	"pxNext\000"
+ 1062 0122 70784E65 	.LASF36:
+ 1062      787400
+ 1063              		.ascii	"SRC/RTOS/list.c\000"
+ 1064 0129 5352432F 	.LASF4:
+ 1064      52544F53 
+ 1064      2F6C6973 
+ 1064      742E6300 
+ 1065              		.ascii	"short unsigned int\000"
+ 1066 0139 73686F72 	.LASF6:
+ 1066      7420756E 
+ 1066      7369676E 
+ 1066      65642069 
+ 1066      6E7400
+ 1067              		.ascii	"long long int\000"
+ 1068 014c 6C6F6E67 	.LASF16:
+ 1068      206C6F6E 
+ 1068      6720696E 
+ 1068      7400
+ 1069              		.ascii	"xListItem\000"
+ 1070 015a 784C6973 	.LASF9:
+ 1070      74497465 
+ 1070      6D00
+ 1071              		.ascii	"char\000"
+ 1072 0164 63686172 	.LASF38:
+ 1072      00
+ 1073              		.ascii	"vListRemove\000"
+ 1074 0169 764C6973 	.LASF32:
+ 1074      7452656D 
+ 1074      6F766500 
+ 1075              		.ascii	"pxIterator\000"
+ 1076 0175 70784974 	.LASF3:
+ 1076      65726174 
+ 1076      6F7200
+ 1077              		.ascii	"short int\000"
+ 1078 0180 73686F72 	.LASF37:
+ 1078      7420696E 
+ 1078      7400
+ 1079              		.ascii	"E:\\Projekty\\ARM\\Eclipse\\AT91SAM7Sxxx_RTOS\000"
+ 1080 018a 453A5C50 	.LASF8:
+ 1080      726F6A65 
+ 1080      6B74795C 
+ 1080      41524D5C 
+ 1080      45636C69 
+ 1081              		.ascii	"long int\000"
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 25
+
+
+ 1082 01b4 6C6F6E67 	.LASF18:
+ 1082      20696E74 
+ 1082      00
+ 1083              		.ascii	"xMINI_LIST_ITEM\000"
+ 1084 01bd 784D494E 	.LASF1:
+ 1084      495F4C49 
+ 1084      53545F49 
+ 1084      54454D00 
+ 1085              		.ascii	"signed char\000"
+ 1086 01cd 7369676E 	.LASF27:
+ 1086      65642063 
+ 1086      68617200 
+ 1087              		.ascii	"pxList\000"
+ 1088 01d9 70784C69 	.LASF20:
+ 1088      737400
+ 1089              		.ascii	"xLIST\000"
+ 1090 01e0 784C4953 	.LASF30:
+ 1090      5400
+ 1091              		.ascii	"pxNewListItem\000"
+ 1092 01e6 70784E65 	.LASF31:
+ 1092      774C6973 
+ 1092      74497465 
+ 1092      6D00
+ 1093              		.ascii	"vListInsert\000"
+ 1094 01f4 764C6973 		.ident	"GCC: (GNU) 4.3.3"
+ 1094      74496E73 
+ 1094      65727400 
+ 1095              	...
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s 			page 26
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 list.c
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s:37     .text:00000000 vListInitialise
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s:45     .text:00000000 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s:82     .text:00000064 vListInitialiseItem
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s:104    .text:00000080 vListInsertEnd
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s:160    .text:00000108 vListInsert
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s:238    .text:000001d0 vListRemove
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s:293    .debug_frame:00000000 $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/cc8ScQWs.s:371    .debug_loc:00000000 $d
+
+NO UNDEFINED SYMBOLS

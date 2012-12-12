@@ -1,0 +1,361 @@
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPXb6Ph.s 			page 1
+
+
+   1              		.file	"main.c"
+   2              	@ GNU C (GCC) version 4.3.3 (arm-elf)
+   3              	@	compiled by GNU C version 3.4.5 (mingw special), GMP version 4.2.2, MPFR version 2.3.1.
+   4              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+   5              	@ options passed:  -I . -IINC/ -IINC/RTOS/ -imultilib interwork -iprefix
+   6              	@ d:\programy\mikrokontrolery\arm\yagarto\bin\../lib/gcc/arm-elf/4.3.3/ -MD
+   7              	@ SRC/main.d -MF .dep/main.o.d -MP -MQ SRC/main.o -D__USES_INITFINI__
+   8              	@ SRC/main.c -mcpu=arm7tdmi -mthumb-interwork -auxbase-strip SRC/main.o
+   9              	@ -gdwarf-2 -O0 -Wall -Wstrict-prototypes -fomit-frame-pointer
+  10              	@ -fverbose-asm
+  11              	@ options enabled:  -falign-loops -fargument-alias -fauto-inc-dec
+  12              	@ -fbranch-count-reg -fcommon -fearly-inlining
+  13              	@ -feliminate-unused-debug-types -ffunction-cse -fgcse-lm -fident -fivopts
+  14              	@ -fkeep-static-consts -fleading-underscore -fmath-errno
+  15              	@ -fmerge-debug-strings -fmove-loop-invariants -fomit-frame-pointer
+  16              	@ -fpeephole -freg-struct-return -fsched-interblock -fsched-spec
+  17              	@ -fsched-stalled-insns-dep -fsigned-zeros -fsplit-ivs-in-unroller
+  18              	@ -ftoplevel-reorder -ftrapping-math -ftree-cselim -ftree-loop-im
+  19              	@ -ftree-loop-ivcanon -ftree-loop-optimize -ftree-parallelize-loops=
+  20              	@ -ftree-reassoc -ftree-scev-cprop -ftree-vect-loop-version -fverbose-asm
+  21              	@ -fzero-initialized-in-bss -mlittle-endian -msched-prolog
+  22              	@ -mthumb-interwork
+  23              	
+  24              		.section	.debug_abbrev,"",%progbits
+  25              	.Ldebug_abbrev0:
+  26              		.section	.debug_info,"",%progbits
+  27              	.Ldebug_info0:
+  28              		.section	.debug_line,"",%progbits
+  29              	.Ldebug_line0:
+  30 0000 38000000 		.text
+  30      02002100 
+  30      00000201 
+  30      FB0E0D00 
+  30      01010101 
+  31              	.Ltext0:
+  32              	@ Compiler executable checksum: aefe8b2555dadc8858779d7450a1d1fb
+  33              	
+  34              		.align	2
+  35              		.global	main
+  36              		.type	main, %function
+  37              	main:
+  38              	.LFB2:
+  39              		.file 1 "SRC/main.c"
+   1:SRC/main.c    **** /*
+   2:SRC/main.c    ****  * main.c
+   3:SRC/main.c    ****  *
+   4:SRC/main.c    ****  *  Created on: 2010-01-29
+   5:SRC/main.c    ****  *      Author: Zaquadnik_AJ
+   6:SRC/main.c    ****  */
+   7:SRC/main.c    **** #include "AT91SAM7X256.h"
+   8:SRC/main.c    **** 
+   9:SRC/main.c    **** #include "FreeRTOS.h"
+  10:SRC/main.c    **** #include "task.h"
+  11:SRC/main.c    **** #include "queue.h"
+  12:SRC/main.c    **** #include "semphr.h"
+  13:SRC/main.c    **** 
+  14:SRC/main.c    **** int main(void)
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPXb6Ph.s 			page 2
+
+
+  15:SRC/main.c    **** {
+  40              	working.
+  41              		@ args = 0, pretend = 0, frame = 0
+  42              		@ frame_needed = 0, uses_anonymous_args = 0
+  43              		@ link register save eliminated.
+  44              		.loc 1 16 0
+  16:SRC/main.c    **** 	return 0;
+  45              		main, %function
+  46 0000 0030A0E3 	main:
+  17:SRC/main.c    **** }
+  47              	
+  48 0004 0300A0E1 		.section	.debug_info,"",%progbits
+  49 0008 1EFF2FE1 	.Ldebug_info0:
+  50              		.section	.debug_line,"",%progbits
+  51              	.Ldebug_line0:
+  52              		.text
+  53              	.Ltext0:
+  54 0000 0C000000 	@ Compiler executable checksum: aefe8b2555dadc8858779d7450a1d1fb
+  55              	
+  56 0004 FFFFFFFF 		.align	2
+  57 0008 01       		.global	main
+  58 0009 00       		.type	main, %function
+  59 000a 01       	main:
+  60 000b 7C       	.LFB2:
+  61 000c 0E       		.file 1 "SRC/main.c"
+  62 000d 0C       		.loc 1 15 0
+  63 000e 0D       		@ Function supports interworking.
+  64 000f 00       		@ args = 0, pretend = 0, frame = 0
+  65              		@ frame_needed = 0, uses_anonymous_args = 0
+  66              		@ link register save eliminated.
+  67              		.loc 1 16 0
+  68 0010 0C000000 		mov	r3, #0	@ D.2989,
+  69              		.loc 1 17 0
+  70 0014 00000000 		mov	r0, r3	@, <result>
+  71 0018 00000000 		bx	lr	@
+  72 001c 0C000000 	.LFE2:
+  73              		.size	main, .-main
+  74              		.section	.debug_frame,"",%progbits
+  75              	.Lframe0:
+  76              		.4byte	.LECIE0-.LSCIE0
+  77              	.LSCIE0:
+  78 0000 89000000 		.4byte	0xffffffff
+  79 0004 0200     		.byte	0x1
+  80 0006 00000000 		.ascii	"\000"
+  81 000a 04       		.uleb128 0x1
+  82 000b 01       		.sleb128 -4
+  83 000c 1F000000 		.byte	0xe
+  84 0010 01       		.byte	0xc
+  85 0011 B6000000 		.uleb128 0xd
+  86 0015 6B000000 		.uleb128 0x0
+  87 0019 00000000 		.align	2
+  88 001d 0C000000 	.LECIE0:
+  89 0021 00000000 	.LSFDE0:
+  90 0025 02       		.4byte	.LEFDE0-.LASFDE0
+  91 0026 04       	.LASFDE0:
+  92 0027 07       		.4byte	.Lframe0
+  93 0028 00000000 		.4byte	.LFB2
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPXb6Ph.s 			page 3
+
+
+  94 002c 03       		.4byte	.LFE2-.LFB2
+  95 002d 04       		.align	2
+  96 002e 07       	.LEFDE0:
+  97 002f 02       		.text
+  98 0030 04       	.Letext0:
+  99 0031 05       		.section	.debug_info
+ 100 0032 A3000000 		.4byte	0x89
+ 101 0036 02       		.2byte	0x2
+ 102 0037 04       		.4byte	.Ldebug_abbrev0
+ 103 0038 07       		.byte	0x4
+ 104 0039 0D000000 		.uleb128 0x1
+ 105 003d 04       		.4byte	.LASF10
+ 106 003e 04       		.byte	0x1
+ 107 003f 05       		.4byte	.LASF11
+ 108 0040 696E7400 		.4byte	.LASF12
+ 109 0044 02       		.4byte	.Ltext0
+ 110 0045 01       		.4byte	.Letext0
+ 111 0046 06       		.4byte	.Ldebug_line0
+ 112 0047 2B000000 		.uleb128 0x2
+ 113 004b 02       		.byte	0x4
+ 114 004c 01       		.byte	0x7
+ 115 004d 08       		.4byte	.LASF0
+ 116 004e 95000000 		.uleb128 0x3
+ 117 0052 02       		.byte	0x4
+ 118 0053 02       		.byte	0x7
+ 119 0054 05       		.uleb128 0x2
+ 120 0055 4A000000 		.byte	0x4
+ 121 0059 02       		.byte	0x5
+ 122 005a 02       		.4byte	.LASF1
+ 123 005b 07       		.uleb128 0x2
+ 124 005c 37000000 		.byte	0x4
+ 125 0060 02       		.byte	0x7
+ 126 0061 08       		.4byte	.LASF2
+ 127 0062 05       		.uleb128 0x4
+ 128 0063 C1000000 		.byte	0x4
+ 129 0067 02       		.byte	0x5
+ 130 0068 08       		.ascii	"int\000"
+ 131 0069 07       		.uleb128 0x2
+ 132 006a 54000000 		.byte	0x1
+ 133 006e 02       		.byte	0x6
+ 134 006f 01       		.4byte	.LASF3
+ 135 0070 08       		.uleb128 0x2
+ 136 0071 B1000000 		.byte	0x1
+ 137 0075 05       		.byte	0x8
+ 138 0076 01       		.4byte	.LASF4
+ 139 0077 AC000000 		.uleb128 0x2
+ 140 007b 01       		.byte	0x2
+ 141 007c 0F       		.byte	0x5
+ 142 007d 01       		.4byte	.LASF5
+ 143 007e 3D000000 		.uleb128 0x2
+ 144 0082 00000000 		.byte	0x2
+ 145 0086 0C000000 		.byte	0x7
+ 146 008a 01       		.4byte	.LASF6
+ 147 008b 5D       		.uleb128 0x2
+ 148 008c 00       		.byte	0x8
+ 149              		.byte	0x5
+ 150 0000 01       		.4byte	.LASF7
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPXb6Ph.s 			page 4
+
+
+ 151 0001 11       		.uleb128 0x2
+ 152 0002 01       		.byte	0x8
+ 153 0003 25       		.byte	0x7
+ 154 0004 0E       		.4byte	.LASF8
+ 155 0005 13       		.uleb128 0x2
+ 156 0006 0B       		.byte	0x1
+ 157 0007 03       		.byte	0x8
+ 158 0008 0E       		.4byte	.LASF9
+ 159 0009 1B       		.uleb128 0x5
+ 160 000a 0E       		.byte	0x1
+ 161 000b 11       		.4byte	.LASF13
+ 162 000c 01       		.byte	0x1
+ 163 000d 12       		.byte	0xf
+ 164 000e 01       		.byte	0x1
+ 165 000f 10       		.4byte	0x3d
+ 166 0010 06       		.4byte	.LFB2
+ 167 0011 00       		.4byte	.LFE2
+ 168 0012 00       		.byte	0x1
+ 169 0013 02       		.byte	0x5d
+ 170 0014 24       		.byte	0x0
+ 171 0015 00       		.section	.debug_abbrev
+ 172 0016 0B       		.uleb128 0x1
+ 173 0017 0B       		.uleb128 0x11
+ 174 0018 3E       		.byte	0x1
+ 175 0019 0B       		.uleb128 0x25
+ 176 001a 03       		.uleb128 0xe
+ 177 001b 0E       		.uleb128 0x13
+ 178 001c 00       		.uleb128 0xb
+ 179 001d 00       		.uleb128 0x3
+ 180 001e 03       		.uleb128 0xe
+ 181 001f 24       		.uleb128 0x1b
+ 182 0020 00       		.uleb128 0xe
+ 183 0021 0B       		.uleb128 0x11
+ 184 0022 0B       		.uleb128 0x1
+ 185 0023 3E       		.uleb128 0x12
+ 186 0024 0B       		.uleb128 0x1
+ 187 0025 00       		.uleb128 0x10
+ 188 0026 00       		.uleb128 0x6
+ 189 0027 04       		.byte	0x0
+ 190 0028 24       		.byte	0x0
+ 191 0029 00       		.uleb128 0x2
+ 192 002a 0B       		.uleb128 0x24
+ 193 002b 0B       		.byte	0x0
+ 194 002c 3E       		.uleb128 0xb
+ 195 002d 0B       		.uleb128 0xb
+ 196 002e 03       		.uleb128 0x3e
+ 197 002f 08       		.uleb128 0xb
+ 198 0030 00       		.uleb128 0x3
+ 199 0031 00       		.uleb128 0xe
+ 200 0032 05       		.byte	0x0
+ 201 0033 2E       		.byte	0x0
+ 202 0034 00       		.uleb128 0x3
+ 203 0035 3F       		.uleb128 0x24
+ 204 0036 0C       		.byte	0x0
+ 205 0037 03       		.uleb128 0xb
+ 206 0038 0E       		.uleb128 0xb
+ 207 0039 3A       		.uleb128 0x3e
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPXb6Ph.s 			page 5
+
+
+ 208 003a 0B       		.uleb128 0xb
+ 209 003b 3B       		.byte	0x0
+ 210 003c 0B       		.byte	0x0
+ 211 003d 27       		.uleb128 0x4
+ 212 003e 0C       		.uleb128 0x24
+ 213 003f 49       		.byte	0x0
+ 214 0040 13       		.uleb128 0xb
+ 215 0041 11       		.uleb128 0xb
+ 216 0042 01       		.uleb128 0x3e
+ 217 0043 12       		.uleb128 0xb
+ 218 0044 01       		.uleb128 0x3
+ 219 0045 40       		.uleb128 0x8
+ 220 0046 0A       		.byte	0x0
+ 221 0047 00       		.byte	0x0
+ 222 0048 00       		.uleb128 0x5
+ 223 0049 00       		.uleb128 0x2e
+ 224              		.byte	0x0
+ 225 0000 17000000 		.uleb128 0x3f
+ 226 0004 0200     		.uleb128 0xc
+ 227 0006 00000000 		.uleb128 0x3
+ 228 000a 8D000000 		.uleb128 0xe
+ 229 000e 75000000 		.uleb128 0x3a
+ 230 0012 6D61696E 		.uleb128 0xb
+ 230      00
+ 231 0017 00000000 		.uleb128 0x3b
+ 232              		.uleb128 0xb
+ 233 0000 1C000000 		.uleb128 0x27
+ 234 0004 0200     		.uleb128 0xc
+ 235 0006 00000000 		.uleb128 0x49
+ 236 000a 04       		.uleb128 0x13
+ 237 000b 00       		.uleb128 0x11
+ 238 000c 0000     		.uleb128 0x1
+ 239 000e 0000     		.uleb128 0x12
+ 240 0010 00000000 		.uleb128 0x1
+ 241 0014 0C000000 		.uleb128 0x40
+ 242 0018 00000000 		.uleb128 0xa
+ 243 001c 00000000 		.byte	0x0
+ 244              		.byte	0x0
+ 245              		.byte	0x0
+ 246 0000 756E7369 		.section	.debug_pubnames,"",%progbits
+ 246      676E6564 
+ 246      20696E74 
+ 246      00
+ 247              		.4byte	0x17
+ 248 000d 6C6F6E67 		.2byte	0x2
+ 248      20756E73 
+ 248      69676E65 
+ 248      6420696E 
+ 248      7400
+ 249              		.4byte	.Ldebug_info0
+ 250 001f 474E5520 		.4byte	0x8d
+ 250      4320342E 
+ 250      332E3300 
+ 251              		.4byte	0x75
+ 252 002b 7369676E 		.ascii	"main\000"
+ 252      65642063 
+ 252      68617200 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPXb6Ph.s 			page 6
+
+
+ 253              		.4byte	0x0
+ 254 0037 73686F72 		.section	.debug_aranges,"",%progbits
+ 254      7420756E 
+ 254      7369676E 
+ 254      65642069 
+ 254      6E7400
+ 255              		.4byte	0x1c
+ 256 004a 73686F72 		.2byte	0x2
+ 256      7420696E 
+ 256      7400
+ 257              		.4byte	.Ldebug_info0
+ 258 0054 6C6F6E67 		.byte	0x4
+ 258      206C6F6E 
+ 258      6720756E 
+ 258      7369676E 
+ 258      65642069 
+ 259              		.byte	0x0
+ 260 006b 453A5C50 		.2byte	0x0
+ 260      726F6A65 
+ 260      6B74795C 
+ 260      41524D5C 
+ 260      45636C69 
+ 261              		.2byte	0x0
+ 262 0095 756E7369 		.4byte	.Ltext0
+ 262      676E6564 
+ 262      20636861 
+ 262      7200
+ 263              		.4byte	.Letext0-.Ltext0
+ 264 00a3 6C6F6E67 		.4byte	0x0
+ 264      20696E74 
+ 264      00
+ 265              		.4byte	0x0
+ 266 00ac 6D61696E 		.section	.debug_str,"MS",%progbits,1
+ 266      00
+ 267              	.LASF0:
+ 268 00b1 63686172 		.ascii	"unsigned int\000"
+ 268      00
+ 269              	.LASF2:
+ 270 00b6 5352432F 		.ascii	"long unsigned int\000"
+ 270      6D61696E 
+ 270      2E6300
+ 271              	.LASF10:
+ 272 00c1 6C6F6E67 		.ascii	"GNU C 4.3.3\000"
+ 272      206C6F6E 
+ 272      6720696E 
+ 272      7400
+ 273              	.LASF3:
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPXb6Ph.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPXb6Ph.s:37     .text:00000000 main
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPXb6Ph.s:46     .text:00000000 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPXb6Ph.s:54     .debug_frame:00000000 $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccPXb6Ph.s:78     .debug_info:00000000 $d
+
+NO UNDEFINED SYMBOLS

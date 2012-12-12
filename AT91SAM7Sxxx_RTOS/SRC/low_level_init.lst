@@ -1,0 +1,1781 @@
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 1
+
+
+   1              		.file	"low_level_init.c"
+   2              	@ GNU C (GCC) version 4.3.3 (arm-elf)
+   3              	@	compiled by GNU C version 3.4.5 (mingw special), GMP version 4.2.2, MPFR version 2.3.1.
+   4              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+   5              	@ options passed:  -I . -IINC/ -IINC/RTOS/ -imultilib interwork -iprefix
+   6              	@ d:\programy\mikrokontrolery\arm\yagarto\bin\../lib/gcc/arm-elf/4.3.3/ -MD
+   7              	@ SRC/low_level_init.d -MF .dep/low_level_init.o.d -MP -MQ
+   8              	@ SRC/low_level_init.o -D__USES_INITFINI__ SRC/low_level_init.c
+   9              	@ -mcpu=arm7tdmi -mthumb-interwork -auxbase-strip SRC/low_level_init.o
+  10              	@ -gdwarf-2 -O0 -Wall -Wstrict-prototypes -fomit-frame-pointer
+  11              	@ -fverbose-asm
+  12              	@ options enabled:  -falign-loops -fargument-alias -fauto-inc-dec
+  13              	@ -fbranch-count-reg -fcommon -fearly-inlining
+  14              	@ -feliminate-unused-debug-types -ffunction-cse -fgcse-lm -fident -fivopts
+  15              	@ -fkeep-static-consts -fleading-underscore -fmath-errno
+  16              	@ -fmerge-debug-strings -fmove-loop-invariants -fomit-frame-pointer
+  17              	@ -fpeephole -freg-struct-return -fsched-interblock -fsched-spec
+  18              	@ -fsched-stalled-insns-dep -fsigned-zeros -fsplit-ivs-in-unroller
+  19              	@ -ftoplevel-reorder -ftrapping-math -ftree-cselim -ftree-loop-im
+  20              	@ -ftree-loop-ivcanon -ftree-loop-optimize -ftree-parallelize-loops=
+  21              	@ -ftree-reassoc -ftree-scev-cprop -ftree-vect-loop-version -fverbose-asm
+  22              	@ -fzero-initialized-in-bss -mlittle-endian -msched-prolog
+  23              	@ -mthumb-interwork
+  24              	
+  25              		.section	.debug_abbrev,"",%progbits
+  26              	.Ldebug_abbrev0:
+  27              		.section	.debug_info,"",%progbits
+  28              	.Ldebug_info0:
+  29              		.section	.debug_line,"",%progbits
+  30              	.Ldebug_line0:
+  31 0000 D3000000 		.text
+  31      02009700 
+  31      00000201 
+  31      FB0E0D00 
+  31      01010101 
+  32              	.Ltext0:
+  33              	@ Compiler executable checksum: aefe8b2555dadc8858779d7450a1d1fb
+  34              	
+  35              		.align	2
+  36              		.global	low_level_init
+  37              		.type	low_level_init, %function
+  38              	low_level_init:
+  39              	.LFB2:
+  40              		.file 1 "SRC/low_level_init.c"
+   1:SRC/low_level_init.c **** /****************************************************************************
+   2:SRC/low_level_init.c **** *  Copyright (c) 2009 by Michael Fischer. All rights reserved.
+   3:SRC/low_level_init.c **** *
+   4:SRC/low_level_init.c **** *  Redistribution and use in source and binary forms, with or without
+   5:SRC/low_level_init.c **** *  modification, are permitted provided that the following conditions
+   6:SRC/low_level_init.c **** *  are met:
+   7:SRC/low_level_init.c **** *
+   8:SRC/low_level_init.c **** *  1. Redistributions of source code must retain the above copyright
+   9:SRC/low_level_init.c **** *     notice, this list of conditions and the following disclaimer.
+  10:SRC/low_level_init.c **** *  2. Redistributions in binary form must reproduce the above copyright
+  11:SRC/low_level_init.c **** *     notice, this list of conditions and the following disclaimer in the
+  12:SRC/low_level_init.c **** *     documentation and/or other materials provided with the distribution.
+  13:SRC/low_level_init.c **** *  3. Neither the name of the author nor the names of its contributors may
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 2
+
+
+  14:SRC/low_level_init.c **** *     be used to endorse or promote products derived from this software
+  15:SRC/low_level_init.c **** *     without specific prior written permission.
+  16:SRC/low_level_init.c **** *
+  17:SRC/low_level_init.c **** *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  18:SRC/low_level_init.c **** *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  19:SRC/low_level_init.c **** *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+  20:SRC/low_level_init.c **** *  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+  21:SRC/low_level_init.c **** *  THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  22:SRC/low_level_init.c **** *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+  23:SRC/low_level_init.c **** *  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+  24:SRC/low_level_init.c **** *  OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+  25:SRC/low_level_init.c **** *  AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  26:SRC/low_level_init.c **** *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+  27:SRC/low_level_init.c **** *  THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  28:SRC/low_level_init.c **** *  SUCH DAMAGE.
+  29:SRC/low_level_init.c **** *
+  30:SRC/low_level_init.c **** ****************************************************************************
+  31:SRC/low_level_init.c **** *
+  32:SRC/low_level_init.c **** *  History:
+  33:SRC/low_level_init.c **** *
+  34:SRC/low_level_init.c **** *  25.09.09  mifi   First Version, based on the example from Quantum Leaps
+  35:SRC/low_level_init.c **** *                   with some small modifications. The original can be find
+  36:SRC/low_level_init.c **** *                   here: http://www.embedded.com/design/200900043
+  37:SRC/low_level_init.c **** *
+  38:SRC/low_level_init.c **** *                   For information e.g. how to setup the CPU take a look
+  39:SRC/low_level_init.c **** *                   in the AT91 Software Packages which can be find here:
+  40:SRC/low_level_init.c **** *                   http://www.atmel.com/dyn/products/tools_card.asp?tool_id=4343
+  41:SRC/low_level_init.c **** ****************************************************************************/
+  42:SRC/low_level_init.c **** #define __LOW_LEVEL_INIT_C__
+  43:SRC/low_level_init.c **** 
+  44:SRC/low_level_init.c **** #include <stdint.h>
+  45:SRC/low_level_init.c **** #include "AT91SAM7X256.h"
+  46:SRC/low_level_init.c **** 
+  47:SRC/low_level_init.c **** extern void UndefHandler (void);
+  48:SRC/low_level_init.c **** extern void SWIHandler (void);
+  49:SRC/low_level_init.c **** extern void PAbortHandler (void);
+  50:SRC/low_level_init.c **** extern void DAbortHandler (void);
+  51:SRC/low_level_init.c **** extern void IRQHandler (void);
+  52:SRC/low_level_init.c **** extern void FIQHandler (void);
+  53:SRC/low_level_init.c **** 
+  54:SRC/low_level_init.c **** /*=========================================================================*/
+  55:SRC/low_level_init.c **** /*  DEFINE: All Structures and Common Constants                            */
+  56:SRC/low_level_init.c **** /*=========================================================================*/
+  57:SRC/low_level_init.c **** /* LDR pc, [pc, #0x18] */
+  58:SRC/low_level_init.c **** #define LDR_PC_PC       0xE59FF018U
+  59:SRC/low_level_init.c **** #define MAGIC           0xDEADBEEFU
+  60:SRC/low_level_init.c **** 
+  61:SRC/low_level_init.c **** /* Register Base Address */
+  62:SRC/low_level_init.c **** #define RSTC_KEY        0xA5000000
+  63:SRC/low_level_init.c **** #define RSTC_URSTEN     0x00000001
+  64:SRC/low_level_init.c **** 
+  65:SRC/low_level_init.c **** #define MC_FMR_OFF      0x00000060
+  66:SRC/low_level_init.c **** #define MC_FWS_1FWS     0x00480100
+  67:SRC/low_level_init.c **** 
+  68:SRC/low_level_init.c **** /* Startup time of main oscillator (in number of slow clock ticks). */
+  69:SRC/low_level_init.c **** #define BOARD_OSCOUNT   (AT91C_CKGR_OSCOUNT & (0x40 << 8))
+  70:SRC/low_level_init.c **** 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 3
+
+
+  71:SRC/low_level_init.c **** /* USB PLL divisor value to obtain a 48MHz clock. */
+  72:SRC/low_level_init.c **** #define BOARD_USBDIV    AT91C_CKGR_USBDIV_1
+  73:SRC/low_level_init.c **** 
+  74:SRC/low_level_init.c **** /* PLL frequency range. */
+  75:SRC/low_level_init.c **** #define BOARD_CKGR_PLL  AT91C_CKGR_OUT_0
+  76:SRC/low_level_init.c **** 
+  77:SRC/low_level_init.c **** /* PLL startup time (in number of slow clock ticks). */
+  78:SRC/low_level_init.c **** #define BOARD_PLLCOUNT  (16 << 8)
+  79:SRC/low_level_init.c **** 
+  80:SRC/low_level_init.c **** /* PLL MUL value. */
+  81:SRC/low_level_init.c **** #define BOARD_MUL       (AT91C_CKGR_MUL & (24 << 16))
+  82:SRC/low_level_init.c **** 
+  83:SRC/low_level_init.c **** /* PLL DIV value. */
+  84:SRC/low_level_init.c **** #define BOARD_DIV       (AT91C_CKGR_DIV & 5)
+  85:SRC/low_level_init.c **** 
+  86:SRC/low_level_init.c **** /* Master clock prescaler value. */
+  87:SRC/low_level_init.c **** #define BOARD_PRESCALER AT91C_PMC_PRES_CLK_2
+  88:SRC/low_level_init.c **** 
+  89:SRC/low_level_init.c **** 
+  90:SRC/low_level_init.c **** /*=========================================================================*/
+  91:SRC/low_level_init.c **** /*  DEFINE: Prototypes                                                     */
+  92:SRC/low_level_init.c **** /*=========================================================================*/
+  93:SRC/low_level_init.c **** 
+  94:SRC/low_level_init.c **** /*=========================================================================*/
+  95:SRC/low_level_init.c **** /*  DEFINE: Definition of all local Data                                   */
+  96:SRC/low_level_init.c **** /*=========================================================================*/
+  97:SRC/low_level_init.c **** 
+  98:SRC/low_level_init.c **** /*=========================================================================*/
+  99:SRC/low_level_init.c **** /*  DEFINE: Definition of all local Procedures                             */
+ 100:SRC/low_level_init.c **** /*=========================================================================*/
+ 101:SRC/low_level_init.c **** 
+ 102:SRC/low_level_init.c **** /*=========================================================================*/
+ 103:SRC/low_level_init.c **** /*  DEFINE: All code exported                                              */
+ 104:SRC/low_level_init.c **** /*=========================================================================*/
+ 105:SRC/low_level_init.c **** /***************************************************************************/
+ 106:SRC/low_level_init.c **** /*  low_level_init                                                         */
+ 107:SRC/low_level_init.c **** /*                                                                         */
+ 108:SRC/low_level_init.c **** /*  This function is invoked by the startup sequence after initializing    */
+ 109:SRC/low_level_init.c **** /*  the C stack, but before initializing the segments in RAM.              */
+ 110:SRC/low_level_init.c **** /*                                                                         */
+ 111:SRC/low_level_init.c **** /*  low_level_init() is invoked in the ARM state. The function gives the   */
+ 112:SRC/low_level_init.c **** /*  application a chance to perform early initializations of the hardware. */
+ 113:SRC/low_level_init.c **** /*  This function cannot rely on initialization of any static variables,   */
+ 114:SRC/low_level_init.c **** /*  because these have not yet been initialized in RAM.                    */
+ 115:SRC/low_level_init.c **** /***************************************************************************/
+ 116:SRC/low_level_init.c **** void low_level_init (void *reset_addr, void *return_addr)
+ 117:SRC/low_level_init.c **** {
+  41              	working.
+  42              		@ args = 0, pretend = 0, frame = 8
+  43              		@ frame_needed = 0, uses_anonymous_args = 0
+  44              		@ link register save eliminated.
+  45              		sub	sp, sp, #8	@,,
+  46 0000 08D04DE2 	.LCFI0:
+  47              		str	r0, [sp, #4]	@ reset_addr, reset_addr
+  48 0004 04008DE5 		str	r1, [sp, #0]	@ return_addr, return_addr
+  49 0008 00108DE5 		.loc 1 123 0
+ 118:SRC/low_level_init.c **** tern uint8_t __ram_start;
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 4
+
+
+ 119:SRC/low_level_init.c **** 
+ 120:SRC/low_level_init.c ****    /*
+ 121:SRC/low_level_init.c ****     * The watchdog is enabled after processor reset. Disable it.
+ 122:SRC/low_level_init.c ****     */
+ 123:SRC/low_level_init.c ****    AT91C_BASE_WDTC->WDTC_WDMR = AT91C_WDTC_WDDIS;
+  50              	#-1476395008	@ D.1921,
+  51 000c 2A33A0E3 		mov	r3, r3, asr #21	@ D.1921, D.1921,
+  52 0010 C33AA0E1 		mov	r2, #32768	@ tmp202,
+  53 0014 0229A0E3 		str	r2, [r3, #4]	@ tmp202, <variable>.WDTC_WDMR
+  54 0018 042083E5 		.loc 1 128 0
+ 124:SRC/low_level_init.c **** DTC_WDMR = AT91C_WDTC_WDDIS;
+ 125:SRC/low_level_init.c **** 
+ 126:SRC/low_level_init.c ****    /*
+ 127:SRC/low_level_init.c ****     * Enable user reset: assertion length programmed to 1ms
+ 128:SRC/low_level_init.c ****     */
+  55              	r2, #-1610612736	@ D.1922,
+  56 001c 0A22A0E3 		mov	r2, r2, asr #21	@ D.1922, D.1922,
+  57 0020 C22AA0E1 		mov	r3, #-1526726656	@ tmp203,
+  58 0024 A534A0E3 		add	r3, r3, #1024	@ tmp203, tmp203,
+  59 0028 013B83E2 		add	r3, r3, #1	@ tmp203, tmp203,
+  60 002c 013083E2 		str	r3, [r2, #8]	@ tmp203, <variable>.RSTC_RMR
+  61 0030 083082E5 		.loc 1 133 0
+ 129:SRC/low_level_init.c **** th programmed to 1ms
+ 130:SRC/low_level_init.c ****     */
+ 131:SRC/low_level_init.c ****    AT91C_BASE_RSTC->RSTC_RMR = (RSTC_KEY | RSTC_URSTEN | (4 << 8));
+ 132:SRC/low_level_init.c **** 
+ 133:SRC/low_level_init.c ****    /*
+  62              	, #255	@ D.1923,
+  63 0034 FF20E0E3 		mov	r3, #4718592	@ tmp204,
+  64 0038 1237A0E3 		add	r3, r3, #256	@ tmp204, tmp204,
+  65 003c 013C83E2 		str	r3, [r2, #96]	@ tmp204, <variable>.MC_FMR
+  66 0040 603082E5 		.loc 1 138 0
+ 134:SRC/low_level_init.c **** URSTEN | (4 << 8));
+ 135:SRC/low_level_init.c **** 
+ 136:SRC/low_level_init.c ****    /*
+ 137:SRC/low_level_init.c ****     * Use 2 cycles for flash access.
+ 138:SRC/low_level_init.c ****     */
+  67              	r3, #-2147483648	@ D.1924,
+  68 0044 0231A0E3 		mov	r3, r3, asr #19	@ D.1924, D.1924,
+  69 0048 C339A0E1 		mvn	r2, #0	@ tmp205,
+  70 004c 0020E0E3 		str	r2, [r3, #304]	@ tmp205, <variable>.AIC_EOICR
+  71 0050 302183E5 		.loc 1 139 0
+ 139:SRC/low_level_init.c **** es for flash access.
+  72              	r3, #-2147483648	@ D.1925,
+  73 0054 0231A0E3 		mov	r3, r3, asr #19	@ D.1925, D.1925,
+  74 0058 C339A0E1 		mvn	r2, #0	@ tmp206,
+  75 005c 0020E0E3 		str	r2, [r3, #292]	@ tmp206, <variable>.AIC_IDCR
+  76 0060 242183E5 		.loc 1 146 0
+ 140:SRC/low_level_init.c **** e 2 cycles for flash access.
+ 141:SRC/low_level_init.c ****     */
+ 142:SRC/low_level_init.c ****    AT91C_BASE_MC->MC_FMR = MC_FWS_1FWS;
+ 143:SRC/low_level_init.c **** 
+ 144:SRC/low_level_init.c ****    /*
+ 145:SRC/low_level_init.c ****     * Disable all interrupts. Useful for debugging w/o target reset.
+ 146:SRC/low_level_init.c ****     */
+  77              	r2, #-2147483648	@ D.1926,
+  78 0064 0221A0E3 		mov	r2, r2, asr #21	@ D.1926, D.1926,
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 5
+
+
+  79 0068 C22AA0E1 		mov	r3, #16384	@ tmp207,
+  80 006c 0139A0E3 		add	r3, r3, #1	@ tmp207, tmp207,
+  81 0070 013083E2 		str	r3, [r2, #32]	@ tmp207, <variable>.PMC_MOR
+  82 0074 203082E5 	.L2:
+  83              		.loc 1 147 0
+ 147:SRC/low_level_init.c **** ng w/o target reset.
+  84              	, #-2147483648	@ D.1927,
+  85 0078 0231A0E3 		mov	r3, r3, asr #21	@ D.1927, D.1927,
+  86 007c C33AA0E1 		ldr	r3, [r3, #104]	@ D.1928, <variable>.PMC_SR
+  87 0080 683093E5 		and	r3, r3, #1	@ D.1930, D.1929,
+  88 0084 013003E2 		cmp	r3, #0	@ D.1930,
+  89 0088 000053E3 		beq	.L2	@,
+  90 008c F9FFFF0A 		.loc 1 150 0
+ 148:SRC/low_level_init.c ****  debugging w/o target reset.
+ 149:SRC/low_level_init.c ****     */
+ 150:SRC/low_level_init.c ****    AT91C_BASE_AIC->AIC_EOICR = 0xFFFFFFFF;
+  91              	, #-2147483648	@ D.1931,
+  92 0090 0221A0E3 		mov	r2, r2, asr #21	@ D.1931, D.1931,
+  93 0094 C22AA0E1 		mov	r3, #268435461	@ tmp208,
+  94 0098 5132A0E3 		add	r3, r3, #1572864	@ tmp208, tmp208,
+  95 009c 063783E2 		add	r3, r3, #4096	@ tmp208, tmp208,
+  96 00a0 013A83E2 		str	r3, [r2, #44]	@ tmp208, <variable>.PMC_PLLR
+  97 00a4 2C3082E5 	.L3:
+  98              		.loc 1 152 0
+ 151:SRC/low_level_init.c **** AIC->AIC_EOICR = 0xFFFFFFFF;
+ 152:SRC/low_level_init.c ****    AT91C_BASE_AIC->AIC_IDCR  = 0xFFFFFFFF;
+  99              	 #-2147483648	@ D.1932,
+ 100 00a8 0231A0E3 		mov	r3, r3, asr #21	@ D.1932, D.1932,
+ 101 00ac C33AA0E1 		ldr	r3, [r3, #104]	@ D.1933, <variable>.PMC_SR
+ 102 00b0 683093E5 		and	r3, r3, #4	@ D.1934, D.1933,
+ 103 00b4 043003E2 		cmp	r3, #0	@ D.1934,
+ 104 00b8 000053E3 		beq	.L3	@,
+ 105 00bc F9FFFF0A 	.L4:
+ 106              		.loc 1 155 0
+ 153:SRC/low_level_init.c **** AIC->AIC_IDCR  = 0xFFFFFFFF;
+ 154:SRC/low_level_init.c **** 
+ 155:SRC/low_level_init.c ****    /*
+ 107              	 #-2147483648	@ D.1935,
+ 108 00c0 0231A0E3 		mov	r3, r3, asr #21	@ D.1935, D.1935,
+ 109 00c4 C33AA0E1 		ldr	r3, [r3, #104]	@ D.1936, <variable>.PMC_SR
+ 110 00c8 683093E5 		and	r3, r3, #8	@ D.1937, D.1936,
+ 111 00cc 083003E2 		cmp	r3, #0	@ D.1937,
+ 112 00d0 000053E3 		beq	.L4	@,
+ 113 00d4 F9FFFF0A 		.loc 1 158 0
+ 156:SRC/low_level_init.c **** IDCR  = 0xFFFFFFFF;
+ 157:SRC/low_level_init.c **** 
+ 158:SRC/low_level_init.c ****    /*
+ 114              	, #-2147483648	@ D.1938,
+ 115 00d8 0231A0E3 		mov	r3, r3, asr #21	@ D.1938, D.1938,
+ 116 00dc C33AA0E1 		mov	r2, #4	@ tmp209,
+ 117 00e0 0420A0E3 		str	r2, [r3, #48]	@ tmp209, <variable>.PMC_MCKR
+ 118 00e4 302083E5 	.L5:
+ 119              		.loc 1 159 0
+ 159:SRC/low_level_init.c **** IDCR  = 0xFFFFFFFF;
+ 120              	3, #-2147483648	@ D.1939,
+ 121 00e8 0231A0E3 		mov	r3, r3, asr #21	@ D.1939, D.1939,
+ 122 00ec C33AA0E1 		ldr	r3, [r3, #104]	@ D.1940, <variable>.PMC_SR
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 6
+
+
+ 123 00f0 683093E5 		and	r3, r3, #8	@ D.1941, D.1940,
+ 124 00f4 083003E2 		cmp	r3, #0	@ D.1941,
+ 125 00f8 000053E3 		beq	.L5	@,
+ 126 00fc F9FFFF0A 		.loc 1 162 0
+ 160:SRC/low_level_init.c **** AIC->AIC_IDCR  = 0xFFFFFFFF;
+ 161:SRC/low_level_init.c **** 
+ 162:SRC/low_level_init.c ****    /*
+ 127              	, #-2147483648	@ D.1942,
+ 128 0100 0221A0E3 		mov	r2, r2, asr #21	@ D.1942, D.1942,
+ 129 0104 C22AA0E1 		mov	r3, #-2147483648	@ D.1943,
+ 130 0108 0231A0E3 		mov	r3, r3, asr #21	@ D.1943, D.1943,
+ 131 010c C33AA0E1 		ldr	r3, [r3, #48]	@ D.1944, <variable>.PMC_MCKR
+ 132 0110 303093E5 		orr	r3, r3, #3	@ D.1945, D.1944,
+ 133 0114 033083E3 		str	r3, [r2, #48]	@ D.1945, <variable>.PMC_MCKR
+ 134 0118 303082E5 	.L6:
+ 135              		.loc 1 163 0
+ 163:SRC/low_level_init.c **** IDCR  = 0xFFFFFFFF;
+ 136              	#-2147483648	@ D.1946,
+ 137 011c 0231A0E3 		mov	r3, r3, asr #21	@ D.1946, D.1946,
+ 138 0120 C33AA0E1 		ldr	r3, [r3, #104]	@ D.1947, <variable>.PMC_SR
+ 139 0124 683093E5 		and	r3, r3, #8	@ D.1948, D.1947,
+ 140 0128 083003E2 		cmp	r3, #0	@ D.1948,
+ 141 012c 000053E3 		beq	.L6	@,
+ 142 0130 F9FFFF0A 		.loc 1 175 0
+ 164:SRC/low_level_init.c **** AIC->AIC_IDCR  = 0xFFFFFFFF;
+ 165:SRC/low_level_init.c **** 
+ 166:SRC/low_level_init.c ****    /*
+ 167:SRC/low_level_init.c ****     * Setup the CPU now...
+ 168:SRC/low_level_init.c ****     */
+ 169:SRC/low_level_init.c **** 
+ 170:SRC/low_level_init.c ****    /* Initialize main oscillator */
+ 171:SRC/low_level_init.c ****    AT91C_BASE_PMC->PMC_MOR = BOARD_OSCOUNT | AT91C_CKGR_MOSCEN;
+ 172:SRC/low_level_init.c ****    while (!(AT91C_BASE_PMC->PMC_SR & AT91C_PMC_MOSCS));
+ 173:SRC/low_level_init.c **** 
+ 174:SRC/low_level_init.c ****    /* Initialize PLL at 96MHz (96.109) and USB clock to 48MHz */
+ 175:SRC/low_level_init.c ****    AT91C_BASE_PMC->PMC_PLLR = BOARD_USBDIV | BOARD_CKGR_PLL | BOARD_PLLCOUNT
+ 143              	, .L9	@ tmp210,
+ 144 0134 70319FE5 		cmp	r3, #2097152	@ tmp210,
+ 145 0138 020653E3 		bne	.L8	@,
+ 146 013c 5800001A 		.loc 1 186 0
+ 176:SRC/low_level_init.c **** RD_CKGR_PLL | BOARD_PLLCOUNT
+ 177:SRC/low_level_init.c ****                               | BOARD_MUL | BOARD_DIV;
+ 178:SRC/low_level_init.c ****    while (!(AT91C_BASE_PMC->PMC_SR & AT91C_PMC_LOCK));
+ 179:SRC/low_level_init.c **** 
+ 180:SRC/low_level_init.c ****    /* Wait for the master clock if it was already initialized */
+ 181:SRC/low_level_init.c ****    while (!(AT91C_BASE_PMC->PMC_SR & AT91C_PMC_MCKRDY));
+ 182:SRC/low_level_init.c **** 
+ 183:SRC/low_level_init.c ****    /* Switch to slow clock + prescaler */
+ 184:SRC/low_level_init.c ****    AT91C_BASE_PMC->PMC_MCKR = BOARD_PRESCALER;
+ 185:SRC/low_level_init.c ****    while (!(AT91C_BASE_PMC->PMC_SR & AT91C_PMC_MCKRDY));
+ 186:SRC/low_level_init.c **** 
+ 147              		r2, .L9	@ __ram_start.0,
+ 148 0140 64219FE5 		mvn	r3, #4064	@ tmp211,
+ 149 0144 FE3EE0E3 		sub	r3, r3, #268435463	@ tmp211, tmp211,
+ 150 0148 713243E2 		sub	r3, r3, #174063616	@ tmp211, tmp211,
+ 151 014c A63643E2 		str	r3, [r2, #0]	@ tmp211,* __ram_start.0
+ 152 0150 003082E5 		.loc 1 187 0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 7
+
+
+ 187:SRC/low_level_init.c **** C_SR & AT91C_PMC_MCKRDY));
+ 153              	3, .L9	@ __ram_start.1,
+ 154 0154 50319FE5 		add	r2, r3, #4	@ D.1951, __ram_start.1,
+ 155 0158 042083E2 		mvn	r3, #4064	@ tmp212,
+ 156 015c FE3EE0E3 		sub	r3, r3, #268435463	@ tmp212, tmp212,
+ 157 0160 713243E2 		sub	r3, r3, #174063616	@ tmp212, tmp212,
+ 158 0164 A63643E2 		str	r3, [r2, #0]	@ tmp212,* D.1951
+ 159 0168 003082E5 		.loc 1 188 0
+ 188:SRC/low_level_init.c **** PMC_SR & AT91C_PMC_MCKRDY));
+ 160              	, .L9	@ __ram_start.2,
+ 161 016c 38319FE5 		add	r2, r3, #8	@ D.1953, __ram_start.2,
+ 162 0170 082083E2 		mvn	r3, #4064	@ tmp213,
+ 163 0174 FE3EE0E3 		sub	r3, r3, #268435463	@ tmp213, tmp213,
+ 164 0178 713243E2 		sub	r3, r3, #174063616	@ tmp213, tmp213,
+ 165 017c A63643E2 		str	r3, [r2, #0]	@ tmp213,* D.1953
+ 166 0180 003082E5 		.loc 1 189 0
+ 189:SRC/low_level_init.c **** PMC_SR & AT91C_PMC_MCKRDY));
+ 167              	, .L9	@ __ram_start.3,
+ 168 0184 20319FE5 		add	r2, r3, #12	@ D.1955, __ram_start.3,
+ 169 0188 0C2083E2 		mvn	r3, #4064	@ tmp214,
+ 170 018c FE3EE0E3 		sub	r3, r3, #268435463	@ tmp214, tmp214,
+ 171 0190 713243E2 		sub	r3, r3, #174063616	@ tmp214, tmp214,
+ 172 0194 A63643E2 		str	r3, [r2, #0]	@ tmp214,* D.1955
+ 173 0198 003082E5 		.loc 1 190 0
+ 190:SRC/low_level_init.c **** PMC_SR & AT91C_PMC_MCKRDY));
+ 174              	, .L9	@ __ram_start.4,
+ 175 019c 08319FE5 		add	r2, r3, #16	@ D.1957, __ram_start.4,
+ 176 01a0 102083E2 		mvn	r3, #4064	@ tmp215,
+ 177 01a4 FE3EE0E3 		sub	r3, r3, #268435463	@ tmp215, tmp215,
+ 178 01a8 713243E2 		sub	r3, r3, #174063616	@ tmp215, tmp215,
+ 179 01ac A63643E2 		str	r3, [r2, #0]	@ tmp215,* D.1957
+ 180 01b0 003082E5 		.loc 1 191 0
+ 191:SRC/low_level_init.c **** PMC_SR & AT91C_PMC_MCKRDY));
+ 181              	, .L9	@ __ram_start.5,
+ 182 01b4 F0309FE5 		add	r2, r3, #20	@ D.1959, __ram_start.5,
+ 183 01b8 142083E2 		mvn	r3, #557842432	@ tmp216,
+ 184 01bc 8535E0E3 		sub	r3, r3, #1196032	@ tmp216, tmp216,
+ 185 01c0 493943E2 		sub	r3, r3, #272	@ tmp216, tmp216,
+ 186 01c4 113E43E2 		str	r3, [r2, #0]	@ tmp216,* D.1959
+ 187 01c8 003082E5 		.loc 1 192 0
+ 192:SRC/low_level_init.c **** PMC_SR & AT91C_PMC_MCKRDY));
+ 188              	, .L9	@ __ram_start.6,
+ 189 01cc D8309FE5 		add	r2, r3, #24	@ D.1961, __ram_start.6,
+ 190 01d0 182083E2 		mvn	r3, #4064	@ tmp217,
+ 191 01d4 FE3EE0E3 		sub	r3, r3, #268435463	@ tmp217, tmp217,
+ 192 01d8 713243E2 		sub	r3, r3, #174063616	@ tmp217, tmp217,
+ 193 01dc A63643E2 		str	r3, [r2, #0]	@ tmp217,* D.1961
+ 194 01e0 003082E5 		.loc 1 193 0
+ 193:SRC/low_level_init.c **** PMC_SR & AT91C_PMC_MCKRDY));
+ 195              	, .L9	@ __ram_start.7,
+ 196 01e4 C0309FE5 		add	r2, r3, #28	@ D.1963, __ram_start.7,
+ 197 01e8 1C2083E2 		mvn	r3, #4064	@ tmp218,
+ 198 01ec FE3EE0E3 		sub	r3, r3, #268435463	@ tmp218, tmp218,
+ 199 01f0 713243E2 		sub	r3, r3, #174063616	@ tmp218, tmp218,
+ 200 01f4 A63643E2 		str	r3, [r2, #0]	@ tmp218,* D.1963
+ 201 01f8 003082E5 		.loc 1 196 0
+ 194:SRC/low_level_init.c **** PMC_SR & AT91C_PMC_MCKRDY));
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 8
+
+
+ 195:SRC/low_level_init.c **** 
+ 196:SRC/low_level_init.c ****    /* Switch to fast clock + prescaler */
+ 202              	, .L9	@ __ram_start.8,
+ 203 01fc A8309FE5 		add	r2, r3, #32	@ D.1965, __ram_start.8,
+ 204 0200 202083E2 		ldr	r3, [sp, #4]	@ reset_addr.9, reset_addr
+ 205 0204 04309DE5 		str	r3, [r2, #0]	@ reset_addr.9,* D.1965
+ 206 0208 003082E5 		.loc 1 197 0
+ 197:SRC/low_level_init.c **** to fast clock + prescaler */
+ 207              	r3, .L9	@ __ram_start.10,
+ 208 020c 98309FE5 		add	r2, r3, #36	@ D.1968, __ram_start.10,
+ 209 0210 242083E2 		ldr	r3, .L9+4	@ UndefHandler.11,
+ 210 0214 94309FE5 		str	r3, [r2, #0]	@ UndefHandler.11,* D.1968
+ 211 0218 003082E5 		.loc 1 198 0
+ 198:SRC/low_level_init.c **** to fast clock + prescaler */
+ 212              	r3, .L9	@ __ram_start.12,
+ 213 021c 88309FE5 		add	r2, r3, #40	@ D.1971, __ram_start.12,
+ 214 0220 282083E2 		ldr	r3, .L9+8	@ SWIHandler.13,
+ 215 0224 88309FE5 		str	r3, [r2, #0]	@ SWIHandler.13,* D.1971
+ 216 0228 003082E5 		.loc 1 199 0
+ 199:SRC/low_level_init.c **** to fast clock + prescaler */
+ 217              	r3, .L9	@ __ram_start.14,
+ 218 022c 78309FE5 		add	r2, r3, #44	@ D.1974, __ram_start.14,
+ 219 0230 2C2083E2 		ldr	r3, .L9+12	@ PAbortHandler.15,
+ 220 0234 7C309FE5 		str	r3, [r2, #0]	@ PAbortHandler.15,* D.1974
+ 221 0238 003082E5 		.loc 1 200 0
+ 200:SRC/low_level_init.c **** to fast clock + prescaler */
+ 222              	r3, .L9	@ __ram_start.16,
+ 223 023c 68309FE5 		add	r2, r3, #48	@ D.1977, __ram_start.16,
+ 224 0240 302083E2 		ldr	r3, .L9+16	@ DAbortHandler.17,
+ 225 0244 70309FE5 		str	r3, [r2, #0]	@ DAbortHandler.17,* D.1977
+ 226 0248 003082E5 		.loc 1 201 0
+ 201:SRC/low_level_init.c **** to fast clock + prescaler */
+ 227              	r3, .L9	@ __ram_start.18,
+ 228 024c 58309FE5 		add	r2, r3, #52	@ D.1980, __ram_start.18,
+ 229 0250 342083E2 		mov	r3, #0	@ tmp219,
+ 230 0254 0030A0E3 		str	r3, [r2, #0]	@ tmp219,* D.1980
+ 231 0258 003082E5 		.loc 1 202 0
+ 202:SRC/low_level_init.c **** to fast clock + prescaler */
+ 232              	r3, .L9	@ __ram_start.19,
+ 233 025c 48309FE5 		add	r2, r3, #56	@ D.1982, __ram_start.19,
+ 234 0260 382083E2 		ldr	r3, .L9+20	@ IRQHandler.20,
+ 235 0264 54309FE5 		str	r3, [r2, #0]	@ IRQHandler.20,* D.1982
+ 236 0268 003082E5 		.loc 1 203 0
+ 203:SRC/low_level_init.c **** to fast clock + prescaler */
+ 237              	r3, .L9	@ __ram_start.21,
+ 238 026c 38309FE5 		add	r2, r3, #60	@ D.1985, __ram_start.21,
+ 239 0270 3C2083E2 		ldr	r3, .L9+24	@ FIQHandler.22,
+ 240 0274 48309FE5 		str	r3, [r2, #0]	@ FIQHandler.22,* D.1985
+ 241 0278 003082E5 		.loc 1 208 0
+ 204:SRC/low_level_init.c **** to fast clock + prescaler */
+ 205:SRC/low_level_init.c ****    AT91C_BASE_PMC->PMC_MCKR |= AT91C_PMC_CSS_PLL_CLK;
+ 206:SRC/low_level_init.c ****    while (!(AT91C_BASE_PMC->PMC_SR & AT91C_PMC_MCKRDY));
+ 207:SRC/low_level_init.c **** 
+ 208:SRC/low_level_init.c **** 
+ 242              	r3, #20	@ D.1987,
+ 243 027c 1430A0E3 		ldr	r2, [r3, #0]	@ D.1988,* D.1987
+ 244 0280 002093E5 		mvn	r3, #557842432	@ tmp220,
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 9
+
+
+ 245 0284 8535E0E3 		sub	r3, r3, #1196032	@ tmp220, tmp220,
+ 246 0288 493943E2 		sub	r3, r3, #272	@ tmp220, tmp220,
+ 247 028c 113E43E2 		cmp	r2, r3	@ D.1988, tmp220
+ 248 0290 030052E1 		beq	.L8	@,
+ 249 0294 0200000A 		.loc 1 211 0
+ 209:SRC/low_level_init.c **** SR & AT91C_PMC_MCKRDY));
+ 210:SRC/low_level_init.c **** 
+ 211:SRC/low_level_init.c **** 
+ 250              	 #255	@ D.1989,
+ 251 0298 FF20E0E3 		mov	r3, #1	@ tmp221,
+ 252 029c 0130A0E3 		str	r3, [r2, #0]	@ tmp221,* D.1989
+ 253 02a0 003082E5 	.L8:
+ 254              		.loc 1 215 0
+ 212:SRC/low_level_init.c **** SR & AT91C_PMC_MCKRDY));
+ 213:SRC/low_level_init.c **** 
+ 214:SRC/low_level_init.c **** 
+ 215:SRC/low_level_init.c ****    /*******************************************************************/
+ 255              	sp, sp, #8	@,,
+ 256 02a4 08D08DE2 		bx	lr
+ 257 02a8 1EFF2FE1 	.L10:
+ 258              		.align	2
+ 259              	.L9:
+ 260              		.word	__ram_start
+ 261 02ac 00000000 		.word	UndefHandler
+ 262 02b0 00000000 		.word	SWIHandler
+ 263 02b4 00000000 		.word	PAbortHandler
+ 264 02b8 00000000 		.word	DAbortHandler
+ 265 02bc 00000000 		.word	IRQHandler
+ 266 02c0 00000000 		.word	FIQHandler
+ 267 02c4 00000000 	.LFE2:
+ 268              		.size	low_level_init, .-low_level_init
+ 269              		.section	.debug_frame,"",%progbits
+ 270              	.Lframe0:
+ 271              		.4byte	.LECIE0-.LSCIE0
+ 272 0000 0C000000 	.LSCIE0:
+ 273              		.4byte	0xffffffff
+ 274 0004 FFFFFFFF 		.byte	0x1
+ 275 0008 01       		.ascii	"\000"
+ 276 0009 00       		.uleb128 0x1
+ 277 000a 01       		.sleb128 -4
+ 278 000b 7C       		.byte	0xe
+ 279 000c 0E       		.byte	0xc
+ 280 000d 0C       		.uleb128 0xd
+ 281 000e 0D       		.uleb128 0x0
+ 282 000f 00       		.align	2
+ 283              	.LECIE0:
+ 284              	.LSFDE0:
+ 285              		.4byte	.LEFDE0-.LASFDE0
+ 286 0010 10000000 	.LASFDE0:
+ 287              		.4byte	.Lframe0
+ 288 0014 00000000 		.4byte	.LFB2
+ 289 0018 00000000 		.4byte	.LFE2-.LFB2
+ 290 001c C8020000 		.byte	0x4
+ 291 0020 44       		.4byte	.LCFI0-.LFB2
+ 292              		.byte	0xe
+ 293 0021 0E       		.uleb128 0x8
+ 294 0022 08       		.align	2
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 10
+
+
+ 295 0023 00       	.LEFDE0:
+ 296              		.text
+ 297              	.Letext0:
+ 298              		.section	.debug_loc,"",%progbits
+ 299              	.Ldebug_loc0:
+ 300              	.LLST0:
+ 301              		.4byte	.LFB2-.Ltext0
+ 302 0000 00000000 		.4byte	.LCFI0-.Ltext0
+ 303 0004 04000000 		.2byte	0x1
+ 304 0008 0100     		.byte	0x5d
+ 305 000a 5D       		.4byte	.LCFI0-.Ltext0
+ 306 000b 04000000 		.4byte	.LFE2-.Ltext0
+ 307 000f C8020000 		.2byte	0x2
+ 308 0013 0200     		.byte	0x7d
+ 309 0015 7D       		.sleb128 8
+ 310 0016 08       		.4byte	0x0
+ 311 0017 00000000 		.4byte	0x0
+ 312 001b 00000000 		.file 2 "INC/AT91SAM7X256.h"
+ 313              		.file 3 "d:/programy/mikrokontrolery/arm/yagarto/lib/gcc/../../arm-elf/sys-include/stdint.h"
+ 314              		.section	.debug_info
+ 315              		.4byte	0x4b7
+ 316 0000 B7040000 		.2byte	0x2
+ 317 0004 0200     		.4byte	.Ldebug_abbrev0
+ 318 0006 00000000 		.byte	0x4
+ 319 000a 04       		.uleb128 0x1
+ 320 000b 01       		.4byte	.LASF66
+ 321 000c 1B000000 		.byte	0x1
+ 322 0010 01       		.4byte	.LASF67
+ 323 0011 65020000 		.4byte	.LASF68
+ 324 0015 61010000 		.4byte	.Ltext0
+ 325 0019 00000000 		.4byte	.Letext0
+ 326 001d C8020000 		.4byte	.Ldebug_line0
+ 327 0021 00000000 		.uleb128 0x2
+ 328 0025 02       		.byte	0x1
+ 329 0026 01       		.byte	0x6
+ 330 0027 06       		.4byte	.LASF0
+ 331 0028 EA000000 		.uleb128 0x3
+ 332 002c 03       		.4byte	.LASF69
+ 333 002d B0000000 		.byte	0x3
+ 334 0031 03       		.byte	0x2a
+ 335 0032 2A       		.4byte	0x37
+ 336 0033 37000000 		.uleb128 0x2
+ 337 0037 02       		.byte	0x1
+ 338 0038 01       		.byte	0x8
+ 339 0039 08       		.4byte	.LASF1
+ 340 003a 42010000 		.uleb128 0x2
+ 341 003e 02       		.byte	0x2
+ 342 003f 02       		.byte	0x5
+ 343 0040 05       		.4byte	.LASF2
+ 344 0041 40000000 		.uleb128 0x2
+ 345 0045 02       		.byte	0x2
+ 346 0046 02       		.byte	0x7
+ 347 0047 07       		.4byte	.LASF3
+ 348 0048 E0010000 		.uleb128 0x2
+ 349 004c 02       		.byte	0x4
+ 350 004d 04       		.byte	0x5
+ 351 004e 05       		.4byte	.LASF4
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 11
+
+
+ 352 004f 21010000 		.uleb128 0x2
+ 353 0053 02       		.byte	0x4
+ 354 0054 04       		.byte	0x7
+ 355 0055 07       		.4byte	.LASF5
+ 356 0056 40020000 		.uleb128 0x2
+ 357 005a 02       		.byte	0x8
+ 358 005b 08       		.byte	0x5
+ 359 005c 05       		.4byte	.LASF6
+ 360 005d 5B000000 		.uleb128 0x2
+ 361 0061 02       		.byte	0x8
+ 362 0062 08       		.byte	0x7
+ 363 0063 07       		.4byte	.LASF7
+ 364 0064 94010000 		.uleb128 0x4
+ 365 0068 04       		.byte	0x4
+ 366 0069 04       		.byte	0x5
+ 367 006a 05       		.ascii	"int\000"
+ 368 006b 696E7400 		.uleb128 0x2
+ 369 006f 02       		.byte	0x4
+ 370 0070 04       		.byte	0x7
+ 371 0071 07       		.4byte	.LASF8
+ 372 0072 AB010000 		.uleb128 0x5
+ 373 0076 05       		.4byte	0x6f
+ 374 0077 6F000000 		.uleb128 0x6
+ 375 007b 06       		.4byte	0x6f
+ 376 007c 6F000000 		.4byte	0x8b
+ 377 0080 8B000000 		.uleb128 0x7
+ 378 0084 07       		.4byte	0x8b
+ 379 0085 8B000000 		.byte	0x1f
+ 380 0089 1F       		.byte	0x0
+ 381 008a 00       		.uleb128 0x8
+ 382 008b 08       		.byte	0x4
+ 383 008c 04       		.byte	0x7
+ 384 008d 07       		.uleb128 0x6
+ 385 008e 06       		.4byte	0x6f
+ 386 008f 6F000000 		.4byte	0x9e
+ 387 0093 9E000000 		.uleb128 0x7
+ 388 0097 07       		.4byte	0x8b
+ 389 0098 8B000000 		.byte	0x1
+ 390 009c 01       		.byte	0x0
+ 391 009d 00       		.uleb128 0x6
+ 392 009e 06       		.4byte	0x6f
+ 393 009f 6F000000 		.4byte	0xae
+ 394 00a3 AE000000 		.uleb128 0x7
+ 395 00a7 07       		.4byte	0x8b
+ 396 00a8 8B000000 		.byte	0x0
+ 397 00ac 00       		.byte	0x0
+ 398 00ad 00       		.uleb128 0x6
+ 399 00ae 06       		.4byte	0x6f
+ 400 00af 6F000000 		.4byte	0xbe
+ 401 00b3 BE000000 		.uleb128 0x7
+ 402 00b7 07       		.4byte	0x8b
+ 403 00b8 8B000000 		.byte	0x2
+ 404 00bc 02       		.byte	0x0
+ 405 00bd 00       		.uleb128 0x6
+ 406 00be 06       		.4byte	0x6f
+ 407 00bf 6F000000 		.4byte	0xce
+ 408 00c3 CE000000 		.uleb128 0x7
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 12
+
+
+ 409 00c7 07       		.4byte	0x8b
+ 410 00c8 8B000000 		.byte	0x3
+ 411 00cc 03       		.byte	0x0
+ 412 00cd 00       		.uleb128 0x9
+ 413 00ce 09       		.4byte	.LASF29
+ 414 00cf 0A020000 		.2byte	0x14c
+ 415 00d3 4C01     		.byte	0x2
+ 416 00d5 02       		.byte	0xd9
+ 417 00d6 D9       		.4byte	0x207
+ 418 00d7 07020000 		.uleb128 0xa
+ 419 00db 0A       		.4byte	.LASF9
+ 420 00dc 69000000 		.byte	0x2
+ 421 00e0 02       		.byte	0xda
+ 422 00e1 DA       		.4byte	0x207
+ 423 00e2 07020000 		.byte	0x2
+ 424 00e6 02       		.byte	0x23
+ 425 00e7 23       		.uleb128 0x0
+ 426 00e8 00       		.uleb128 0xa
+ 427 00e9 0A       		.4byte	.LASF10
+ 428 00ea C2010000 		.byte	0x2
+ 429 00ee 02       		.byte	0xdb
+ 430 00ef DB       		.4byte	0x20c
+ 431 00f0 0C020000 		.byte	0x3
+ 432 00f4 03       		.byte	0x23
+ 433 00f5 23       		.uleb128 0x80
+ 434 00f6 8001     		.uleb128 0xa
+ 435 00f8 0A       		.4byte	.LASF11
+ 436 00f9 2F020000 		.byte	0x2
+ 437 00fd 02       		.byte	0xdc
+ 438 00fe DC       		.4byte	0x76
+ 439 00ff 76000000 		.byte	0x3
+ 440 0103 03       		.byte	0x23
+ 441 0104 23       		.uleb128 0x100
+ 442 0105 8002     		.uleb128 0xa
+ 443 0107 0A       		.4byte	.LASF12
+ 444 0108 38000000 		.byte	0x2
+ 445 010c 02       		.byte	0xdd
+ 446 010d DD       		.4byte	0x76
+ 447 010e 76000000 		.byte	0x3
+ 448 0112 03       		.byte	0x23
+ 449 0113 23       		.uleb128 0x104
+ 450 0114 8402     		.uleb128 0xa
+ 451 0116 0A       		.4byte	.LASF13
+ 452 0117 BE020000 		.byte	0x2
+ 453 011b 02       		.byte	0xde
+ 454 011c DE       		.4byte	0x76
+ 455 011d 76000000 		.byte	0x3
+ 456 0121 03       		.byte	0x23
+ 457 0122 23       		.uleb128 0x108
+ 458 0123 8802     		.uleb128 0xa
+ 459 0125 0A       		.4byte	.LASF14
+ 460 0126 53000000 		.byte	0x2
+ 461 012a 02       		.byte	0xdf
+ 462 012b DF       		.4byte	0x76
+ 463 012c 76000000 		.byte	0x3
+ 464 0130 03       		.byte	0x23
+ 465 0131 23       		.uleb128 0x10c
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 13
+
+
+ 466 0132 8C02     		.uleb128 0xa
+ 467 0134 0A       		.4byte	.LASF15
+ 468 0135 07010000 		.byte	0x2
+ 469 0139 02       		.byte	0xe0
+ 470 013a E0       		.4byte	0x76
+ 471 013b 76000000 		.byte	0x3
+ 472 013f 03       		.byte	0x23
+ 473 0140 23       		.uleb128 0x110
+ 474 0141 9002     		.uleb128 0xa
+ 475 0143 0A       		.4byte	.LASF16
+ 476 0144 96020000 		.byte	0x2
+ 477 0148 02       		.byte	0xe1
+ 478 0149 E1       		.4byte	0x76
+ 479 014a 76000000 		.byte	0x3
+ 480 014e 03       		.byte	0x23
+ 481 014f 23       		.uleb128 0x114
+ 482 0150 9402     		.uleb128 0xa
+ 483 0152 0A       		.4byte	.LASF17
+ 484 0153 92000000 		.byte	0x2
+ 485 0157 02       		.byte	0xe2
+ 486 0158 E2       		.4byte	0x211
+ 487 0159 11020000 		.byte	0x3
+ 488 015d 03       		.byte	0x23
+ 489 015e 23       		.uleb128 0x118
+ 490 015f 9802     		.uleb128 0xa
+ 491 0161 0A       		.4byte	.LASF18
+ 492 0162 F3010000 		.byte	0x2
+ 493 0166 02       		.byte	0xe3
+ 494 0167 E3       		.4byte	0x76
+ 495 0168 76000000 		.byte	0x3
+ 496 016c 03       		.byte	0x23
+ 497 016d 23       		.uleb128 0x120
+ 498 016e A002     		.uleb128 0xa
+ 499 0170 0A       		.4byte	.LASF19
+ 500 0171 37020000 		.byte	0x2
+ 501 0175 02       		.byte	0xe4
+ 502 0176 E4       		.4byte	0x76
+ 503 0177 76000000 		.byte	0x3
+ 504 017b 03       		.byte	0x23
+ 505 017c 23       		.uleb128 0x124
+ 506 017d A402     		.uleb128 0xa
+ 507 017f 0A       		.4byte	.LASF20
+ 508 0180 7A020000 		.byte	0x2
+ 509 0184 02       		.byte	0xe5
+ 510 0185 E5       		.4byte	0x76
+ 511 0186 76000000 		.byte	0x3
+ 512 018a 03       		.byte	0x23
+ 513 018b 23       		.uleb128 0x128
+ 514 018c A802     		.uleb128 0xa
+ 515 018e 0A       		.4byte	.LASF21
+ 516 018f 09000000 		.byte	0x2
+ 517 0193 02       		.byte	0xe6
+ 518 0194 E6       		.4byte	0x76
+ 519 0195 76000000 		.byte	0x3
+ 520 0199 03       		.byte	0x23
+ 521 019a 23       		.uleb128 0x12c
+ 522 019b AC02     		.uleb128 0xa
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 14
+
+
+ 523 019d 0A       		.4byte	.LASF22
+ 524 019e 1E020000 		.byte	0x2
+ 525 01a2 02       		.byte	0xe7
+ 526 01a3 E7       		.4byte	0x76
+ 527 01a4 76000000 		.byte	0x3
+ 528 01a8 03       		.byte	0x23
+ 529 01a9 23       		.uleb128 0x130
+ 530 01aa B002     		.uleb128 0xa
+ 531 01ac 0A       		.4byte	.LASF23
+ 532 01ad E2020000 		.byte	0x2
+ 533 01b1 02       		.byte	0xe8
+ 534 01b2 E8       		.4byte	0x76
+ 535 01b3 76000000 		.byte	0x3
+ 536 01b7 03       		.byte	0x23
+ 537 01b8 23       		.uleb128 0x134
+ 538 01b9 B402     		.uleb128 0xa
+ 539 01bb 0A       		.4byte	.LASF24
+ 540 01bc EA020000 		.byte	0x2
+ 541 01c0 02       		.byte	0xe9
+ 542 01c1 E9       		.4byte	0x76
+ 543 01c2 76000000 		.byte	0x3
+ 544 01c6 03       		.byte	0x23
+ 545 01c7 23       		.uleb128 0x138
+ 546 01c8 B802     		.uleb128 0xa
+ 547 01ca 0A       		.4byte	.LASF25
+ 548 01cb 9C000000 		.byte	0x2
+ 549 01cf 02       		.byte	0xea
+ 550 01d0 EA       		.4byte	0x216
+ 551 01d1 16020000 		.byte	0x3
+ 552 01d5 03       		.byte	0x23
+ 553 01d6 23       		.uleb128 0x13c
+ 554 01d7 BC02     		.uleb128 0xa
+ 555 01d9 0A       		.4byte	.LASF26
+ 556 01da 31010000 		.byte	0x2
+ 557 01de 02       		.byte	0xeb
+ 558 01df EB       		.4byte	0x76
+ 559 01e0 76000000 		.byte	0x3
+ 560 01e4 03       		.byte	0x23
+ 561 01e5 23       		.uleb128 0x140
+ 562 01e6 C002     		.uleb128 0xa
+ 563 01e8 0A       		.4byte	.LASF27
+ 564 01e9 5C020000 		.byte	0x2
+ 565 01ed 02       		.byte	0xec
+ 566 01ee EC       		.4byte	0x76
+ 567 01ef 76000000 		.byte	0x3
+ 568 01f3 03       		.byte	0x23
+ 569 01f4 23       		.uleb128 0x144
+ 570 01f5 C402     		.uleb128 0xa
+ 571 01f7 0A       		.4byte	.LASF28
+ 572 01f8 00000000 		.byte	0x2
+ 573 01fc 02       		.byte	0xed
+ 574 01fd ED       		.4byte	0x76
+ 575 01fe 76000000 		.byte	0x3
+ 576 0202 03       		.byte	0x23
+ 577 0203 23       		.uleb128 0x148
+ 578 0204 C802     		.byte	0x0
+ 579 0206 00       		.uleb128 0x5
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 15
+
+
+ 580 0207 05       		.4byte	0x7b
+ 581 0208 7B000000 		.uleb128 0x5
+ 582 020c 05       		.4byte	0x7b
+ 583 020d 7B000000 		.uleb128 0x5
+ 584 0211 05       		.4byte	0x8e
+ 585 0212 8E000000 		.uleb128 0x5
+ 586 0216 05       		.4byte	0x9e
+ 587 0217 9E000000 		.uleb128 0xb
+ 588 021b 0B       		.4byte	.LASF30
+ 589 021c D7020000 		.byte	0x70
+ 590 0220 70       		.byte	0x2
+ 591 0221 02       		.2byte	0x1ad
+ 592 0222 AD01     		.4byte	0x355
+ 593 0224 55030000 		.uleb128 0xc
+ 594 0228 0C       		.4byte	.LASF31
+ 595 0229 58010000 		.byte	0x2
+ 596 022d 02       		.2byte	0x1ae
+ 597 022e AE01     		.4byte	0x76
+ 598 0230 76000000 		.byte	0x2
+ 599 0234 02       		.byte	0x23
+ 600 0235 23       		.uleb128 0x0
+ 601 0236 00       		.uleb128 0xc
+ 602 0237 0C       		.4byte	.LASF32
+ 603 0238 CE020000 		.byte	0x2
+ 604 023c 02       		.2byte	0x1af
+ 605 023d AF01     		.4byte	0x76
+ 606 023f 76000000 		.byte	0x2
+ 607 0243 02       		.byte	0x23
+ 608 0244 23       		.uleb128 0x4
+ 609 0245 04       		.uleb128 0xc
+ 610 0246 0C       		.4byte	.LASF33
+ 611 0247 2F000000 		.byte	0x2
+ 612 024b 02       		.2byte	0x1b0
+ 613 024c B001     		.4byte	0x76
+ 614 024e 76000000 		.byte	0x2
+ 615 0252 02       		.byte	0x23
+ 616 0253 23       		.uleb128 0x8
+ 617 0254 08       		.uleb128 0xc
+ 618 0255 0C       		.4byte	.LASF17
+ 619 0256 92000000 		.byte	0x2
+ 620 025a 02       		.2byte	0x1b1
+ 621 025b B101     		.4byte	0x355
+ 622 025d 55030000 		.byte	0x2
+ 623 0261 02       		.byte	0x23
+ 624 0262 23       		.uleb128 0xc
+ 625 0263 0C       		.uleb128 0xc
+ 626 0264 0C       		.4byte	.LASF34
+ 627 0265 8B010000 		.byte	0x2
+ 628 0269 02       		.2byte	0x1b2
+ 629 026a B201     		.4byte	0x76
+ 630 026c 76000000 		.byte	0x2
+ 631 0270 02       		.byte	0x23
+ 632 0271 23       		.uleb128 0x10
+ 633 0272 10       		.uleb128 0xc
+ 634 0273 0C       		.4byte	.LASF35
+ 635 0274 C2000000 		.byte	0x2
+ 636 0278 02       		.2byte	0x1b3
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 16
+
+
+ 637 0279 B301     		.4byte	0x76
+ 638 027b 76000000 		.byte	0x2
+ 639 027f 02       		.byte	0x23
+ 640 0280 23       		.uleb128 0x14
+ 641 0281 14       		.uleb128 0xc
+ 642 0282 0C       		.4byte	.LASF36
+ 643 0283 CB000000 		.byte	0x2
+ 644 0287 02       		.2byte	0x1b4
+ 645 0288 B401     		.4byte	0x76
+ 646 028a 76000000 		.byte	0x2
+ 647 028e 02       		.byte	0x23
+ 648 028f 23       		.uleb128 0x18
+ 649 0290 18       		.uleb128 0xc
+ 650 0291 0C       		.4byte	.LASF25
+ 651 0292 9C000000 		.byte	0x2
+ 652 0296 02       		.2byte	0x1b5
+ 653 0297 B501     		.4byte	0x35a
+ 654 0299 5A030000 		.byte	0x2
+ 655 029d 02       		.byte	0x23
+ 656 029e 23       		.uleb128 0x1c
+ 657 029f 1C       		.uleb128 0xc
+ 658 02a0 0C       		.4byte	.LASF37
+ 659 02a1 50010000 		.byte	0x2
+ 660 02a5 02       		.2byte	0x1b6
+ 661 02a6 B601     		.4byte	0x76
+ 662 02a8 76000000 		.byte	0x2
+ 663 02ac 02       		.byte	0x23
+ 664 02ad 23       		.uleb128 0x20
+ 665 02ae 20       		.uleb128 0xc
+ 666 02af 0C       		.4byte	.LASF38
+ 667 02b0 12000000 		.byte	0x2
+ 668 02b4 02       		.2byte	0x1b7
+ 669 02b5 B701     		.4byte	0x76
+ 670 02b7 76000000 		.byte	0x2
+ 671 02bb 02       		.byte	0x23
+ 672 02bc 23       		.uleb128 0x24
+ 673 02bd 24       		.uleb128 0xc
+ 674 02be 0C       		.4byte	.LASF39
+ 675 02bf A6000000 		.byte	0x2
+ 676 02c3 02       		.2byte	0x1b8
+ 677 02c4 B801     		.4byte	0x35f
+ 678 02c6 5F030000 		.byte	0x2
+ 679 02ca 02       		.byte	0x23
+ 680 02cb 23       		.uleb128 0x28
+ 681 02cc 28       		.uleb128 0xc
+ 682 02cd 0C       		.4byte	.LASF40
+ 683 02ce 18010000 		.byte	0x2
+ 684 02d2 02       		.2byte	0x1b9
+ 685 02d3 B901     		.4byte	0x76
+ 686 02d5 76000000 		.byte	0x2
+ 687 02d9 02       		.byte	0x23
+ 688 02da 23       		.uleb128 0x2c
+ 689 02db 2C       		.uleb128 0xc
+ 690 02dc 0C       		.4byte	.LASF41
+ 691 02dd 0F010000 		.byte	0x2
+ 692 02e1 02       		.2byte	0x1ba
+ 693 02e2 BA01     		.4byte	0x76
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 17
+
+
+ 694 02e4 76000000 		.byte	0x2
+ 695 02e8 02       		.byte	0x23
+ 696 02e9 23       		.uleb128 0x30
+ 697 02ea 30       		.uleb128 0xc
+ 698 02eb 0C       		.4byte	.LASF42
+ 699 02ec 52020000 		.byte	0x2
+ 700 02f0 02       		.2byte	0x1bb
+ 701 02f1 BB01     		.4byte	0x364
+ 702 02f3 64030000 		.byte	0x2
+ 703 02f7 02       		.byte	0x23
+ 704 02f8 23       		.uleb128 0x34
+ 705 02f9 34       		.uleb128 0xc
+ 706 02fa 0C       		.4byte	.LASF43
+ 707 02fb 4A000000 		.byte	0x2
+ 708 02ff 02       		.2byte	0x1bc
+ 709 0300 BC01     		.4byte	0x369
+ 710 0302 69030000 		.byte	0x2
+ 711 0306 02       		.byte	0x23
+ 712 0307 23       		.uleb128 0x40
+ 713 0308 40       		.uleb128 0xc
+ 714 0309 0C       		.4byte	.LASF44
+ 715 030a B8000000 		.byte	0x2
+ 716 030e 02       		.2byte	0x1bd
+ 717 030f BD01     		.4byte	0x36e
+ 718 0311 6E030000 		.byte	0x2
+ 719 0315 02       		.byte	0x23
+ 720 0316 23       		.uleb128 0x50
+ 721 0317 50       		.uleb128 0xc
+ 722 0318 0C       		.4byte	.LASF45
+ 723 0319 F6000000 		.byte	0x2
+ 724 031d 02       		.2byte	0x1be
+ 725 031e BE01     		.4byte	0x76
+ 726 0320 76000000 		.byte	0x2
+ 727 0324 02       		.byte	0x23
+ 728 0325 23       		.uleb128 0x60
+ 729 0326 60       		.uleb128 0xc
+ 730 0327 0C       		.4byte	.LASF46
+ 731 0328 27000000 		.byte	0x2
+ 732 032c 02       		.2byte	0x1bf
+ 733 032d BF01     		.4byte	0x76
+ 734 032f 76000000 		.byte	0x2
+ 735 0333 02       		.byte	0x23
+ 736 0334 23       		.uleb128 0x64
+ 737 0335 64       		.uleb128 0xc
+ 738 0336 0C       		.4byte	.LASF47
+ 739 0337 03020000 		.byte	0x2
+ 740 033b 02       		.2byte	0x1c0
+ 741 033c C001     		.4byte	0x76
+ 742 033e 76000000 		.byte	0x2
+ 743 0342 02       		.byte	0x23
+ 744 0343 23       		.uleb128 0x68
+ 745 0344 68       		.uleb128 0xc
+ 746 0345 0C       		.4byte	.LASF48
+ 747 0346 3A010000 		.byte	0x2
+ 748 034a 02       		.2byte	0x1c1
+ 749 034b C101     		.4byte	0x76
+ 750 034d 76000000 		.byte	0x2
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 18
+
+
+ 751 0351 02       		.byte	0x23
+ 752 0352 23       		.uleb128 0x6c
+ 753 0353 6C       		.byte	0x0
+ 754 0354 00       		.uleb128 0x5
+ 755 0355 05       		.4byte	0x9e
+ 756 0356 9E000000 		.uleb128 0x5
+ 757 035a 05       		.4byte	0x9e
+ 758 035b 9E000000 		.uleb128 0x5
+ 759 035f 05       		.4byte	0x9e
+ 760 0360 9E000000 		.uleb128 0x5
+ 761 0364 05       		.4byte	0xae
+ 762 0365 AE000000 		.uleb128 0x5
+ 763 0369 05       		.4byte	0xbe
+ 764 036a BE000000 		.uleb128 0x5
+ 765 036e 05       		.4byte	0xbe
+ 766 036f BE000000 		.uleb128 0xb
+ 767 0373 0B       		.4byte	.LASF49
+ 768 0374 83020000 		.byte	0xc
+ 769 0378 0C       		.byte	0x2
+ 770 0379 02       		.2byte	0x1ed
+ 771 037a ED01     		.4byte	0x3ae
+ 772 037c AE030000 		.uleb128 0xc
+ 773 0380 0C       		.4byte	.LASF50
+ 774 0381 15020000 		.byte	0x2
+ 775 0385 02       		.2byte	0x1ee
+ 776 0386 EE01     		.4byte	0x76
+ 777 0388 76000000 		.byte	0x2
+ 778 038c 02       		.byte	0x23
+ 779 038d 23       		.uleb128 0x0
+ 780 038e 00       		.uleb128 0xc
+ 781 038f 0C       		.4byte	.LASF51
+ 782 0390 AB020000 		.byte	0x2
+ 783 0394 02       		.2byte	0x1ef
+ 784 0395 EF01     		.4byte	0x76
+ 785 0397 76000000 		.byte	0x2
+ 786 039b 02       		.byte	0x23
+ 787 039c 23       		.uleb128 0x4
+ 788 039d 04       		.uleb128 0xc
+ 789 039e 0C       		.4byte	.LASF52
+ 790 039f FE000000 		.byte	0x2
+ 791 03a3 02       		.2byte	0x1f0
+ 792 03a4 F001     		.4byte	0x76
+ 793 03a6 76000000 		.byte	0x2
+ 794 03aa 02       		.byte	0x23
+ 795 03ab 23       		.uleb128 0x8
+ 796 03ac 08       		.byte	0x0
+ 797 03ad 00       		.uleb128 0xb
+ 798 03ae 0B       		.4byte	.LASF53
+ 799 03af 9F020000 		.byte	0xc
+ 800 03b3 0C       		.byte	0x2
+ 801 03b4 02       		.2byte	0x239
+ 802 03b5 3902     		.4byte	0x3e9
+ 803 03b7 E9030000 		.uleb128 0xc
+ 804 03bb 0C       		.4byte	.LASF54
+ 805 03bc B4020000 		.byte	0x2
+ 806 03c0 02       		.2byte	0x23a
+ 807 03c1 3A02     		.4byte	0x76
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 19
+
+
+ 808 03c3 76000000 		.byte	0x2
+ 809 03c7 02       		.byte	0x23
+ 810 03c8 23       		.uleb128 0x0
+ 811 03c9 00       		.uleb128 0xc
+ 812 03ca 0C       		.4byte	.LASF55
+ 813 03cb CA010000 		.byte	0x2
+ 814 03cf 02       		.2byte	0x23b
+ 815 03d0 3B02     		.4byte	0x76
+ 816 03d2 76000000 		.byte	0x2
+ 817 03d6 02       		.byte	0x23
+ 818 03d7 23       		.uleb128 0x4
+ 819 03d8 04       		.uleb128 0xc
+ 820 03d9 0C       		.4byte	.LASF56
+ 821 03da 71000000 		.byte	0x2
+ 822 03de 02       		.2byte	0x23c
+ 823 03df 3C02     		.4byte	0x76
+ 824 03e1 76000000 		.byte	0x2
+ 825 03e5 02       		.byte	0x23
+ 826 03e6 23       		.uleb128 0x8
+ 827 03e7 08       		.byte	0x0
+ 828 03e8 00       		.uleb128 0xb
+ 829 03e9 0B       		.4byte	.LASF57
+ 830 03ea B8010000 		.byte	0x6c
+ 831 03ee 6C       		.byte	0x2
+ 832 03ef 02       		.2byte	0x25c
+ 833 03f0 5C02     		.4byte	0x460
+ 834 03f2 60040000 		.uleb128 0xc
+ 835 03f6 0C       		.4byte	.LASF58
+ 836 03f7 FC010000 		.byte	0x2
+ 837 03fb 02       		.2byte	0x25d
+ 838 03fc 5D02     		.4byte	0x76
+ 839 03fe 76000000 		.byte	0x2
+ 840 0402 02       		.byte	0x23
+ 841 0403 23       		.uleb128 0x0
+ 842 0404 00       		.uleb128 0xc
+ 843 0405 0C       		.4byte	.LASF59
+ 844 0406 8F020000 		.byte	0x2
+ 845 040a 02       		.2byte	0x25e
+ 846 040b 5E02     		.4byte	0x76
+ 847 040d 76000000 		.byte	0x2
+ 848 0411 02       		.byte	0x23
+ 849 0412 23       		.uleb128 0x4
+ 850 0413 04       		.uleb128 0xc
+ 851 0414 0C       		.4byte	.LASF60
+ 852 0415 C6020000 		.byte	0x2
+ 853 0419 02       		.2byte	0x25f
+ 854 041a 5F02     		.4byte	0x76
+ 855 041c 76000000 		.byte	0x2
+ 856 0420 02       		.byte	0x23
+ 857 0421 23       		.uleb128 0x8
+ 858 0422 08       		.uleb128 0xc
+ 859 0423 0C       		.4byte	.LASF17
+ 860 0424 92000000 		.byte	0x2
+ 861 0428 02       		.2byte	0x260
+ 862 0429 6002     		.4byte	0x470
+ 863 042b 70040000 		.byte	0x2
+ 864 042f 02       		.byte	0x23
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 20
+
+
+ 865 0430 23       		.uleb128 0xc
+ 866 0431 0C       		.uleb128 0xc
+ 867 0432 0C       		.4byte	.LASF61
+ 868 0433 28020000 		.byte	0x2
+ 869 0437 02       		.2byte	0x261
+ 870 0438 6102     		.4byte	0x76
+ 871 043a 76000000 		.byte	0x2
+ 872 043e 02       		.byte	0x23
+ 873 043f 23       		.uleb128 0x60
+ 874 0440 60       		.uleb128 0xc
+ 875 0441 0C       		.4byte	.LASF62
+ 876 0442 2A010000 		.byte	0x2
+ 877 0446 02       		.2byte	0x262
+ 878 0447 6202     		.4byte	0x76
+ 879 0449 76000000 		.byte	0x2
+ 880 044d 02       		.byte	0x23
+ 881 044e 23       		.uleb128 0x64
+ 882 044f 64       		.uleb128 0xc
+ 883 0450 0C       		.4byte	.LASF63
+ 884 0451 E3000000 		.byte	0x2
+ 885 0455 02       		.2byte	0x263
+ 886 0456 6302     		.4byte	0x76
+ 887 0458 76000000 		.byte	0x2
+ 888 045c 02       		.byte	0x23
+ 889 045d 23       		.uleb128 0x68
+ 890 045e 68       		.byte	0x0
+ 891 045f 00       		.uleb128 0x6
+ 892 0460 06       		.4byte	0x6f
+ 893 0461 6F000000 		.4byte	0x470
+ 894 0465 70040000 		.uleb128 0x7
+ 895 0469 07       		.4byte	0x8b
+ 896 046a 8B000000 		.byte	0x14
+ 897 046e 14       		.byte	0x0
+ 898 046f 00       		.uleb128 0x5
+ 899 0470 05       		.4byte	0x460
+ 900 0471 60040000 		.uleb128 0xd
+ 901 0475 0D       		.byte	0x1
+ 902 0476 01       		.4byte	.LASF70
+ 903 0477 D4000000 		.byte	0x1
+ 904 047b 01       		.byte	0x75
+ 905 047c 75       		.byte	0x1
+ 906 047d 01       		.4byte	.LFB2
+ 907 047e 00000000 		.4byte	.LFE2
+ 908 0482 C8020000 		.4byte	.LLST0
+ 909 0486 00000000 		.4byte	0x4ab
+ 910 048a AB040000 		.uleb128 0xe
+ 911 048e 0E       		.4byte	.LASF64
+ 912 048f 87000000 		.byte	0x1
+ 913 0493 01       		.byte	0x74
+ 914 0494 74       		.4byte	0x4ab
+ 915 0495 AB040000 		.byte	0x2
+ 916 0499 02       		.byte	0x91
+ 917 049a 91       		.sleb128 -4
+ 918 049b 7C       		.uleb128 0xe
+ 919 049c 0E       		.4byte	.LASF65
+ 920 049d 7B000000 		.byte	0x1
+ 921 04a1 01       		.byte	0x74
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 21
+
+
+ 922 04a2 74       		.4byte	0x4ab
+ 923 04a3 AB040000 		.byte	0x2
+ 924 04a7 02       		.byte	0x91
+ 925 04a8 91       		.sleb128 -8
+ 926 04a9 78       		.byte	0x0
+ 927 04aa 00       		.uleb128 0xf
+ 928 04ab 0F       		.byte	0x4
+ 929 04ac 04       		.uleb128 0x10
+ 930 04ad 10       		.4byte	.LASF71
+ 931 04ae D4010000 		.byte	0x1
+ 932 04b2 01       		.byte	0x76
+ 933 04b3 76       		.4byte	0x2c
+ 934 04b4 2C000000 		.byte	0x1
+ 935 04b8 01       		.byte	0x1
+ 936 04b9 01       		.byte	0x0
+ 937 04ba 00       		.section	.debug_abbrev
+ 938              		.uleb128 0x1
+ 939 0000 01       		.uleb128 0x11
+ 940 0001 11       		.byte	0x1
+ 941 0002 01       		.uleb128 0x25
+ 942 0003 25       		.uleb128 0xe
+ 943 0004 0E       		.uleb128 0x13
+ 944 0005 13       		.uleb128 0xb
+ 945 0006 0B       		.uleb128 0x3
+ 946 0007 03       		.uleb128 0xe
+ 947 0008 0E       		.uleb128 0x1b
+ 948 0009 1B       		.uleb128 0xe
+ 949 000a 0E       		.uleb128 0x11
+ 950 000b 11       		.uleb128 0x1
+ 951 000c 01       		.uleb128 0x12
+ 952 000d 12       		.uleb128 0x1
+ 953 000e 01       		.uleb128 0x10
+ 954 000f 10       		.uleb128 0x6
+ 955 0010 06       		.byte	0x0
+ 956 0011 00       		.byte	0x0
+ 957 0012 00       		.uleb128 0x2
+ 958 0013 02       		.uleb128 0x24
+ 959 0014 24       		.byte	0x0
+ 960 0015 00       		.uleb128 0xb
+ 961 0016 0B       		.uleb128 0xb
+ 962 0017 0B       		.uleb128 0x3e
+ 963 0018 3E       		.uleb128 0xb
+ 964 0019 0B       		.uleb128 0x3
+ 965 001a 03       		.uleb128 0xe
+ 966 001b 0E       		.byte	0x0
+ 967 001c 00       		.byte	0x0
+ 968 001d 00       		.uleb128 0x3
+ 969 001e 03       		.uleb128 0x16
+ 970 001f 16       		.byte	0x0
+ 971 0020 00       		.uleb128 0x3
+ 972 0021 03       		.uleb128 0xe
+ 973 0022 0E       		.uleb128 0x3a
+ 974 0023 3A       		.uleb128 0xb
+ 975 0024 0B       		.uleb128 0x3b
+ 976 0025 3B       		.uleb128 0xb
+ 977 0026 0B       		.uleb128 0x49
+ 978 0027 49       		.uleb128 0x13
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 22
+
+
+ 979 0028 13       		.byte	0x0
+ 980 0029 00       		.byte	0x0
+ 981 002a 00       		.uleb128 0x4
+ 982 002b 04       		.uleb128 0x24
+ 983 002c 24       		.byte	0x0
+ 984 002d 00       		.uleb128 0xb
+ 985 002e 0B       		.uleb128 0xb
+ 986 002f 0B       		.uleb128 0x3e
+ 987 0030 3E       		.uleb128 0xb
+ 988 0031 0B       		.uleb128 0x3
+ 989 0032 03       		.uleb128 0x8
+ 990 0033 08       		.byte	0x0
+ 991 0034 00       		.byte	0x0
+ 992 0035 00       		.uleb128 0x5
+ 993 0036 05       		.uleb128 0x35
+ 994 0037 35       		.byte	0x0
+ 995 0038 00       		.uleb128 0x49
+ 996 0039 49       		.uleb128 0x13
+ 997 003a 13       		.byte	0x0
+ 998 003b 00       		.byte	0x0
+ 999 003c 00       		.uleb128 0x6
+ 1000 003d 06       		.uleb128 0x1
+ 1001 003e 01       		.byte	0x1
+ 1002 003f 01       		.uleb128 0x49
+ 1003 0040 49       		.uleb128 0x13
+ 1004 0041 13       		.uleb128 0x1
+ 1005 0042 01       		.uleb128 0x13
+ 1006 0043 13       		.byte	0x0
+ 1007 0044 00       		.byte	0x0
+ 1008 0045 00       		.uleb128 0x7
+ 1009 0046 07       		.uleb128 0x21
+ 1010 0047 21       		.byte	0x0
+ 1011 0048 00       		.uleb128 0x49
+ 1012 0049 49       		.uleb128 0x13
+ 1013 004a 13       		.uleb128 0x2f
+ 1014 004b 2F       		.uleb128 0xb
+ 1015 004c 0B       		.byte	0x0
+ 1016 004d 00       		.byte	0x0
+ 1017 004e 00       		.uleb128 0x8
+ 1018 004f 08       		.uleb128 0x24
+ 1019 0050 24       		.byte	0x0
+ 1020 0051 00       		.uleb128 0xb
+ 1021 0052 0B       		.uleb128 0xb
+ 1022 0053 0B       		.uleb128 0x3e
+ 1023 0054 3E       		.uleb128 0xb
+ 1024 0055 0B       		.byte	0x0
+ 1025 0056 00       		.byte	0x0
+ 1026 0057 00       		.uleb128 0x9
+ 1027 0058 09       		.uleb128 0x13
+ 1028 0059 13       		.byte	0x1
+ 1029 005a 01       		.uleb128 0x3
+ 1030 005b 03       		.uleb128 0xe
+ 1031 005c 0E       		.uleb128 0xb
+ 1032 005d 0B       		.uleb128 0x5
+ 1033 005e 05       		.uleb128 0x3a
+ 1034 005f 3A       		.uleb128 0xb
+ 1035 0060 0B       		.uleb128 0x3b
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 23
+
+
+ 1036 0061 3B       		.uleb128 0xb
+ 1037 0062 0B       		.uleb128 0x1
+ 1038 0063 01       		.uleb128 0x13
+ 1039 0064 13       		.byte	0x0
+ 1040 0065 00       		.byte	0x0
+ 1041 0066 00       		.uleb128 0xa
+ 1042 0067 0A       		.uleb128 0xd
+ 1043 0068 0D       		.byte	0x0
+ 1044 0069 00       		.uleb128 0x3
+ 1045 006a 03       		.uleb128 0xe
+ 1046 006b 0E       		.uleb128 0x3a
+ 1047 006c 3A       		.uleb128 0xb
+ 1048 006d 0B       		.uleb128 0x3b
+ 1049 006e 3B       		.uleb128 0xb
+ 1050 006f 0B       		.uleb128 0x49
+ 1051 0070 49       		.uleb128 0x13
+ 1052 0071 13       		.uleb128 0x38
+ 1053 0072 38       		.uleb128 0xa
+ 1054 0073 0A       		.byte	0x0
+ 1055 0074 00       		.byte	0x0
+ 1056 0075 00       		.uleb128 0xb
+ 1057 0076 0B       		.uleb128 0x13
+ 1058 0077 13       		.byte	0x1
+ 1059 0078 01       		.uleb128 0x3
+ 1060 0079 03       		.uleb128 0xe
+ 1061 007a 0E       		.uleb128 0xb
+ 1062 007b 0B       		.uleb128 0xb
+ 1063 007c 0B       		.uleb128 0x3a
+ 1064 007d 3A       		.uleb128 0xb
+ 1065 007e 0B       		.uleb128 0x3b
+ 1066 007f 3B       		.uleb128 0x5
+ 1067 0080 05       		.uleb128 0x1
+ 1068 0081 01       		.uleb128 0x13
+ 1069 0082 13       		.byte	0x0
+ 1070 0083 00       		.byte	0x0
+ 1071 0084 00       		.uleb128 0xc
+ 1072 0085 0C       		.uleb128 0xd
+ 1073 0086 0D       		.byte	0x0
+ 1074 0087 00       		.uleb128 0x3
+ 1075 0088 03       		.uleb128 0xe
+ 1076 0089 0E       		.uleb128 0x3a
+ 1077 008a 3A       		.uleb128 0xb
+ 1078 008b 0B       		.uleb128 0x3b
+ 1079 008c 3B       		.uleb128 0x5
+ 1080 008d 05       		.uleb128 0x49
+ 1081 008e 49       		.uleb128 0x13
+ 1082 008f 13       		.uleb128 0x38
+ 1083 0090 38       		.uleb128 0xa
+ 1084 0091 0A       		.byte	0x0
+ 1085 0092 00       		.byte	0x0
+ 1086 0093 00       		.uleb128 0xd
+ 1087 0094 0D       		.uleb128 0x2e
+ 1088 0095 2E       		.byte	0x1
+ 1089 0096 01       		.uleb128 0x3f
+ 1090 0097 3F       		.uleb128 0xc
+ 1091 0098 0C       		.uleb128 0x3
+ 1092 0099 03       		.uleb128 0xe
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 24
+
+
+ 1093 009a 0E       		.uleb128 0x3a
+ 1094 009b 3A       		.uleb128 0xb
+ 1095 009c 0B       		.uleb128 0x3b
+ 1096 009d 3B       		.uleb128 0xb
+ 1097 009e 0B       		.uleb128 0x27
+ 1098 009f 27       		.uleb128 0xc
+ 1099 00a0 0C       		.uleb128 0x11
+ 1100 00a1 11       		.uleb128 0x1
+ 1101 00a2 01       		.uleb128 0x12
+ 1102 00a3 12       		.uleb128 0x1
+ 1103 00a4 01       		.uleb128 0x40
+ 1104 00a5 40       		.uleb128 0x6
+ 1105 00a6 06       		.uleb128 0x1
+ 1106 00a7 01       		.uleb128 0x13
+ 1107 00a8 13       		.byte	0x0
+ 1108 00a9 00       		.byte	0x0
+ 1109 00aa 00       		.uleb128 0xe
+ 1110 00ab 0E       		.uleb128 0x5
+ 1111 00ac 05       		.byte	0x0
+ 1112 00ad 00       		.uleb128 0x3
+ 1113 00ae 03       		.uleb128 0xe
+ 1114 00af 0E       		.uleb128 0x3a
+ 1115 00b0 3A       		.uleb128 0xb
+ 1116 00b1 0B       		.uleb128 0x3b
+ 1117 00b2 3B       		.uleb128 0xb
+ 1118 00b3 0B       		.uleb128 0x49
+ 1119 00b4 49       		.uleb128 0x13
+ 1120 00b5 13       		.uleb128 0x2
+ 1121 00b6 02       		.uleb128 0xa
+ 1122 00b7 0A       		.byte	0x0
+ 1123 00b8 00       		.byte	0x0
+ 1124 00b9 00       		.uleb128 0xf
+ 1125 00ba 0F       		.uleb128 0xf
+ 1126 00bb 0F       		.byte	0x0
+ 1127 00bc 00       		.uleb128 0xb
+ 1128 00bd 0B       		.uleb128 0xb
+ 1129 00be 0B       		.byte	0x0
+ 1130 00bf 00       		.byte	0x0
+ 1131 00c0 00       		.uleb128 0x10
+ 1132 00c1 10       		.uleb128 0x34
+ 1133 00c2 34       		.byte	0x0
+ 1134 00c3 00       		.uleb128 0x3
+ 1135 00c4 03       		.uleb128 0xe
+ 1136 00c5 0E       		.uleb128 0x3a
+ 1137 00c6 3A       		.uleb128 0xb
+ 1138 00c7 0B       		.uleb128 0x3b
+ 1139 00c8 3B       		.uleb128 0xb
+ 1140 00c9 0B       		.uleb128 0x49
+ 1141 00ca 49       		.uleb128 0x13
+ 1142 00cb 13       		.uleb128 0x3f
+ 1143 00cc 3F       		.uleb128 0xc
+ 1144 00cd 0C       		.uleb128 0x3c
+ 1145 00ce 3C       		.uleb128 0xc
+ 1146 00cf 0C       		.byte	0x0
+ 1147 00d0 00       		.byte	0x0
+ 1148 00d1 00       		.byte	0x0
+ 1149 00d2 00       		.section	.debug_pubnames,"",%progbits
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 25
+
+
+ 1150              		.4byte	0x21
+ 1151 0000 21000000 		.2byte	0x2
+ 1152 0004 0200     		.4byte	.Ldebug_info0
+ 1153 0006 00000000 		.4byte	0x4bb
+ 1154 000a BB040000 		.4byte	0x475
+ 1155 000e 75040000 		.ascii	"low_level_init\000"
+ 1156 0012 6C6F775F 		.4byte	0x0
+ 1156      6C657665 
+ 1156      6C5F696E 
+ 1156      697400
+ 1157 0021 00000000 		.section	.debug_aranges,"",%progbits
+ 1158              		.4byte	0x1c
+ 1159 0000 1C000000 		.2byte	0x2
+ 1160 0004 0200     		.4byte	.Ldebug_info0
+ 1161 0006 00000000 		.byte	0x4
+ 1162 000a 04       		.byte	0x0
+ 1163 000b 00       		.2byte	0x0
+ 1164 000c 0000     		.2byte	0x0
+ 1165 000e 0000     		.4byte	.Ltext0
+ 1166 0010 00000000 		.4byte	.Letext0-.Ltext0
+ 1167 0014 C8020000 		.4byte	0x0
+ 1168 0018 00000000 		.4byte	0x0
+ 1169 001c 00000000 		.section	.debug_str,"MS",%progbits,1
+ 1170              	.LASF28:
+ 1171              		.ascii	"AIC_FFSR\000"
+ 1172 0000 4149435F 	.LASF21:
+ 1172      46465352 
+ 1172      00
+ 1173              		.ascii	"AIC_ISCR\000"
+ 1174 0009 4149435F 	.LASF38:
+ 1174      49534352 
+ 1174      00
+ 1175              		.ascii	"PMC_MCFR\000"
+ 1176 0012 504D435F 	.LASF66:
+ 1176      4D434652 
+ 1176      00
+ 1177              		.ascii	"GNU C 4.3.3\000"
+ 1178 001b 474E5520 	.LASF46:
+ 1178      4320342E 
+ 1178      332E3300 
+ 1179              		.ascii	"PMC_IDR\000"
+ 1180 0027 504D435F 	.LASF33:
+ 1180      49445200 
+ 1181              		.ascii	"PMC_SCSR\000"
+ 1182 002f 504D435F 	.LASF12:
+ 1182      53435352 
+ 1182      00
+ 1183              		.ascii	"AIC_FVR\000"
+ 1184 0038 4149435F 	.LASF2:
+ 1184      46565200 
+ 1185              		.ascii	"short int\000"
+ 1186 0040 73686F72 	.LASF43:
+ 1186      7420696E 
+ 1186      7400
+ 1187              		.ascii	"PMC_PCKR\000"
+ 1188 004a 504D435F 	.LASF14:
+ 1188      50434B52 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 26
+
+
+ 1188      00
+ 1189              		.ascii	"AIC_IPR\000"
+ 1190 0053 4149435F 	.LASF6:
+ 1190      49505200 
+ 1191              		.ascii	"long long int\000"
+ 1192 005b 6C6F6E67 	.LASF9:
+ 1192      206C6F6E 
+ 1192      6720696E 
+ 1192      7400
+ 1193              		.ascii	"AIC_SMR\000"
+ 1194 0069 4149435F 	.LASF56:
+ 1194      534D5200 
+ 1195              		.ascii	"WDTC_WDSR\000"
+ 1196 0071 57445443 	.LASF65:
+ 1196      5F574453 
+ 1196      5200
+ 1197              		.ascii	"return_addr\000"
+ 1198 007b 72657475 	.LASF64:
+ 1198      726E5F61 
+ 1198      64647200 
+ 1199              		.ascii	"reset_addr\000"
+ 1200 0087 72657365 	.LASF17:
+ 1200      745F6164 
+ 1200      647200
+ 1201              		.ascii	"Reserved0\000"
+ 1202 0092 52657365 	.LASF25:
+ 1202      72766564 
+ 1202      3000
+ 1203              		.ascii	"Reserved1\000"
+ 1204 009c 52657365 	.LASF39:
+ 1204      72766564 
+ 1204      3100
+ 1205              		.ascii	"Reserved2\000"
+ 1206 00a6 52657365 	.LASF69:
+ 1206      72766564 
+ 1206      3200
+ 1207              		.ascii	"uint8_t\000"
+ 1208 00b0 75696E74 	.LASF44:
+ 1208      385F7400 
+ 1209              		.ascii	"Reserved4\000"
+ 1210 00b8 52657365 	.LASF35:
+ 1210      72766564 
+ 1210      3400
+ 1211              		.ascii	"PMC_PCDR\000"
+ 1212 00c2 504D435F 	.LASF36:
+ 1212      50434452 
+ 1212      00
+ 1213              		.ascii	"PMC_PCSR\000"
+ 1214 00cb 504D435F 	.LASF70:
+ 1214      50435352 
+ 1214      00
+ 1215              		.ascii	"low_level_init\000"
+ 1216 00d4 6C6F775F 	.LASF63:
+ 1216      6C657665 
+ 1216      6C5F696E 
+ 1216      697400
+ 1217              		.ascii	"MC_FSR\000"
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 27
+
+
+ 1218 00e3 4D435F46 	.LASF0:
+ 1218      535200
+ 1219              		.ascii	"signed char\000"
+ 1220 00ea 7369676E 	.LASF45:
+ 1220      65642063 
+ 1220      68617200 
+ 1221              		.ascii	"PMC_IER\000"
+ 1222 00f6 504D435F 	.LASF52:
+ 1222      49455200 
+ 1223              		.ascii	"RSTC_RMR\000"
+ 1224 00fe 52535443 	.LASF15:
+ 1224      5F524D52 
+ 1224      00
+ 1225              		.ascii	"AIC_IMR\000"
+ 1226 0107 4149435F 	.LASF41:
+ 1226      494D5200 
+ 1227              		.ascii	"PMC_MCKR\000"
+ 1228 010f 504D435F 	.LASF40:
+ 1228      4D434B52 
+ 1228      00
+ 1229              		.ascii	"PMC_PLLR\000"
+ 1230 0118 504D435F 	.LASF4:
+ 1230      504C4C52 
+ 1230      00
+ 1231              		.ascii	"long int\000"
+ 1232 0121 6C6F6E67 	.LASF62:
+ 1232      20696E74 
+ 1232      00
+ 1233              		.ascii	"MC_FCR\000"
+ 1234 012a 4D435F46 	.LASF26:
+ 1234      435200
+ 1235              		.ascii	"AIC_FFER\000"
+ 1236 0131 4149435F 	.LASF48:
+ 1236      46464552 
+ 1236      00
+ 1237              		.ascii	"PMC_IMR\000"
+ 1238 013a 504D435F 	.LASF1:
+ 1238      494D5200 
+ 1239              		.ascii	"unsigned char\000"
+ 1240 0142 756E7369 	.LASF37:
+ 1240      676E6564 
+ 1240      20636861 
+ 1240      7200
+ 1241              		.ascii	"PMC_MOR\000"
+ 1242 0150 504D435F 	.LASF31:
+ 1242      4D4F5200 
+ 1243              		.ascii	"PMC_SCER\000"
+ 1244 0158 504D435F 	.LASF68:
+ 1244      53434552 
+ 1244      00
+ 1245              		.ascii	"E:\\Projekty\\ARM\\Eclipse\\AT91SAM7Sxxx_RTOS\000"
+ 1246 0161 453A5C50 	.LASF34:
+ 1246      726F6A65 
+ 1246      6B74795C 
+ 1246      41524D5C 
+ 1246      45636C69 
+ 1247              		.ascii	"PMC_PCER\000"
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 28
+
+
+ 1248 018b 504D435F 	.LASF7:
+ 1248      50434552 
+ 1248      00
+ 1249              		.ascii	"long long unsigned int\000"
+ 1250 0194 6C6F6E67 	.LASF8:
+ 1250      206C6F6E 
+ 1250      6720756E 
+ 1250      7369676E 
+ 1250      65642069 
+ 1251              		.ascii	"unsigned int\000"
+ 1252 01ab 756E7369 	.LASF57:
+ 1252      676E6564 
+ 1252      20696E74 
+ 1252      00
+ 1253              		.ascii	"_AT91S_MC\000"
+ 1254 01b8 5F415439 	.LASF10:
+ 1254      31535F4D 
+ 1254      4300
+ 1255              		.ascii	"AIC_SVR\000"
+ 1256 01c2 4149435F 	.LASF55:
+ 1256      53565200 
+ 1257              		.ascii	"WDTC_WDMR\000"
+ 1258 01ca 57445443 	.LASF71:
+ 1258      5F57444D 
+ 1258      5200
+ 1259              		.ascii	"__ram_start\000"
+ 1260 01d4 5F5F7261 	.LASF3:
+ 1260      6D5F7374 
+ 1260      61727400 
+ 1261              		.ascii	"short unsigned int\000"
+ 1262 01e0 73686F72 	.LASF18:
+ 1262      7420756E 
+ 1262      7369676E 
+ 1262      65642069 
+ 1262      6E7400
+ 1263              		.ascii	"AIC_IECR\000"
+ 1264 01f3 4149435F 	.LASF58:
+ 1264      49454352 
+ 1264      00
+ 1265              		.ascii	"MC_RCR\000"
+ 1266 01fc 4D435F52 	.LASF47:
+ 1266      435200
+ 1267              		.ascii	"PMC_SR\000"
+ 1268 0203 504D435F 	.LASF29:
+ 1268      535200
+ 1269              		.ascii	"_AT91S_AIC\000"
+ 1270 020a 5F415439 	.LASF50:
+ 1270      31535F41 
+ 1270      494300
+ 1271              		.ascii	"RSTC_RCR\000"
+ 1272 0215 52535443 	.LASF22:
+ 1272      5F524352 
+ 1272      00
+ 1273              		.ascii	"AIC_EOICR\000"
+ 1274 021e 4149435F 	.LASF61:
+ 1274      454F4943 
+ 1274      5200
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 29
+
+
+ 1275              		.ascii	"MC_FMR\000"
+ 1276 0228 4D435F46 	.LASF11:
+ 1276      4D5200
+ 1277              		.ascii	"AIC_IVR\000"
+ 1278 022f 4149435F 	.LASF19:
+ 1278      49565200 
+ 1279              		.ascii	"AIC_IDCR\000"
+ 1280 0237 4149435F 	.LASF5:
+ 1280      49444352 
+ 1280      00
+ 1281              		.ascii	"long unsigned int\000"
+ 1282 0240 6C6F6E67 	.LASF42:
+ 1282      20756E73 
+ 1282      69676E65 
+ 1282      6420696E 
+ 1282      7400
+ 1283              		.ascii	"Reserved3\000"
+ 1284 0252 52657365 	.LASF27:
+ 1284      72766564 
+ 1284      3300
+ 1285              		.ascii	"AIC_FFDR\000"
+ 1286 025c 4149435F 	.LASF67:
+ 1286      46464452 
+ 1286      00
+ 1287              		.ascii	"SRC/low_level_init.c\000"
+ 1288 0265 5352432F 	.LASF20:
+ 1288      6C6F775F 
+ 1288      6C657665 
+ 1288      6C5F696E 
+ 1288      69742E63 
+ 1289              		.ascii	"AIC_ICCR\000"
+ 1290 027a 4149435F 	.LASF49:
+ 1290      49434352 
+ 1290      00
+ 1291              		.ascii	"_AT91S_RSTC\000"
+ 1292 0283 5F415439 	.LASF59:
+ 1292      31535F52 
+ 1292      53544300 
+ 1293              		.ascii	"MC_ASR\000"
+ 1294 028f 4D435F41 	.LASF16:
+ 1294      535200
+ 1295              		.ascii	"AIC_CISR\000"
+ 1296 0296 4149435F 	.LASF53:
+ 1296      43495352 
+ 1296      00
+ 1297              		.ascii	"_AT91S_WDTC\000"
+ 1298 029f 5F415439 	.LASF51:
+ 1298      31535F57 
+ 1298      44544300 
+ 1299              		.ascii	"RSTC_RSR\000"
+ 1300 02ab 52535443 	.LASF54:
+ 1300      5F525352 
+ 1300      00
+ 1301              		.ascii	"WDTC_WDCR\000"
+ 1302 02b4 57445443 	.LASF13:
+ 1302      5F574443 
+ 1302      5200
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 30
+
+
+ 1303              		.ascii	"AIC_ISR\000"
+ 1304 02be 4149435F 	.LASF60:
+ 1304      49535200 
+ 1305              		.ascii	"MC_AASR\000"
+ 1306 02c6 4D435F41 	.LASF32:
+ 1306      41535200 
+ 1307              		.ascii	"PMC_SCDR\000"
+ 1308 02ce 504D435F 	.LASF30:
+ 1308      53434452 
+ 1308      00
+ 1309              		.ascii	"_AT91S_PMC\000"
+ 1310 02d7 5F415439 	.LASF23:
+ 1310      31535F50 
+ 1310      4D4300
+ 1311              		.ascii	"AIC_SPU\000"
+ 1312 02e2 4149435F 	.LASF24:
+ 1312      53505500 
+ 1313              		.ascii	"AIC_DCR\000"
+ 1314 02ea 4149435F 		.ident	"GCC: (GNU) 4.3.3"
+ 1314      44435200 
+ 1315              	...
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s 			page 31
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 low_level_init.c
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s:38     .text:00000000 low_level_init
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s:46     .text:00000000 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccsrWxcg.s:261    .text:000002ac $d
+
+UNDEFINED SYMBOLS
+__ram_start
+UndefHandler
+SWIHandler
+PAbortHandler
+DAbortHandler
+IRQHandler
+FIQHandler

@@ -1,0 +1,323 @@
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccMJTx41.s 			page 1
+
+
+   1              	# 1 "SRC/startup.s"
+   1              	/****************************************************************************
+   0              	
+   0              	
+   0              	
+   2              	*  Copyright (c) 2009 by Michael Fischer. All rights reserved.
+   3              	*
+   4              	*  Redistribution and use in source and binary forms, with or without
+   5              	*  modification, are permitted provided that the following conditions
+   6              	*  are met:
+   7              	*
+   8              	*  1. Redistributions of source code must retain the above copyright
+   9              	*     notice, this list of conditions and the following disclaimer.
+  10              	*  2. Redistributions in binary form must reproduce the above copyright
+  11              	*     notice, this list of conditions and the following disclaimer in the
+  12              	*     documentation and/or other materials provided with the distribution.
+  13              	*  3. Neither the name of the author nor the names of its contributors may
+  14              	*     be used to endorse or promote products derived from this software
+  15              	*     without specific prior written permission.
+  16              	*
+  17              	*  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  18              	*  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  19              	*  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+  20              	*  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+  21              	*  THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  22              	*  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+  23              	*  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+  24              	*  OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+  25              	*  AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  26              	*  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+  27              	*  THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  28              	*  SUCH DAMAGE.
+  29              	*
+  30              	****************************************************************************
+  31              	*
+  32              	*  History:
+  33              	*
+  34              	*  25.09.09  mifi   First Version, based on the example from Quantum Leaps
+  35              	*                   with some small modifications. The original can be find
+  36              	*                   here: http://www.embedded.com/design/200900043
+  37              	****************************************************************************/
+  38              	
+  39              	/*****************************************************************************
+  40              	* Product: Generic startup code for ARM with GNU toolset
+  41              	* Date of the Last Update:  Jun 12, 2007
+  42              	*
+  43              	*                    Q u a n t u m     L e a P s
+  44              	*                    ---------------------------
+  45              	*                    innovating embedded systems
+  46              	*
+  47              	* Copyright (C) 2007 Quantum Leaps, LLC. All rights reserved.
+  48              	*
+  49              	* Contact information:
+  50              	* Quantum Leaps Web site:  http://www.quantum-leaps.com
+  51              	* e-mail:                  info@quantum-leaps.com
+  52              	*****************************************************************************/
+  53              	
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccMJTx41.s 			page 2
+
+
+  54              	/* Standard definitions of Mode bits and Interrupt (I & F) flags in PSRs */
+  55              	
+  56              	    .equ    I_BIT,          0x80      /* when I bit is set, IRQ is disabled */
+  57              	    .equ    F_BIT,          0x40      /* when F bit is set, FIQ is disabled */
+  58              	
+  59              	    .equ    USR_MODE,       0x10
+  60              	    .equ    FIQ_MODE,       0x11
+  61              	    .equ    IRQ_MODE,       0x12
+  62              	    .equ    SVC_MODE,       0x13
+  63              	    .equ    ABT_MODE,       0x17
+  64              	    .equ    UND_MODE,       0x1B
+  65              	    .equ    SYS_MODE,       0x1F
+  66              	
+  67              	/* constant to pre-fill the stack */
+  68              	    .equ    STACK_FILL,     0xAAAAAAAA
+  69              	
+  70              	/*****************************************************************************
+  71              	* The starupt code must be linked at the start of ROM, which is NOT
+  72              	* necessarily address zero.
+  73              	*/
+  74              	    .text
+  75              	    .code 32
+  76              	
+  77              	    .global _start
+  78              	    .func   _start
+  79              	
+  80              	_start:
+  81              	
+  82              	    /* Vector table
+  83              	    * NOTE: used only very briefly until RAM is remapped to address zero
+  84              	    */
+  85 0000 18F09FE5 	    LDR     pc, ResetAddr    /* Reset                 */
+  86 0004 18F09FE5 	    LDR     pc, UndefAddr    /* Undefined instruction */
+  87 0008 18F09FE5 	    LDR     pc, SWIAddr      /* Software interrupt    */
+  88 000c 18F09FE5 	    LDR     pc, PAbortAddr   /* Prefetch abort        */
+  89 0010 18F09FE5 	    LDR     pc, DAbortAddr   /* Data abort            */
+  90 0014 18F09FE5 	    LDR     pc, ReservedAddr /* Reserved              */
+  91              	//  LDR     pc, IRQAddr      /* IRQ interrupt         */
+  92 0018 F0FF1FE5 	    LDR		pc, [pc, #-0x0FF0] /* AIC reg address     */
+  93 001c 18F09FE5 	    LDR     pc, FIQAddr      /* FIQ interrupt         */
+  94              	
+  95 0020 40000000 	ResetAddr:     .word _reset
+  96 0024 00000000 	UndefAddr:     .word UndefHandler
+  97 0028 00000000 	SWIAddr:       .word vPortYieldProcessor
+  98 002c 00000000 	PAbortAddr:    .word PAbortHandler
+  99 0030 00000000 	DAbortAddr:    .word DAbortHandler
+ 100 0034 00000000 	ReservedAddr:  .word 0
+ 101 0038 00000000 	IRQAddr:       .word IRQHandler
+ 102 003c 00000000 	FIQAddr:       .word FIQHandler
+ 103              	
+ 104              	    .align 4             /* Align to the word boundary */
+ 105              	
+ 106              	
+ 107              	/*****************************************************************************
+ 108              	* _reset
+ 109              	*/
+ 110              	_reset:
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccMJTx41.s 			page 3
+
+
+ 111              	
+ 112              	    /* Call the platform-specific low-level initialization routine
+ 113              	    *
+ 114              	    * NOTE: The ROM is typically NOT at its linked address before the remap,
+ 115              	    * so the branch to low_level_init() must be relative (position
+ 116              	    * independent code). The low_level_init() function must continue to
+ 117              	    * execute in ARM state. Also, the function low_level_init() cannot rely
+ 118              	    * on uninitialized data being cleared and cannot use any initialized
+ 119              	    * data, because the .bss and .data sections have not been initialized yet.
+ 120              	    */
+ 121 0040 D8009FE5 	    LDR     r0,=_reset           /* pass the reset address as the 1st argument */
+ 122 0044 D8109FE5 	    LDR     r1,=_cstartup        /* pass the return address as the 2nd argument */
+ 123 0048 01E0A0E1 	    MOV     lr,r1                /* set the return address after the remap */
+ 124 004c D4D09FE5 	    LDR     sp,=__stack_end__    /* set the temporary stack pointer */
+ 125 0050 FEFFFFEA 	    B       low_level_init       /* relative branch enables remap */
+ 126              	
+ 127              	
+ 128              	    /* NOTE: after the return from low_level_init() the ROM is remapped
+ 129              	    * to its linked address so the rest of the code executes at its linked
+ 130              	    * address.
+ 131              	    */
+ 132              	
+ 133              	_cstartup:
+ 134              	    /* Relocate .fastcode section (copy from ROM to RAM) */
+ 135 0054 D0009FE5 	    LDR     r0,=__fastcode_load
+ 136 0058 D0109FE5 	    LDR     r1,=__fastcode_start
+ 137 005c D0209FE5 	    LDR     r2,=__fastcode_end
+ 138              	1:
+ 139 0060 020051E1 	    CMP     r1,r2
+ 140 0064 0800B0B8 	    LDMLTIA r0!,{r3}
+ 141 0068 0800A1B8 	    STMLTIA r1!,{r3}
+ 142 006c FBFFFFBA 	    BLT     1b
+ 143              	
+ 144              	
+ 145              	    /* Relocate the .data section (copy from ROM to RAM) */
+ 146 0070 C0009FE5 	    LDR     r0,=__data_load
+ 147 0074 C0109FE5 	    LDR     r1,=__data_start
+ 148 0078 C0209FE5 	    LDR     r2,=_edata
+ 149              	1:
+ 150 007c 020051E1 	    CMP     r1,r2
+ 151 0080 0800B0B8 	    LDMLTIA r0!,{r3}
+ 152 0084 0800A1B8 	    STMLTIA r1!,{r3}
+ 153 0088 FBFFFFBA 	    BLT     1b
+ 154              	
+ 155              	
+ 156              	    /* Clear the .bss section (zero init) */
+ 157 008c B0109FE5 	    LDR     r1,=__bss_start__
+ 158 0090 B0209FE5 	    LDR     r2,=__bss_end__
+ 159 0094 0030A0E3 	    MOV     r3,#0
+ 160              	1:
+ 161 0098 020051E1 	    CMP     r1,r2
+ 162 009c 0800A1B8 	    STMLTIA r1!,{r3}
+ 163 00a0 FCFFFFBA 	    BLT     1b
+ 164              	
+ 165              	
+ 166              	    /* Fill the .stack section */
+ 167 00a4 A0109FE5 	    LDR     r1,=__stack_start__
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccMJTx41.s 			page 4
+
+
+ 168 00a8 78209FE5 	    LDR     r2,=__stack_end__
+ 169 00ac 9C309FE5 	    LDR     r3,=STACK_FILL
+ 170              	1:
+ 171 00b0 020052E1 	    CMP     r2,r2
+ 172 00b4 0800A1B8 	    STMLTIA r1!,{r3}
+ 173 00b8 FCFFFFBA 	    BLT     1b
+ 174              	
+ 175              	    /* Initialize stack pointers for all ARM modes */
+ 176 00bc D2F021E3 	    MSR     CPSR_c,#(IRQ_MODE | I_BIT | F_BIT)
+ 177 00c0 8CD09FE5 	    LDR     sp,=__irq_stack_top__                /* set the IRQ stack pointer */
+ 178              	
+ 179 00c4 D1F021E3 	    MSR     CPSR_c,#(FIQ_MODE | I_BIT | F_BIT)
+ 180 00c8 88D09FE5 	    LDR     sp,=__fiq_stack_top__                /* set the FIQ stack pointer */
+ 181              	
+ 182 00cc D3F021E3 	    MSR     CPSR_c,#(SVC_MODE | I_BIT | F_BIT)
+ 183 00d0 84D09FE5 	    LDR     sp,=__svc_stack_top__                /* set the SVC stack pointer */
+ 184              	
+ 185 00d4 D7F021E3 	    MSR     CPSR_c,#(ABT_MODE | I_BIT | F_BIT)
+ 186 00d8 80D09FE5 	    LDR     sp,=__abt_stack_top__                /* set the ABT stack pointer */
+ 187              	
+ 188 00dc DBF021E3 	    MSR     CPSR_c,#(UND_MODE | I_BIT | F_BIT)
+ 189 00e0 7CD09FE5 	    LDR     sp,=__und_stack_top__                /* set the UND stack pointer */
+ 190              	
+ 191 00e4 DFF021E3 	    MSR     CPSR_c,#(SYS_MODE | I_BIT | F_BIT)
+ 192 00e8 78D09FE5 	    LDR     sp,=__c_stack_top__                  /* set the C stack pointer */
+ 193              	
+ 194              	
+ 195              	#if 0
+ 196              	    /* Invoke the static constructors */
+ 197              	    LDR     r12,=__libc_init_array
+ 198              	    MOV     lr,pc           /* set the return address */
+ 199              	    BX      r12             /* the target code can be ARM or THUMB */
+ 200              	#endif
+ 201              	
+ 202              	
+ 203              	    /* Enter the C/C++ code */
+ 204 00ec 78C09FE5 	    LDR     r12,=main
+ 205 00f0 0FE0A0E1 	    MOV     lr,pc           /* set the return address */
+ 206 00f4 1CFF2FE1 	    BX      r12             /* the target code can be ARM or THUMB */
+ 207              	
+ 208              	ExitFunction:
+ 209 00f8 0000A0E1 	    NOP
+ 210 00fc 0000A0E1 	    NOP
+ 211 0100 0000A0E1 	    NOP
+ 212 0104 FEFFFFEA 	    b       ExitFunction
+ 213              	
+ 214              	    .size   _start, . - _start
+ 215              	    .endfunc
+ 216              	
+ 217              	/****************************************************************************/
+ 218              	/*                         Default interrupt handler                        */
+ 219              	/****************************************************************************/
+ 220              	
+ 221              	UndefHandler:
+ 222 0108 FEFFFFEA 	   b UndefHandler
+ 223              	
+ 224              	SWIHandler:
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccMJTx41.s 			page 5
+
+
+ 225 010c FEFFFFEA 	   b SWIHandler
+ 226              	
+ 227              	PAbortHandler:
+ 228 0110 FEFFFFEA 	   b PAbortHandler
+ 229              	
+ 230              	DAbortHandler:
+ 231 0114 FEFFFFEA 	   b DAbortHandler
+ 232              	
+ 233              	IRQHandler:
+ 234 0118 FEFFFFEA 	   b IRQHandler
+ 235              	
+ 236              	FIQHandler:
+ 237 011c FEFFFFEA 	   b FIQHandler
+ 238              	
+ 239              	   .weak ExitFunction
+ 240              	   .weak UndefHandler, SWIHandler, PAbortHandler, DAbortHandler
+ 241              	   .weak IRQHandler, FIQHandler
+ 242              	
+ 243 0120 40000000 	   .end
+ 243      54000000 
+ 243      00000000 
+ 243      00000000 
+ 243      00000000 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccMJTx41.s 			page 6
+
+
+DEFINED SYMBOLS
+       SRC/startup.s:56     *ABS*:00000080 I_BIT
+       SRC/startup.s:57     *ABS*:00000040 F_BIT
+       SRC/startup.s:59     *ABS*:00000010 USR_MODE
+       SRC/startup.s:60     *ABS*:00000011 FIQ_MODE
+       SRC/startup.s:61     *ABS*:00000012 IRQ_MODE
+       SRC/startup.s:62     *ABS*:00000013 SVC_MODE
+       SRC/startup.s:63     *ABS*:00000017 ABT_MODE
+       SRC/startup.s:64     *ABS*:0000001b UND_MODE
+       SRC/startup.s:65     *ABS*:0000001f SYS_MODE
+       SRC/startup.s:68     *ABS*:aaaaaaaa STACK_FILL
+       SRC/startup.s:75     .text:00000000 $a
+       SRC/startup.s:80     .text:00000000 _start
+       SRC/startup.s:95     .text:00000020 ResetAddr
+       SRC/startup.s:96     .text:00000024 UndefAddr
+       SRC/startup.s:97     .text:00000028 SWIAddr
+       SRC/startup.s:98     .text:0000002c PAbortAddr
+       SRC/startup.s:99     .text:00000030 DAbortAddr
+       SRC/startup.s:100    .text:00000034 ReservedAddr
+       SRC/startup.s:102    .text:0000003c FIQAddr
+       SRC/startup.s:95     .text:00000020 $d
+       SRC/startup.s:110    .text:00000040 _reset
+       SRC/startup.s:221    .text:00000108 UndefHandler
+       SRC/startup.s:227    .text:00000110 PAbortHandler
+       SRC/startup.s:230    .text:00000114 DAbortHandler
+       SRC/startup.s:101    .text:00000038 IRQAddr
+       SRC/startup.s:233    .text:00000118 IRQHandler
+       SRC/startup.s:236    .text:0000011c FIQHandler
+       SRC/startup.s:121    .text:00000040 $a
+       SRC/startup.s:133    .text:00000054 _cstartup
+       SRC/startup.s:208    .text:000000f8 ExitFunction
+       SRC/startup.s:224    .text:0000010c SWIHandler
+       SRC/startup.s:243    .text:00000120 $d
+
+UNDEFINED SYMBOLS
+vPortYieldProcessor
+__stack_end__
+low_level_init
+__fastcode_load
+__fastcode_start
+__fastcode_end
+__data_load
+__data_start
+_edata
+__bss_start__
+__bss_end__
+__stack_start__
+__irq_stack_top__
+__fiq_stack_top__
+__svc_stack_top__
+__abt_stack_top__
+__und_stack_top__
+__c_stack_top__
+main

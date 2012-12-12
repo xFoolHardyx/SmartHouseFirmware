@@ -1,0 +1,1690 @@
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 1
+
+
+   1              		.file	"portISR.c"
+   2              	@ GNU C (GCC) version 4.3.3 (arm-elf)
+   3              	@	compiled by GNU C version 3.4.5 (mingw special), GMP version 4.2.2, MPFR version 2.3.1.
+   4              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+   5              	@ options passed:  -I . -IINC/ -IINC/RTOS/ -imultilib interwork -iprefix
+   6              	@ d:\programy\mikrokontrolery\arm\yagarto\bin\../lib/gcc/arm-elf/4.3.3/ -MD
+   7              	@ SRC/RTOS/portISR.d -MF .dep/portISR.o.d -MP -MQ SRC/RTOS/portISR.o
+   8              	@ -D__USES_INITFINI__ SRC/RTOS/portISR.c -mcpu=arm7tdmi -mthumb-interwork
+   9              	@ -auxbase-strip SRC/RTOS/portISR.o -gdwarf-2 -O0 -Wall -Wstrict-prototypes
+  10              	@ -fomit-frame-pointer -fverbose-asm
+  11              	@ options enabled:  -falign-loops -fargument-alias -fauto-inc-dec
+  12              	@ -fbranch-count-reg -fcommon -fearly-inlining
+  13              	@ -feliminate-unused-debug-types -ffunction-cse -fgcse-lm -fident -fivopts
+  14              	@ -fkeep-static-consts -fleading-underscore -fmath-errno
+  15              	@ -fmerge-debug-strings -fmove-loop-invariants -fomit-frame-pointer
+  16              	@ -fpeephole -freg-struct-return -fsched-interblock -fsched-spec
+  17              	@ -fsched-stalled-insns-dep -fsigned-zeros -fsplit-ivs-in-unroller
+  18              	@ -ftoplevel-reorder -ftrapping-math -ftree-cselim -ftree-loop-im
+  19              	@ -ftree-loop-ivcanon -ftree-loop-optimize -ftree-parallelize-loops=
+  20              	@ -ftree-reassoc -ftree-scev-cprop -ftree-vect-loop-version -fverbose-asm
+  21              	@ -fzero-initialized-in-bss -mlittle-endian -msched-prolog
+  22              	@ -mthumb-interwork
+  23              	
+  24              		.section	.debug_abbrev,"",%progbits
+  25              	.Ldebug_abbrev0:
+  26              		.section	.debug_info,"",%progbits
+  27              	.Ldebug_info0:
+  28              		.section	.debug_line,"",%progbits
+  29              	.Ldebug_line0:
+  30 0000 85000000 		.text
+  30      02003F00 
+  30      00000201 
+  30      FB0E0D00 
+  30      01010101 
+  31              	.Ltext0:
+  32              	@ Compiler executable checksum: aefe8b2555dadc8858779d7450a1d1fb
+  33              	
+  34              		.global	ulCriticalNesting
+  35              		.data
+  36              		.align	2
+  37              		.type	ulCriticalNesting, %object
+  38              		.size	ulCriticalNesting, 4
+  39              	ulCriticalNesting:
+  40 0000 0F270000 		.word	9999
+  41              		.text
+  42              		.align	2
+  43              		.global	vPortISRStartFirstTask
+  44              		.type	vPortISRStartFirstTask, %function
+  45              	vPortISRStartFirstTask:
+  46              	.LFB2:
+  47              		.file 1 "SRC/RTOS/portISR.c"
+   1:SRC/RTOS/portISR.c **** /*
+   2:SRC/RTOS/portISR.c ****     FreeRTOS V6.0.2 - Copyright (C) 2010 Real Time Engineers Ltd.
+   3:SRC/RTOS/portISR.c **** 
+   4:SRC/RTOS/portISR.c ****     ***************************************************************************
+   5:SRC/RTOS/portISR.c ****     *                                                                         *
+   6:SRC/RTOS/portISR.c ****     * If you are:                                                             *
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 2
+
+
+   7:SRC/RTOS/portISR.c ****     *                                                                         *
+   8:SRC/RTOS/portISR.c ****     *    + New to FreeRTOS,                                                   *
+   9:SRC/RTOS/portISR.c ****     *    + Wanting to learn FreeRTOS or multitasking in general quickly       *
+  10:SRC/RTOS/portISR.c ****     *    + Looking for basic training,                                        *
+  11:SRC/RTOS/portISR.c ****     *    + Wanting to improve your FreeRTOS skills and productivity           *
+  12:SRC/RTOS/portISR.c ****     *                                                                         *
+  13:SRC/RTOS/portISR.c ****     * then take a look at the FreeRTOS eBook                                  *
+  14:SRC/RTOS/portISR.c ****     *                                                                         *
+  15:SRC/RTOS/portISR.c ****     *        "Using the FreeRTOS Real Time Kernel - a Practical Guide"        *
+  16:SRC/RTOS/portISR.c ****     *                  http://www.FreeRTOS.org/Documentation                  *
+  17:SRC/RTOS/portISR.c ****     *                                                                         *
+  18:SRC/RTOS/portISR.c ****     * A pdf reference manual is also available.  Both are usually delivered   *
+  19:SRC/RTOS/portISR.c ****     * to your inbox within 20 minutes to two hours when purchased between 8am *
+  20:SRC/RTOS/portISR.c ****     * and 8pm GMT (although please allow up to 24 hours in case of            *
+  21:SRC/RTOS/portISR.c ****     * exceptional circumstances).  Thank you for your support!                *
+  22:SRC/RTOS/portISR.c ****     *                                                                         *
+  23:SRC/RTOS/portISR.c ****     ***************************************************************************
+  24:SRC/RTOS/portISR.c **** 
+  25:SRC/RTOS/portISR.c ****     This file is part of the FreeRTOS distribution.
+  26:SRC/RTOS/portISR.c **** 
+  27:SRC/RTOS/portISR.c ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  28:SRC/RTOS/portISR.c ****     the terms of the GNU General Public License (version 2) as published by the
+  29:SRC/RTOS/portISR.c ****     Free Software Foundation AND MODIFIED BY the FreeRTOS exception.
+  30:SRC/RTOS/portISR.c ****     ***NOTE*** The exception to the GPL is included to allow you to distribute
+  31:SRC/RTOS/portISR.c ****     a combined work that includes FreeRTOS without being obliged to provide the
+  32:SRC/RTOS/portISR.c ****     source code for proprietary components outside of the FreeRTOS kernel.
+  33:SRC/RTOS/portISR.c ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT
+  34:SRC/RTOS/portISR.c ****     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  35:SRC/RTOS/portISR.c ****     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+  36:SRC/RTOS/portISR.c ****     more details. You should have received a copy of the GNU General Public 
+  37:SRC/RTOS/portISR.c ****     License and the FreeRTOS license exception along with FreeRTOS; if not it 
+  38:SRC/RTOS/portISR.c ****     can be viewed here: http://www.freertos.org/a00114.html and also obtained 
+  39:SRC/RTOS/portISR.c ****     by writing to Richard Barry, contact details for whom are available on the
+  40:SRC/RTOS/portISR.c ****     FreeRTOS WEB site.
+  41:SRC/RTOS/portISR.c **** 
+  42:SRC/RTOS/portISR.c ****     1 tab == 4 spaces!
+  43:SRC/RTOS/portISR.c **** 
+  44:SRC/RTOS/portISR.c ****     http://www.FreeRTOS.org - Documentation, latest information, license and
+  45:SRC/RTOS/portISR.c ****     contact details.
+  46:SRC/RTOS/portISR.c **** 
+  47:SRC/RTOS/portISR.c ****     http://www.SafeRTOS.com - A version that is certified for use in safety
+  48:SRC/RTOS/portISR.c ****     critical systems.
+  49:SRC/RTOS/portISR.c **** 
+  50:SRC/RTOS/portISR.c ****     http://www.OpenRTOS.com - Commercial support, development, porting,
+  51:SRC/RTOS/portISR.c ****     licensing and training services.
+  52:SRC/RTOS/portISR.c **** */
+  53:SRC/RTOS/portISR.c **** 
+  54:SRC/RTOS/portISR.c **** 
+  55:SRC/RTOS/portISR.c **** /*-----------------------------------------------------------
+  56:SRC/RTOS/portISR.c ****  * Components that can be compiled to either ARM or THUMB mode are
+  57:SRC/RTOS/portISR.c ****  * contained in port.c  The ISR routines, which can only be compiled
+  58:SRC/RTOS/portISR.c ****  * to ARM mode, are contained in this file.
+  59:SRC/RTOS/portISR.c ****  *----------------------------------------------------------*/
+  60:SRC/RTOS/portISR.c **** 
+  61:SRC/RTOS/portISR.c **** /*
+  62:SRC/RTOS/portISR.c **** 	Changes from V3.2.4
+  63:SRC/RTOS/portISR.c **** 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 3
+
+
+  64:SRC/RTOS/portISR.c **** 	+ The assembler statements are now included in a single asm block rather
+  65:SRC/RTOS/portISR.c **** 	  than each line having its own asm block.
+  66:SRC/RTOS/portISR.c **** */
+  67:SRC/RTOS/portISR.c **** 
+  68:SRC/RTOS/portISR.c **** /* Scheduler includes. */
+  69:SRC/RTOS/portISR.c **** #include "FreeRTOS.h"
+  70:SRC/RTOS/portISR.c **** #include "task.h"
+  71:SRC/RTOS/portISR.c **** 
+  72:SRC/RTOS/portISR.c **** #include "AT91SAM7X256.h"
+  73:SRC/RTOS/portISR.c **** 
+  74:SRC/RTOS/portISR.c **** /* Constants required to handle interrupts. */
+  75:SRC/RTOS/portISR.c **** #define portTIMER_MATCH_ISR_BIT		( ( unsigned char ) 0x01 )
+  76:SRC/RTOS/portISR.c **** #define portCLEAR_VIC_INTERRUPT		( ( unsigned long ) 0 )
+  77:SRC/RTOS/portISR.c **** 
+  78:SRC/RTOS/portISR.c **** /* Constants required to handle critical sections. */
+  79:SRC/RTOS/portISR.c **** #define portNO_CRITICAL_NESTING		( ( unsigned long ) 0 )
+  80:SRC/RTOS/portISR.c **** volatile unsigned long ulCriticalNesting = 9999UL;
+  81:SRC/RTOS/portISR.c **** 
+  82:SRC/RTOS/portISR.c **** /*-----------------------------------------------------------*/
+  83:SRC/RTOS/portISR.c **** 
+  84:SRC/RTOS/portISR.c **** /* ISR to handle manual context switches (from a call to taskYIELD()). */
+  85:SRC/RTOS/portISR.c **** void vPortYieldProcessor( void ) __attribute__((interrupt("SWI"), naked));
+  86:SRC/RTOS/portISR.c **** 
+  87:SRC/RTOS/portISR.c **** /* 
+  88:SRC/RTOS/portISR.c ****  * The scheduler can only be started from ARM mode, hence the inclusion of this
+  89:SRC/RTOS/portISR.c ****  * function here.
+  90:SRC/RTOS/portISR.c ****  */
+  91:SRC/RTOS/portISR.c **** void vPortISRStartFirstTask( void );
+  92:SRC/RTOS/portISR.c **** /*-----------------------------------------------------------*/
+  93:SRC/RTOS/portISR.c **** 
+  94:SRC/RTOS/portISR.c **** void vPortISRStartFirstTask( void )
+  95:SRC/RTOS/portISR.c **** {
+  48              	
+  49              		@ args = 0, pretend = 0, frame = 8
+  50              		@ frame_needed = 0, uses_anonymous_args = 0
+  51              		@ link register save eliminated.
+  52              		sub	sp, sp, #8	@,,
+  53 0000 08D04DE2 	.LCFI0:
+  54              		.loc 1 98 0
+  96:SRC/RTOS/portISR.c **** 	/* Simply start the scheduler.  This is included here as it can only be
+  97:SRC/RTOS/portISR.c **** 	called from ARM mode. */
+  98:SRC/RTOS/portISR.c **** 	portRESTORE_CONTEXT();
+  55              	SRC/RTOS/portISR.c" 1
+  56              		LDR		R0, =pxCurrentTCB								
+  57 0004 68029FE5 		LDR		R0, [R0]										
+  58 0008 000090E5 		LDR		LR, [R0]										
+  59 000c 00E090E5 		LDR		R0, =ulCriticalNesting							
+  60 0010 60029FE5 		LDMFD	LR!, {R1}											
+  61 0014 0200BEE8 		STR		R1, [R0]										
+  62 0018 001080E5 		LDMFD	LR!, {R0}											
+  63 001c 0100BEE8 		MSR		SPSR, R0										
+  64 0020 00F069E1 		LDMFD	LR, {R0-R14}^										
+  65 0024 FF7FDEE8 		NOP														
+  66 0028 0000A0E1 		LDR		LR, [LR, #+60]									
+  67 002c 3CE09EE5 		SUBS	PC, LR, #4											
+  68 0030 04F05EE2 		
+  69              	@ 0 "" 2
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 4
+
+
+  70              		ldr	r3, .L3	@ tmp135,
+  71 0034 10309FE5 		ldr	r3, [r3, #0]	@, ulCriticalNesting
+  72 0038 003093E5 		ldr	r3, .L3+4	@ tmp136,
+  73 003c 0C309FE5 		ldr	r3, [r3, #0]	@, pxCurrentTCB
+  74 0040 003093E5 		.loc 1 99 0
+  99:SRC/RTOS/portISR.c **** }
+  75              		bx	lr
+  76 0044 08D08DE2 	.L4:
+  77 0048 1EFF2FE1 		.align	2
+  78              	.L3:
+  79              		.word	ulCriticalNesting
+  80              		.word	pxCurrentTCB
+  81 004c 00000000 	.LFE2:
+  82 0050 00000000 		.size	vPortISRStartFirstTask, .-vPortISRStartFirstTask
+  83              		.align	2
+  84              		.global	vPortYieldProcessor
+  85              		.type	vPortYieldProcessor, %function
+  86              	vPortYieldProcessor:
+  87              	.LFB3:
+  88              		.loc 1 111 0
+  89              		@ ARM Exception Handler.
+ 100:SRC/RTOS/portISR.c **** /*-----------------------------------------------------------*/
+ 101:SRC/RTOS/portISR.c **** 
+ 102:SRC/RTOS/portISR.c **** /*
+ 103:SRC/RTOS/portISR.c ****  * Called by portYIELD() or taskYIELD() to manually force a context switch.
+ 104:SRC/RTOS/portISR.c ****  *
+ 105:SRC/RTOS/portISR.c ****  * When a context switch is performed from the task level the saved task 
+ 106:SRC/RTOS/portISR.c ****  * context is made to look as if it occurred from within the tick ISR.  This
+ 107:SRC/RTOS/portISR.c ****  * way the same restore context function can be used when restoring the context
+ 108:SRC/RTOS/portISR.c ****  * saved from the ISR or that saved from a call to vPortYieldProcessor.
+ 109:SRC/RTOS/portISR.c ****  */
+ 110:SRC/RTOS/portISR.c **** void vPortYieldProcessor( void )
+ 111:SRC/RTOS/portISR.c **** {
+  90              	on: prologue and epilogue provided by programmer.
+  91              		@ args = 0, pretend = 0, frame = 16
+  92              		@ frame_needed = 0, uses_anonymous_args = 0
+  93              		.loc 1 115 0
+  94              	@ 115 "SRC/RTOS/portISR.c" 1
+ 112:SRC/RTOS/portISR.c **** 	/* Within an IRQ ISR the link register has an offset from the true return 
+ 113:SRC/RTOS/portISR.c **** 	address, but an SWI ISR does not.  Add the offset manually so the same 
+ 114:SRC/RTOS/portISR.c **** 	ISR return code can be used in both cases. */
+ 115:SRC/RTOS/portISR.c **** 	asm volatile ( "ADD		LR, LR, #4" );
+  95              		LR, LR, #4
+  96              	@ 0 "" 2
+  97 0054 04E08EE2 		.loc 1 118 0
+  98              	@ 118 "SRC/RTOS/portISR.c" 1
+ 116:SRC/RTOS/portISR.c **** 
+ 117:SRC/RTOS/portISR.c **** 	/* Perform the context switch.  First save the context of the current task. */
+ 118:SRC/RTOS/portISR.c **** 	portSAVE_CONTEXT();
+  99              	DB	SP!, {R0}											
+ 100              		STMDB	SP,{SP}^											
+ 101 0058 01002DE9 		NOP														
+ 102 005c 00204DE9 		SUB	SP, SP, #4											
+ 103 0060 0000A0E1 		LDMIA	SP!,{R0}											
+ 104 0064 04D04DE2 		STMDB	R0!, {LR}											
+ 105 0068 0100BDE8 		MOV	LR, R0												
+ 106 006c 004020E9 		LDMIA	SP!, {R0}											
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 5
+
+
+ 107 0070 00E0A0E1 		STMDB	LR,{R0-LR}^											
+ 108 0074 0100BDE8 		NOP														
+ 109 0078 FF7F4EE9 		SUB	LR, LR, #60											
+ 110 007c 0000A0E1 		MRS	R0, SPSR											
+ 111 0080 3CE04EE2 		STMDB	LR!, {R0}											
+ 112 0084 00004FE1 		LDR	R0, =ulCriticalNesting								
+ 113 0088 01002EE9 		LDR	R0, [R0]											
+ 114 008c E4019FE5 		STMDB	LR!, {R0}											
+ 115 0090 000090E5 		LDR	R0, =pxCurrentTCB									
+ 116 0094 01002EE9 		LDR	R0, [R0]											
+ 117 0098 D4019FE5 		STR	LR, [R0]											
+ 118 009c 000090E5 		
+ 119 00a0 00E080E5 	@ 0 "" 2
+ 120              		ldr	r3, .L7	@ tmp137,
+ 121              		ldr	r3, [r3, #0]	@, ulCriticalNesting
+ 122 00a4 4C309FE5 		ldr	r3, .L7+4	@ tmp138,
+ 123 00a8 003093E5 		ldr	r3, [r3, #0]	@, pxCurrentTCB
+ 124 00ac 48309FE5 		.loc 1 121 0
+ 125 00b0 003093E5 		bl	vTaskSwitchContext	@
+ 119:SRC/RTOS/portISR.c **** 
+ 120:SRC/RTOS/portISR.c **** 	/* Find the highest priority task that is ready to run. */
+ 121:SRC/RTOS/portISR.c **** 	vTaskSwitchContext();
+ 126              	OS/portISR.c" 1
+ 127 00b4 FEFFFFEB 		LDR		R0, =pxCurrentTCB								
+ 122:SRC/RTOS/portISR.c **** 
+ 123:SRC/RTOS/portISR.c **** 	/* Restore the context of the new task. */
+ 124:SRC/RTOS/portISR.c **** 	portRESTORE_CONTEXT();	
+ 128              	DR		R0, [R0]										
+ 129              		LDR		LR, [R0]										
+ 130 00b8 B4019FE5 		LDR		R0, =ulCriticalNesting							
+ 131 00bc 000090E5 		LDMFD	LR!, {R1}											
+ 132 00c0 00E090E5 		STR		R1, [R0]										
+ 133 00c4 AC019FE5 		LDMFD	LR!, {R0}											
+ 134 00c8 0200BEE8 		MSR		SPSR, R0										
+ 135 00cc 001080E5 		LDMFD	LR, {R0-R14}^										
+ 136 00d0 0100BEE8 		NOP														
+ 137 00d4 00F069E1 		LDR		LR, [LR, #+60]									
+ 138 00d8 FF7FDEE8 		SUBS	PC, LR, #4											
+ 139 00dc 0000A0E1 		
+ 140 00e0 3CE09EE5 	@ 0 "" 2
+ 141 00e4 04F05EE2 		ldr	r3, .L7	@ tmp139,
+ 142              		ldr	r3, [r3, #0]	@, ulCriticalNesting
+ 143              		ldr	r3, .L7+4	@ tmp140,
+ 144 00e8 08309FE5 		ldr	r3, [r3, #0]	@, pxCurrentTCB
+ 145 00ec 003093E5 		.loc 1 125 0
+ 146 00f0 04309FE5 	.L8:
+ 147 00f4 003093E5 		.align	2
+ 125:SRC/RTOS/portISR.c **** }
+ 148              	alNesting
+ 149              		.word	pxCurrentTCB
+ 150              	.LFE3:
+ 151              		.size	vPortYieldProcessor, .-vPortYieldProcessor
+ 152 00f8 00000000 		.align	2
+ 153 00fc 00000000 		.global	vPreemptiveTick
+ 154              		.type	vPreemptiveTick, %function
+ 155              	vPreemptiveTick:
+ 156              	.LFB4:
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 6
+
+
+ 157              		.loc 1 160 0
+ 158              		@ Function supports interworking.
+ 159              		@ Naked Function: prologue and epilogue provided by programmer.
+ 160              		@ args = 0, pretend = 0, frame = 16
+ 126:SRC/RTOS/portISR.c **** /*-----------------------------------------------------------*/
+ 127:SRC/RTOS/portISR.c **** 
+ 128:SRC/RTOS/portISR.c **** /* 
+ 129:SRC/RTOS/portISR.c ****  * The ISR used for the scheduler tick depends on whether the cooperative or
+ 130:SRC/RTOS/portISR.c ****  * the preemptive scheduler is being used.
+ 131:SRC/RTOS/portISR.c ****  */
+ 132:SRC/RTOS/portISR.c **** 
+ 133:SRC/RTOS/portISR.c **** #if configUSE_PREEMPTION == 0
+ 134:SRC/RTOS/portISR.c **** 
+ 135:SRC/RTOS/portISR.c **** 	/* The cooperative scheduler requires a normal IRQ service routine to 
+ 136:SRC/RTOS/portISR.c **** 	simply increment the system tick. */
+ 137:SRC/RTOS/portISR.c **** 	void vNonPreemptiveTick( void ) __attribute__ ((interrupt ("IRQ")));
+ 138:SRC/RTOS/portISR.c **** 	void vNonPreemptiveTick( void )
+ 139:SRC/RTOS/portISR.c **** 	{		
+ 140:SRC/RTOS/portISR.c **** 		unsigned long ulDummy;
+ 141:SRC/RTOS/portISR.c **** 		
+ 142:SRC/RTOS/portISR.c **** 		/* Increment the tick count - which may wake some tasks but as the
+ 143:SRC/RTOS/portISR.c **** 		preemptive scheduler is not being used any woken task is not given
+ 144:SRC/RTOS/portISR.c **** 		processor time no matter what its priority. */
+ 145:SRC/RTOS/portISR.c **** 		vTaskIncrementTick();
+ 146:SRC/RTOS/portISR.c **** 		
+ 147:SRC/RTOS/portISR.c **** 		/* Clear the PIT interrupt. */
+ 148:SRC/RTOS/portISR.c **** 		ulDummy = AT91C_BASE_PITC->PITC_PIVR;
+ 149:SRC/RTOS/portISR.c **** 		
+ 150:SRC/RTOS/portISR.c **** 		/* End the interrupt in the AIC. */
+ 151:SRC/RTOS/portISR.c **** 		AT91C_BASE_AIC->AIC_EOICR = ulDummy;
+ 152:SRC/RTOS/portISR.c **** 	}
+ 153:SRC/RTOS/portISR.c **** 
+ 154:SRC/RTOS/portISR.c **** #else
+ 155:SRC/RTOS/portISR.c **** 
+ 156:SRC/RTOS/portISR.c **** 	/* The preemptive scheduler is defined as "naked" as the full context is
+ 157:SRC/RTOS/portISR.c **** 	saved on entry as part of the context switch. */
+ 158:SRC/RTOS/portISR.c **** 	void vPreemptiveTick( void ) __attribute__((naked));
+ 159:SRC/RTOS/portISR.c **** 	void vPreemptiveTick( void )
+ 160:SRC/RTOS/portISR.c **** 	{
+ 161              	ed = 0, uses_anonymous_args = 0
+ 162              		.loc 1 162 0
+ 163              	@ 162 "SRC/RTOS/portISR.c" 1
+ 164              		STMDB	SP!, {R0}											
+ 165              		STMDB	SP,{SP}^											
+ 161:SRC/RTOS/portISR.c **** 		/* Save the context of the current task. */
+ 162:SRC/RTOS/portISR.c **** 		portSAVE_CONTEXT();			
+ 166              														
+ 167              		SUB	SP, SP, #4											
+ 168 0100 01002DE9 		LDMIA	SP!,{R0}											
+ 169 0104 00204DE9 		STMDB	R0!, {LR}											
+ 170 0108 0000A0E1 		MOV	LR, R0												
+ 171 010c 04D04DE2 		LDMIA	SP!, {R0}											
+ 172 0110 0100BDE8 		STMDB	LR,{R0-LR}^											
+ 173 0114 004020E9 		NOP														
+ 174 0118 00E0A0E1 		SUB	LR, LR, #60											
+ 175 011c 0100BDE8 		MRS	R0, SPSR											
+ 176 0120 FF7F4EE9 		STMDB	LR!, {R0}											
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 7
+
+
+ 177 0124 0000A0E1 		LDR	R0, =ulCriticalNesting								
+ 178 0128 3CE04EE2 		LDR	R0, [R0]											
+ 179 012c 00004FE1 		STMDB	LR!, {R0}											
+ 180 0130 01002EE9 		LDR	R0, =pxCurrentTCB									
+ 181 0134 3C019FE5 		LDR	R0, [R0]											
+ 182 0138 000090E5 		STR	LR, [R0]											
+ 183 013c 01002EE9 		
+ 184 0140 2C019FE5 	@ 0 "" 2
+ 185 0144 000090E5 		ldr	r3, .L11	@ tmp140,
+ 186 0148 00E080E5 		ldr	r3, [r3, #0]	@, ulCriticalNesting
+ 187              		ldr	r3, .L11+4	@ tmp141,
+ 188              		ldr	r3, [r3, #0]	@, pxCurrentTCB
+ 189 014c 68309FE5 		.loc 1 165 0
+ 190 0150 003093E5 		bl	vTaskIncrementTick	@
+ 191 0154 64309FE5 		.loc 1 168 0
+ 192 0158 003093E5 		bl	vTaskSwitchContext	@
+ 163:SRC/RTOS/portISR.c **** 
+ 164:SRC/RTOS/portISR.c **** 		/* Increment the tick count - this may wake a task. */
+ 165:SRC/RTOS/portISR.c **** 		vTaskIncrementTick();
+ 193              	47483648	@ D.2950,
+ 194 015c FEFFFFEB 		mov	r2, r2, asr #19	@ D.2950, D.2950,
+ 166:SRC/RTOS/portISR.c **** 
+ 167:SRC/RTOS/portISR.c **** 		/* Find the highest priority task that is ready to run. */
+ 168:SRC/RTOS/portISR.c **** 		vTaskSwitchContext();
+ 195              	ov	r3, #-1509949440	@ D.2951,
+ 196 0160 FEFFFFEB 		mov	r3, r3, asr #21	@ D.2951, D.2951,
+ 169:SRC/RTOS/portISR.c **** 		
+ 170:SRC/RTOS/portISR.c **** 		/* End the interrupt in the AIC. */
+ 171:SRC/RTOS/portISR.c **** 		AT91C_BASE_AIC->AIC_EOICR = AT91C_BASE_PITC->PITC_PIVR;;
+ 197              	dr	r3, [r3, #8]	@ D.2952, <variable>.PITC_PIVR
+ 198 0164 0221A0E3 		str	r3, [r2, #304]	@ D.2952, <variable>.AIC_EOICR
+ 199 0168 C229A0E1 		.loc 1 173 0
+ 200 016c A634A0E3 	@ 173 "SRC/RTOS/portISR.c" 1
+ 201 0170 C33AA0E1 		LDR		R0, =pxCurrentTCB								
+ 202 0174 083093E5 		LDR		R0, [R0]										
+ 203 0178 303182E5 		LDR		LR, [R0]										
+ 172:SRC/RTOS/portISR.c **** 		
+ 173:SRC/RTOS/portISR.c **** 		portRESTORE_CONTEXT();
+ 204              	0, =ulCriticalNesting							
+ 205              		LDMFD	LR!, {R1}											
+ 206 017c F0009FE5 		STR		R1, [R0]										
+ 207 0180 000090E5 		LDMFD	LR!, {R0}											
+ 208 0184 00E090E5 		MSR		SPSR, R0										
+ 209 0188 E8009FE5 		LDMFD	LR, {R0-R14}^										
+ 210 018c 0200BEE8 		NOP														
+ 211 0190 001080E5 		LDR		LR, [LR, #+60]									
+ 212 0194 0100BEE8 		SUBS	PC, LR, #4											
+ 213 0198 00F069E1 		
+ 214 019c FF7FDEE8 	@ 0 "" 2
+ 215 01a0 0000A0E1 		ldr	r3, .L11	@ tmp142,
+ 216 01a4 3CE09EE5 		ldr	r3, [r3, #0]	@, ulCriticalNesting
+ 217 01a8 04F05EE2 		ldr	r3, .L11+4	@ tmp143,
+ 218              		ldr	r3, [r3, #0]	@, pxCurrentTCB
+ 219              		.loc 1 174 0
+ 220 01ac 08309FE5 	.L12:
+ 221 01b0 003093E5 		.align	2
+ 222 01b4 04309FE5 	.L11:
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 8
+
+
+ 223 01b8 003093E5 		.word	ulCriticalNesting
+ 174:SRC/RTOS/portISR.c **** 	}
+ 224              	.LFE4:
+ 225              		.size	vPreemptiveTick, .-vPreemptiveTick
+ 226              		.align	2
+ 227              		.global	vPortDisableInterruptsFromThumb
+ 228 01bc 00000000 		.type	vPortDisableInterruptsFromThumb, %function
+ 229 01c0 00000000 	vPortDisableInterruptsFromThumb:
+ 230              	.LFB5:
+ 231              		.loc 1 189 0
+ 232              		@ Function supports interworking.
+ 233              		@ Naked Function: prologue and epilogue provided by programmer.
+ 234              		@ args = 0, pretend = 0, frame = 0
+ 235              		@ frame_needed = 0, uses_anonymous_args = 0
+ 236              		.loc 1 190 0
+ 175:SRC/RTOS/portISR.c **** 
+ 176:SRC/RTOS/portISR.c **** #endif
+ 177:SRC/RTOS/portISR.c **** /*-----------------------------------------------------------*/
+ 178:SRC/RTOS/portISR.c **** 
+ 179:SRC/RTOS/portISR.c **** /*
+ 180:SRC/RTOS/portISR.c ****  * The interrupt management utilities can only be called from ARM mode.  When
+ 181:SRC/RTOS/portISR.c ****  * THUMB_INTERWORK is defined the utilities are defined as functions here to
+ 182:SRC/RTOS/portISR.c ****  * ensure a switch to ARM mode.  When THUMB_INTERWORK is not defined then
+ 183:SRC/RTOS/portISR.c ****  * the utilities are defined as macros in portmacro.h - as per other ports.
+ 184:SRC/RTOS/portISR.c ****  */
+ 185:SRC/RTOS/portISR.c **** void vPortDisableInterruptsFromThumb( void ) __attribute__ ((naked));
+ 186:SRC/RTOS/portISR.c **** void vPortEnableInterruptsFromThumb( void ) __attribute__ ((naked));
+ 187:SRC/RTOS/portISR.c **** 
+ 188:SRC/RTOS/portISR.c **** void vPortDisableInterruptsFromThumb( void )
+ 189:SRC/RTOS/portISR.c **** {
+ 237              	OS/portISR.c" 1
+ 238              		STMDB	SP!, {R0}		
+ 239              		MRS	R0, CPSR		
+ 240              		ORR	R0, R0, #0xC0	
+ 241              		MSR	CPSR, R0		
+ 190:SRC/RTOS/portISR.c **** 	asm volatile ( 
+ 242              	A	SP!, {R0}		
+ 243              		BX		R14
+ 244 01c4 01002DE9 	@ 0 "" 2
+ 245 01c8 00000FE1 		.loc 1 197 0
+ 246 01cc C00080E3 	.LFE5:
+ 247 01d0 00F029E1 		.size	vPortDisableInterruptsFromThumb, .-vPortDisableInterruptsFromThumb
+ 248 01d4 0100BDE8 		.align	2
+ 249 01d8 1EFF2FE1 		.global	vPortEnableInterruptsFromThumb
+ 250              		.type	vPortEnableInterruptsFromThumb, %function
+ 191:SRC/RTOS/portISR.c **** 		"STMDB	SP!, {R0}		\n\t"	/* Push R0.									*/
+ 192:SRC/RTOS/portISR.c **** 		"MRS	R0, CPSR		\n\t"	/* Get CPSR.								*/
+ 193:SRC/RTOS/portISR.c **** 		"ORR	R0, R0, #0xC0	\n\t"	/* Disable IRQ, FIQ.						*/
+ 194:SRC/RTOS/portISR.c **** 		"MSR	CPSR, R0		\n\t"	/* Write back modified value.				*/
+ 195:SRC/RTOS/portISR.c **** 		"LDMIA	SP!, {R0}		\n\t"	/* Pop R0.									*/
+ 196:SRC/RTOS/portISR.c **** 		"BX		R14" );					/* Return back to thumb.					*/
+ 197:SRC/RTOS/portISR.c **** }
+ 251              	leInterruptsFromThumb:
+ 252              	.LFB6:
+ 253              		.loc 1 200 0
+ 254              		@ Function supports interworking.
+ 255              		@ Naked Function: prologue and epilogue provided by programmer.
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 9
+
+
+ 256              		@ args = 0, pretend = 0, frame = 0
+ 257              		@ frame_needed = 0, uses_anonymous_args = 0
+ 258              		.loc 1 201 0
+ 198:SRC/RTOS/portISR.c **** 		
+ 199:SRC/RTOS/portISR.c **** void vPortEnableInterruptsFromThumb( void )
+ 200:SRC/RTOS/portISR.c **** {
+ 259              	RC/RTOS/portISR.c" 1
+ 260              		STMDB	SP!, {R0}		
+ 261              		MRS	R0, CPSR		
+ 262              		BIC	R0, R0, #0xC0	
+ 263              		MSR	CPSR, R0		
+ 201:SRC/RTOS/portISR.c **** 	asm volatile ( 
+ 264              	A	SP!, {R0}		
+ 265              		BX		R14
+ 266 01dc 01002DE9 	@ 0 "" 2
+ 267 01e0 00000FE1 		.loc 1 208 0
+ 268 01e4 C000C0E3 	.LFE6:
+ 269 01e8 00F029E1 		.size	vPortEnableInterruptsFromThumb, .-vPortEnableInterruptsFromThumb
+ 270 01ec 0100BDE8 		.align	2
+ 271 01f0 1EFF2FE1 		.global	vPortEnterCritical
+ 272              		.type	vPortEnterCritical, %function
+ 202:SRC/RTOS/portISR.c **** 		"STMDB	SP!, {R0}		\n\t"	/* Push R0.									*/	
+ 203:SRC/RTOS/portISR.c **** 		"MRS	R0, CPSR		\n\t"	/* Get CPSR.								*/	
+ 204:SRC/RTOS/portISR.c **** 		"BIC	R0, R0, #0xC0	\n\t"	/* Enable IRQ, FIQ.							*/	
+ 205:SRC/RTOS/portISR.c **** 		"MSR	CPSR, R0		\n\t"	/* Write back modified value.				*/	
+ 206:SRC/RTOS/portISR.c **** 		"LDMIA	SP!, {R0}		\n\t"	/* Pop R0.									*/
+ 207:SRC/RTOS/portISR.c **** 		"BX		R14" );					/* Return back to thumb.					*/
+ 208:SRC/RTOS/portISR.c **** }
+ 273              	rCritical:
+ 274              	.LFB7:
+ 275              		.loc 1 216 0
+ 276              		@ Function supports interworking.
+ 277              		@ args = 0, pretend = 0, frame = 0
+ 278              		@ frame_needed = 0, uses_anonymous_args = 0
+ 279              		@ link register save eliminated.
+ 280              		.loc 1 218 0
+ 209:SRC/RTOS/portISR.c **** 
+ 210:SRC/RTOS/portISR.c **** 
+ 211:SRC/RTOS/portISR.c **** /* The code generated by the GCC compiler uses the stack in different ways at
+ 212:SRC/RTOS/portISR.c **** different optimisation levels.  The interrupt flags can therefore not always
+ 213:SRC/RTOS/portISR.c **** be saved to the stack.  Instead the critical section nesting level is stored
+ 214:SRC/RTOS/portISR.c **** in a variable, which is then saved as part of the stack context. */
+ 215:SRC/RTOS/portISR.c **** void vPortEnterCritical( void )
+ 216:SRC/RTOS/portISR.c **** {
+ 281              	RC/RTOS/portISR.c" 1
+ 282              		STMDB	SP!, {R0}			
+ 283              		MRS	R0, CPSR			
+ 284              		ORR	R0, R0, #0xC0		
+ 285              		MSR	CPSR, R0			
+ 217:SRC/RTOS/portISR.c **** 	/* Disable interrupts as per portDISABLE_INTERRUPTS(); 							*/
+ 218:SRC/RTOS/portISR.c **** 	asm volatile ( 
+ 286              	A	SP!, {R0}
+ 287              	@ 0 "" 2
+ 288 01f4 01002DE9 		.loc 1 228 0
+ 289 01f8 00000FE1 		ldr	r3, .L19	@ tmp135,
+ 290 01fc C00080E3 		ldr	r3, [r3, #0]	@ ulCriticalNesting.10, ulCriticalNesting
+ 291 0200 00F029E1 		add	r2, r3, #1	@ ulCriticalNesting.11, ulCriticalNesting.10,
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 10
+
+
+ 292 0204 0100BDE8 		ldr	r3, .L19	@ tmp136,
+ 293              		str	r2, [r3, #0]	@ ulCriticalNesting.11, ulCriticalNesting
+ 219:SRC/RTOS/portISR.c **** 		"STMDB	SP!, {R0}			\n\t"	/* Push R0.								*/
+ 220:SRC/RTOS/portISR.c **** 		"MRS	R0, CPSR			\n\t"	/* Get CPSR.							*/
+ 221:SRC/RTOS/portISR.c **** 		"ORR	R0, R0, #0xC0		\n\t"	/* Disable IRQ, FIQ.					*/
+ 222:SRC/RTOS/portISR.c **** 		"MSR	CPSR, R0			\n\t"	/* Write back modified value.			*/
+ 223:SRC/RTOS/portISR.c **** 		"LDMIA	SP!, {R0}" );				/* Pop R0.								*/
+ 224:SRC/RTOS/portISR.c **** 
+ 225:SRC/RTOS/portISR.c **** 	/* Now interrupts are disabled ulCriticalNesting can be accessed 
+ 226:SRC/RTOS/portISR.c **** 	directly.  Increment ulCriticalNesting to keep a count of how many times
+ 227:SRC/RTOS/portISR.c **** 	portENTER_CRITICAL() has been called. */
+ 228:SRC/RTOS/portISR.c **** 	ulCriticalNesting++;
+ 294              	229 0
+ 295 0208 10309FE5 		bx	lr	@
+ 296 020c 003093E5 	.L20:
+ 297 0210 012083E2 		.align	2
+ 298 0214 04309FE5 	.L19:
+ 299 0218 002083E5 		.word	ulCriticalNesting
+ 229:SRC/RTOS/portISR.c **** }
+ 300              	
+ 301 021c 1EFF2FE1 		.size	vPortEnterCritical, .-vPortEnterCritical
+ 302              		.align	2
+ 303              		.global	vPortExitCritical
+ 304              		.type	vPortExitCritical, %function
+ 305 0220 00000000 	vPortExitCritical:
+ 306              	.LFB8:
+ 307              		.loc 1 232 0
+ 308              		@ Function supports interworking.
+ 309              		@ args = 0, pretend = 0, frame = 0
+ 310              		@ frame_needed = 0, uses_anonymous_args = 0
+ 311              		@ link register save eliminated.
+ 312              		.loc 1 233 0
+ 230:SRC/RTOS/portISR.c **** 
+ 231:SRC/RTOS/portISR.c **** void vPortExitCritical( void )
+ 232:SRC/RTOS/portISR.c **** {
+ 313              	4	@ tmp137,
+ 314              		ldr	r3, [r3, #0]	@ ulCriticalNesting.12, ulCriticalNesting
+ 315              		cmp	r3, #0	@ ulCriticalNesting.12,
+ 316              		beq	.L23	@,
+ 317              		.loc 1 236 0
+ 233:SRC/RTOS/portISR.c **** 	if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+ 318              	r3, .L24	@ tmp138,
+ 319 0224 44309FE5 		ldr	r3, [r3, #0]	@ ulCriticalNesting.13, ulCriticalNesting
+ 320 0228 003093E5 		sub	r2, r3, #1	@ ulCriticalNesting.14, ulCriticalNesting.13,
+ 321 022c 000053E3 		ldr	r3, .L24	@ tmp139,
+ 322 0230 0D00000A 		str	r2, [r3, #0]	@ ulCriticalNesting.14, ulCriticalNesting
+ 234:SRC/RTOS/portISR.c **** 	{
+ 235:SRC/RTOS/portISR.c **** 		/* Decrement the nesting count as we are leaving a critical section. */
+ 236:SRC/RTOS/portISR.c **** 		ulCriticalNesting--;
+ 323              	 1 240 0
+ 324 0234 34309FE5 		ldr	r3, .L24	@ tmp140,
+ 325 0238 003093E5 		ldr	r3, [r3, #0]	@ ulCriticalNesting.15, ulCriticalNesting
+ 326 023c 012043E2 		cmp	r3, #0	@ ulCriticalNesting.15,
+ 327 0240 28309FE5 		bne	.L23	@,
+ 328 0244 002083E5 		.loc 1 243 0
+ 237:SRC/RTOS/portISR.c **** 
+ 238:SRC/RTOS/portISR.c **** 		/* If the nesting level has reached zero then interrupts should be
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 11
+
+
+ 239:SRC/RTOS/portISR.c **** 		re-enabled. */
+ 240:SRC/RTOS/portISR.c **** 		if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+ 329              	"SRC/RTOS/portISR.c" 1
+ 330 0248 20309FE5 		STMDB	SP!, {R0}		
+ 331 024c 003093E5 		MRS	R0, CPSR		
+ 332 0250 000053E3 		BIC	R0, R0, #0xC0	
+ 333 0254 0400001A 		MSR	CPSR, R0		
+ 241:SRC/RTOS/portISR.c **** 		{
+ 242:SRC/RTOS/portISR.c **** 			/* Enable interrupts as per portEXIT_CRITICAL().					*/
+ 243:SRC/RTOS/portISR.c **** 			asm volatile ( 
+ 334              	A	SP!, {R0}
+ 335              	@ 0 "" 2
+ 336 0258 01002DE9 	.L23:
+ 337 025c 00000FE1 		.loc 1 251 0
+ 338 0260 C000C0E3 		bx	lr	@
+ 339 0264 00F029E1 	.L25:
+ 340 0268 0100BDE8 		.align	2
+ 341              	.L24:
+ 342              		.word	ulCriticalNesting
+ 244:SRC/RTOS/portISR.c **** 				"STMDB	SP!, {R0}		\n\t"	/* Push R0.						*/	
+ 245:SRC/RTOS/portISR.c **** 				"MRS	R0, CPSR		\n\t"	/* Get CPSR.					*/	
+ 246:SRC/RTOS/portISR.c **** 				"BIC	R0, R0, #0xC0	\n\t"	/* Enable IRQ, FIQ.				*/	
+ 247:SRC/RTOS/portISR.c **** 				"MSR	CPSR, R0		\n\t"	/* Write back modified value.	*/	
+ 248:SRC/RTOS/portISR.c **** 				"LDMIA	SP!, {R0}" );			/* Pop R0.						*/
+ 249:SRC/RTOS/portISR.c **** 		}
+ 250:SRC/RTOS/portISR.c **** 	}
+ 251:SRC/RTOS/portISR.c **** }
+ 343              	size	vPortExitCritical, .-vPortExitCritical
+ 344 026c 1EFF2FE1 		.section	.debug_frame,"",%progbits
+ 345              	.Lframe0:
+ 346              		.4byte	.LECIE0-.LSCIE0
+ 347              	.LSCIE0:
+ 348 0270 00000000 		.4byte	0xffffffff
+ 349              		.byte	0x1
+ 350              		.ascii	"\000"
+ 351              		.uleb128 0x1
+ 352              		.sleb128 -4
+ 353 0000 0C000000 		.byte	0xe
+ 354              		.byte	0xc
+ 355 0004 FFFFFFFF 		.uleb128 0xd
+ 356 0008 01       		.uleb128 0x0
+ 357 0009 00       		.align	2
+ 358 000a 01       	.LECIE0:
+ 359 000b 7C       	.LSFDE0:
+ 360 000c 0E       		.4byte	.LEFDE0-.LASFDE0
+ 361 000d 0C       	.LASFDE0:
+ 362 000e 0D       		.4byte	.Lframe0
+ 363 000f 00       		.4byte	.LFB2
+ 364              		.4byte	.LFE2-.LFB2
+ 365              		.byte	0x4
+ 366              		.4byte	.LCFI0-.LFB2
+ 367 0010 10000000 		.byte	0xe
+ 368              		.uleb128 0x8
+ 369 0014 00000000 		.align	2
+ 370 0018 00000000 	.LEFDE0:
+ 371 001c 54000000 	.LSFDE2:
+ 372 0020 44       		.4byte	.LEFDE2-.LASFDE2
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 12
+
+
+ 373              	.LASFDE2:
+ 374 0021 0E       		.4byte	.Lframe0
+ 375 0022 08       		.4byte	.LFB3
+ 376 0023 00       		.4byte	.LFE3-.LFB3
+ 377              		.align	2
+ 378              	.LEFDE2:
+ 379 0024 0C000000 	.LSFDE4:
+ 380              		.4byte	.LEFDE4-.LASFDE4
+ 381 0028 00000000 	.LASFDE4:
+ 382 002c 54000000 		.4byte	.Lframe0
+ 383 0030 AC000000 		.4byte	.LFB4
+ 384              		.4byte	.LFE4-.LFB4
+ 385              		.align	2
+ 386              	.LEFDE4:
+ 387 0034 0C000000 	.LSFDE6:
+ 388              		.4byte	.LEFDE6-.LASFDE6
+ 389 0038 00000000 	.LASFDE6:
+ 390 003c 00010000 		.4byte	.Lframe0
+ 391 0040 C4000000 		.4byte	.LFB5
+ 392              		.4byte	.LFE5-.LFB5
+ 393              		.align	2
+ 394              	.LEFDE6:
+ 395 0044 0C000000 	.LSFDE8:
+ 396              		.4byte	.LEFDE8-.LASFDE8
+ 397 0048 00000000 	.LASFDE8:
+ 398 004c C4010000 		.4byte	.Lframe0
+ 399 0050 18000000 		.4byte	.LFB6
+ 400              		.4byte	.LFE6-.LFB6
+ 401              		.align	2
+ 402              	.LEFDE8:
+ 403 0054 0C000000 	.LSFDE10:
+ 404              		.4byte	.LEFDE10-.LASFDE10
+ 405 0058 00000000 	.LASFDE10:
+ 406 005c DC010000 		.4byte	.Lframe0
+ 407 0060 18000000 		.4byte	.LFB7
+ 408              		.4byte	.LFE7-.LFB7
+ 409              		.align	2
+ 410              	.LEFDE10:
+ 411 0064 0C000000 	.LSFDE12:
+ 412              		.4byte	.LEFDE12-.LASFDE12
+ 413 0068 00000000 	.LASFDE12:
+ 414 006c F4010000 		.4byte	.Lframe0
+ 415 0070 30000000 		.4byte	.LFB8
+ 416              		.4byte	.LFE8-.LFB8
+ 417              		.align	2
+ 418              	.LEFDE12:
+ 419 0074 0C000000 		.text
+ 420              	.Letext0:
+ 421 0078 00000000 		.section	.debug_loc,"",%progbits
+ 422 007c 24020000 	.Ldebug_loc0:
+ 423 0080 50000000 	.LLST0:
+ 424              		.4byte	.LFB2-.Ltext0
+ 425              		.4byte	.LCFI0-.Ltext0
+ 426              		.2byte	0x1
+ 427              		.byte	0x5d
+ 428              		.4byte	.LCFI0-.Ltext0
+ 429              		.4byte	.LFE2-.Ltext0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 13
+
+
+ 430              		.2byte	0x2
+ 431 0000 00000000 		.byte	0x7d
+ 432 0004 04000000 		.sleb128 8
+ 433 0008 0100     		.4byte	0x0
+ 434 000a 5D       		.4byte	0x0
+ 435 000b 04000000 		.file 2 "INC/AT91SAM7X256.h"
+ 436 000f 54000000 		.section	.debug_info
+ 437 0013 0200     		.4byte	0x2f5
+ 438 0015 7D       		.2byte	0x2
+ 439 0016 08       		.4byte	.Ldebug_abbrev0
+ 440 0017 00000000 		.byte	0x4
+ 441 001b 00000000 		.uleb128 0x1
+ 442              		.4byte	.LASF45
+ 443              		.byte	0x1
+ 444 0000 F5020000 		.4byte	.LASF46
+ 445 0004 0200     		.4byte	.LASF47
+ 446 0006 00000000 		.4byte	.Ltext0
+ 447 000a 04       		.4byte	.Letext0
+ 448 000b 01       		.4byte	.Ldebug_line0
+ 449 000c D1000000 		.uleb128 0x2
+ 450 0010 01       		.byte	0x4
+ 451 0011 E7000000 		.byte	0x5
+ 452 0015 FD010000 		.4byte	.LASF0
+ 453 0019 00000000 		.uleb128 0x2
+ 454 001d 74020000 		.byte	0x4
+ 455 0021 00000000 		.byte	0x7
+ 456 0025 02       		.4byte	.LASF1
+ 457 0026 04       		.uleb128 0x3
+ 458 0027 05       		.byte	0x4
+ 459 0028 2F020000 		.byte	0x5
+ 460 002c 02       		.ascii	"int\000"
+ 461 002d 04       		.uleb128 0x2
+ 462 002e 07       		.byte	0x1
+ 463 002f AD000000 		.byte	0x6
+ 464 0033 03       		.4byte	.LASF2
+ 465 0034 04       		.uleb128 0x2
+ 466 0035 05       		.byte	0x1
+ 467 0036 696E7400 		.byte	0x8
+ 468 003a 02       		.4byte	.LASF3
+ 469 003b 01       		.uleb128 0x2
+ 470 003c 06       		.byte	0x2
+ 471 003d 5E020000 		.byte	0x5
+ 472 0041 02       		.4byte	.LASF4
+ 473 0042 01       		.uleb128 0x2
+ 474 0043 08       		.byte	0x2
+ 475 0044 84000000 		.byte	0x7
+ 476 0048 02       		.4byte	.LASF5
+ 477 0049 02       		.uleb128 0x2
+ 478 004a 05       		.byte	0x4
+ 479 004b E1010000 		.byte	0x7
+ 480 004f 02       		.4byte	.LASF6
+ 481 0050 02       		.uleb128 0x2
+ 482 0051 07       		.byte	0x8
+ 483 0052 8E010000 		.byte	0x5
+ 484 0056 02       		.4byte	.LASF7
+ 485 0057 04       		.uleb128 0x2
+ 486 0058 07       		.byte	0x8
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 14
+
+
+ 487 0059 22010000 		.byte	0x7
+ 488 005d 02       		.4byte	.LASF8
+ 489 005e 08       		.uleb128 0x4
+ 490 005f 05       		.byte	0x4
+ 491 0060 A1010000 		.byte	0x7
+ 492 0064 02       		.uleb128 0x2
+ 493 0065 08       		.byte	0x1
+ 494 0066 07       		.byte	0x8
+ 495 0067 6D000000 		.4byte	.LASF9
+ 496 006b 04       		.uleb128 0x5
+ 497 006c 04       		.4byte	0x56
+ 498 006d 07       		.uleb128 0x6
+ 499 006e 02       		.4byte	0x56
+ 500 006f 01       		.4byte	0x8a
+ 501 0070 08       		.uleb128 0x7
+ 502 0071 C6010000 		.4byte	0x6b
+ 503 0075 05       		.byte	0x1f
+ 504 0076 56000000 		.byte	0x0
+ 505 007a 06       		.uleb128 0x6
+ 506 007b 56000000 		.4byte	0x56
+ 507 007f 8A000000 		.4byte	0x9a
+ 508 0083 07       		.uleb128 0x7
+ 509 0084 6B000000 		.4byte	0x6b
+ 510 0088 1F       		.byte	0x1
+ 511 0089 00       		.byte	0x0
+ 512 008a 06       		.uleb128 0x6
+ 513 008b 56000000 		.4byte	0x56
+ 514 008f 9A000000 		.4byte	0xaa
+ 515 0093 07       		.uleb128 0x7
+ 516 0094 6B000000 		.4byte	0x6b
+ 517 0098 01       		.byte	0x0
+ 518 0099 00       		.byte	0x0
+ 519 009a 06       		.uleb128 0x8
+ 520 009b 56000000 		.4byte	.LASF30
+ 521 009f AA000000 		.2byte	0x14c
+ 522 00a3 07       		.byte	0x2
+ 523 00a4 6B000000 		.byte	0xd9
+ 524 00a8 00       		.4byte	0x1e3
+ 525 00a9 00       		.uleb128 0x9
+ 526 00aa 08       		.4byte	.LASF10
+ 527 00ab 62000000 		.byte	0x2
+ 528 00af 4C01     		.byte	0xda
+ 529 00b1 02       		.4byte	0x1e3
+ 530 00b2 D9       		.byte	0x2
+ 531 00b3 E3010000 		.byte	0x23
+ 532 00b7 09       		.uleb128 0x0
+ 533 00b8 51010000 		.uleb128 0x9
+ 534 00bc 02       		.4byte	.LASF11
+ 535 00bd DA       		.byte	0x2
+ 536 00be E3010000 		.byte	0xdb
+ 537 00c2 02       		.4byte	0x1e8
+ 538 00c3 23       		.byte	0x3
+ 539 00c4 00       		.byte	0x23
+ 540 00c5 09       		.uleb128 0x80
+ 541 00c6 C9000000 		.uleb128 0x9
+ 542 00ca 02       		.4byte	.LASF12
+ 543 00cb DB       		.byte	0x2
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 15
+
+
+ 544 00cc E8010000 		.byte	0xdc
+ 545 00d0 03       		.4byte	0x75
+ 546 00d1 23       		.byte	0x3
+ 547 00d2 8001     		.byte	0x23
+ 548 00d4 09       		.uleb128 0x100
+ 549 00d5 00000000 		.uleb128 0x9
+ 550 00d9 02       		.4byte	.LASF13
+ 551 00da DC       		.byte	0x2
+ 552 00db 75000000 		.byte	0xdd
+ 553 00df 03       		.4byte	0x75
+ 554 00e0 23       		.byte	0x3
+ 555 00e1 8002     		.byte	0x23
+ 556 00e3 09       		.uleb128 0x104
+ 557 00e4 27020000 		.uleb128 0x9
+ 558 00e8 02       		.4byte	.LASF14
+ 559 00e9 DD       		.byte	0x2
+ 560 00ea 75000000 		.byte	0xde
+ 561 00ee 03       		.4byte	0x75
+ 562 00ef 23       		.byte	0x3
+ 563 00f0 8402     		.byte	0x23
+ 564 00f2 09       		.uleb128 0x108
+ 565 00f3 9C000000 		.uleb128 0x9
+ 566 00f7 02       		.4byte	.LASF15
+ 567 00f8 DE       		.byte	0x2
+ 568 00f9 75000000 		.byte	0xdf
+ 569 00fd 03       		.4byte	0x75
+ 570 00fe 23       		.byte	0x3
+ 571 00ff 8802     		.byte	0x23
+ 572 0101 09       		.uleb128 0x10c
+ 573 0102 49010000 		.uleb128 0x9
+ 574 0106 02       		.4byte	.LASF16
+ 575 0107 DF       		.byte	0x2
+ 576 0108 75000000 		.byte	0xe0
+ 577 010c 03       		.4byte	0x75
+ 578 010d 23       		.byte	0x3
+ 579 010e 8C02     		.byte	0x23
+ 580 0110 09       		.uleb128 0x110
+ 581 0111 2C000000 		.uleb128 0x9
+ 582 0115 02       		.4byte	.LASF17
+ 583 0116 E0       		.byte	0x2
+ 584 0117 75000000 		.byte	0xe1
+ 585 011b 03       		.4byte	0x75
+ 586 011c 23       		.byte	0x3
+ 587 011d 9002     		.byte	0x23
+ 588 011f 09       		.uleb128 0x114
+ 589 0120 08000000 		.uleb128 0x9
+ 590 0124 02       		.4byte	.LASF18
+ 591 0125 E1       		.byte	0x2
+ 592 0126 75000000 		.byte	0xe2
+ 593 012a 03       		.4byte	0x1ed
+ 594 012b 23       		.byte	0x3
+ 595 012c 9402     		.byte	0x23
+ 596 012e 09       		.uleb128 0x118
+ 597 012f 3E000000 		.uleb128 0x9
+ 598 0133 02       		.4byte	.LASF19
+ 599 0134 E2       		.byte	0x2
+ 600 0135 ED010000 		.byte	0xe3
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 16
+
+
+ 601 0139 03       		.4byte	0x75
+ 602 013a 23       		.byte	0x3
+ 603 013b 9802     		.byte	0x23
+ 604 013d 09       		.uleb128 0x120
+ 605 013e FA000000 		.uleb128 0x9
+ 606 0142 02       		.4byte	.LASF20
+ 607 0143 E3       		.byte	0x2
+ 608 0144 75000000 		.byte	0xe4
+ 609 0148 03       		.4byte	0x75
+ 610 0149 23       		.byte	0x3
+ 611 014a A002     		.byte	0x23
+ 612 014c 09       		.uleb128 0x124
+ 613 014d 1B000000 		.uleb128 0x9
+ 614 0151 02       		.4byte	.LASF21
+ 615 0152 E4       		.byte	0x2
+ 616 0153 75000000 		.byte	0xe5
+ 617 0157 03       		.4byte	0x75
+ 618 0158 23       		.byte	0x3
+ 619 0159 A402     		.byte	0x23
+ 620 015b 09       		.uleb128 0x128
+ 621 015c D8010000 		.uleb128 0x9
+ 622 0160 02       		.4byte	.LASF22
+ 623 0161 E5       		.byte	0x2
+ 624 0162 75000000 		.byte	0xe6
+ 625 0166 03       		.4byte	0x75
+ 626 0167 23       		.byte	0x3
+ 627 0168 A802     		.byte	0x23
+ 628 016a 09       		.uleb128 0x12c
+ 629 016b A4000000 		.uleb128 0x9
+ 630 016f 02       		.4byte	.LASF23
+ 631 0170 E6       		.byte	0x2
+ 632 0171 75000000 		.byte	0xe7
+ 633 0175 03       		.4byte	0x75
+ 634 0176 23       		.byte	0x3
+ 635 0177 AC02     		.byte	0x23
+ 636 0179 09       		.uleb128 0x130
+ 637 017a 11000000 		.uleb128 0x9
+ 638 017e 02       		.4byte	.LASF24
+ 639 017f E7       		.byte	0x2
+ 640 0180 75000000 		.byte	0xe8
+ 641 0184 03       		.4byte	0x75
+ 642 0185 23       		.byte	0x3
+ 643 0186 B002     		.byte	0x23
+ 644 0188 09       		.uleb128 0x134
+ 645 0189 48000000 		.uleb128 0x9
+ 646 018d 02       		.4byte	.LASF25
+ 647 018e E8       		.byte	0x2
+ 648 018f 75000000 		.byte	0xe9
+ 649 0193 03       		.4byte	0x75
+ 650 0194 23       		.byte	0x3
+ 651 0195 B402     		.byte	0x23
+ 652 0197 09       		.uleb128 0x138
+ 653 0198 24000000 		.uleb128 0x9
+ 654 019c 02       		.4byte	.LASF26
+ 655 019d E9       		.byte	0x2
+ 656 019e 75000000 		.byte	0xea
+ 657 01a2 03       		.4byte	0x1f2
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 17
+
+
+ 658 01a3 23       		.byte	0x3
+ 659 01a4 B802     		.byte	0x23
+ 660 01a6 09       		.uleb128 0x13c
+ 661 01a7 3F010000 		.uleb128 0x9
+ 662 01ab 02       		.4byte	.LASF27
+ 663 01ac EA       		.byte	0x2
+ 664 01ad F2010000 		.byte	0xeb
+ 665 01b1 03       		.4byte	0x75
+ 666 01b2 23       		.byte	0x3
+ 667 01b3 BC02     		.byte	0x23
+ 668 01b5 09       		.uleb128 0x140
+ 669 01b6 59000000 		.uleb128 0x9
+ 670 01ba 02       		.4byte	.LASF28
+ 671 01bb EB       		.byte	0x2
+ 672 01bc 75000000 		.byte	0xec
+ 673 01c0 03       		.4byte	0x75
+ 674 01c1 23       		.byte	0x3
+ 675 01c2 C002     		.byte	0x23
+ 676 01c4 09       		.uleb128 0x144
+ 677 01c5 50000000 		.uleb128 0x9
+ 678 01c9 02       		.4byte	.LASF29
+ 679 01ca EC       		.byte	0x2
+ 680 01cb 75000000 		.byte	0xed
+ 681 01cf 03       		.4byte	0x75
+ 682 01d0 23       		.byte	0x3
+ 683 01d1 C402     		.byte	0x23
+ 684 01d3 09       		.uleb128 0x148
+ 685 01d4 59010000 		.byte	0x0
+ 686 01d8 02       		.uleb128 0x5
+ 687 01d9 ED       		.4byte	0x7a
+ 688 01da 75000000 		.uleb128 0x5
+ 689 01de 03       		.4byte	0x7a
+ 690 01df 23       		.uleb128 0x5
+ 691 01e0 C802     		.4byte	0x8a
+ 692 01e2 00       		.uleb128 0x5
+ 693 01e3 05       		.4byte	0x9a
+ 694 01e4 7A000000 		.uleb128 0xa
+ 695 01e8 05       		.4byte	.LASF31
+ 696 01e9 7A000000 		.byte	0x10
+ 697 01ed 05       		.byte	0x2
+ 698 01ee 8A000000 		.2byte	0x224
+ 699 01f2 05       		.4byte	0x241
+ 700 01f3 9A000000 		.uleb128 0xb
+ 701 01f7 0A       		.4byte	.LASF32
+ 702 01f8 82010000 		.byte	0x2
+ 703 01fc 10       		.2byte	0x225
+ 704 01fd 02       		.4byte	0x75
+ 705 01fe 2402     		.byte	0x2
+ 706 0200 41020000 		.byte	0x23
+ 707 0204 0B       		.uleb128 0x0
+ 708 0205 DD000000 		.uleb128 0xb
+ 709 0209 02       		.4byte	.LASF33
+ 710 020a 2502     		.byte	0x2
+ 711 020c 75000000 		.2byte	0x226
+ 712 0210 02       		.4byte	0x75
+ 713 0211 23       		.byte	0x2
+ 714 0212 00       		.byte	0x23
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 18
+
+
+ 715 0213 0B       		.uleb128 0x4
+ 716 0214 BF000000 		.uleb128 0xb
+ 717 0218 02       		.4byte	.LASF34
+ 718 0219 2602     		.byte	0x2
+ 719 021b 75000000 		.2byte	0x227
+ 720 021f 02       		.4byte	0x75
+ 721 0220 23       		.byte	0x2
+ 722 0221 04       		.byte	0x23
+ 723 0222 0B       		.uleb128 0x8
+ 724 0223 34000000 		.uleb128 0xb
+ 725 0227 02       		.4byte	.LASF35
+ 726 0228 2702     		.byte	0x2
+ 727 022a 75000000 		.2byte	0x228
+ 728 022e 02       		.4byte	0x75
+ 729 022f 23       		.byte	0x2
+ 730 0230 08       		.byte	0x23
+ 731 0231 0B       		.uleb128 0xc
+ 732 0232 92000000 		.byte	0x0
+ 733 0236 02       		.uleb128 0x5
+ 734 0237 2802     		.4byte	0x2c
+ 735 0239 75000000 		.uleb128 0xc
+ 736 023d 02       		.byte	0x1
+ 737 023e 23       		.4byte	.LASF36
+ 738 023f 0C       		.byte	0x1
+ 739 0240 00       		.byte	0x5f
+ 740 0241 05       		.byte	0x1
+ 741 0242 2C000000 		.4byte	.LFB2
+ 742 0246 0C       		.4byte	.LFE2
+ 743 0247 01       		.4byte	.LLST0
+ 744 0248 AF010000 		.uleb128 0xd
+ 745 024c 01       		.byte	0x1
+ 746 024d 5F       		.4byte	.LASF37
+ 747 024e 01       		.byte	0x1
+ 748 024f 00000000 		.byte	0x6f
+ 749 0253 54000000 		.byte	0x1
+ 750 0257 00000000 		.4byte	.LFB3
+ 751 025b 0D       		.4byte	.LFE3
+ 752 025c 01       		.byte	0x1
+ 753 025d 38020000 		.byte	0x5d
+ 754 0261 01       		.uleb128 0xd
+ 755 0262 6F       		.byte	0x1
+ 756 0263 01       		.4byte	.LASF38
+ 757 0264 54000000 		.byte	0x1
+ 758 0268 00010000 		.byte	0xa0
+ 759 026c 01       		.byte	0x1
+ 760 026d 5D       		.4byte	.LFB4
+ 761 026e 0D       		.4byte	.LFE4
+ 762 026f 01       		.byte	0x1
+ 763 0270 2F010000 		.byte	0x5d
+ 764 0274 01       		.uleb128 0xd
+ 765 0275 A0       		.byte	0x1
+ 766 0276 01       		.4byte	.LASF39
+ 767 0277 00010000 		.byte	0x1
+ 768 027b C4010000 		.byte	0xbd
+ 769 027f 01       		.byte	0x1
+ 770 0280 5D       		.4byte	.LFB5
+ 771 0281 0D       		.4byte	.LFE5
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 19
+
+
+ 772 0282 01       		.byte	0x1
+ 773 0283 62010000 		.byte	0x5d
+ 774 0287 01       		.uleb128 0xd
+ 775 0288 BD       		.byte	0x1
+ 776 0289 01       		.4byte	.LASF40
+ 777 028a C4010000 		.byte	0x1
+ 778 028e DC010000 		.byte	0xc8
+ 779 0292 01       		.byte	0x1
+ 780 0293 5D       		.4byte	.LFB6
+ 781 0294 0D       		.4byte	.LFE6
+ 782 0295 01       		.byte	0x1
+ 783 0296 03010000 		.byte	0x5d
+ 784 029a 01       		.uleb128 0xd
+ 785 029b C8       		.byte	0x1
+ 786 029c 01       		.4byte	.LASF41
+ 787 029d DC010000 		.byte	0x1
+ 788 02a1 F4010000 		.byte	0xd8
+ 789 02a5 01       		.byte	0x1
+ 790 02a6 5D       		.4byte	.LFB7
+ 791 02a7 0D       		.4byte	.LFE7
+ 792 02a8 01       		.byte	0x1
+ 793 02a9 6A020000 		.byte	0x5d
+ 794 02ad 01       		.uleb128 0xd
+ 795 02ae D8       		.byte	0x1
+ 796 02af 01       		.4byte	.LASF42
+ 797 02b0 F4010000 		.byte	0x1
+ 798 02b4 24020000 		.byte	0xe8
+ 799 02b8 01       		.byte	0x1
+ 800 02b9 5D       		.4byte	.LFB8
+ 801 02ba 0D       		.4byte	.LFE8
+ 802 02bb 01       		.byte	0x1
+ 803 02bc EB010000 		.byte	0x5d
+ 804 02c0 01       		.uleb128 0xe
+ 805 02c1 E8       		.4byte	.LASF43
+ 806 02c2 01       		.byte	0x1
+ 807 02c3 24020000 		.byte	0x50
+ 808 02c7 74020000 		.4byte	0x241
+ 809 02cb 01       		.byte	0x1
+ 810 02cc 5D       		.byte	0x5
+ 811 02cd 0E       		.byte	0x3
+ 812 02ce 4C020000 		.4byte	ulCriticalNesting
+ 813 02d2 01       		.uleb128 0xf
+ 814 02d3 50       		.4byte	.LASF44
+ 815 02d4 41020000 		.byte	0x1
+ 816 02d8 01       		.byte	0xad
+ 817 02d9 05       		.4byte	0x2ec
+ 818 02da 03       		.byte	0x1
+ 819 02db 00000000 		.byte	0x1
+ 820 02df 0F       		.uleb128 0x5
+ 821 02e0 CB010000 		.4byte	0x2f1
+ 822 02e4 01       		.uleb128 0x10
+ 823 02e5 AD       		.byte	0x4
+ 824 02e6 EC020000 		.4byte	0x2f7
+ 825 02ea 01       		.uleb128 0x11
+ 826 02eb 01       		.byte	0x0
+ 827 02ec 05       		.section	.debug_abbrev
+ 828 02ed F1020000 		.uleb128 0x1
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 20
+
+
+ 829 02f1 10       		.uleb128 0x11
+ 830 02f2 04       		.byte	0x1
+ 831 02f3 F7020000 		.uleb128 0x25
+ 832 02f7 11       		.uleb128 0xe
+ 833 02f8 00       		.uleb128 0x13
+ 834              		.uleb128 0xb
+ 835 0000 01       		.uleb128 0x3
+ 836 0001 11       		.uleb128 0xe
+ 837 0002 01       		.uleb128 0x1b
+ 838 0003 25       		.uleb128 0xe
+ 839 0004 0E       		.uleb128 0x11
+ 840 0005 13       		.uleb128 0x1
+ 841 0006 0B       		.uleb128 0x12
+ 842 0007 03       		.uleb128 0x1
+ 843 0008 0E       		.uleb128 0x10
+ 844 0009 1B       		.uleb128 0x6
+ 845 000a 0E       		.byte	0x0
+ 846 000b 11       		.byte	0x0
+ 847 000c 01       		.uleb128 0x2
+ 848 000d 12       		.uleb128 0x24
+ 849 000e 01       		.byte	0x0
+ 850 000f 10       		.uleb128 0xb
+ 851 0010 06       		.uleb128 0xb
+ 852 0011 00       		.uleb128 0x3e
+ 853 0012 00       		.uleb128 0xb
+ 854 0013 02       		.uleb128 0x3
+ 855 0014 24       		.uleb128 0xe
+ 856 0015 00       		.byte	0x0
+ 857 0016 0B       		.byte	0x0
+ 858 0017 0B       		.uleb128 0x3
+ 859 0018 3E       		.uleb128 0x24
+ 860 0019 0B       		.byte	0x0
+ 861 001a 03       		.uleb128 0xb
+ 862 001b 0E       		.uleb128 0xb
+ 863 001c 00       		.uleb128 0x3e
+ 864 001d 00       		.uleb128 0xb
+ 865 001e 03       		.uleb128 0x3
+ 866 001f 24       		.uleb128 0x8
+ 867 0020 00       		.byte	0x0
+ 868 0021 0B       		.byte	0x0
+ 869 0022 0B       		.uleb128 0x4
+ 870 0023 3E       		.uleb128 0x24
+ 871 0024 0B       		.byte	0x0
+ 872 0025 03       		.uleb128 0xb
+ 873 0026 08       		.uleb128 0xb
+ 874 0027 00       		.uleb128 0x3e
+ 875 0028 00       		.uleb128 0xb
+ 876 0029 04       		.byte	0x0
+ 877 002a 24       		.byte	0x0
+ 878 002b 00       		.uleb128 0x5
+ 879 002c 0B       		.uleb128 0x35
+ 880 002d 0B       		.byte	0x0
+ 881 002e 3E       		.uleb128 0x49
+ 882 002f 0B       		.uleb128 0x13
+ 883 0030 00       		.byte	0x0
+ 884 0031 00       		.byte	0x0
+ 885 0032 05       		.uleb128 0x6
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 21
+
+
+ 886 0033 35       		.uleb128 0x1
+ 887 0034 00       		.byte	0x1
+ 888 0035 49       		.uleb128 0x49
+ 889 0036 13       		.uleb128 0x13
+ 890 0037 00       		.uleb128 0x1
+ 891 0038 00       		.uleb128 0x13
+ 892 0039 06       		.byte	0x0
+ 893 003a 01       		.byte	0x0
+ 894 003b 01       		.uleb128 0x7
+ 895 003c 49       		.uleb128 0x21
+ 896 003d 13       		.byte	0x0
+ 897 003e 01       		.uleb128 0x49
+ 898 003f 13       		.uleb128 0x13
+ 899 0040 00       		.uleb128 0x2f
+ 900 0041 00       		.uleb128 0xb
+ 901 0042 07       		.byte	0x0
+ 902 0043 21       		.byte	0x0
+ 903 0044 00       		.uleb128 0x8
+ 904 0045 49       		.uleb128 0x13
+ 905 0046 13       		.byte	0x1
+ 906 0047 2F       		.uleb128 0x3
+ 907 0048 0B       		.uleb128 0xe
+ 908 0049 00       		.uleb128 0xb
+ 909 004a 00       		.uleb128 0x5
+ 910 004b 08       		.uleb128 0x3a
+ 911 004c 13       		.uleb128 0xb
+ 912 004d 01       		.uleb128 0x3b
+ 913 004e 03       		.uleb128 0xb
+ 914 004f 0E       		.uleb128 0x1
+ 915 0050 0B       		.uleb128 0x13
+ 916 0051 05       		.byte	0x0
+ 917 0052 3A       		.byte	0x0
+ 918 0053 0B       		.uleb128 0x9
+ 919 0054 3B       		.uleb128 0xd
+ 920 0055 0B       		.byte	0x0
+ 921 0056 01       		.uleb128 0x3
+ 922 0057 13       		.uleb128 0xe
+ 923 0058 00       		.uleb128 0x3a
+ 924 0059 00       		.uleb128 0xb
+ 925 005a 09       		.uleb128 0x3b
+ 926 005b 0D       		.uleb128 0xb
+ 927 005c 00       		.uleb128 0x49
+ 928 005d 03       		.uleb128 0x13
+ 929 005e 0E       		.uleb128 0x38
+ 930 005f 3A       		.uleb128 0xa
+ 931 0060 0B       		.byte	0x0
+ 932 0061 3B       		.byte	0x0
+ 933 0062 0B       		.uleb128 0xa
+ 934 0063 49       		.uleb128 0x13
+ 935 0064 13       		.byte	0x1
+ 936 0065 38       		.uleb128 0x3
+ 937 0066 0A       		.uleb128 0xe
+ 938 0067 00       		.uleb128 0xb
+ 939 0068 00       		.uleb128 0xb
+ 940 0069 0A       		.uleb128 0x3a
+ 941 006a 13       		.uleb128 0xb
+ 942 006b 01       		.uleb128 0x3b
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 22
+
+
+ 943 006c 03       		.uleb128 0x5
+ 944 006d 0E       		.uleb128 0x1
+ 945 006e 0B       		.uleb128 0x13
+ 946 006f 0B       		.byte	0x0
+ 947 0070 3A       		.byte	0x0
+ 948 0071 0B       		.uleb128 0xb
+ 949 0072 3B       		.uleb128 0xd
+ 950 0073 05       		.byte	0x0
+ 951 0074 01       		.uleb128 0x3
+ 952 0075 13       		.uleb128 0xe
+ 953 0076 00       		.uleb128 0x3a
+ 954 0077 00       		.uleb128 0xb
+ 955 0078 0B       		.uleb128 0x3b
+ 956 0079 0D       		.uleb128 0x5
+ 957 007a 00       		.uleb128 0x49
+ 958 007b 03       		.uleb128 0x13
+ 959 007c 0E       		.uleb128 0x38
+ 960 007d 3A       		.uleb128 0xa
+ 961 007e 0B       		.byte	0x0
+ 962 007f 3B       		.byte	0x0
+ 963 0080 05       		.uleb128 0xc
+ 964 0081 49       		.uleb128 0x2e
+ 965 0082 13       		.byte	0x0
+ 966 0083 38       		.uleb128 0x3f
+ 967 0084 0A       		.uleb128 0xc
+ 968 0085 00       		.uleb128 0x3
+ 969 0086 00       		.uleb128 0xe
+ 970 0087 0C       		.uleb128 0x3a
+ 971 0088 2E       		.uleb128 0xb
+ 972 0089 00       		.uleb128 0x3b
+ 973 008a 3F       		.uleb128 0xb
+ 974 008b 0C       		.uleb128 0x27
+ 975 008c 03       		.uleb128 0xc
+ 976 008d 0E       		.uleb128 0x11
+ 977 008e 3A       		.uleb128 0x1
+ 978 008f 0B       		.uleb128 0x12
+ 979 0090 3B       		.uleb128 0x1
+ 980 0091 0B       		.uleb128 0x40
+ 981 0092 27       		.uleb128 0x6
+ 982 0093 0C       		.byte	0x0
+ 983 0094 11       		.byte	0x0
+ 984 0095 01       		.uleb128 0xd
+ 985 0096 12       		.uleb128 0x2e
+ 986 0097 01       		.byte	0x0
+ 987 0098 40       		.uleb128 0x3f
+ 988 0099 06       		.uleb128 0xc
+ 989 009a 00       		.uleb128 0x3
+ 990 009b 00       		.uleb128 0xe
+ 991 009c 0D       		.uleb128 0x3a
+ 992 009d 2E       		.uleb128 0xb
+ 993 009e 00       		.uleb128 0x3b
+ 994 009f 3F       		.uleb128 0xb
+ 995 00a0 0C       		.uleb128 0x27
+ 996 00a1 03       		.uleb128 0xc
+ 997 00a2 0E       		.uleb128 0x11
+ 998 00a3 3A       		.uleb128 0x1
+ 999 00a4 0B       		.uleb128 0x12
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 23
+
+
+ 1000 00a5 3B       		.uleb128 0x1
+ 1001 00a6 0B       		.uleb128 0x40
+ 1002 00a7 27       		.uleb128 0xa
+ 1003 00a8 0C       		.byte	0x0
+ 1004 00a9 11       		.byte	0x0
+ 1005 00aa 01       		.uleb128 0xe
+ 1006 00ab 12       		.uleb128 0x34
+ 1007 00ac 01       		.byte	0x0
+ 1008 00ad 40       		.uleb128 0x3
+ 1009 00ae 0A       		.uleb128 0xe
+ 1010 00af 00       		.uleb128 0x3a
+ 1011 00b0 00       		.uleb128 0xb
+ 1012 00b1 0E       		.uleb128 0x3b
+ 1013 00b2 34       		.uleb128 0xb
+ 1014 00b3 00       		.uleb128 0x49
+ 1015 00b4 03       		.uleb128 0x13
+ 1016 00b5 0E       		.uleb128 0x3f
+ 1017 00b6 3A       		.uleb128 0xc
+ 1018 00b7 0B       		.uleb128 0x2
+ 1019 00b8 3B       		.uleb128 0xa
+ 1020 00b9 0B       		.byte	0x0
+ 1021 00ba 49       		.byte	0x0
+ 1022 00bb 13       		.uleb128 0xf
+ 1023 00bc 3F       		.uleb128 0x34
+ 1024 00bd 0C       		.byte	0x0
+ 1025 00be 02       		.uleb128 0x3
+ 1026 00bf 0A       		.uleb128 0xe
+ 1027 00c0 00       		.uleb128 0x3a
+ 1028 00c1 00       		.uleb128 0xb
+ 1029 00c2 0F       		.uleb128 0x3b
+ 1030 00c3 34       		.uleb128 0xb
+ 1031 00c4 00       		.uleb128 0x49
+ 1032 00c5 03       		.uleb128 0x13
+ 1033 00c6 0E       		.uleb128 0x3f
+ 1034 00c7 3A       		.uleb128 0xc
+ 1035 00c8 0B       		.uleb128 0x3c
+ 1036 00c9 3B       		.uleb128 0xc
+ 1037 00ca 0B       		.byte	0x0
+ 1038 00cb 49       		.byte	0x0
+ 1039 00cc 13       		.uleb128 0x10
+ 1040 00cd 3F       		.uleb128 0xf
+ 1041 00ce 0C       		.byte	0x0
+ 1042 00cf 3C       		.uleb128 0xb
+ 1043 00d0 0C       		.uleb128 0xb
+ 1044 00d1 00       		.uleb128 0x49
+ 1045 00d2 00       		.uleb128 0x13
+ 1046 00d3 10       		.byte	0x0
+ 1047 00d4 0F       		.byte	0x0
+ 1048 00d5 00       		.uleb128 0x11
+ 1049 00d6 0B       		.uleb128 0x35
+ 1050 00d7 0B       		.byte	0x0
+ 1051 00d8 49       		.byte	0x0
+ 1052 00d9 13       		.byte	0x0
+ 1053 00da 00       		.byte	0x0
+ 1054 00db 00       		.section	.debug_pubnames,"",%progbits
+ 1055 00dc 11       		.4byte	0xdf
+ 1056 00dd 35       		.2byte	0x2
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 24
+
+
+ 1057 00de 00       		.4byte	.Ldebug_info0
+ 1058 00df 00       		.4byte	0x2f9
+ 1059 00e0 00       		.4byte	0x246
+ 1060 00e1 00       		.ascii	"vPortISRStartFirstTask\000"
+ 1061              		.4byte	0x25b
+ 1062 0000 DF000000 		.ascii	"vPortYieldProcessor\000"
+ 1063 0004 0200     		.4byte	0x26e
+ 1064 0006 00000000 		.ascii	"vPreemptiveTick\000"
+ 1065 000a F9020000 		.4byte	0x281
+ 1066 000e 46020000 		.ascii	"vPortDisableInterruptsFromThumb\000"
+ 1067 0012 76506F72 		.4byte	0x294
+ 1067      74495352 
+ 1067      53746172 
+ 1067      74466972 
+ 1067      73745461 
+ 1068 0029 5B020000 		.ascii	"vPortEnableInterruptsFromThumb\000"
+ 1069 002d 76506F72 		.4byte	0x2a7
+ 1069      74596965 
+ 1069      6C645072 
+ 1069      6F636573 
+ 1069      736F7200 
+ 1070 0041 6E020000 		.ascii	"vPortEnterCritical\000"
+ 1071 0045 76507265 		.4byte	0x2ba
+ 1071      656D7074 
+ 1071      69766554 
+ 1071      69636B00 
+ 1072 0055 81020000 		.ascii	"vPortExitCritical\000"
+ 1073 0059 76506F72 		.4byte	0x2cd
+ 1073      74446973 
+ 1073      61626C65 
+ 1073      496E7465 
+ 1073      72727570 
+ 1074 0079 94020000 		.ascii	"ulCriticalNesting\000"
+ 1075 007d 76506F72 		.4byte	0x0
+ 1075      74456E61 
+ 1075      626C6549 
+ 1075      6E746572 
+ 1075      72757074 
+ 1076 009c A7020000 		.section	.debug_aranges,"",%progbits
+ 1077 00a0 76506F72 		.4byte	0x1c
+ 1077      74456E74 
+ 1077      65724372 
+ 1077      69746963 
+ 1077      616C00
+ 1078 00b3 BA020000 		.2byte	0x2
+ 1079 00b7 76506F72 		.4byte	.Ldebug_info0
+ 1079      74457869 
+ 1079      74437269 
+ 1079      74696361 
+ 1079      6C00
+ 1080 00c9 CD020000 		.byte	0x4
+ 1081 00cd 756C4372 		.byte	0x0
+ 1081      69746963 
+ 1081      616C4E65 
+ 1081      7374696E 
+ 1081      6700
+ 1082 00df 00000000 		.2byte	0x0
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 25
+
+
+ 1083              		.2byte	0x0
+ 1084 0000 1C000000 		.4byte	.Ltext0
+ 1085 0004 0200     		.4byte	.Letext0-.Ltext0
+ 1086 0006 00000000 		.4byte	0x0
+ 1087 000a 04       		.4byte	0x0
+ 1088 000b 00       		.section	.debug_str,"MS",%progbits,1
+ 1089 000c 0000     	.LASF12:
+ 1090 000e 0000     		.ascii	"AIC_IVR\000"
+ 1091 0010 00000000 	.LASF17:
+ 1092 0014 74020000 		.ascii	"AIC_CISR\000"
+ 1093 0018 00000000 	.LASF23:
+ 1094 001c 00000000 		.ascii	"AIC_EOICR\000"
+ 1095              	.LASF20:
+ 1096              		.ascii	"AIC_IDCR\000"
+ 1097 0000 4149435F 	.LASF25:
+ 1097      49565200 
+ 1098              		.ascii	"AIC_DCR\000"
+ 1099 0008 4149435F 	.LASF16:
+ 1099      43495352 
+ 1099      00
+ 1100              		.ascii	"AIC_IMR\000"
+ 1101 0011 4149435F 	.LASF34:
+ 1101      454F4943 
+ 1101      5200
+ 1102              		.ascii	"PITC_PIVR\000"
+ 1103 001b 4149435F 	.LASF18:
+ 1103      49444352 
+ 1103      00
+ 1104              		.ascii	"Reserved0\000"
+ 1105 0024 4149435F 	.LASF24:
+ 1105      44435200 
+ 1106              		.ascii	"AIC_SPU\000"
+ 1107 002c 4149435F 	.LASF28:
+ 1107      494D5200 
+ 1108              		.ascii	"AIC_FFDR\000"
+ 1109 0034 50495443 	.LASF27:
+ 1109      5F504956 
+ 1109      5200
+ 1110              		.ascii	"AIC_FFER\000"
+ 1111 003e 52657365 	.LASF30:
+ 1111      72766564 
+ 1111      3000
+ 1112              		.ascii	"_AT91S_AIC\000"
+ 1113 0048 4149435F 	.LASF8:
+ 1113      53505500 
+ 1114              		.ascii	"long long unsigned int\000"
+ 1115 0050 4149435F 	.LASF3:
+ 1115      46464452 
+ 1115      00
+ 1116              		.ascii	"unsigned char\000"
+ 1117 0059 4149435F 	.LASF35:
+ 1117      46464552 
+ 1117      00
+ 1118              		.ascii	"PITC_PIIR\000"
+ 1119 0062 5F415439 	.LASF14:
+ 1119      31535F41 
+ 1119      494300
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 26
+
+
+ 1120              		.ascii	"AIC_ISR\000"
+ 1121 006d 6C6F6E67 	.LASF22:
+ 1121      206C6F6E 
+ 1121      6720756E 
+ 1121      7369676E 
+ 1121      65642069 
+ 1122              		.ascii	"AIC_ISCR\000"
+ 1123 0084 756E7369 	.LASF1:
+ 1123      676E6564 
+ 1123      20636861 
+ 1123      7200
+ 1124              		.ascii	"long unsigned int\000"
+ 1125 0092 50495443 	.LASF33:
+ 1125      5F504949 
+ 1125      5200
+ 1126              		.ascii	"PITC_PISR\000"
+ 1127 009c 4149435F 	.LASF11:
+ 1127      49535200 
+ 1128              		.ascii	"AIC_SVR\000"
+ 1129 00a4 4149435F 	.LASF45:
+ 1129      49534352 
+ 1129      00
+ 1130              		.ascii	"GNU C 4.3.3\000"
+ 1131 00ad 6C6F6E67 	.LASF32:
+ 1131      20756E73 
+ 1131      69676E65 
+ 1131      6420696E 
+ 1131      7400
+ 1132              		.ascii	"PITC_PIMR\000"
+ 1133 00bf 50495443 	.LASF46:
+ 1133      5F504953 
+ 1133      5200
+ 1134              		.ascii	"SRC/RTOS/portISR.c\000"
+ 1135 00c9 4149435F 	.LASF19:
+ 1135      53565200 
+ 1136              		.ascii	"AIC_IECR\000"
+ 1137 00d1 474E5520 	.LASF40:
+ 1137      4320342E 
+ 1137      332E3300 
+ 1138              		.ascii	"vPortEnableInterruptsFromThumb\000"
+ 1139 00dd 50495443 	.LASF6:
+ 1139      5F50494D 
+ 1139      5200
+ 1140              		.ascii	"unsigned int\000"
+ 1141 00e7 5352432F 	.LASF38:
+ 1141      52544F53 
+ 1141      2F706F72 
+ 1141      74495352 
+ 1141      2E6300
+ 1142              		.ascii	"vPreemptiveTick\000"
+ 1143 00fa 4149435F 	.LASF26:
+ 1143      49454352 
+ 1143      00
+ 1144              		.ascii	"Reserved1\000"
+ 1145 0103 76506F72 	.LASF15:
+ 1145      74456E61 
+ 1145      626C6549 
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 27
+
+
+ 1145      6E746572 
+ 1145      72757074 
+ 1146              		.ascii	"AIC_IPR\000"
+ 1147 0122 756E7369 	.LASF10:
+ 1147      676E6564 
+ 1147      20696E74 
+ 1147      00
+ 1148              		.ascii	"AIC_SMR\000"
+ 1149 012f 76507265 	.LASF29:
+ 1149      656D7074 
+ 1149      69766554 
+ 1149      69636B00 
+ 1150              		.ascii	"AIC_FFSR\000"
+ 1151 013f 52657365 	.LASF39:
+ 1151      72766564 
+ 1151      3100
+ 1152              		.ascii	"vPortDisableInterruptsFromThumb\000"
+ 1153 0149 4149435F 	.LASF31:
+ 1153      49505200 
+ 1154              		.ascii	"_AT91S_PITC\000"
+ 1155 0151 4149435F 	.LASF5:
+ 1155      534D5200 
+ 1156              		.ascii	"short unsigned int\000"
+ 1157 0159 4149435F 	.LASF7:
+ 1157      46465352 
+ 1157      00
+ 1158              		.ascii	"long long int\000"
+ 1159 0162 76506F72 	.LASF36:
+ 1159      74446973 
+ 1159      61626C65 
+ 1159      496E7465 
+ 1159      72727570 
+ 1160              		.ascii	"vPortISRStartFirstTask\000"
+ 1161 0182 5F415439 	.LASF9:
+ 1161      31535F50 
+ 1161      49544300 
+ 1162              		.ascii	"char\000"
+ 1163 018e 73686F72 	.LASF44:
+ 1163      7420756E 
+ 1163      7369676E 
+ 1163      65642069 
+ 1163      6E7400
+ 1164              		.ascii	"pxCurrentTCB\000"
+ 1165 01a1 6C6F6E67 	.LASF21:
+ 1165      206C6F6E 
+ 1165      6720696E 
+ 1165      7400
+ 1166              		.ascii	"AIC_ICCR\000"
+ 1167 01af 76506F72 	.LASF4:
+ 1167      74495352 
+ 1167      53746172 
+ 1167      74466972 
+ 1167      73745461 
+ 1168              		.ascii	"short int\000"
+ 1169 01c6 63686172 	.LASF42:
+ 1169      00
+ 1170              		.ascii	"vPortExitCritical\000"
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 28
+
+
+ 1171 01cb 70784375 	.LASF47:
+ 1171      7272656E 
+ 1171      74544342 
+ 1171      00
+ 1172              		.ascii	"E:\\Projekty\\ARM\\Eclipse\\AT91SAM7Sxxx_RTOS\000"
+ 1173 01d8 4149435F 	.LASF13:
+ 1173      49434352 
+ 1173      00
+ 1174              		.ascii	"AIC_FVR\000"
+ 1175 01e1 73686F72 	.LASF0:
+ 1175      7420696E 
+ 1175      7400
+ 1176              		.ascii	"long int\000"
+ 1177 01eb 76506F72 	.LASF37:
+ 1177      74457869 
+ 1177      74437269 
+ 1177      74696361 
+ 1177      6C00
+ 1178              		.ascii	"vPortYieldProcessor\000"
+ 1179 01fd 453A5C50 	.LASF43:
+ 1179      726F6A65 
+ 1179      6B74795C 
+ 1179      41524D5C 
+ 1179      45636C69 
+ 1180              		.ascii	"ulCriticalNesting\000"
+ 1181 0227 4149435F 	.LASF2:
+ 1181      46565200 
+ 1182              		.ascii	"signed char\000"
+ 1183 022f 6C6F6E67 	.LASF41:
+ 1183      20696E74 
+ 1183      00
+ 1184              		.ascii	"vPortEnterCritical\000"
+ 1185 0238 76506F72 		.ident	"GCC: (GNU) 4.3.3"
+ 1185      74596965 
+ 1185      6C645072 
+ 1185      6F636573 
+ 1185      736F7200 
+ 1186              	...
+ARM GAS  C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s 			page 29
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 portISR.c
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:39     .data:00000000 ulCriticalNesting
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:40     .data:00000000 $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:45     .text:00000000 vPortISRStartFirstTask
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:53     .text:00000000 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:81     .text:0000004c $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:88     .text:00000054 vPortYieldProcessor
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:97     .text:00000054 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:152    .text:000000f8 $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:159    .text:00000100 vPreemptiveTick
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:168    .text:00000100 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:228    .text:000001bc $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:235    .text:000001c4 vPortDisableInterruptsFromThumb
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:244    .text:000001c4 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:257    .text:000001dc vPortEnableInterruptsFromThumb
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:279    .text:000001f4 vPortEnterCritical
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:305    .text:00000220 $d
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:311    .text:00000224 vPortExitCritical
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:319    .text:00000224 $a
+C:\DOCUME~1\ZAQUAD~1\USTAWI~1\Temp/ccndWGJP.s:348    .text:00000270 $d
+
+UNDEFINED SYMBOLS
+pxCurrentTCB
+vTaskSwitchContext
+vTaskIncrementTick
