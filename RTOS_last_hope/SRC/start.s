@@ -32,6 +32,47 @@
 .set  AIC_FVR, 			260
 .set  AIC_EOICR, 		304
 
+# Embedded Flash Controller (EFC) definitions
+        .equ    EFC_BASE,       0xFFFFFF00  /* EFC Base Address */
+        .equ    EFC_FMR,        0x60        /* EFC_FMR Offset */
+
+        .equ    EFC_SETUP,      1
+        .equ    EFC_FMR_Val,    0x00320100
+
+
+# Watchdog Timer (WDT) definitions
+        .equ    WDT_BASE,       0xFFFFFD40  /* WDT Base Address */
+        .equ    WDT_MR,         0x04        /* WDT_MR Offset */
+
+		.equ    WDT_SETUP,      1
+        .equ    WDT_MR_Val,     0x00008000
+
+# Power Mangement Controller (PMC) definitions
+        .equ    PMC_BASE,       0xFFFFFC00  /* PMC Base Address */
+        .equ    PMC_MOR,        0x20        /* PMC_MOR Offset */
+        .equ    PMC_MCFR,       0x24        /* PMC_MCFR Offset */
+        .equ    PMC_PLLR,       0x2C        /* PMC_PLLR Offset */
+        .equ    PMC_MCKR,       0x30        /* PMC_MCKR Offset */
+        .equ    PMC_SR,         0x68        /* PMC_SR Offset */
+        .equ    PMC_MOSCEN,     (1<<0)      /* Main Oscillator Enable */
+        .equ    PMC_OSCBYPASS,  (1<<1)      /* Main Oscillator Bypass */
+        .equ    PMC_OSCOUNT,    (0xFF<<8)   /* Main OScillator Start-up Time */
+        .equ    PMC_DIV,        (0xFF<<0)   /* PLL Divider */
+        .equ    PMC_PLLCOUNT,   (0x3F<<8)   /* PLL Lock Counter */
+        .equ    PMC_OUT,        (0x03<<14)  /* PLL Clock Frequency Range */
+        .equ    PMC_MUL,        (0x7FF<<16) /* PLL Multiplier */
+        .equ    PMC_USBDIV,     (0x03<<28)  /* USB Clock Divider */
+        .equ    PMC_CSS,        (3<<0)      /* Clock Source Selection */
+        .equ    PMC_PRES,       (7<<2)      /* Prescaler Selection */
+        .equ    PMC_MOSCS,      (1<<0)      /* Main Oscillator Stable */
+        .equ    PMC_LOCK,       (1<<2)      /* PLL Lock Status */
+
+
+        .equ    PMC_SETUP,      1
+        .equ    PMC_MOR_Val,    0x00000601
+        .equ    PMC_PLLR_Val,   0x00191C05
+        .equ    PMC_MCKR_Val,   0x00000007
+
 # identify all GLOBAL symbols
 
 .global _vec_reset
@@ -74,6 +115,71 @@ LDR     PC,[PC,#-0xF20]
 .text
 .align
 _init_reset:
+
+
+# Setup EFC
+.if EFC_SETUP
+                LDR     R0, =EFC_BASE
+                LDR     R1, =EFC_FMR_Val
+                STR     R1, [R0, #EFC_FMR]
+.endif
+
+
+# Setup WDT
+.if WDT_SETUP
+                LDR     R0, =WDT_BASE
+                LDR     R1, =WDT_MR_Val
+                STR     R1, [R0, #WDT_MR]
+.endif
+
+
+# Setup PMC
+.if PMC_SETUP
+                LDR     R0, =PMC_BASE
+
+#  Setup Main Oscillator
+                LDR     R1, =PMC_MOR_Val
+                STR     R1, [R0, #PMC_MOR]
+
+#  Wait until Main Oscillator is stablilized
+.if (PMC_MOR_Val & PMC_MOSCEN)
+MOSCS_Loop:     LDR     R2, [R0, #PMC_SR]
+                ANDS    R2, R2, #PMC_MOSCS
+                BEQ     MOSCS_Loop
+.endif
+
+#  Setup the PLL
+.if (PMC_PLLR_Val & PMC_MUL)
+                LDR     R1, =PMC_PLLR_Val
+                STR     R1, [R0, #PMC_PLLR]
+
+#  Wait until PLL is stabilized
+PLL_Loop:       LDR     R2, [R0, #PMC_SR]
+                ANDS    R2, R2, #PMC_LOCK
+                BEQ     PLL_Loop
+.endif
+
+#  Select Clock
+                LDR     R1, =PMC_MCKR_Val
+                STR     R1, [R0, #PMC_MCKR]
+.endif
+
+	 mov r0,#0x0
+	 mov r1,r0
+	 mov r2,r0
+	 mov r3,r0
+	 mov r4,r0
+	 mov r5,r0
+	 mov r6,r0
+	 mov r7,r0
+	 mov r8,r0
+	 mov r9,r0
+	 mov r10,r0
+	 mov r11,r0
+	 mov r12,r0
+	 mov r13,r0
+	 mov r14,r0
+
 
 # Setup a stack for each mode with interrupts initially disabled.
 
