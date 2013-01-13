@@ -18,7 +18,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  ******************************************************************************/
 
-#include "include/String.h"
+#include <string.h>
 
 char * strncpy( char *dst, const char *src, size_t n )
 {

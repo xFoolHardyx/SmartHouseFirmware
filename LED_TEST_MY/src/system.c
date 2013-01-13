@@ -59,3 +59,28 @@ void InitPerepherial (void)
 	  p_pPIO->PIO_OER |= BIT17;    //Configure in Output
 	  p_pPIO->PIO_CODR |= BIT17;   //set reg to 0
 }
+
+//////////////Прерывание от PIT////////////////////
+void PIT_interrupt(void)
+{
+	int x;
+	x=*AT91C_PITC_PIVR;
+	*AT91C_PIOA_ODSR=~*AT91C_PIOA_ODSR; //Сюда программа почему-то ни когда не заходит
+	*AT91C_AIC_EOICR = 0; //Выход из прерывания
+}
+
+
+//////////////////Настраиваем PIT///////////////////
+void SET_PIT(void)
+{
+	int x;
+	//Устанавливаем прерывание
+	AT91C_BASE_AIC->AIC_SMR[AT91C_ID_SYS]=0|(1<<5); //Приоритет 0, по переднему фронту
+	AT91C_BASE_AIC->AIC_SVR[AT91C_ID_SYS]=(unsigned long)PIT_interrupt;
+	AT91C_BASE_AIC->AIC_IECR=(1<<AT91C_ID_SYS); //разрешаем прерывание
+
+	x=*AT91C_PITC_PIVR; //сбрасываем PICNT
+
+	*AT91C_PITC_PIMR=0x20 ; //устанавливаем значение PIV=0x20
+	*AT91C_PITC_PIMR|=AT91C_PITC_PITEN|AT91C_PITC_PITIEN; //разрешаем прерывание и запускаем таймер
+}

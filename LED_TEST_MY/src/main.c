@@ -14,11 +14,11 @@ int main()
 	//loop forever
 	while (1)
 	{
-		 m_pPIOA->PIO_CODR = BIT17;  //set reg to 0 (led2 on)
-		 m_pPIOA->PIO_SODR = BIT18;  //set reg to 1 (led1 off)
-		 delay(800000);             //simple delay
-		 m_pPIOA->PIO_CODR = BIT18;  //set reg to 0 (led1 on)
-		 m_pPIOA->PIO_SODR = BIT17;  //set reg to 1 (led2 off)
-		 delay(800000);             //simple delay
+//		 m_pPIOA->PIO_CODR = BIT17;  //set reg to 0 (led2 on)
+//		 m_pPIOA->PIO_SODR = BIT18;  //set reg to 1 (led1 off)
+//		 delay(800000);             //simple delay
+//		 m_pPIOA->PIO_CODR = BIT18;  //set reg to 0 (led1 on)
+//		 m_pPIOA->PIO_SODR = BIT17;  //set reg to 1 (led2 off)
+//		 delay(800000);             //simple delay
 	}
 }

@@ -1,10 +1,10 @@
 # Stack Sizes
 
-.set  UND_STACK_SIZE, 0x00000010
-.set  ABT_STACK_SIZE, 0x00000010
-.set  FIQ_STACK_SIZE, 0x00000080
-.set  IRQ_STACK_SIZE, 0X00000080
-.set  SVC_STACK_SIZE, 0x00000080
+.set  UND_STACK_SIZE, 0x00000004
+.set  ABT_STACK_SIZE, 0x00000004
+.set  FIQ_STACK_SIZE, 0x00000004
+.set  IRQ_STACK_SIZE, 0X00000100
+.set  SVC_STACK_SIZE, 0x00000100
 
 # Standard definitions of Mode bits and Interrupt (I & F) flags in PSRs (program status registers)
 
@@ -65,8 +65,10 @@ _vec_swi: 		b _vec_swi
 _vec_pabt:		b AT91F_Pabt_Handler
 _vec_dabt: 		b AT91F_Dabt_Handler
 _vec_rsv: 		nop
-_vec_irq: 		b AT91F_Irq_Handler
-_vec_fiq: 		b _vec_fiq
+#_vec_irq: 		b AT91F_Irq_Handler
+LDR     PC,[PC,#-0xF20]
+#_vec_fiq: 		b _vec_fiq
+LDR     PC,[PC,#-0xF20]
 
 
 .text
@@ -122,6 +124,9 @@ _init_reset:
      # but SYSTEM mode has more privileges
      # copy initialized variables .data section  (Copy from ROM to RAM)
 
+     msr     CPSR_c, #ARM_MODE_SVC|I_BIT|F_BIT
+
+
 	ldr     R1, =_etext
 	ldr     R2, =_data
 	ldr     R3, =_edata
@@ -143,41 +148,8 @@ loop2: 	cmp     R1, R2
 
   b       main
 
-AT91F_Irq_Handler:
-	# Manage Exception Entry
+AT91F_Irq_Handler:	b AT91F_Irq_Handler
 
-	# Adjust and save LR_irq in IRQ stack
-	sub lr, lr, #4
-	stmfd sp!, {lr}
-	# Save r0 and SPSR (need to be saved for nested interrupt)
-	mrs r14, SPSR
-	stmfd sp!, {r0,r14}
-	# Write in the IVR to support Protect Mode
-	# No effect in Normal Mode
-	# De-assert the NIRQ and clear the source in Protect Mode
-	ldr r14, =AT91C_BASE_AIC
-	ldr r0 , [r14, #AIC_IVR]
-	str r14, [r14, #AIC_IVR]
-	# Enable Interrupt and Switch in Supervisor Mode
-	msr CPSR_c, #ARM_MODE_SVC
-	# Save scratch/used registers and LR in User Stack
-	stmfd sp!, { r1-r3, r12, r14}
-	# Branch to the routine pointed by the AIC_IVR
-	mov r14, pc
-	bx r0
-	# Manage Exception Exit
-	# Restore scratch/used registers and LR from User Stack
-	ldmia sp!, { r1-r3, r12, r14}
-	# Disable Interrupt and switch back in IRQ mode
-	msr CPSR_c, #I_BIT | ARM_MODE_IRQ
-	# Mark the End of Interrupt on the AIC
-	ldr r14, =AT91C_BASE_AIC
-	str r14, [r14, #AIC_EOICR]
-	# Restore SPSR_irq and r0 from IRQ stack
-	ldmia sp!, {r0,r14}
-	msr SPSR_cxsf, r14
-	# Restore adjusted  LR_irq from IRQ stack directly in the PC
-	ldmia sp!, {pc}^
 
 AT91F_Dabt_Handler: 		b AT91F_Dabt_Handler
 AT91F_Pabt_Handler: 		b AT91F_Pabt_Handler

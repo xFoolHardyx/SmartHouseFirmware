@@ -82,7 +82,7 @@ portmacro.h has not yet been included - as every portmacro.h provides a
 portENTER_CRITICAL() definition.  Check the demo application for your demo
 to find the path to the correct portmacro.h file. */
 
-#include "../hardware/include/portmacro.h"
+#include <portmacro.h>
 
 #ifndef portENTER_CRITICAL
 	#include "portmacro.h"	
@@ -116,7 +116,7 @@ to find the path to the correct portmacro.h file. */
 extern "C" {
 #endif
 
-#include "../include/mpu_wrappers.h"
+#include <mpu_wrappers.h>
 
 /*
  * Setup the stack of a new task so it is ready to be placed under the

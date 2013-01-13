@@ -79,10 +79,10 @@
 */
 
 /* Scheduler includes. */
-#include "../include/FreeRTOS.h"
-#include "../include/task.h"
+#include <FreeRTOS.h>
+#include <task.h>
 
-#include "include/AT91SAM7X256.h"
+#include <AT91SAM7X256.h>
 
 /* Constants required to handle interrupts. */
 #define portTIMER_MATCH_ISR_BIT		( ( unsigned char ) 0x01 )
@@ -129,7 +129,7 @@ void vPortISRStartFirstTask( void )
 		"MSR		SPSR, R0										\n\t"
 
 		/* Restore all system mode registers for the task. */
-		"LDMFD	LR, {R0-R13}^										\n\t"
+		"LDMFD	LR, {R0-R14}^										\n\t"
 		"NOP														\n\t"
 
 		/* Restore the return address. */
@@ -205,7 +205,7 @@ void vPortYieldProcessor( void )
 	void vPreemptiveTick( void )
 	{
 		/* Save the context of the current task. */
-		portSAVE_CONTEXT();			
+		portSAVE_CONTEXT();
 
 		/* Increment the tick count - this may wake a task. */
 		vTaskIncrementTick();

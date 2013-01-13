@@ -73,8 +73,8 @@
 	#error "include FreeRTOS.h must appear in source files before include task.h"
 #endif
 
-#include "portable.h"
-#include "list.h"
+#include <portable.h>
+#include <list.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -13,10 +13,10 @@ void vTask1( void *pvParameters )
 volatile unsigned long ul;
   for( ;; )
   {
-//	  ClrBIT(m_pPIOA,BIT18);
-//	  for(ul = 0; ul < 4000; ul++ ) {}
+	  ClrBIT(m_pPIOA,BIT18);
+	  for(ul = 0; ul < 4000; ul++ ) {}
 	  SetBIT(m_pPIOA,BIT18);
-//	  for(ul = 0; ul < 4000; ul++ ) {}
+	  for(ul = 0; ul < 4000; ul++ ) {}
   }
 }
 void vTask2( void *pvParameters )
@@ -24,10 +24,10 @@ void vTask2( void *pvParameters )
 	volatile unsigned long ul;
 	  for( ;; )
 	  {
-//		 ClrBIT(m_pPIOA,BIT17);
-//	     for(ul = 0; ul < 8000; ul++ ) {}
+		 ClrBIT(m_pPIOA,BIT17);
+	     for(ul = 0; ul < 8000; ul++ ) {}
 	     SetBIT(m_pPIOA,BIT17);
-//	     for(ul = 0; ul < 8000; ul++ ) {}
+	     for(ul = 0; ul < 8000; ul++ ) {}
 	  }
 	}
 

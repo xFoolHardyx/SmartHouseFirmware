@@ -68,7 +68,7 @@
 #define FREERTOS_CONFIG_H
 
 //#include <stdio.h>
-#include "hardware/include/AT91SAM7X256.h"
+#include <AT91SAM7X256.h>
 
 /*-----------------------------------------------------------
  * Application specific definitions.

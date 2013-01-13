@@ -2,7 +2,7 @@ CPU=arm7tdmi
 BUILD=build
 VPATH=SRC
 
-CFLAGS=-ISRC/include -ISRC/hardware/include
+CFLAGS=-ISRC/include -ISRC/hardware/include -ISRC -ISRC/string/include
 
 GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU) -g -DROM_RAN 
 
