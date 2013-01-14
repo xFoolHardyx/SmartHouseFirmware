@@ -24,4 +24,6 @@ void InitPerepherial (void)
 	ConfPIO(p_pPIO,BIT18,0);
 	//LED 2
 	ConfPIO(p_pPIO,BIT17,0);
+	//LED 2
+	ConfPIO(p_pPIO,BIT16,0);
 }

@@ -92,6 +92,8 @@
 .global AT91F_Pabt_Handler
 .global AT91F_Undef_Handler
 
+.extern vPortYieldProcessor
+
 
 # GNU assembler controls
 
@@ -102,7 +104,8 @@
 
 _vec_reset: 	b _init_reset
 _vec_undef: 	b AT91F_Undef_Handler
-_vec_swi: 		b _vec_swi
+#_vec_swi: 		b _vec_swi
+ldr   pc, _swi
 _vec_pabt:		b AT91F_Pabt_Handler
 _vec_dabt: 		b AT91F_Dabt_Handler
 _vec_rsv: 		nop
@@ -256,6 +259,8 @@ loop2: 	cmp     R1, R2
 
 AT91F_Irq_Handler:	b AT91F_Irq_Handler
 
+_swi:   .word vPortYieldProcessor
+#_swi:   .word SWI_Handler @@R
 
 AT91F_Dabt_Handler: 		b AT91F_Dabt_Handler
 AT91F_Pabt_Handler: 		b AT91F_Pabt_Handler
@@ -263,4 +268,6 @@ AT91F_Undef_Handler: 		b AT91F_Undef_Handler
 AT91F_Default_FIQ_handler: 	b AT91F_Default_FIQ_handler
 AT91F_Default_IRQ_handler: 	b AT91F_Default_IRQ_handler
 AT91F_Spurious_handler: 	b AT91F_Spurious_handler
+
+#SWI_Handler:    B       SWI_Handler
 .end
