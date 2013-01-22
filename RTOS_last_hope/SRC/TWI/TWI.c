@@ -1,4 +1,5 @@
 #include <TWI.h>
+#include <lib_AT91SAM7S256.h>
 
 void AT91F_SetTwiClock(void)
 {
@@ -22,7 +23,7 @@ void AT91F_SetTwiClock(void)
     AT91C_BASE_TWI->TWI_CWGR = (1 << 16) | (iSclock << 8) | iSclock  ;
 }
 
-int AT91F_TWI_ReadByte(const AT91PS_TWI pTwi ,int mode, int int_address, char *data, int nb)
+int AT91F_TWI_ReadByte(const AT91PS_TWI pTwi, int mode, int int_address, char *data, int nb)
 {
 	unsigned int uiStatus;
 	unsigned int uiCounter = 0;
@@ -87,14 +88,17 @@ int AT91F_TWI_ReadByte(const AT91PS_TWI pTwi ,int mode, int int_address, char *d
 return 0;
 }
 
-int AT91F_TWI_WriteByte(const AT91PS_TWI pTwi ,int mode, int int_address, char *data2send, int nb)
+int AT91F_TWI_WriteByte(const AT91PS_TWI pTwi, int mode, int int_address, char *data2send, int nb)
 {
 	unsigned int uiStatus;
 	unsigned int uiCounter	= 0;
 	unsigned int uiError	= 0;
 
 	// Set TWI Internal Address Register
-	if ((mode & AT91C_TWI_IADRSZ) != 0) pTwi->TWI_IADR = int_address;
+	if ((mode & AT91C_TWI_IADRSZ) != 0)
+	{
+		pTwi->TWI_IADR = int_address;
+	}
 
 	// Set the TWI Master Mode Register
 	pTwi->TWI_MMR = mode & ~AT91C_TWI_MREAD;

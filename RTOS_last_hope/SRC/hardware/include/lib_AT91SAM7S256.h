@@ -49,30 +49,30 @@
 //* \fn    AT91F_AIC_ConfigureIt
 //* \brief Interrupt Handler Initialization
 //*----------------------------------------------------------------------------
-__inline unsigned int AT91F_AIC_ConfigureIt (
-	AT91PS_AIC pAic,  // \arg pointer to the AIC registers
-	unsigned int irq_id,     // \arg interrupt number to initialize
-	unsigned int priority,   // \arg priority to give to the interrupt
-	unsigned int src_type,   // \arg activation and sense of activation
-	void (*newHandler) () ) // \arg address of the interrupt handler
-{
-	unsigned int oldHandler;
-    unsigned int mask ;
-
-    oldHandler = pAic->AIC_SVR[irq_id];
-
-    mask = 0x1 << irq_id ;
-    //* Disable the interrupt on the interrupt controller
-    pAic->AIC_IDCR = mask ;
-    //* Save the interrupt handler routine pointer and the interrupt priority
-    pAic->AIC_SVR[irq_id] = (unsigned int) newHandler ;
-    //* Store the Source Mode Register
-    pAic->AIC_SMR[irq_id] = src_type | priority  ;
-    //* Clear the interrupt on the interrupt controller
-    pAic->AIC_ICCR = mask ;
-
-	return oldHandler;
-}
+//__inline unsigned int AT91F_AIC_ConfigureIt (
+//	AT91PS_AIC pAic,  // \arg pointer to the AIC registers
+//	unsigned int irq_id,     // \arg interrupt number to initialize
+//	unsigned int priority,   // \arg priority to give to the interrupt
+//	unsigned int src_type,   // \arg activation and sense of activation
+//	void (*newHandler) () ) // \arg address of the interrupt handler
+//{
+//	unsigned int oldHandler;
+//    unsigned int mask ;
+//
+//    oldHandler = pAic->AIC_SVR[irq_id];
+//
+//    mask = 0x1 << irq_id ;
+//    //* Disable the interrupt on the interrupt controller
+//    pAic->AIC_IDCR = mask ;
+//    //* Save the interrupt handler routine pointer and the interrupt priority
+//    pAic->AIC_SVR[irq_id] = (unsigned int) newHandler ;
+//    //* Store the Source Mode Register
+//    pAic->AIC_SMR[irq_id] = src_type | priority  ;
+//    //* Clear the interrupt on the interrupt controller
+//    pAic->AIC_ICCR = mask ;
+//
+//	return oldHandler;
+//}
 
 //*----------------------------------------------------------------------------
 //* \fn    AT91F_AIC_EnableIt
@@ -178,30 +178,30 @@ __inline unsigned int  AT91F_AIC_IsPending (
 //* \fn    AT91F_AIC_Open
 //* \brief Set exception vectors and AIC registers to default values
 //*----------------------------------------------------------------------------
-__inline void AT91F_AIC_Open(
-	AT91PS_AIC pAic,        // \arg pointer to the AIC registers
-	void (*IrqHandler) (),  // \arg Default IRQ vector exception
-	void (*FiqHandler) (),  // \arg Default FIQ vector exception
-	void (*DefaultHandler)  (), // \arg Default Handler set in ISR
-	void (*SpuriousHandler) (), // \arg Default Spurious Handler
-	unsigned int protectMode)   // \arg Debug Control Register
-{
-	int i;
-
-	// Disable all interrupts and set IVR to the default handler
-	for (i = 0; i < 32; ++i) {
-		AT91F_AIC_DisableIt(pAic, i);
-		AT91F_AIC_ConfigureIt(pAic, i, AT91C_AIC_PRIOR_LOWEST, AT91C_AIC_SRCTYPE_HIGH_LEVEL, DefaultHandler);
-	}
-
-	// Set the IRQ exception vector
-	AT91F_AIC_SetExceptionVector((unsigned int *) 0x18, IrqHandler);
-	// Set the Fast Interrupt exception vector
-	AT91F_AIC_SetExceptionVector((unsigned int *) 0x1C, FiqHandler);
-
-	pAic->AIC_SPU = (unsigned int) SpuriousHandler;
-	pAic->AIC_DCR = protectMode;
-}
+//__inline void AT91F_AIC_Open(
+//	AT91PS_AIC pAic,        // \arg pointer to the AIC registers
+//	void (*IrqHandler) (),  // \arg Default IRQ vector exception
+//	void (*FiqHandler) (),  // \arg Default FIQ vector exception
+//	void (*DefaultHandler)  (), // \arg Default Handler set in ISR
+//	void (*SpuriousHandler) (), // \arg Default Spurious Handler
+//	unsigned int protectMode)   // \arg Debug Control Register
+//{
+//	int i;
+//
+//	// Disable all interrupts and set IVR to the default handler
+//	for (i = 0; i < 32; ++i) {
+//		AT91F_AIC_DisableIt(pAic, i);
+//		AT91F_AIC_ConfigureIt(pAic, i, AT91C_AIC_PRIOR_LOWEST, AT91C_AIC_SRCTYPE_HIGH_LEVEL, DefaultHandler);
+//	}
+//
+//	// Set the IRQ exception vector
+//	AT91F_AIC_SetExceptionVector((unsigned int *) 0x18, IrqHandler);
+//	// Set the Fast Interrupt exception vector
+//	AT91F_AIC_SetExceptionVector((unsigned int *) 0x1C, FiqHandler);
+//
+//	pAic->AIC_SPU = (unsigned int) SpuriousHandler;
+//	pAic->AIC_DCR = protectMode;
+//}
 /* *****************************************************************************
                 SOFTWARE API FOR PDC
    ***************************************************************************** */
