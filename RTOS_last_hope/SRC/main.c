@@ -57,9 +57,12 @@ void main (void)
 //	InitFrec();
 	InitPerepherial();
 
-	xTaskCreate( vTask1, "Task 1", 1000, NULL, 1, NULL );
-	xTaskCreate( vTask2, "Task 2", 1000, NULL, 1, NULL );
-	xTaskCreate( vTask3, "Task 3", 1000, NULL, 1, NULL );
+	//xTaskCreate( vTask1, "Task 1", 1000, NULL, 2, NULL );
+	//xTaskCreate( vTask2, "Task 2", 1000, NULL, 2, NULL );
+	//xTaskCreate( vTask3, "Task 3", 1000, NULL, 2, NULL );
+
+	vTaskTWICreate();
+	xTaskCreate(vTaskTWIStart, "TWI task start", 1000, NULL, 1, NULL);
 
 	vTaskStartScheduler();
 

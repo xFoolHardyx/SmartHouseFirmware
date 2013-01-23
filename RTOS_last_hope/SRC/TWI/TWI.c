@@ -19,129 +19,68 @@ void AT91F_SetTwiClock(void)
     AT91C_BASE_TWI->TWI_CWGR = (1 << 16) | (iSclock << 8) | iSclock  ;
 }
 
-int AT91F_TWI_ReadByte(const AT91PS_TWI pTwi, int mode, int int_address, char *data, int nb)
+void vTWIMessage(const AT91PS_TWI pTwi, const unsigned char * const pucData, long lDataLength, unsigned char ucSlaveAddr, unsigned long ulDirection, int iBuffAddr)
 {
-	unsigned int uiStatus;
-	unsigned int uiCounter = 0;
-	unsigned int uiError   = 0;
-
-	// Set TWI Internal Address Register
-	if ((mode & AT91C_TWI_IADRSZ) != 0)
-	{
-		pTwi->TWI_IADR = int_address;
-	}
+	unsigned int uiCounter;
 
 	// Set the TWI Master Mode Register
-	pTwi->TWI_MMR = mode | AT91C_TWI_MREAD;
+	pTwi->TWI_MMR = ucSlaveAddr | (ulDirection << MREAD_BIT) | AT91C_TWI_IADRSZ_1_BYTE;
+	// Set TWI Internal Address Register
+	pTwi->TWI_IADR = iBuffAddr;
+
+	if (ulDirection == TWIRead)
+	{
 	// Start transfer
-	if (nb == 1)
+	if (lDataLength == 1)
 	{
 		pTwi->TWI_CR = AT91C_TWI_START | AT91C_TWI_STOP;
-		uiStatus = pTwi->TWI_SR;
-		if ((uiStatus & ERROR) == ERROR)
-		{
-			uiError++;
-		}
 
-		while (!(uiStatus & AT91C_TWI_TXCOMP))
-		{
-			uiStatus = pTwi->TWI_SR;
-            if ((uiStatus & ERROR) == ERROR)
-            {
-            	uiError++;
-            }
-    	}
-
-		*(data) = pTwi->TWI_RHR;
+		while (!(pTwi->TWI_SR & AT91C_TWI_TXCOMP));
+		//*(pucData) = pTwi->TWI_RHR;
 	}
  	else
  		{
  			pTwi->TWI_CR = AT91C_TWI_START | AT91C_TWI_MSEN;
- 			uiStatus = pTwi->TWI_SR;
- 			if ((uiStatus & ERROR) == ERROR)
- 			{
- 				uiError++;
- 			}
+
+ 			uiCounter = 0;
  			// Wait transfer is finished
- 			while (!(uiStatus & AT91C_TWI_TXCOMP))
+ 			while (!((pTwi->TWI_SR) & AT91C_TWI_TXCOMP))
  			{
- 				uiStatus = pTwi->TWI_SR;
- 				if ((uiStatus & ERROR )== ERROR)
+ 				if((pTwi->TWI_SR) & AT91C_TWI_RXRDY)
  				{
- 					uiError++;
- 				}
- 				if(uiStatus & AT91C_TWI_RXRDY)
- 				{
- 					*(data+uiCounter++) = pTwi->TWI_RHR;
- 					if (uiCounter == (nb - 1))
+ 				//	*(pucData+uiCounter++) = pTwi->TWI_RHR;
+ 					if (uiCounter == (lDataLength - 1))
  					{
  						pTwi->TWI_CR = AT91C_TWI_STOP;
  					}
  				}
  			}
  		}
-return 0;
-}
-
-int iTWIMessageW(const AT91PS_TWI pTwi, unsigned char *pucData, long lDataLegth, unsigned char ucSlaveAddr, unsigned long ulDirection, int iBuffAddr)
-{
-	unsigned int uiStatus;
-	unsigned int uiCounter;
-	unsigned int uiError	= 0;
-
-	// Set the TWI Master Mode Register
-	pTwi->TWI_MMR	= ucSlaveAddr | (ulDirection << MREAD_BIT) | AT91C_TWI_IADRSZ_1_BYTE;
-	// Set TWI Internal Address Register
-	pTwi->TWI_IADR 	= iBuffAddr;
-
-	if(lDataLegth == 1)
-	{
-		pTwi->TWI_THR = *pucData;
-		pTwi->TWI_CR = AT91C_TWI_START | AT91C_TWI_MSEN | AT91C_TWI_STOP;
 	}
 	else
 		{
-			// Set the TWI Master Mode Register
-			for(uiCounter = 0; uiCounter < lDataLegth; uiCounter++)
+		if(lDataLength == 1)
 			{
-				pTwi->TWI_CR = AT91C_TWI_START | AT91C_TWI_MSEN;
-				if (uiCounter == (lDataLegth - 1))
-				{
-					pTwi->TWI_CR = AT91C_TWI_STOP;
-				}
-				uiStatus = pTwi->TWI_SR;
+				pTwi->TWI_CR = AT91C_TWI_START | AT91C_TWI_MSEN | AT91C_TWI_STOP;
+				pTwi->TWI_THR = *pucData;
 
-				if ((uiStatus & NACK) == NACK)
+			}
+			else
 				{
-					uiError++;
-				}
-
-				while (!(uiStatus & AT91C_TWI_TXRDY))
-				{
-					uiStatus = pTwi->TWI_SR;
-					if ((uiStatus & NACK) == NACK)
+					// Set the TWI Master Mode Register
+					for(uiCounter = 0; uiCounter < lDataLength; uiCounter++)
 					{
-						uiError++;
+						pTwi->TWI_CR = AT91C_TWI_START | AT91C_TWI_MSEN;
+						if (uiCounter == (lDataLength - 1))
+						{
+							pTwi->TWI_CR = AT91C_TWI_STOP;
+						}
+						while (!((pTwi->TWI_SR) & AT91C_TWI_TXRDY));
+						pTwi->TWI_THR = *(pucData+uiCounter);
 					}
 				}
-				pTwi->TWI_THR = *(pucData+uiCounter);
-			}
+				while (!(( pTwi->TWI_SR) & AT91C_TWI_TXCOMP));
 		}
-		uiStatus = pTwi->TWI_SR;
-		if ((uiStatus & NACK) == NACK)
-		{
-			uiError++;
-		}
-
-		while (!(uiStatus & AT91C_TWI_TXCOMP))
-		{
-			uiStatus = pTwi->TWI_SR;
-    		if ((uiStatus & NACK) == NACK)
-    		{
-    			uiError++;
-    		}
-		}
-return uiError;
 }
 
 void AT91F_TWI_Open(void)

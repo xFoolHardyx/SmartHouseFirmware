@@ -4,7 +4,8 @@ VPATH=SRC
 
 CFLAGS=-ISRC/include -ISRC/hardware/include -ISRC -ISRC/string/include -ISRC/TWI/include
 
-GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU) -DROM_RAN -ffunction-sections -fdata-sections
+GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU) -g -DROM_RAN 
+#-ffunction-sections -fdata-sections
 
 #-ffunction-sections -fdata-sections - create on func and data section, on link clean 
 #-g - debug inf
@@ -12,7 +13,7 @@ GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU) -DROM_RAN -ffunction-sections -fdata
 #Os - code size optimizate
 #-i /....... - way
 
-LD=arm-eabi-gcc -nostdlib -Wl,--gc-sections -Wl,-T,script.ld
+LD=arm-eabi-gcc -nostdlib  -Wl,-T,script.ld
 
 
 #-Wl,--gc-sections - clean info debug
@@ -58,7 +59,6 @@ $(BUILD)/FIRMWARE.bin: $(BUILD)/FIRMWARE.elf
 
 $(BUILD)/FIRMWARE.elf: $(OBJS:%.o=$(BUILD)/%.o)
 	$(LD) $(OBJS:%.o=$(BUILD)/%.o) -lgcc -LSRC  -o $@
-	
 
 $(BUILD)/%.o: %.c
 	$(GCC) $(CFLAGS) -c $< -o $@
