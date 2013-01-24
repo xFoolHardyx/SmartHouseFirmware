@@ -19,9 +19,10 @@ void AT91F_SetTwiClock(void)
     AT91C_BASE_TWI->TWI_CWGR = (1 << 16) | (iSclock << 8) | iSclock  ;
 }
 
-void vTWIMessage(const AT91PS_TWI pTwi, const unsigned char * const pucData, long lDataLength, unsigned char ucSlaveAddr, unsigned long ulDirection, int iBuffAddr)
+void vTWIMessage(const AT91PS_TWI pTwi, unsigned char * const pucData, long lDataLength, unsigned char ucSlaveAddr, unsigned long ulDirection, int iBuffAddr)
 {
-	unsigned int uiCounter;
+	unsigned int unCounter;
+	unsigned int unStatus=0;
 
 	// Set the TWI Master Mode Register
 	pTwi->TWI_MMR = ucSlaveAddr | (ulDirection << MREAD_BIT) | AT91C_TWI_IADRSZ_1_BYTE;
@@ -36,20 +37,20 @@ void vTWIMessage(const AT91PS_TWI pTwi, const unsigned char * const pucData, lon
 		pTwi->TWI_CR = AT91C_TWI_START | AT91C_TWI_STOP;
 
 		while (!(pTwi->TWI_SR & AT91C_TWI_TXCOMP));
-		//*(pucData) = pTwi->TWI_RHR;
+		*(pucData) = pTwi->TWI_RHR;
 	}
  	else
  		{
  			pTwi->TWI_CR = AT91C_TWI_START | AT91C_TWI_MSEN;
 
- 			uiCounter = 0;
+ 			unCounter = 0;
  			// Wait transfer is finished
  			while (!((pTwi->TWI_SR) & AT91C_TWI_TXCOMP))
  			{
  				if((pTwi->TWI_SR) & AT91C_TWI_RXRDY)
  				{
- 				//	*(pucData+uiCounter++) = pTwi->TWI_RHR;
- 					if (uiCounter == (lDataLength - 1))
+ 					*(pucData+unCounter++) = pTwi->TWI_RHR;
+ 					if (unCounter == (lDataLength - 1))
  					{
  						pTwi->TWI_CR = AT91C_TWI_STOP;
  					}
@@ -68,17 +69,19 @@ void vTWIMessage(const AT91PS_TWI pTwi, const unsigned char * const pucData, lon
 			else
 				{
 					// Set the TWI Master Mode Register
-					for(uiCounter = 0; uiCounter < lDataLength; uiCounter++)
+					for(unCounter = 0; unCounter < lDataLength; unCounter++)
 					{
 						pTwi->TWI_CR = AT91C_TWI_START | AT91C_TWI_MSEN;
-						if (uiCounter == (lDataLength - 1))
+						if (unCounter == (lDataLength - 1))
 						{
 							pTwi->TWI_CR = AT91C_TWI_STOP;
 						}
+						unStatus=pTwi->TWI_SR;
 						while (!((pTwi->TWI_SR) & AT91C_TWI_TXRDY));
-						pTwi->TWI_THR = *(pucData+uiCounter);
+						pTwi->TWI_THR = *(pucData+unCounter);
 					}
 				}
+				unStatus=pTwi->TWI_SR;
 				while (!(( pTwi->TWI_SR) & AT91C_TWI_TXCOMP));
 		}
 }

@@ -11,7 +11,7 @@
 #define TWIWrite						( ( unsigned long ) 0 )
 #define TWIRead							( ( unsigned long ) 1 )
 
-void vTWIMessage(const AT91PS_TWI pTwi, const unsigned char *const pucData, long lDataLength, unsigned char ucSlaveAddr, unsigned long ulDirection, int iBuffAddr);
+void vTWIMessage(const AT91PS_TWI pTwi, unsigned char * const pucData, long lDataLength, unsigned char ucSlaveAddr, unsigned long ulDirection, int iBuffAddr);
 void AT91F_TWI_Open(void);
 
 #endif /* TWI_H_ */
