@@ -2,7 +2,7 @@
 #include <AT91SAM7X256.h>
 #include <FreeRTOS.h>
 #include <task.h>
-#include <TWI_create_test.h>
+#include <TCP.h>
 
 const AT91PS_PIO m_pPIOA = AT91C_BASE_PIOA;
 
@@ -56,12 +56,13 @@ void main (void)
 {
 //	InitFrec();
 	InitPerepherial();
+vTaskTWICreate();
+
 
 	xTaskCreate( vTask1, "Task 1", 1000, NULL, 2, NULL );
 	//xTaskCreate( vTask2, "Task 2", 1000, NULL, 2, NULL );
 	xTaskCreate( vTask3, "Task 3", 1000, NULL, 2, NULL );
 
-	vTaskTWICreate();
 	xTaskCreate(vTaskTWIStart, "TWI task start", 1000, NULL, 1, NULL);
 
 	vTaskStartScheduler();

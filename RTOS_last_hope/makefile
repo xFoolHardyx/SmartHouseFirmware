@@ -2,7 +2,7 @@ CPU=arm7tdmi
 BUILD=build
 VPATH=SRC
 
-CFLAGS=-ISRC/include -ISRC/hardware/include -ISRC -ISRC/string/include -ISRC/TWI/include
+CFLAGS=-ISRC/include -ISRC/hardware/include -ISRC -ISRC/string/include -ISRC/TWI/include -ISRC/TCP/include 
 
 GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU) -g -DROM_RAN 
 #-ffunction-sections -fdata-sections
@@ -27,6 +27,7 @@ KERNEL=kernel
 STRING=string
 HARDWARE=hardware
 TWI=TWI
+TCP=TCP
 
 OBJS=	start.o 				\
 		main.o 					\
@@ -44,7 +45,7 @@ OBJS=	start.o 				\
 		$(HARDWARE)/port.o 		\
 		settings.o 				\
 		$(TWI)/TWI.o			\
-		$(TWI)/TWI_create_test.o
+		$(TCP)/TCP.o
 		
 all: make_folder $(BUILD)/FIRMWARE.bin
 
