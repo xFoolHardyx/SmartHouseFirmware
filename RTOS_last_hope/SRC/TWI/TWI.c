@@ -1,7 +1,8 @@
 #include <TWI.h>
+#include <AT91SAM7X256.h>
 #include <lib_AT91SAM7S256.h>
 
-void AT91F_SetTwiClock(void)
+void vTWIClock(void)
 {
 	int iSclock;
 	/* Here, CKDIV = 1 and CHDIV=CLDIV  ==> CLDIV = CHDIV = 1/4*((Fmclk/FTWI) -6)*/
@@ -14,15 +15,15 @@ void AT91F_SetTwiClock(void)
 		{
 			iSclock = (iSclock /10)- 6;
 		}
-
 	iSclock = (iSclock + (4 - iSclock % 4)) >> 2;	// div 4
     AT91C_BASE_TWI->TWI_CWGR = (1 << 16) | (iSclock << 8) | iSclock  ;
 }
 
-void vTWIMessage(const AT91PS_TWI pTwi, unsigned char * const pucData, long lDataLength, unsigned char ucSlaveAddr, unsigned long ulDirection, int iBuffAddr)
+void vTWIMessage(unsigned char * const pucData, long lDataLength, unsigned char ucSlaveAddr, int iBuffAddr, unsigned long ulDirection)
 {
 	unsigned int unCounter;
 	unsigned int unStatus=0;
+	const AT91PS_TWI pTwi;
 
 	// Set the TWI Master Mode Register
 	pTwi->TWI_MMR = ucSlaveAddr | (ulDirection << MREAD_BIT) | AT91C_TWI_IADRSZ_1_BYTE;
@@ -86,7 +87,7 @@ void vTWIMessage(const AT91PS_TWI pTwi, unsigned char * const pucData, long lDat
 		}
 }
 
-void AT91F_TWI_Open(void)
+void vTWIInit(void)
 {
 	// Configure TWI PIOs
 	AT91F_TWI_CfgPIO ();
@@ -95,5 +96,5 @@ void AT91F_TWI_Open(void)
 	// Configure TWI in master mode
 	AT91F_TWI_Configure (AT91C_BASE_TWI);
 	// Set TWI Clock Waveform Generator Register
-	AT91F_SetTwiClock();
+	vTWIClock();
 }

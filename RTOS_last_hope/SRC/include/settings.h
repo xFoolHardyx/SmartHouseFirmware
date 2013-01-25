@@ -119,6 +119,6 @@
 			(pPIO)->PIO_CODR = PIN;}
 
 void InitFrec(void);
-void InitPerepherial(void);
+void vInitPerepherial(void);
 
 #endif /* SETTINGS_H_ */
