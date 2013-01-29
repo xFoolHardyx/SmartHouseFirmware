@@ -3,6 +3,7 @@
 #include <FreeRTOS.h>
 #include <task.h>
 #include <TCP.h>
+#include <HTTP_Serv.h>
 
 const AT91PS_PIO m_pPIOA = AT91C_BASE_PIOA;
 
@@ -44,12 +45,12 @@ void vTask2( void *pvParameters )
 
 void main (void)
 {
-	InitPerepherial();
+	vInitPerepherial();
 
 	xTaskCreate( vTask1, "LED Task 1", 1000, NULL, 2, NULL );
 	xTaskCreate( vTask2, "LED Task 2", 1000, NULL, 2, NULL );
 
-	//xTaskCreate(vTaskTWIStart, "TWI task start", 1000, NULL, 1, NULL);
+	xTaskCreate(vHTTPServerTask, "TWI task start", 1000, NULL, 1, NULL);
 
 	vTaskStartScheduler();
 

@@ -2,6 +2,7 @@
 #include <FreeRTOS.h>
 #include <settings.h>
 #include <html_pages.h>
+#include <string.h>
 
 /*-----------------------------------------------------------*/
 
@@ -123,6 +124,61 @@ unsigned char ucDataDisconnect[]		= { tcpDISCONNECT_CMD };
 unsigned char ucDataEnableISR[]			= { i2cCHANNEL_0_ISR_ENABLE };
 unsigned char ucDataDisableISR[]		= { i2cCHANNEL_0_ISR_DISABLE };
 unsigned char ucDataClearInterrupt[]	= { i2cCLEAR_ALL_INTERRUPTS };
+
+
+
+/* Dynamically generate and send an html page. */
+static void prvSendSamplePage( void );
+
+/* Read a register from the WIZnet device via the i2c interface. */
+static void prvReadRegister( unsigned char *pucDestination, unsigned short usAddress, unsigned long ulLength );
+
+/* Send the entire Tx buffer (the Tx buffer within the WIZnet device). */
+static void prvFlushBuffer( unsigned long ulTxAddress );
+
+/* Write a string to the WIZnet Tx buffer. */
+static void prvWriteString( const char * const pucTxBuffer, long lTxLen, unsigned long *pulTxAddress );
+
+/* Convert a number to a string. */
+void ultoa( unsigned long ulVal, char *pcBuffer, long lIgnore );
+
+/*-----------------------------------------------------------*/
+
+static void prvFlushBuffer( unsigned long ulTxAddress )
+{
+unsigned char ucTxBuffer[ tcpMAX_REGISTER_LEN ];
+
+	/* We have written some data to the Tx buffer internal to the WIZnet
+	device.  Now we update the Tx pointer inside the WIZnet then send a
+	Send command - which causes	the data up to the new Tx pointer to be
+	transmitted. */
+
+	/* Make sure endieness is correct for transmission. */
+	ulTxAddress = htonl( ulTxAddress );
+
+	/* Place the new Tx pointer in the string to be transmitted. */
+	ucTxBuffer[ 0 ] = ( unsigned char ) ( ulTxAddress & 0xff );
+	ulTxAddress >>= 8;
+	ucTxBuffer[ 1 ] = ( unsigned char ) ( ulTxAddress & 0xff );
+	ulTxAddress >>= 8;
+	ucTxBuffer[ 2 ] = ( unsigned char ) ( ulTxAddress & 0xff );
+	ulTxAddress >>= 8;
+	ucTxBuffer[ 3 ] = ( unsigned char ) ( ulTxAddress & 0xff );
+	ulTxAddress >>= 8;
+
+	/* And send it to the WIZnet device. */
+	vTWIMessage( ucTxBuffer, sizeof( ulTxAddress ), tcpDEVICE_ADDRESS, tcpTX_WRITE_POINTER_REG, TWIWrite);
+
+
+
+	vTaskDelay( tcpSHORT_DELAY );
+
+	/* Transmit! */
+	vTWIMessage( ucDataSend, sizeof( ucDataSend ), tcpDEVICE_ADDRESS, tcpCOMMAND_REG, TWIWrite);
+}
+
+
+
 
 static void prvReadRegister( unsigned char *pucDestination, unsigned short usAddress, unsigned long ulLength )
 {
@@ -311,10 +367,10 @@ long lTCPCreateSocket( void )
 		return ( long ) pdPASS;
 }
 
-long lProcessConnection( void )
+void lProcessConnection( void )
 {
 	unsigned char ucISR, ucState, ucLastState = 2, ucShadow;
-	extern volatile long lTransactionCompleted;
+	/*extern*/ volatile long lTransactionCompleted;
 	long lSameStateCount = 0, lDataSent = pdFALSE;
 	unsigned long ulWritePointer, ulAckPointer;
 
@@ -471,7 +527,7 @@ long lProcessConnection( void )
 		/* We are going to reinitialise the WIZnet device so do not want our
 		interrupts from the WIZnet to be processed. */
 //		VICIntEnClear |= tcpEINT0_VIC_CHANNEL_BIT;
-		return lTransactionCompleted;
+		//return lTransactionCompleted;
 }
 
 void vTCPListen( void )

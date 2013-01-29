@@ -2,7 +2,14 @@ CPU=arm7tdmi
 BUILD=build
 VPATH=SRC
 
-CFLAGS=-ISRC/include -ISRC/hardware/include -ISRC -ISRC/string/include -ISRC/TWI/include -ISRC/TCP/include -ISRC/HTML
+CFLAGS=	-ISRC/include 				\
+		-ISRC/hardware/include 		\
+		-ISRC 						\
+		-ISRC/string/include 		\
+		-ISRC/TWI/include 			\
+		-ISRC/TCP/include 			\
+		-ISRC/HTML					\
+		-ISRC/HTTP_Server/include
 
 GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU) -g -DROM_RAN 
 #-ffunction-sections -fdata-sections
@@ -28,6 +35,7 @@ STRING=string
 HARDWARE=hardware
 TWI=TWI
 TCP=TCP
+HTTP=HTTP_Server
 
 OBJS=	start.o 				\
 		main.o 					\
@@ -45,8 +53,12 @@ OBJS=	start.o 				\
 		$(HARDWARE)/port.o 		\
 		settings.o 				\
 		$(TWI)/TWI.o			\
-		$(TCP)/TCP.o
+		$(TCP)/TCP.o			\
+		$(HTTP)/HTTP_Serv.o
 		
+		
+		
+				
 all: make_folder $(BUILD)/FIRMWARE.bin
 
 make_folder:
