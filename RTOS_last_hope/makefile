@@ -2,7 +2,7 @@ CPU=arm7tdmi
 BUILD=build
 VPATH=SRC
 
-CFLAGS=-ISRC/include -ISRC/hardware/include -ISRC -ISRC/string/include -ISRC/TWI/include -ISRC/TCP/include
+CFLAGS=-ISRC/include -ISRC/hardware/include -ISRC -ISRC/string/include -ISRC/TWI/include -ISRC/TCP/include -ISRC/HTML
 
 GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU) -g -DROM_RAN 
 #-ffunction-sections -fdata-sections
