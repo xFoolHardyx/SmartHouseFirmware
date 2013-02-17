@@ -2,10 +2,15 @@
 #include <AT91SAM7X256.h>
 #include <FreeRTOS.h>
 #include <task.h>
-#include <TCP.h>
-#include <HTTP_Serv.h>
+#include <dynamic.h>
+#include <semtest.h>
+#include <PollQ.h>
+#include <BlockQ.h>
 
 const AT91PS_PIO m_pPIOA = AT91C_BASE_PIOA;
+
+#define mainBLOCK_Q_PRIORITY		( tskIDLE_PRIORITY + 2 )
+#define mainQUEUE_POLL_PRIORITY		( tskIDLE_PRIORITY + 2 )
 
 void delay (unsigned long a) {while (--a!=0);}
 
@@ -50,7 +55,12 @@ void main (void)
 	xTaskCreate( vTask1, "LED Task 1", 1000, NULL, 2, NULL );
 	xTaskCreate( vTask2, "LED Task 2", 1000, NULL, 2, NULL );
 
-	xTaskCreate(vHTTPServerTask, "TWI task start", 1000, NULL, 1, NULL);
+	vStartSemaphoreTasks( tskIDLE_PRIORITY );
+	vStartDynamicPriorityTasks();
+	vStartPolledQueueTasks( mainQUEUE_POLL_PRIORITY );
+	vStartBlockingQueueTasks( mainBLOCK_Q_PRIORITY );
+
+	//xTaskCreate(vHTTPServerTask, "TWI task start", 1000, NULL, 1, NULL);
 
 	vTaskStartScheduler();
 

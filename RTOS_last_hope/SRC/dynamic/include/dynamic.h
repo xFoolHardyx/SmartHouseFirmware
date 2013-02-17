@@ -64,9 +64,12 @@
     the SafeRTOS brand: http://www.SafeRTOS.com.
 */
 
-#ifndef HTTP_H
-#define HTTP_H
+#ifndef DYNAMIC_MANIPULATION_H
+#define DYNAMIC_MANIPULATION_H
 
-void vHTTPServerTask( void *pvParameters );
+void vStartDynamicPriorityTasks( void );
+portBASE_TYPE xAreDynamicPriorityTasksStillRunning( void );
 
 #endif
+
+

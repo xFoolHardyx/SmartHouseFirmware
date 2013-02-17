@@ -260,7 +260,6 @@ loop2: 	cmp     R1, R2
 AT91F_Irq_Handler:	b AT91F_Irq_Handler
 
 _swi:   .word vPortYieldProcessor
-#_swi:   .word SWI_Handler @@R
 
 AT91F_Dabt_Handler: 		b AT91F_Dabt_Handler
 AT91F_Pabt_Handler: 		b AT91F_Pabt_Handler
@@ -269,5 +268,4 @@ AT91F_Default_FIQ_handler: 	b AT91F_Default_FIQ_handler
 AT91F_Default_IRQ_handler: 	b AT91F_Default_IRQ_handler
 AT91F_Spurious_handler: 	b AT91F_Spurious_handler
 
-#SWI_Handler:    B       SWI_Handler
 .end

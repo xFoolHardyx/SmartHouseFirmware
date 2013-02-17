@@ -1,6 +1,6 @@
 #include <AT91SAM7X256.h>
 #include <settings.h>
-#include <TWI.h>
+//#include <TWI.h>
 
 //void InitFrec (void)
 //{
@@ -29,5 +29,5 @@ void vInitPerepherial (void)
 	ConfPIO(p_pPIO,BIT16,0);
 
 	//TWI init
-	vTWIInit();
+	//vTWIInit();
 }

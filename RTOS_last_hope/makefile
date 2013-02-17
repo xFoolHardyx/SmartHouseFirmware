@@ -2,16 +2,17 @@ CPU=arm7tdmi
 BUILD=build
 VPATH=SRC
 
-CFLAGS=	-ISRC/include 				\
+CFLAGS=	-ISRC 						\
+		-ISRC/include 				\
 		-ISRC/hardware/include 		\
-		-ISRC 						\
 		-ISRC/string/include 		\
-		-ISRC/TWI/include 			\
-		-ISRC/TCP/include 			\
-		-ISRC/HTML					\
-		-ISRC/HTTP_Server/include
-
-GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU) -g -DROM_RAN 
+		-ISRC/BlockingQueue/include \
+		-ISRC/dynamic/include		\
+		-ISRC/PolledQueue/include	\
+		-ISRC/semaphore/include
+		
+GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU) -g -DROM_RAN
+ 
 #-ffunction-sections -fdata-sections
 
 #-ffunction-sections -fdata-sections - create on func and data section, on link clean 
@@ -36,34 +37,53 @@ HARDWARE=hardware
 TWI=TWI
 TCP=TCP
 HTTP=HTTP_Server
+dynamic=dynamic
+PolledQueue=PolledQueue
+semaphore=semaphore
+BlockingQueue=BlockingQueue
 
-OBJS=	start.o 				\
-		main.o 					\
-		$(KERNEL)/tasks.o 		\
-		$(KERNEL)/list.o 		\
-		$(KERNEL)/queue.o 		\
-		$(KERNEL)/heap_2.o 		\
-		$(STRING)/memcmp.o 		\
-		$(STRING)/memcpy.o 		\
-		$(STRING)/memset.o 		\
-		$(STRING)/strcat.o 		\
-		$(STRING)/strlen.o 		\
-		$(STRING)/strncpy.o		\
-		$(HARDWARE)/portISR.o 	\
-		$(HARDWARE)/port.o 		\
-		settings.o 				\
-		$(TWI)/TWI.o			\
-		$(TCP)/TCP.o			\
-		$(HTTP)/HTTP_Serv.o
-		
-		
+OBJS=	start.o 					\
+		main.o 						\
+		$(KERNEL)/tasks.o 			\
+		$(KERNEL)/list.o 			\
+		$(KERNEL)/queue.o 			\
+		$(KERNEL)/heap_2.o 			\
+		$(STRING)/memcmp.o 			\
+		$(STRING)/memcpy.o 			\
+		$(STRING)/memset.o 			\
+		$(STRING)/strcat.o 			\
+		$(STRING)/strlen.o 			\
+		$(STRING)/strncpy.o			\
+		$(HARDWARE)/portISR.o 		\
+		$(HARDWARE)/port.o 			\
+		settings.o 					\
+		$(dynamic)/dynamic.o		\
+		$(PolledQueue)/PollQ.o		\
+		$(semaphore)/semtest.o		\
+		$(BlockingQueue)/BlockQ.o
+						
 		
 				
-all: make_folder $(BUILD)/FIRMWARE.bin
+all: make_folder_build make_folder_hardware make_folder_kernel make_folder_string make_folder_BlockingQueue make_folder_dynamic make_folder_PolledQueue make_folder_semaphore $(BUILD)/FIRMWARE.bin
 
-make_folder:
-	if not exist build mkdir build
-	
+make_folder_build: 
+			if not exist build mkdir build
+make_folder_hardware: 
+			if not exist build\hardware mkdir build\hardware 
+make_folder_kernel:
+			if not exist build\kernel mkdir build\kernel 
+make_folder_string: 
+			if not exist build\string mkdir build\string
+make_folder_BlockingQueue:
+			if not exist build\BlockingQueue mkdir build\BlockingQueue
+make_folder_dynamic:
+			if not exist build\dynamic mkdir build\dynamic
+make_folder_PolledQueue:
+			if not exist build\PolledQueue mkdir build\PolledQueue
+make_folder_semaphore:
+			if not exist build\semaphore mkdir build\semaphore
+
+
 clean:
 	del /S /Q $(BUILD)\*.*
 
