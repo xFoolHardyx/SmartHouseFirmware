@@ -198,14 +198,14 @@ typedef struct _AT91S_AIC {
 } AT91S_AIC, *AT91PS_AIC;
 
 // -------- AIC_SMR : (AIC Offset: 0x0) Control Register -------- 
-#define AT91C_AIC_PRIOR       ((unsigned int) 0x7 <<  0) // (AIC) Priority Level
-#define 	AT91C_AIC_PRIOR_LOWEST               ((unsigned int) 0x0) // (AIC) Lowest priority level
-#define 	AT91C_AIC_PRIOR_HIGHEST              ((unsigned int) 0x7) // (AIC) Highest priority level
-#define AT91C_AIC_SRCTYPE     ((unsigned int) 0x3 <<  5) // (AIC) Interrupt Source Type
-#define 	AT91C_AIC_SRCTYPE_INT_LEVEL_SENSITIVE  ((unsigned int) 0x0 <<  5) // (AIC) Internal Sources Code Label Level Sensitive
-#define 	AT91C_AIC_SRCTYPE_INT_EDGE_TRIGGERED   ((unsigned int) 0x1 <<  5) // (AIC) Internal Sources Code Label Edge triggered
-#define 	AT91C_AIC_SRCTYPE_EXT_HIGH_LEVEL       ((unsigned int) 0x2 <<  5) // (AIC) External Sources Code Label High-level Sensitive
-#define 	AT91C_AIC_SRCTYPE_EXT_POSITIVE_EDGE    ((unsigned int) 0x3 <<  5) // (AIC) External Sources Code Label Positive Edge triggered
+#define 	AT91C_AIC_PRIOR       					((unsigned int) 0x7 <<  0) // (AIC) Priority Level
+#define 	AT91C_AIC_PRIOR_LOWEST               	((unsigned int) 0x0) // (AIC) Lowest priority level
+#define 	AT91C_AIC_PRIOR_HIGHEST              	((unsigned int) 0x7) // (AIC) Highest priority level
+#define 	AT91C_AIC_SRCTYPE     					((unsigned int) 0x3 <<  5) // (AIC) Interrupt Source Type
+#define 	AT91C_AIC_SRCTYPE_INT_LEVEL_SENSITIVE  	((unsigned int) 0x0 <<  5) // (AIC) Internal Sources Code Label Level Sensitive
+#define 	AT91C_AIC_SRCTYPE_INT_EDGE_TRIGGERED   	((unsigned int) 0x1 <<  5) // (AIC) Internal Sources Code Label Edge triggered
+#define 	AT91C_AIC_SRCTYPE_EXT_HIGH_LEVEL       	((unsigned int) 0x2 <<  5) // (AIC) External Sources Code Label High-level Sensitive
+#define 	AT91C_AIC_SRCTYPE_EXT_POSITIVE_EDGE    	((unsigned int) 0x3 <<  5) // (AIC) External Sources Code Label Positive Edge triggered
 // -------- AIC_CISR : (AIC Offset: 0x114) AIC Core Interrupt Status Register -------- 
 #define AT91C_AIC_NFIQ        ((unsigned int) 0x1 <<  0) // (AIC) NFIQ Status
 #define AT91C_AIC_NIRQ        ((unsigned int) 0x1 <<  1) // (AIC) NIRQ Status

@@ -9,8 +9,12 @@ CFLAGS=	-ISRC 						\
 		-ISRC/BlockingQueue/include \
 		-ISRC/dynamic/include		\
 		-ISRC/PolledQueue/include	\
-		-ISRC/semaphore/include
+		-ISRC/semaphore/include		\
+		-ISRC/TWI/include
 		
+		
+		
+				
 GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU) -g -DROM_RAN
  
 #-ffunction-sections -fdata-sections
@@ -60,11 +64,13 @@ OBJS=	start.o 					\
 		$(dynamic)/dynamic.o		\
 		$(PolledQueue)/PollQ.o		\
 		$(semaphore)/semtest.o		\
-		$(BlockingQueue)/BlockQ.o
-						
+		$(BlockingQueue)/BlockQ.o	\
+		$(TWI)/TWI.o				\
+		$(TWI)/TWIISR.o
+								
 		
 				
-all: make_folder_build make_folder_hardware make_folder_kernel make_folder_string make_folder_BlockingQueue make_folder_dynamic make_folder_PolledQueue make_folder_semaphore $(BUILD)/FIRMWARE.bin
+all: make_folder_build make_folder_hardware make_folder_kernel make_folder_string make_folder_BlockingQueue make_folder_dynamic make_folder_PolledQueue make_folder_semaphore make_folder_TWI $(BUILD)/FIRMWARE.bin
 
 make_folder_build: 
 			if not exist build mkdir build
@@ -82,6 +88,8 @@ make_folder_PolledQueue:
 			if not exist build\PolledQueue mkdir build\PolledQueue
 make_folder_semaphore:
 			if not exist build\semaphore mkdir build\semaphore
+make_folder_TWI:
+			if not exist build\TWI mkdir build\TWI
 
 
 clean:

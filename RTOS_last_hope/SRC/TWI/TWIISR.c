@@ -1,81 +1,11 @@
-/*
-    FreeRTOS V7.2.0 - Copyright (C) 2012 Real Time Engineers Ltd.
-
-
-    ***************************************************************************
-     *                                                                       *
-     *    FreeRTOS tutorial books are available in pdf and paperback.        *
-     *    Complete, revised, and edited pdf reference manuals are also       *
-     *    available.                                                         *
-     *                                                                       *
-     *    Purchasing FreeRTOS documentation will not only help you, by       *
-     *    ensuring you get running as quickly as possible and with an        *
-     *    in-depth knowledge of how to use FreeRTOS, it will also help       *
-     *    the FreeRTOS project to continue with its mission of providing     *
-     *    professional grade, cross platform, de facto standard solutions    *
-     *    for microcontrollers - completely free of charge!                  *
-     *                                                                       *
-     *    >>> See http://www.FreeRTOS.org/Documentation for details. <<<     *
-     *                                                                       *
-     *    Thank you for using FreeRTOS, and thank you for your support!      *
-     *                                                                       *
-    ***************************************************************************
-
-
-    This file is part of the FreeRTOS distribution.
-
-    FreeRTOS is free software; you can redistribute it and/or modify it under
-    the terms of the GNU General Public License (version 2) as published by the
-    Free Software Foundation AND MODIFIED BY the FreeRTOS exception.
-    >>>NOTE<<< The modification to the GPL is included to allow you to
-    distribute a combined work that includes FreeRTOS without being obliged to
-    provide the source code for proprietary components outside of the FreeRTOS
-    kernel.  FreeRTOS is distributed in the hope that it will be useful, but
-    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-    more details. You should have received a copy of the GNU General Public
-    License and the FreeRTOS license exception along with FreeRTOS; if not it
-    can be viewed here: http://www.freertos.org/a00114.html and also obtained
-    by writing to Richard Barry, contact details for whom are available on the
-    FreeRTOS WEB site.
-
-    1 tab == 4 spaces!
-
-    ***************************************************************************
-     *                                                                       *
-     *    Having a problem?  Start by reading the FAQ "My application does   *
-     *    not run, what could be wrong?                                      *
-     *                                                                       *
-     *    http://www.FreeRTOS.org/FAQHelp.html                               *
-     *                                                                       *
-    ***************************************************************************
-
-
-    http://www.FreeRTOS.org - Documentation, training, latest information,
-    license and contact details.
-
-    http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
-    including FreeRTOS+Trace - an indispensable productivity tool.
-
-    Real Time Engineers ltd license FreeRTOS to High Integrity Systems, who sell
-    the code with commercial support, indemnification, and middleware, under
-    the OpenRTOS brand: http://www.OpenRTOS.com.  High Integrity Systems also
-    provide a safety engineered and independently SIL3 certified version under
-    the SafeRTOS brand: http://www.SafeRTOS.com.
-*/
-
-
-/* Standard includes. */
-
-
 /* Scheduler include files. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
-#include "semphr.h"
+#include <FreeRTOS.h>
+#include <task.h>
+#include <queue.h>
+#include <semphr.h>
 
 /* Application includes. */
-#include "i2c.h"
+#include <TWI.h>
 
 /*-----------------------------------------------------------*/
 
@@ -94,6 +24,12 @@
 #define i2cSTATUS_DATA_RXED				( 0x50 )
 #define i2cSTATUS_LAST_BYTE_RXED		( 0x58 )
 
+
+
+#define TWI_STATUS 				( AT91C_BASE_TWI->TWI_SR )
+#define TWI_STATUS_START_TXED 	( AT91C_TWI_TXRDY )
+
+
 /* Constants for operation of the VIC. */
 #define i2cCLEAR_VIC_INTERRUPT	( 0 )
 
@@ -104,11 +40,12 @@
 /* End the current transmission and free the bus. */
 #define i2cEND_TRANSMISSION( lStatus )					\
 {														\
-	I2C_I2CONCLR = i2cAA_BIT;							\
-	I2C_I2CONSET = i2cSTO_BIT;							\
 	eCurrentState = eSentStart;							\
 	lTransactionCompleted = lStatus;					\
 }
+/*	I2C_I2CONCLR = i2cAA_BIT;							\
+	I2C_I2CONSET = i2cSTO_BIT;							\*/
+
 /*-----------------------------------------------------------*/
 
 /* Valid i2c communication states. */
@@ -119,11 +56,11 @@ typedef enum
 	eSentAddressForRead,	/*<< Last action was the transmission of the slave address we are to read from. */
 	eSentData,				/*<< Last action was the transmission of a data byte. */
 	eReceiveData			/*<< We expected data to be received. */
-} I2C_STATE;
+} TWI_STATE;
 /*-----------------------------------------------------------*/
 
 /* Points to the message currently being sent. */
-volatile xI2CMessage *pxCurrentMessage = NULL;
+volatile xTWIMessage *pxCurrentMessage = NULL;
 
 /* The queue of messages waiting to be transmitted. */
 static xQueueHandle xMessagesForTx;
@@ -138,10 +75,10 @@ volatile long lTransactionCompleted = pdTRUE;
 
 /*-----------------------------------------------------------*/
 
-void vI2CISRCreateQueues( unsigned portBASE_TYPE uxQueueLength, xQueueHandle *pxTxMessages, unsigned long **ppulBusFree )
+void vTWIISRCreateQueues( unsigned portBASE_TYPE uxQueueLength, xQueueHandle *pxTxMessages, unsigned long **ppulBusFree )
 {
 	/* Create the queues used to hold Rx and Tx characters. */
-	xMessagesForTx = xQueueCreate( uxQueueLength, ( unsigned portBASE_TYPE ) sizeof( xI2CMessage * ) );
+	xMessagesForTx = xQueueCreate( uxQueueLength, ( unsigned portBASE_TYPE ) sizeof( xTWIMessage * ) );
 
 	/* Pass back a reference to the queue and bus free flag so the I2C API file
 	can post messages. */
@@ -151,32 +88,32 @@ void vI2CISRCreateQueues( unsigned portBASE_TYPE uxQueueLength, xQueueHandle *px
 /*-----------------------------------------------------------*/
 
 /* The ISR entry point. */
-void vI2C_ISR_Wrapper( void ) __attribute__ (( naked ));
+void vTWI_ISR_Wrapper( void ) __attribute__ (( naked ));
 
 /* The ISR function to perform the actual work.  This must be a separate
 function from the wrapper to ensure the correct stack frame is set up. */
-void vI2C_ISR_Handler( void );
+void vTWI_ISR_Handler( void );
 
 /*-----------------------------------------------------------*/
 
-void vI2C_ISR_Wrapper( void )
+void vTWI_ISR_Wrapper( void )
 {
 	/* Save the context of the interrupted task. */
 	portSAVE_CONTEXT();
 
 	/* Call the handler to perform the actual work.  This must be a
 	separate function to ensure the correct stack frame is set up. */
-	vI2C_ISR_Handler();
+	vTWI_ISR_Handler();
 
 	/* Restore the context of whichever task is going to run next. */
 	portRESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
-void vI2C_ISR_Handler( void )
+void vTWI_ISR_Handler( void )
 {
 /* Holds the current transmission state. */
-static I2C_STATE eCurrentState = eSentStart;
+static TWI_STATE eCurrentState = eSentStart;
 static long lMessageIndex = -i2cBUFFER_ADDRESS_BYTES; /* There are two address bytes to send prior to the data. */
 portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 long lBytesLeft;
@@ -188,12 +125,12 @@ long lBytesLeft;
 
 				/* We sent a start bit, if it was successful we can
 				go on to send the slave address. */
-				if( ( I2C_I2STAT == i2cSTATUS_START_TXED ) || ( I2C_I2STAT == i2cSTATUS_REP_START_TXED ) )
+				if( TWI_STATUS == TWI_STATUS_START_TXED  )
 				{
 					/* Send the slave address. */
-					I2C_I2DAT = pxCurrentMessage->ucSlaveAddress;
+					AT91C_BASE_TWI->TWI_MMR = (pxCurrentMessage->ucSlaveAddress << 16);
 
-					if( pxCurrentMessage->ucSlaveAddress & i2cREAD )
+					if( pxCurrentMessage->ucSlaveAddress & TWIREAD )
 					{
 						/* We are then going to read bytes back from the
 						slave. */
@@ -220,7 +157,7 @@ long lBytesLeft;
 					i2cEND_TRANSMISSION( pdFAIL );
 				}
 
-				I2C_I2CONCLR = i2cSTA_BIT;
+				AT91C_BASE_TWI->TWI_CR &= ~(AT91C_TWI_START);
 
 				break;
 

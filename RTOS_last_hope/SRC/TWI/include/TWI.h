@@ -2,6 +2,8 @@
 #define TWI_H_
 
 #include <semphr.h>
+#include <AT91SAM7X256.h>
+#include <lib_AT91SAM7S256.h>
 
 typedef struct AN_TWI_MESSAGE
 {
@@ -15,5 +17,8 @@ typedef struct AN_TWI_MESSAGE
 /* Constants to use as the ulDirection parameter of i2cMessage(). */
 #define TWIWRITE				( ( unsigned long ) 0 )
 #define TWIREAD					( ( unsigned long ) 1 )
+
+
+void TWIInit( void );
 
 #endif

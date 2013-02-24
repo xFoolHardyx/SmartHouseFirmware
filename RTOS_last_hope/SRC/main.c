@@ -6,6 +6,7 @@
 #include <semtest.h>
 #include <PollQ.h>
 #include <BlockQ.h>
+#include <TWI.h>
 
 const AT91PS_PIO m_pPIOA = AT91C_BASE_PIOA;
 

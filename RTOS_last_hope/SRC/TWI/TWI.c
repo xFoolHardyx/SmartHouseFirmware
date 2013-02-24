@@ -3,6 +3,7 @@
 #include <queue.h>
 #include <semphr.h>
 
+
 /* Application includes. */
 #include <TWI.h>
 
@@ -16,6 +17,13 @@
 #define TWIACTIVE_MASTER_MODE	( ( unsigned char ) 0x40 )
 #define TWITIMERL				( 200 )
 #define TWITIMERH				( 200 )
+
+#define AT91C_TWI_CLOCK 	8000
+
+#define twiINTERRUPT_LEVEL ((unsigned int) 0x5)
+
+#define DisInt (AT91C_TWI_TXCOMP|AT91C_TWI_RXRDY|AT91C_TWI_TXRDY|AT91C_TWI_NACK)
+#define TWISTA_BIT (AT91C_TWI_START|AT91C_TWI_MSEN)
 
 
 
@@ -78,6 +86,8 @@ signed portBASE_TYPE xReturn;
 
 //			I2C_I2CONCLR = i2cSI_BIT;
 //			I2C_I2CONSET = i2cSTA_BIT;
+			AT91C_BASE_TWI->TWI_IDR=DisInt;
+			AT91C_BASE_TWI->TWI_CR=TWISTA_BIT;
 
 			*pulBusFree = ( unsigned long ) pdFALSE;
 		}
@@ -101,6 +111,8 @@ signed portBASE_TYPE xReturn;
 
 //				I2C_I2CONCLR = i2cSI_BIT;
 //				I2C_I2CONSET = i2cSTA_BIT;
+				AT91C_BASE_TWI->TWI_IDR=DisInt;
+				AT91C_BASE_TWI->TWI_CR=TWISTA_BIT;
 
 				*pulBusFree = ( unsigned long ) pdFALSE;
 			}
@@ -108,17 +120,34 @@ signed portBASE_TYPE xReturn;
 	}
 	portEXIT_CRITICAL();
 }
+
 /*-----------------------------------------------------------*/
 
-//void i2cInit( void )
-//{
-//extern void ( vI2C_ISR_Wrapper )( void );
-//
-//	/* Create the queue used to send messages to the ISR. */
-//	vI2CISRCreateQueues( i2cQUEUE_LENGTH, &xMessagesForTx, &pulBusFree );
-//
-//	/* Configure the I2C hardware. */
-//
+void AT91F_SetTwiClock(void)
+{
+	int sclock;
+
+		/* Here, CKDIV = 1 and CHDIV=CLDIV  ==> CLDIV = CHDIV = 1/4*((Fmclk/FTWI) -6)*/
+
+		sclock = (10*configCPU_CLOCK_HZ /AT91C_TWI_CLOCK);
+		if (sclock % 10 >= 5)
+			sclock = (sclock /10) - 5;
+		else
+			sclock = (sclock /10)- 6;
+		sclock = (sclock + (4 - sclock %4)) >> 2;	// div 4
+
+	    AT91C_BASE_TWI->TWI_CWGR	= ( 1<<16 ) | (sclock << 8) | sclock  ;
+}
+
+void TWIInit( void )
+{
+extern void ( vTWI_ISR_Wrapper )( void );
+
+	/* Create the queue used to send messages to the ISR. */
+	vTWIISRCreateQueues( TWIQUEUE_LENGTH, &xMessagesForTx, &pulBusFree );
+
+	/* Configure the I2C hardware. */
+
 //	I2C_I2CONCLR = 0xff;
 //
 //	PCB_PINSEL0 |= mainSDA_ENABLE;
@@ -127,16 +156,31 @@ signed portBASE_TYPE xReturn;
 //	I2C_I2SCLL = i2cTIMERL;
 //	I2C_I2SCLH = i2cTIMERH;
 //	I2C_I2CONSET = i2cACTIVE_MASTER_MODE;
-//
-//	portENTER_CRITICAL();
-//	{
-//		/* Setup the VIC for the i2c interrupt. */
+
+	// Configure TWI PIOs
+	AT91F_TWI_CfgPIO ();
+	// Configure PMC by enabling TWI clock
+	AT91F_TWI_CfgPMC ();
+
+	// Configure TWI in master mode
+	AT91F_TWI_Configure ();
+
+	// Set TWI Clock Waveform Generator Register
+	AT91F_SetTwiClock();
+
+	portENTER_CRITICAL();
+	{
+		/* Setup the VIC for the i2c interrupt. */
 //		VICIntSelect &= ~( i2cI2C_VIC_CHANNEL_BIT );
 //		VICIntEnable |= i2cI2C_VIC_CHANNEL_BIT;
 //		VICVectAddr2 = ( long ) vI2C_ISR_Wrapper;
 //
 //		VICVectCntl2 = i2cI2C_VIC_CHANNEL | i2cI2C_VIC_ENABLE;
-//	}
-//	portEXIT_CRITICAL();
-//}
+
+		AT91F_AIC_ConfigureIt(AT91C_ID_TWI,twiINTERRUPT_LEVEL,AT91C_AIC_SRCTYPE_EXT_POSITIVE_EDGE,( void (*)(void) )vTWI_ISR_Wrapper);
+		AT91F_AIC_EnableIt( AT91C_BASE_AIC, AT91C_ID_TWI );
+
+	}
+	portEXIT_CRITICAL();
+}
 

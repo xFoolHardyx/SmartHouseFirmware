@@ -2800,16 +2800,16 @@ __inline void AT91F_TWI_DisableIt (
 //* \fn    AT91F_TWI_Configure
 //* \brief Configure TWI in master mode
 //*----------------------------------------------------------------------------
-__inline void AT91F_TWI_Configure ( AT91PS_TWI pTWI )          // \arg pointer to a TWI controller
+__inline void AT91F_TWI_Configure ( void )          // \arg pointer to a TWI controller
 {
     //* Disable interrupts
-	pTWI->TWI_IDR = (unsigned int) -1;
+	AT91C_BASE_TWI->TWI_IDR = (unsigned int) -1;
 
     //* Reset peripheral
-	pTWI->TWI_CR = AT91C_TWI_SWRST;
+	AT91C_BASE_TWI->TWI_CR = AT91C_TWI_SWRST;
 
 	//* Set Master mode
-	pTWI->TWI_CR = AT91C_TWI_MSEN;
+	AT91C_BASE_TWI->TWI_CR = AT91C_TWI_MSEN;
 
 }
 

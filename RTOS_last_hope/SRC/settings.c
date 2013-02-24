@@ -29,5 +29,6 @@ void vInitPerepherial (void)
 	ConfPIO(p_pPIO,BIT16,0);
 
 	//TWI init
+	TWIInit();
 	//vTWIInit();
 }
