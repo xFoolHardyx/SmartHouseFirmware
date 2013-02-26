@@ -6,6 +6,7 @@
 
 /* Application includes. */
 #include <TWI.h>
+#include <lib_AT91SAM7S256.h>
 
 /*-----------------------------------------------------------*/
 
@@ -111,7 +112,7 @@ signed portBASE_TYPE xReturn;
 
 //				I2C_I2CONCLR = i2cSI_BIT;
 //				I2C_I2CONSET = i2cSTA_BIT;
-				AT91C_BASE_TWI->TWI_IDR=DisInt;
+				//AT91C_BASE_TWI->TWI_IDR=DisInt;
 				AT91C_BASE_TWI->TWI_CR=TWISTA_BIT;
 
 				*pulBusFree = ( unsigned long ) pdFALSE;
@@ -178,7 +179,7 @@ extern void ( vTWI_ISR_Wrapper )( void );
 //		VICVectCntl2 = i2cI2C_VIC_CHANNEL | i2cI2C_VIC_ENABLE;
 
 		AT91F_AIC_ConfigureIt(AT91C_ID_TWI,twiINTERRUPT_LEVEL,AT91C_AIC_SRCTYPE_EXT_POSITIVE_EDGE,( void (*)(void) )vTWI_ISR_Wrapper);
-		AT91F_AIC_EnableIt( AT91C_BASE_AIC, AT91C_ID_TWI );
+		AT91C_BASE_AIC->AIC_IECR = 0x1 << AT91C_ID_TWI ;
 
 	}
 	portEXIT_CRITICAL();

@@ -6,12 +6,13 @@
 #include <semtest.h>
 #include <PollQ.h>
 #include <BlockQ.h>
-#include <TWI.h>
+#include <HTTP_Serv.h>
 
 const AT91PS_PIO m_pPIOA = AT91C_BASE_PIOA;
 
 #define mainBLOCK_Q_PRIORITY		( tskIDLE_PRIORITY + 2 )
 #define mainQUEUE_POLL_PRIORITY		( tskIDLE_PRIORITY + 2 )
+#define mainHTTP_TASK_PRIORITY		( tskIDLE_PRIORITY + 2 )
 
 void delay (unsigned long a) {while (--a!=0);}
 
@@ -55,6 +56,7 @@ void main (void)
 
 	xTaskCreate( vTask1, "LED Task 1", 1000, NULL, 2, NULL );
 	xTaskCreate( vTask2, "LED Task 2", 1000, NULL, 2, NULL );
+	xTaskCreate( vHTTPServerTask, ( signed char * ) "HTTP", configMINIMAL_STACK_SIZE, NULL, mainHTTP_TASK_PRIORITY, NULL );
 
 	vStartSemaphoreTasks( tskIDLE_PRIORITY );
 	vStartDynamicPriorityTasks();

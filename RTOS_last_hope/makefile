@@ -10,8 +10,9 @@ CFLAGS=	-ISRC 						\
 		-ISRC/dynamic/include		\
 		-ISRC/PolledQueue/include	\
 		-ISRC/semaphore/include		\
-		-ISRC/TWI/include
-		
+		-ISRC/TWI/include			\
+		-ISRC/TCP/include			\
+		-ISRC/HTTP/include
 		
 		
 				
@@ -45,6 +46,7 @@ dynamic=dynamic
 PolledQueue=PolledQueue
 semaphore=semaphore
 BlockingQueue=BlockingQueue
+HTTP=HTTP
 
 OBJS=	start.o 					\
 		main.o 						\
@@ -66,11 +68,23 @@ OBJS=	start.o 					\
 		$(semaphore)/semtest.o		\
 		$(BlockingQueue)/BlockQ.o	\
 		$(TWI)/TWI.o				\
-		$(TWI)/TWIISR.o
-								
-		
+		$(TWI)/TWIISR.o				\
+		$(TCP)/TCP.o				\
+		$(TCP)/TCPISR.o				\
+		$(HTTP)/HTTP_Serv.o
 				
-all: make_folder_build make_folder_hardware make_folder_kernel make_folder_string make_folder_BlockingQueue make_folder_dynamic make_folder_PolledQueue make_folder_semaphore make_folder_TWI $(BUILD)/FIRMWARE.bin
+all: 	make_folder_build 			\
+		make_folder_hardware 		\
+		make_folder_kernel 			\
+		make_folder_string 			\
+		make_folder_BlockingQueue 	\
+		make_folder_dynamic 		\
+		make_folder_PolledQueue 	\
+		make_folder_semaphore 		\
+		make_folder_TWI 			\
+		make_folder_TCP 			\
+		make_folder_HTTP			\
+		$(BUILD)/FIRMWARE.bin
 
 make_folder_build: 
 			if not exist build mkdir build
@@ -90,7 +104,10 @@ make_folder_semaphore:
 			if not exist build\semaphore mkdir build\semaphore
 make_folder_TWI:
 			if not exist build\TWI mkdir build\TWI
-
+make_folder_TCP:
+			if not exist build\TCP mkdir build\TCP
+make_folder_HTTP:
+			if not exist build\HTTP mkdir build\HTTP
 
 clean:
 	del /S /Q $(BUILD)\*.*

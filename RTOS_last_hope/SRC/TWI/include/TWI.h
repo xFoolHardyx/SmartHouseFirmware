@@ -2,8 +2,10 @@
 #define TWI_H_
 
 #include <semphr.h>
+
+//#include <lib_AT91SAM7S256.h>
 #include <AT91SAM7X256.h>
-#include <lib_AT91SAM7S256.h>
+
 
 typedef struct AN_TWI_MESSAGE
 {

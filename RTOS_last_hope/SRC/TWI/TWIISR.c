@@ -3,7 +3,6 @@
 #include <task.h>
 #include <queue.h>
 #include <semphr.h>
-
 /* Application includes. */
 #include <TWI.h>
 
@@ -28,6 +27,13 @@
 
 #define TWI_STATUS 				( AT91C_BASE_TWI->TWI_SR )
 #define TWI_STATUS_START_TXED 	( AT91C_TWI_TXRDY )
+
+#define TWI_clr_Interrupt		( AT91C_BASE_TWI->TWI_IDR = AT91C_TWI_TXCOMP|AT91C_TWI_RXRDY|AT91C_TWI_TXRDY|AT91C_TWI_NACK )
+
+
+
+
+
 
 
 /* Constants for operation of the VIC. */
@@ -165,12 +171,12 @@ long lBytesLeft;
 
 				/* We sent the address of the slave we are going to write to.
 				If this was acknowledged we	can go on to send the data. */
-				if( I2C_I2STAT == i2cSTATUS_TX_ADDR_ACKED )
+				if( TWI_STATUS == i2cSTATUS_TX_ADDR_ACKED )
 				{
 					/* Start the first byte transmitting which is the
 					first byte of the buffer address to which the data will
 					be sent. */
-					I2C_I2DAT = pxCurrentMessage->ucBufferAddressHighByte;
+				//	I2C_I2DAT = pxCurrentMessage->ucBufferAddressHighByte;
 					eCurrentState = eSentData;
 				}
 				else
@@ -184,13 +190,13 @@ long lBytesLeft;
 
 				/* We sent the address of the slave we are going to read from.
 				If this was acknowledged we can go on to read the data. */
-				if( I2C_I2STAT == i2cSTATUS_RX_ADDR_ACKED )
+				if( TWI_STATUS == i2cSTATUS_RX_ADDR_ACKED )
 				{
 					eCurrentState = eReceiveData;
 					if( pxCurrentMessage->lMessageLength > i2cJUST_ONE_BYTE_TO_RX )
 					{
 						/* Don't ack the last byte of the message. */
-						I2C_I2CONSET = i2cAA_BIT;
+					//	I2C_I2CONSET = i2cAA_BIT;
 					}
 				}
 				else
@@ -203,11 +209,11 @@ long lBytesLeft;
 		case eReceiveData :
 
 				/* We have just received a byte from the slave. */
-				if( ( I2C_I2STAT == i2cSTATUS_DATA_RXED ) || ( I2C_I2STAT == i2cSTATUS_LAST_BYTE_RXED ) )
+				if( ( TWI_STATUS == i2cSTATUS_DATA_RXED ) || ( TWI_STATUS == i2cSTATUS_LAST_BYTE_RXED ) )
 				{
 					/* Buffer the byte just received then increment the index
 					so it points to the next free space. */
-					pxCurrentMessage->pucBuffer[ lMessageIndex ] = I2C_I2DAT;
+				//	pxCurrentMessage->pucBuffer[ lMessageIndex ] = I2C_I2DAT;
 					lMessageIndex++;
 
 					/* How many more bytes are we expecting to receive? */
@@ -230,7 +236,7 @@ long lBytesLeft;
 						{
 							/* Start the next message - which was
 							retrieved from the queue. */
-							I2C_I2CONSET = i2cSTA_BIT;
+//							I2C_I2CONSET = i2cSTA_BIT;
 						}
 						else
 						{
@@ -245,7 +251,7 @@ long lBytesLeft;
 						last byte. */
 						if( lBytesLeft <= i2cJUST_ONE_BYTE_TO_RX )
 						{
-							I2C_I2CONCLR = i2cAA_BIT;
+//							I2C_I2CONCLR = i2cAA_BIT;
 						}
 					}
 				}
@@ -261,7 +267,7 @@ long lBytesLeft;
 
 				/* We sent a data byte, if successful send the	next byte in
 				the message. */
-				if( I2C_I2STAT == i2cSTATUS_DATA_TXED )
+				if( TWI_STATUS == i2cSTATUS_DATA_TXED )
 				{
 					/* Index to the next byte to send. */
 					lMessageIndex++;
@@ -272,12 +278,12 @@ long lBytesLeft;
 						the second byte now, then initialise the buffer index
 						to zero so the next byte sent comes from the actual
 						data buffer. */
-						I2C_I2DAT = pxCurrentMessage->ucBufferAddressLowByte;
+//						I2C_I2DAT = pxCurrentMessage->ucBufferAddressLowByte;
 					}
 					else if( lMessageIndex < pxCurrentMessage->lMessageLength )
 					{
 						/* Simply send the next byte in the tx buffer. */
-						I2C_I2DAT = pxCurrentMessage->pucBuffer[ lMessageIndex ];
+//						I2C_I2DAT = pxCurrentMessage->pucBuffer[ lMessageIndex ];
 					}
 					else
 					{
@@ -297,7 +303,7 @@ long lBytesLeft;
 						if( xQueueReceiveFromISR( xMessagesForTx, &pxCurrentMessage, &xHigherPriorityTaskWoken ) == pdTRUE )
 						{
 							/* Start the next message from the Tx queue. */
-							I2C_I2CONSET = i2cSTA_BIT;
+//							I2C_I2CONSET = i2cSTA_BIT;
 						}
 						else
 						{
@@ -322,8 +328,9 @@ long lBytesLeft;
 	}
 
 	/* Clear the interrupt. */
-	I2C_I2CONCLR = i2cSI_BIT;
-	VICVectAddr = i2cCLEAR_VIC_INTERRUPT;
+//	I2C_I2CONCLR = i2cSI_BIT;
+//	VICVectAddr = i2cCLEAR_VIC_INTERRUPT;
+	TWI_clr_Interrupt;
 
 	if( xHigherPriorityTaskWoken )
 	{
