@@ -8,6 +8,8 @@
 #include <BlockQ.h>
 #include <HTTP_Serv.h>
 
+#include <lib.h>
+
 const AT91PS_PIO m_pPIOA = AT91C_BASE_PIOA;
 
 #define mainBLOCK_Q_PRIORITY		( tskIDLE_PRIORITY + 2 )
@@ -38,6 +40,19 @@ void vTask2( void *pvParameters )
   }
 }
 
+void vTask3 (void *pvParameters)
+{
+	unsigned int status;
+	for(;;)
+	{
+		portENTER_CRITICAL();
+			status = 0;
+			status = TWI_GetStatus();
+			vTaskDelay(1000);
+		portEXIT_CRITICAL();
+	}
+}
+
 //void vTaskTWIStart(void *pvParameters)
 //{
 //	const AT91PS_PIO m_pPIOA = AT91C_BASE_PIOA;
@@ -54,9 +69,11 @@ void main (void)
 {
 	vInitPerepherial();
 
-	xTaskCreate( vTask1, "LED Task 1", 1000, NULL, 2, NULL );
-	xTaskCreate( vTask2, "LED Task 2", 1000, NULL, 2, NULL );
-	xTaskCreate( vHTTPServerTask, ( signed char * ) "HTTP", configMINIMAL_STACK_SIZE, NULL, mainHTTP_TASK_PRIORITY, NULL );
+	xTaskCreate( vTask1, "LED Task 1", 100, NULL, 3, NULL );
+	xTaskCreate( vTask2, "LED Task 2", 100, NULL, 3, NULL );
+	xTaskCreate( vTask3, "LED Task 2", 100, NULL, 3, NULL );
+
+	//xTaskCreate( vHTTPServerTask, ( signed char * ) "HTTP", configMINIMAL_STACK_SIZE, NULL, mainHTTP_TASK_PRIORITY, NULL );
 
 	vStartSemaphoreTasks( tskIDLE_PRIORITY );
 	vStartDynamicPriorityTasks();

@@ -126,7 +126,8 @@ signed portBASE_TYPE xReturn;
 
 void AT91F_SetTwiClock(void)
 {
-	int sclock;
+	unsigned int  sclock;
+	unsigned int cmp_sclock;
 
 		/* Here, CKDIV = 1 and CHDIV=CLDIV  ==> CLDIV = CHDIV = 1/4*((Fmclk/FTWI) -6)*/
 
@@ -137,7 +138,9 @@ void AT91F_SetTwiClock(void)
 			sclock = (sclock /10)- 6;
 		sclock = (sclock + (4 - sclock %4)) >> 2;	// div 4
 
-	    AT91C_BASE_TWI->TWI_CWGR	= ( 1<<16 ) | (sclock << 8) | sclock  ;
+	    AT91C_BASE_TWI->TWI_CWGR	= ( 1<<16 ) | (sclock << 8) | (sclock)  ;
+	    cmp_sclock=0;
+	    cmp_sclock=AT91C_BASE_TWI->TWI_CWGR;
 }
 
 void TWIInit( void )

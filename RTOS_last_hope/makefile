@@ -12,7 +12,8 @@ CFLAGS=	-ISRC 						\
 		-ISRC/semaphore/include		\
 		-ISRC/TWI/include			\
 		-ISRC/TCP/include			\
-		-ISRC/HTTP/include
+		-ISRC/HTTP/include			\
+		-ISRC/other/include
 		
 		
 				
@@ -47,6 +48,7 @@ PolledQueue=PolledQueue
 semaphore=semaphore
 BlockingQueue=BlockingQueue
 HTTP=HTTP
+other=other
 
 OBJS=	start.o 					\
 		main.o 						\
@@ -71,7 +73,8 @@ OBJS=	start.o 					\
 		$(TWI)/TWIISR.o				\
 		$(TCP)/TCP.o				\
 		$(TCP)/TCPISR.o				\
-		$(HTTP)/HTTP_Serv.o
+		$(HTTP)/HTTP_Serv.o			\
+		$(other)/lib.o
 				
 all: 	make_folder_build 			\
 		make_folder_hardware 		\
@@ -84,6 +87,7 @@ all: 	make_folder_build 			\
 		make_folder_TWI 			\
 		make_folder_TCP 			\
 		make_folder_HTTP			\
+		make_folder_other			\
 		$(BUILD)/FIRMWARE.bin
 
 make_folder_build: 
@@ -108,7 +112,9 @@ make_folder_TCP:
 			if not exist build\TCP mkdir build\TCP
 make_folder_HTTP:
 			if not exist build\HTTP mkdir build\HTTP
-
+make_folder_other:
+			if not exist build\other mkdir build\other
+		
 clean:
 	del /S /Q $(BUILD)\*.*
 

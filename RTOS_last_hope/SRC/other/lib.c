@@ -4,35 +4,35 @@
 // 															TWI
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void TWI_Configure(unsigned int uiTwck, unsigned int uiMck)
-{
-	AT91PS_TWI pTwi = AT91C_BASE_TWI;
-
-	unsigned int uiCkdiv = 0;
-    unsigned int uiCldiv;
-    unsigned char ucOk = 0;
-
-    // Reset the TWI
-    pTwi->TWI_CR = AT91C_TWI_SWRST;
-
-    // Set master mode
-    pTwi->TWI_CR = AT91C_TWI_MSEN;
-
-    // Configure clock
-    while (!ucOk) {
-
-        uiCldiv = ((uiMck / (2 * uiTwck)) - 3) / power(2, uiCkdiv);
-        if (uiCldiv <= 255) {
-
-            ucOk = 1;
-        }
-        else {
-
-            uiCkdiv++;
-        }
-    }
-    pTwi->TWI_CWGR = (uiCkdiv << 16) | (uiCldiv << 8) | uiCldiv;
-}
+//void TWI_Configure(unsigned int uiTwck, unsigned int uiMck)
+//{
+//	AT91PS_TWI pTwi = AT91C_BASE_TWI;
+//
+//	unsigned int uiCkdiv = 0;
+//    unsigned int uiCldiv;
+//    unsigned char ucOk = 0;
+//
+//    // Reset the TWI
+//    pTwi->TWI_CR = AT91C_TWI_SWRST;
+//
+//    // Set master mode
+//    pTwi->TWI_CR = AT91C_TWI_MSEN;
+//
+//    // Configure clock
+//    while (!ucOk) {
+//
+//        uiCldiv = ((uiMck / (2 * uiTwck)) - 3) / pow(2, uiCkdiv);
+//        if (uiCldiv <= 255) {
+//
+//            ucOk = 1;
+//        }
+//        else {
+//
+//            uiCkdiv++;
+//        }
+//    }
+//    pTwi->TWI_CWGR = (uiCkdiv << 16) | (uiCldiv << 8) | uiCldiv;
+//}
 
 //------------------------------------------------------------------------------
 /// Sends a STOP condition on the TWI.
@@ -326,7 +326,7 @@ void AIC_Open(void (*IrqHandler) (), void (*FiqHandler) (), void (*DefaultHandle
 	// Disable all interrupts and set IVR to the default handler
 	for (i = 0; i < 32; ++i) {
 		AT91F_AIC_DisableIt(pAic, i);
-		AIC_ConfigureIt(pAic, i, AT91C_AIC_PRIOR_LOWEST, AT91C_AIC_SRCTYPE, DefaultHandler);
+		AIC_ConfigureIt(i, AT91C_AIC_PRIOR_LOWEST, AT91C_AIC_SRCTYPE, DefaultHandler);
 	}
 
 	// Set the IRQ exception vector
