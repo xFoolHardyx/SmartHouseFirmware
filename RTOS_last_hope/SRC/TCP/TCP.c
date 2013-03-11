@@ -238,8 +238,7 @@ void vTCPHardReset( void )
 	First enable the EINT0 function of the pin. */
 //	PCB_PINSEL1 |= tcpENABLE_EINT0_FUNCTION;
 
-	AT91C_BASE_PIOA->PIO_ASR=(1<<20);
-	AT91C_BASE_PIOA->PIO_PDR=(1<<20);
+
 
 	/* We want the TCP comms to wake us from power save. */
 //	SCB_EXTWAKE = tcpWAKE_ON_EINT0;

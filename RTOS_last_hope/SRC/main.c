@@ -48,6 +48,8 @@ void vTask3 (void *pvParameters)
 		portENTER_CRITICAL();
 			status = 0;
 			status = TWI_GetStatus();
+			TWI_StartRead(0,900,1);
+			TWI_Stop();
 			vTaskDelay(1000);
 		portEXIT_CRITICAL();
 	}
@@ -71,16 +73,14 @@ void main (void)
 
 	xTaskCreate( vTask1, "LED Task 1", 100, NULL, 3, NULL );
 	xTaskCreate( vTask2, "LED Task 2", 100, NULL, 3, NULL );
-	xTaskCreate( vTask3, "LED Task 2", 100, NULL, 3, NULL );
+//	xTaskCreate( vTask3, "LED Task 2", 100, NULL, 3, NULL );
 
-	//xTaskCreate( vHTTPServerTask, ( signed char * ) "HTTP", configMINIMAL_STACK_SIZE, NULL, mainHTTP_TASK_PRIORITY, NULL );
+	xTaskCreate( vHTTPServerTask, ( signed char * ) "HTTP", configMINIMAL_STACK_SIZE, NULL, mainHTTP_TASK_PRIORITY, NULL );
 
 	vStartSemaphoreTasks( tskIDLE_PRIORITY );
 	vStartDynamicPriorityTasks();
 	vStartPolledQueueTasks( mainQUEUE_POLL_PRIORITY );
 	vStartBlockingQueueTasks( mainBLOCK_Q_PRIORITY );
-
-	//xTaskCreate(vHTTPServerTask, "TWI task start", 1000, NULL, 1, NULL);
 
 	vTaskStartScheduler();
 
