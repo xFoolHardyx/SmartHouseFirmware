@@ -123,7 +123,7 @@ device. */
 #define i2cCHANNEL_0_ISR_DISABLE		( ( unsigned char ) 0x00 )
 #define tcpWAKE_ON_EINT0				( 1 )
 #define tcpENABLE_EINT0_FUNCTION		( ( unsigned long ) 0x01 )
-#define tcpEINT0_VIC_CHANNEL_BIT		( ( unsigned long ) 0x4000 )
+#define tcpEINT0_VIC_CHANNEL_BIT		( ( unsigned long ) 0x4000 )	//14 bit
 #define tcpEINT0_VIC_CHANNEL			( ( unsigned long ) 14 )
 #define tcpEINT0_VIC_ENABLE				( ( unsigned long ) 0x0020 )
 
@@ -310,30 +310,32 @@ void vTCPHardReset( void )
 	}
 
 	/* Use the GPIO to reset the network hardware. */
-	GPIO_IOCLR = tcpRESET_ACTIVE_LOW;
-	GPIO_IOSET = tcpRESET_ACTIVE_HIGH;
+	GPIO_IOCLR = tcpRESET_ACTIVE_LOW;	// set 5 bit in 0 (23 pin) mb ~reset
+	GPIO_IOSET = tcpRESET_ACTIVE_HIGH;	// set 4 bit on 1 (22 pin) mb reset
 
 	/* Delay with the network hardware in reset for a short while. */
 	vTaskDelay( tcpRESET_DELAY );
 
-	GPIO_IOCLR = tcpRESET_ACTIVE_HIGH;
-	GPIO_IOSET = tcpRESET_ACTIVE_LOW;
+	GPIO_IOCLR = tcpRESET_ACTIVE_HIGH; // set 4 bit in 0
+	GPIO_IOSET = tcpRESET_ACTIVE_LOW;  // set 5 bit on 1
 
 	vTaskDelay( tcpINIT_DELAY );
 
 	/* Setup the EINT0 to interrupt on required events from the WIZnet device.
 	First enable the EINT0 function of the pin. */
-	PCB_PINSEL1 |= tcpENABLE_EINT0_FUNCTION;
+	PCB_PINSEL1 |= tcpENABLE_EINT0_FUNCTION; // pin sel = 1 Pin Function Select Register
 	
 	/* We want the TCP comms to wake us from power save. */
-	SCB_EXTWAKE = tcpWAKE_ON_EINT0;
+	SCB_EXTWAKE = tcpWAKE_ON_EINT0; //External interrupt wakeup register (1)
+//When one, assertion of EINT1 will wake up the processor from Power Down mode.
+//	EINT1 - P0.14
 
 	/* Install the ISR into the VIC - but don't enable it yet! */
 	portENTER_CRITICAL();
 	{
 		extern void ( vEINT0_ISR_Wrapper )( void );
 
-		VICIntSelect &= ~( tcpEINT0_VIC_CHANNEL_BIT );
+		VICIntSelect &= ~( tcpEINT0_VIC_CHANNEL_BIT );//EINT1
 		VICVectAddr3 = ( long ) vEINT0_ISR_Wrapper;
 
 		VICVectCntl3 = tcpEINT0_VIC_CHANNEL | tcpEINT0_VIC_ENABLE;
