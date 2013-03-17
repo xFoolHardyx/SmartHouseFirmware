@@ -8,6 +8,7 @@
 #include <TWI.h>
 #include <html_pages.h>
 #include <AT91SAM7X256.h>
+#include <settings.h>
 
 /*-----------------------------------------------------------*/
 
@@ -210,14 +211,13 @@ unsigned char ucRxBuffer[ tcpMAX_REGISTER_LEN ];
 
 void vTCPHardReset( void )
 {
+	AT91PS_PIO	p_pPIO	= AT91C_BASE_PIOA; // Base PIOA
+
 	/* Physical reset of the WIZnet device by using the GPIO lines to hold the
 	WIZnet reset lines active for a few milliseconds. */
 
 	/* Make sure the interrupt from the WIZnet is disabled. */
-
-//	VICIntEnClear |= tcpEINT0_VIC_CHANNEL_BIT;
 	AT91C_BASE_AIC->AIC_ICCR = (0x1 << AT91C_ID_IRQ0);
-
 
 	/* If xMessageComplete is NULL then this is the first time that this
 	function has been called and the queue and semaphore used in this file
@@ -233,12 +233,28 @@ void vTCPHardReset( void )
 		xTCPISRQueue = xQueueCreate( tcpISR_QUEUE_LENGTH, tcpISR_QUEUE_ITEM_SIZE );
 	}
 
+	/* Use the GPIO to reset the network hardware. */
+//	GPIO_IOCLR = tcpRESET_ACTIVE_LOW;	// set 5 bit in 0 (23 pin) mb ~reset
+//	GPIO_IOSET = tcpRESET_ACTIVE_HIGH;	// set 4 bit on 1 (22 pin) mb reset
+	SetBIT(p_pPIO,BIT25); // reset
+	ClrBIT(p_pPIO,BIT26); // ~reset
+
+	/* Delay with the network hardware in reset for a short while. */
+	vTaskDelay( tcpRESET_DELAY );
+
+//	GPIO_IOCLR = tcpRESET_ACTIVE_HIGH; // set 4 bit in 0
+//	GPIO_IOSET = tcpRESET_ACTIVE_LOW;  // set 5 bit on 1
+	ClrBIT(p_pPIO,BIT25); // reset
+	SetBIT(p_pPIO,BIT26); // ~reset
+
+	vTaskDelay( tcpINIT_DELAY );
 
 	/* Setup the EINT0 to interrupt on required events from the WIZnet device.
 	First enable the EINT0 function of the pin. */
+
 //	PCB_PINSEL1 |= tcpENABLE_EINT0_FUNCTION;
-
-
+	p_pPIO->PIO_PER = (1<<20);
+	p_pPIO->PIO_ASR = (1<<20);
 
 	/* We want the TCP comms to wake us from power save. */
 //	SCB_EXTWAKE = tcpWAKE_ON_EINT0;
@@ -252,8 +268,11 @@ void vTCPHardReset( void )
 //		VICVectAddr3 = ( long ) vEINT0_ISR_Wrapper;
 //
 //		VICVectCntl3 = tcpEINT0_VIC_CHANNEL | tcpEINT0_VIC_ENABLE;
-		AT91F_AIC_ConfigureIt(AT91C_ID_IRQ0,IRQ0INTERRUPT_PRIORITY,AT91C_AIC_SRCTYPE_EXT_POSITIVE_EDGE,(void(*)(void))vEINT0_ISR_Wrapper);
-		AT91C_BASE_AIC->AIC_IECR = 0x1 << AT91C_ID_IRQ0 ;
+		p_pPIO->PIO_IER = (1<<20);
+		p_pPIO->PIO_IMR = (1<<20);
+
+		AT91F_AIC_ConfigureIt(AT91C_ID_IRQ0,IRQ0INTERRUPT_PRIORITY,AT91C_AIC_PRIOR_LOWEST,(void(*)(void))vEINT0_ISR_Wrapper);
+		AT91C_BASE_AIC->AIC_IECR = (0x1 << AT91C_ID_IRQ0);
 	}
 	portEXIT_CRITICAL();
 

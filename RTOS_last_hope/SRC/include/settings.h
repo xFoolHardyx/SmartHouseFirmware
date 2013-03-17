@@ -96,15 +96,9 @@
 /////////////////////////////////////////////////////////////////////////
 // configure the PIO Lines corresponding to LED (in or out)
 /////////////////////////////////////////////////////////////////////////
-#define ConfPIO(pPIO,PIN,inp_out) {		\
-	if (inp_out==0) { 					\
+#define ConfPIO(pPIO,PIN) {				\
 	(pPIO)->PIO_PER |= PIN;				\
-	(pPIO)->PIO_OER |= PIN;				\
-	(pPIO)->PIO_CODR |= PIN;} 			\
-	else { 								\
-		(pPIO)->PIO_PER |= PIN;			\
-		(pPIO)->PIO_OER |= PIN;			\
-		(pPIO)->PIO_SODR |= PIN;}}		\
+	(pPIO)->PIO_OER |= PIN;}
 
 /////////////////////////////////////////////////////////////////////////
 //	set bit port

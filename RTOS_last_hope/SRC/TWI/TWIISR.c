@@ -123,7 +123,8 @@ static TWI_STATE eCurrentState = eSentStart;
 static long lMessageIndex = -i2cBUFFER_ADDRESS_BYTES; /* There are two address bytes to send prior to the data. */
 portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 long lBytesLeft;
-
+int a,b=5;
+a=b;
 	/* The action taken for this interrupt depends on our current state. */
 	switch( eCurrentState )
 	{
@@ -330,7 +331,6 @@ long lBytesLeft;
 	/* Clear the interrupt. */
 //	I2C_I2CONCLR = i2cSI_BIT;
 //	VICVectAddr = i2cCLEAR_VIC_INTERRUPT;
-	TWI_clr_Interrupt;
 
 	if( xHigherPriorityTaskWoken )
 	{

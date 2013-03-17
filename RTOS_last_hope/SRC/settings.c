@@ -22,11 +22,16 @@ void vInitPerepherial (void)
 	PerCLKEn(p_pPMC,AT91C_ID_PIOA);
 
 	//LED 1
-	ConfPIO(p_pPIO,BIT18,0);
+	ConfPIO(p_pPIO,BIT18);
 	//LED 2
-	ConfPIO(p_pPIO,BIT17,0);
+	ConfPIO(p_pPIO,BIT17);
 	//LED 2
-	ConfPIO(p_pPIO,BIT16,0);
+	ConfPIO(p_pPIO,BIT16);
+
+	// init reset hardware PIN
+	ConfPIO(p_pPIO,BIT25);	// reset
+	ConfPIO(p_pPIO,BIT26);	// ~reset
+
 
 	//TWI init
 	TWIInit();

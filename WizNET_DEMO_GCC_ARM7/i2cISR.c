@@ -188,10 +188,14 @@ long lBytesLeft;
 
 				/* We sent a start bit, if it was successful we can
 				go on to send the slave address. */
-				if( ( I2C_I2STAT == i2cSTATUS_START_TXED ) || ( I2C_I2STAT == i2cSTATUS_REP_START_TXED ) )
+				if( ( I2C_I2STAT == i2cSTATUS_START_TXED ) || ( I2C_I2STAT == i2cSTATUS_REP_START_TXED ) ) //8||0x10
+					//SLA+W will be transmitted; ACK bit will be received ||
+					//SLA+W will be transmitted; the I2C block will be switched to MST/REC mode.
+					// TWI_SR == 1<<TXRDY
+
 				{
 					/* Send the slave address. */
-					I2C_I2DAT = pxCurrentMessage->ucSlaveAddress;
+					I2C_I2DAT = pxCurrentMessage->ucSlaveAddress;//set data in current
 
 					if( pxCurrentMessage->ucSlaveAddress & i2cREAD )
 					{
@@ -220,7 +224,7 @@ long lBytesLeft;
 					i2cEND_TRANSMISSION( pdFAIL );					
 				}
 
-				I2C_I2CONCLR = i2cSTA_BIT;				
+				I2C_I2CONCLR = i2cSTA_BIT;// clear start or set stop bit hz
 
 				break;
 
@@ -228,12 +232,12 @@ long lBytesLeft;
 
 				/* We sent the address of the slave we are going to write to.
 				If this was acknowledged we	can go on to send the data. */
-				if( I2C_I2STAT == i2cSTATUS_TX_ADDR_ACKED )
+				if( I2C_I2STAT == i2cSTATUS_TX_ADDR_ACKED ) //SLA+W has been transmitted; ACK has been received.
 				{
 					/* Start the first byte transmitting which is the 
 					first byte of the buffer address to which the data will 
 					be sent. */
-					I2C_I2DAT = pxCurrentMessage->ucBufferAddressHighByte;
+					I2C_I2DAT = pxCurrentMessage->ucBufferAddressHighByte; //set data in current
 					eCurrentState = eSentData;
 				}
 				else
@@ -247,13 +251,13 @@ long lBytesLeft;
 
 				/* We sent the address of the slave we are going to read from.
 				If this was acknowledged we can go on to read the data. */
-				if( I2C_I2STAT == i2cSTATUS_RX_ADDR_ACKED )
+				if( I2C_I2STAT == i2cSTATUS_RX_ADDR_ACKED )//SLA+R has been transmitted; ACK has been received.
 				{
 					eCurrentState = eReceiveData;
 					if( pxCurrentMessage->lMessageLength > i2cJUST_ONE_BYTE_TO_RX )
 					{
 						/* Don't ack the last byte of the message. */
-						I2C_I2CONSET = i2cAA_BIT;
+						I2C_I2CONSET = i2cAA_BIT; // hz
 					}					
 				}
 				else
@@ -267,10 +271,12 @@ long lBytesLeft;
 				
 				/* We have just received a byte from the slave. */
 				if( ( I2C_I2STAT == i2cSTATUS_DATA_RXED ) || ( I2C_I2STAT == i2cSTATUS_LAST_BYTE_RXED ) )
+					// Data byte has been received; ACK has been returned.   ||
+					// Data byte has been received; NOT ACK has been returned.
 				{
 					/* Buffer the byte just received then increment the index 
 					so it points to the next free space. */
-					pxCurrentMessage->pucBuffer[ lMessageIndex ] = I2C_I2DAT;
+					pxCurrentMessage->pucBuffer[ lMessageIndex ] = I2C_I2DAT; // get received data
 					lMessageIndex++;
 
 					/* How many more bytes are we expecting to receive? */
@@ -293,7 +299,7 @@ long lBytesLeft;
 						{
 							/* Start the next message - which was
 							retrieved from the queue. */
-							I2C_I2CONSET = i2cSTA_BIT;
+							I2C_I2CONSET = i2cSTA_BIT; // start bit
 						}
 						else
 						{
@@ -385,8 +391,8 @@ long lBytesLeft;
 	}	
 
 	/* Clear the interrupt. */
-	I2C_I2CONCLR = i2cSI_BIT;
-	VICVectAddr = i2cCLEAR_VIC_INTERRUPT;
+	I2C_I2CONCLR = i2cSI_BIT;		// clr interrupt
+	VICVectAddr = i2cCLEAR_VIC_INTERRUPT; // clear vector interrupt
 
 	if( xHigherPriorityTaskWoken )
 	{

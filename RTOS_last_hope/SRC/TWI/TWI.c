@@ -21,7 +21,7 @@
 
 #define AT91C_TWI_CLOCK 	8000
 
-#define twiINTERRUPT_LEVEL ((unsigned int) 0x5)
+#define twiINTERRUPT_LEVEL ((unsigned int) 0x4)
 
 #define DisInt (AT91C_TWI_TXCOMP|AT91C_TWI_RXRDY|AT91C_TWI_TXRDY|AT91C_TWI_NACK)
 #define TWISTA_BIT (AT91C_TWI_START|AT91C_TWI_MSEN)
@@ -49,6 +49,7 @@ void TWIMessage( const unsigned char * const pucMessage, long lMessageLength, un
 extern volatile xTWIMessage *pxCurrentMessage;
 xTWIMessage *pxNextFreeMessage;
 signed portBASE_TYPE xReturn;
+
 
 	portENTER_CRITICAL();
 	{
@@ -138,9 +139,8 @@ void AT91F_SetTwiClock(void)
 //			sclock = (sclock /10)- 6;
 //		sclock = (sclock + (4 - sclock %4)) >> 2;	// div 4
 
-	    AT91C_BASE_TWI->TWI_CWGR	= 0x80EEEE;
-//	    		0x600FFFF; //25000000
-//	    		0x80EEEE; //25000
+	    AT91C_BASE_TWI->TWI_CWGR	= 0x1EEEE;
+//	    0x1EEEE -  50000hz
 //	    		( 1<<16 ) | (sclock << 8) | (sclock)  ;
 //	    cmp_sclock=0;
 //	    cmp_sclock=AT91C_BASE_TWI->TWI_CWGR;

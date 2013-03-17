@@ -177,8 +177,8 @@ signed portBASE_TYPE xReturn;
 			can start the ISR sending this message immediately. */
 			pxCurrentMessage = pxNextFreeMessage;
 
-			I2C_I2CONCLR = i2cSI_BIT;	
-			I2C_I2CONSET = i2cSTA_BIT;
+			I2C_I2CONCLR = i2cSI_BIT;	// clear SI bit in i2c cotrol register (interrupt flag)
+			I2C_I2CONSET = i2cSTA_BIT;	// set Start bit in i2c control register
 			
 			*pulBusFree = ( unsigned long ) pdFALSE;
 		}
@@ -200,8 +200,8 @@ signed portBASE_TYPE xReturn;
 				xQueueReceive( xMessagesForTx, &pxNextFreeMessage, i2cNO_BLOCK );
 				pxCurrentMessage = pxNextFreeMessage;
 
-				I2C_I2CONCLR = i2cSI_BIT;	
-				I2C_I2CONSET = i2cSTA_BIT;
+				I2C_I2CONCLR = i2cSI_BIT;	// clear SI bit in i2c cotrol register (interrupt flag)
+				I2C_I2CONSET = i2cSTA_BIT;	// set Start bit in i2c control register
 				
 				*pulBusFree = ( unsigned long ) pdFALSE;
 			}
