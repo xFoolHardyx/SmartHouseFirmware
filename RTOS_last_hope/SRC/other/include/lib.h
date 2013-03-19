@@ -20,6 +20,8 @@
 /// status register value.
 #define TWI_STATUS_TXCOMP(status) ((status & AT91C_TWI_TXCOMP) == AT91C_TWI_TXCOMP)
 
+#define ERROR (AT91C_TWI_NACK)
+
 extern void TWI_Configure(unsigned int uiTwck, unsigned int uiMck);
 
 extern void TWI_Stop();
@@ -30,7 +32,9 @@ extern unsigned char TWI_ReadByte();
 
 extern void TWI_WriteByte(unsigned char ucByte);
 
-extern void TWI_StartWrite( unsigned char ucAddress, unsigned int uiIaddress, unsigned char ucIsize, unsigned char ucByte);
+extern void TWI_StartWrite( unsigned char ucAddress, unsigned int uiIaddress, unsigned char ucIsize, unsigned int uiLength, unsigned char * ucByte);
+
+extern unsigned int uiMessageTWI(unsigned int ucSlct, unsigned int uiRegAddr, unsigned char *SendBuf, unsigned int Length);
 
 extern unsigned char TWI_ByteReceived();
 

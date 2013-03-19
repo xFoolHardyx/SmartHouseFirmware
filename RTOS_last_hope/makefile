@@ -13,7 +13,7 @@ CFLAGS=	-ISRC 						\
 		-ISRC/TWI/include			\
 		-ISRC/TCP/include			\
 		-ISRC/HTTP/include			\
-		-ISRC/other/include
+		-ISRC/other/include			
 		
 		
 				
@@ -71,10 +71,12 @@ OBJS=	start.o 					\
 		$(BlockingQueue)/BlockQ.o	\
 		$(TWI)/TWI.o				\
 		$(TWI)/TWIISR.o				\
-		$(TCP)/TCP.o				\
-		$(TCP)/TCPISR.o				\
-		$(HTTP)/HTTP_Serv.o			\
-		$(other)/lib.o
+		$(other)/lib.o				\
+		$(other)/wiznet.o			\
+#		$(TCP)/TCP.o				\
+#		$(TCP)/TCPISR.o				\
+#		$(HTTP)/HTTP_Serv.o			
+		
 				
 all: 	make_folder_build 			\
 		make_folder_hardware 		\
