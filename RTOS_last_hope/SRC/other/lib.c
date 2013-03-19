@@ -126,23 +126,24 @@ void TWI_StartWrite( unsigned char ucAddress, unsigned int uiIaddress, unsigned 
     }
 }
 
-unsigned int uiMessageTWI(unsigned int ucSlct, unsigned int uiRegAddr, unsigned char *SendBuf, unsigned int Length)
+unsigned int uiMessageTWI(unsigned int ucSlct, unsigned int uiRegAddr, unsigned char *SendBuf, unsigned int uiLength)
 {
-	unsigned int status;
-	unsigned int counter=0;
-	unsigned int error=0;
+	unsigned int uiStatus;
+	unsigned int i;
+	unsigned int error = 0;
+
 	AT91PS_TWI pTwi = AT91C_BASE_TWI;
+
 	// Set TWI Internal Address Register
 	if ((ucSlct & AT91C_TWI_IADRSZ) != 0)
 		{
-
 			pTwi->TWI_IADR = uiRegAddr; //reg addr
 		}
 
 	// Set the TWI Master Mode Register
 	pTwi->TWI_MMR = ucSlct & ~AT91C_TWI_MREAD;
 
-	if(Length < 2)
+	if(uiLength < 2)
 	{
 		pTwi->TWI_CR = AT91C_TWI_START | AT91C_TWI_MSEN | AT91C_TWI_STOP;
 		pTwi->TWI_THR = *SendBuf;
@@ -150,31 +151,34 @@ unsigned int uiMessageTWI(unsigned int ucSlct, unsigned int uiRegAddr, unsigned 
 	else
 	{
 	// Set the TWI Master Mode Register
-	  for(counter=0; counter<Length; counter++)
+	  for(i=0; i<uiLength; i++)
 	  {
           pTwi->TWI_CR = AT91C_TWI_START | AT91C_TWI_MSEN;
-          if (counter == (Length - 1))
+          if (i == (uiLength - 1))
           	{
           		pTwi->TWI_CR = AT91C_TWI_STOP;
           	}
-          status = pTwi->TWI_SR;
-          if ((status & ERROR) == ERROR)
+
+          uiStatus = pTwi->TWI_SR;
+
+//          if ((uiStatus & ERROR) == ERROR)
+//          {
+//          	error++;
+//          }
+
+          while (!(uiStatus & AT91C_TWI_TXRDY))
           {
-          	error++;
+               uiStatus = pTwi->TWI_SR;
+//               if ((uiStatus & ERROR) == ERROR) error++;
           }
-          while (!(status & AT91C_TWI_TXRDY))
-          {
-               status = pTwi->TWI_SR;
-               if ((status & ERROR) == ERROR) error++;
-          }
-          pTwi->TWI_THR = *(SendBuf+counter);
+          pTwi->TWI_THR = *(SendBuf+i);
 	   }
 	}
-	status = pTwi->TWI_SR;
-	if ((status & ERROR) == ERROR) error++;
-	while (!(status & AT91C_TWI_TXCOMP)){
-    		status = pTwi->TWI_SR;
-    		if ((status & ERROR) == ERROR) error++;
+	uiStatus = pTwi->TWI_SR;
+//	if ((uiStatus & ERROR) == ERROR) error++;
+	while (!(uiStatus & AT91C_TWI_TXCOMP)){
+    		uiStatus = pTwi->TWI_SR;
+//    		if ((uiStatus & ERROR) == ERROR) error++;
     }
 	return error;
 }

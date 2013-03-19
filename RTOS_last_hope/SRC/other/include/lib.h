@@ -34,7 +34,7 @@ extern void TWI_WriteByte(unsigned char ucByte);
 
 extern void TWI_StartWrite( unsigned char ucAddress, unsigned int uiIaddress, unsigned char ucIsize, unsigned int uiLength, unsigned char * ucByte);
 
-extern unsigned int uiMessageTWI(unsigned int ucSlct, unsigned int uiRegAddr, unsigned char *SendBuf, unsigned int Length);
+extern unsigned int uiMessageTWI(unsigned int ucSlct, unsigned int uiRegAddr, unsigned char *SendBuf, unsigned int uiLength);
 
 extern unsigned char TWI_ByteReceived();
 
