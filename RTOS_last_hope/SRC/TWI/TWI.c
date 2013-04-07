@@ -32,7 +32,7 @@
 static xTWIMessage xTxMessages[ TWIQUEUE_LENGTH + TWIEXTRA_MESSAGES ];
 
 /* Function in the ARM part of the code used to create the queues. */
-//extern void vI2CISRCreateQueues( unsigned portBASE_TYPE uxQueueLength, xQueueHandle *pxTxMessages, unsigned long **ppulBusFree );
+extern void vI2CISRCreateQueues( unsigned portBASE_TYPE uxQueueLength, xQueueHandle *pxTxMessages, unsigned long **ppulBusFree );
 
 /* Index to the next free message in the xTxMessages array. */
 unsigned long ulNextFreeMessage = ( unsigned long ) 0;
@@ -150,6 +150,8 @@ void TWIInit( void )
 {
 extern void ( vTWI_ISR_Wrapper )( void );
 
+AT91PS_AIC	pAIC = AT91C_BASE_AIC;
+
 	/* Create the queue used to send messages to the ISR. */
 	vTWIISRCreateQueues( TWIQUEUE_LENGTH, &xMessagesForTx, &pulBusFree );
 
@@ -184,8 +186,14 @@ extern void ( vTWI_ISR_Wrapper )( void );
 //
 //		VICVectCntl2 = i2cI2C_VIC_CHANNEL | i2cI2C_VIC_ENABLE;
 
-		AT91F_AIC_ConfigureIt(AT91C_ID_TWI,twiINTERRUPT_LEVEL,AT91C_AIC_SRCTYPE_EXT_POSITIVE_EDGE,( void (*)(void) )vTWI_ISR_Wrapper);
-		AT91C_BASE_AIC->AIC_IECR = 0x1 << AT91C_ID_TWI ;
+//		AT91F_AIC_ConfigureIt(AT91C_ID_TWI,twiINTERRUPT_LEVEL,AT91C_AIC_SRCTYPE_EXT_POSITIVE_EDGE,( void (*)(void) )vTWI_ISR_Wrapper);
+		pAIC->AIC_IDCR = (1<<AT91C_ID_TWI);					// Disable TWI interrupt in AIC Interrupt Disable Command Register
+			pAIC->AIC_SVR[AT91C_ID_TWI] =						// Set the TWI IRQ handler address in AIC Source
+			   	(unsigned int)vTWI_ISR_Wrapper;        			// Vector Register[9]
+			pAIC->AIC_SMR[AT91C_ID_TWI] =						// Set the interrupt source type(level-sensitive) and
+				(AT91C_AIC_SRCTYPE_INT_LEVEL_SENSITIVE | 0x4 ); 		// priority (4)in AIC Source Mode Register[6]
+			pAIC->AIC_ICCR = (1<<AT91C_ID_TWI);					// Clear the interrupt on the interrupt controller
+			pAIC->AIC_IECR = (1<<AT91C_ID_TWI); 				// Enable the TWI interrupt in AIC Interrupt Enable Command Register
 
 	}
 	portEXIT_CRITICAL();

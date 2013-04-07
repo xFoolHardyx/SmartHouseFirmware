@@ -168,20 +168,23 @@ int TWI_WriteSingleIadrMultData(unsigned char Module, unsigned char Reg, unsigne
 	pTWI->TWI_CR = AT91C_TWI_START;
 	pTWI->TWI_IADR = Reg;
 
-	for(i = 0;i < Size;i++){
+	for(i = 0;i < Size;i++)
+	{
 		TWI_TX_Ready = 0;
 		iCnt = 0;
 		pTWI->TWI_THR = Vec[i];				// send
 		pTWI->TWI_IER = AT91C_TWI_TXRDY; // start interrupt
 		while(!TWI_TX_Ready && iCnt++ < 1000);	// wait until interrupt executed
-		if(iCnt>=1000){
+		if(iCnt>=1000)
+		{
 			pTWI->TWI_IDR = AT91C_TWI_TXRDY; // disable interrupt
 			TWI_Return |= ERROR_TWI_OVERRUN;
 			TWI_Init();
 			break;
 		}
 	}
-	if(iCnt < 1000){
+	if(iCnt < 1000)
+	{
 		iCnt = 0;
 		TWI_TX_Comp = 0;
 		pTWI->TWI_IER = AT91C_TWI_TXCOMP; // start interrupt

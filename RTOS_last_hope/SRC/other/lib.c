@@ -161,24 +161,24 @@ unsigned int uiMessageTWI(unsigned int ucSlct, unsigned int uiRegAddr, unsigned 
 
           uiStatus = pTwi->TWI_SR;
 
-//          if ((uiStatus & ERROR) == ERROR)
-//          {
-//          	error++;
-//          }
+          if ((uiStatus & ERROR) == ERROR)
+          {
+          	error++;
+          }
 
           while (!(uiStatus & AT91C_TWI_TXRDY))
           {
                uiStatus = pTwi->TWI_SR;
-//               if ((uiStatus & ERROR) == ERROR) error++;
+               if ((uiStatus & ERROR) == ERROR) error++;
           }
           pTwi->TWI_THR = *(SendBuf+i);
 	   }
 	}
 	uiStatus = pTwi->TWI_SR;
-//	if ((uiStatus & ERROR) == ERROR) error++;
+	if ((uiStatus & ERROR) == ERROR) error++;
 	while (!(uiStatus & AT91C_TWI_TXCOMP)){
     		uiStatus = pTwi->TWI_SR;
-//    		if ((uiStatus & ERROR) == ERROR) error++;
+    		if ((uiStatus & ERROR) == ERROR) error++;
     }
 	return error;
 }

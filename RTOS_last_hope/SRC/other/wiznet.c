@@ -81,6 +81,7 @@ unsigned char ucDataSHAR[]				= { 00, 23, 30, 41, 15, 26 }; /* MAC address - DO 
 void sendset(void)
 {
 	AT91PS_PIO	p_pPIO	= AT91C_BASE_PIOA; // Base PIOA
+	AT91PS_TWI pTWI = AT91C_BASE_TWI;
 		SetBIT(p_pPIO,BIT25); // reset
 		ClrBIT(p_pPIO,BIT26); // ~reset
 
@@ -100,10 +101,10 @@ void sendset(void)
 	//	PCB_PINSEL1 |= tcpENABLE_EINT0_FUNCTION;
 //		p_pPIO->PIO_PER = (1<<20);
 //		p_pPIO->PIO_ASR = (1<<20);
-
+//		pTWI->TWI_IER = AT91C_TWI_TXRDY; // start interrupt
 
 	message( ucDataEnableISR, sizeof( ucDataEnableISR ), tcpDEVICE_ADDRESS, tcpISR_MASK_REG, 2);
-
+	pTWI->TWI_IER = AT91C_TWI_TXRDY;
 	message( ucDataReset,	sizeof( ucDataReset ),	tcpDEVICE_ADDRESS, tcpCOMMAND_REG, 2);
 
 	message( ucDataSHAR,	sizeof( ucDataSHAR ),	tcpDEVICE_ADDRESS, tcpSOURCE_HA_REG, 2 );

@@ -27,7 +27,7 @@ GCC=arm-eabi-gcc -mcpu=$(CPU) -mtune=$(CPU) -g -DROM_RAN
 #Os - code size optimizate
 #-i /....... - way
 
-LD=arm-eabi-gcc -nostdlib  -Wl,-T,script.ld
+LD=arm-eabi-gcc -nostdlib  -Wl,-T,script.ld 
 
 
 #-Wl,--gc-sections - clean info debug

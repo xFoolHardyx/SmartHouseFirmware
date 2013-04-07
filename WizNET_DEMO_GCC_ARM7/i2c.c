@@ -115,7 +115,7 @@ extern void vI2CISRCreateQueues( unsigned portBASE_TYPE uxQueueLength, xQueueHan
 unsigned long ulNextFreeMessage = ( unsigned long ) 0;
 
 /* Queue of messages that are waiting transmission. */
-static xQueueHandle xMessagesForTx;
+static xQueueHandle xMessagesForTx;  // handle for struct TX message
 
 /* Flag to indicate the state of the I2C ISR state machine. */
 static unsigned long *pulBusFree;
