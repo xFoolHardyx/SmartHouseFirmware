@@ -105,6 +105,7 @@ void sendset(void)
 
 	message( ucDataEnableISR, sizeof( ucDataEnableISR ), tcpDEVICE_ADDRESS, tcpISR_MASK_REG, 2);
 	pTWI->TWI_IER = AT91C_TWI_TXRDY;
+	pTWI->TWI_THR = 6;
 	message( ucDataReset,	sizeof( ucDataReset ),	tcpDEVICE_ADDRESS, tcpCOMMAND_REG, 2);
 
 	message( ucDataSHAR,	sizeof( ucDataSHAR ),	tcpDEVICE_ADDRESS, tcpSOURCE_HA_REG, 2 );
