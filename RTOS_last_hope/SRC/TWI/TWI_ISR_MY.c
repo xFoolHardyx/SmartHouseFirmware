@@ -34,25 +34,25 @@ void vTWI_ISR_Handler( void )
 
 	volatile AT91PS_TWI pTWI = AT91C_BASE_TWI;	// create a pointer to TWI structure
 
-		uiMaskInterrupt = pTWI->TWI_IMR;				//Interrupt Mask Register
+	uiMaskInterrupt = pTWI->TWI_IMR;			//Interrupt Mask Register
 
-		if(uiMaskInterrupt & AT91C_TWI_TXRDY)
-		{
-			pTWI->TWI_IDR = AT91C_TWI_TXRDY; 	// disable interrupt
-			xFlags->TWI_RX_Ready = TWI_TRUE;
-		}
-		else if(uiMaskInterrupt & AT91C_TWI_TXCOMP)
-		{ 										// Transmission complete
-			pTWI->TWI_IDR = AT91C_TWI_TXCOMP; 	// disable interrupt
-			xFlags->TWI_TX_Comp = TWI_TRUE;
-		}
-		else if(uiMaskInterrupt & AT91C_TWI_RXRDY)
-		{ 										// Received data
-			pTWI->TWI_IDR = AT91C_TWI_RXRDY; 	// disable interrupt
-			xFlags->TWI_TX_Ready = TWI_TRUE;
-		}
+	if(uiMaskInterrupt & AT91C_TWI_TXRDY)
+	{
+		pTWI->TWI_IDR = AT91C_TWI_TXRDY; 		// disable interrupt
+		xFlags->TWI_RX_Ready = TWI_TRUE;
+	}
+	else if(uiMaskInterrupt & AT91C_TWI_TXCOMP) // Transmission complete
+	{
+		pTWI->TWI_IDR = AT91C_TWI_TXCOMP; 		// disable interrupt
+		xFlags->TWI_TX_Comp = TWI_TRUE;
+	}
+	else if(uiMaskInterrupt & AT91C_TWI_RXRDY) 	// Received data
+	{
+		pTWI->TWI_IDR = AT91C_TWI_RXRDY; 		// disable interrupt
+		xFlags->TWI_TX_Ready = TWI_TRUE;
+	}
 
-//		uiStatus = pTWI->TWI_SR;				// Status Register
+//  uiStatus = pTWI->TWI_SR;					// Status Register
 //
 //		if(uiStatus & AT91C_TWI_NACK)
 //		{
