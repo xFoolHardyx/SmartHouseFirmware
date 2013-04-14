@@ -70,9 +70,11 @@ OBJS=	start.o 					\
 		$(semaphore)/semtest.o		\
 		$(BlockingQueue)/BlockQ.o	\
 		$(TWI)/TWI.o				\
-		$(TWI)/TWIISR.o				\
-		$(other)/lib.o				\
-		$(other)/wiznet.o			\
+		$(TWI)/TWI_ISR_MY.o			\
+		$(TWI)/TX.o					\
+			
+#		$(other)/lib.o				\
+#		$(other)/wiznet.o			\
 #		$(TCP)/TCP.o				\
 #		$(TCP)/TCPISR.o				\
 #		$(HTTP)/HTTP_Serv.o			

@@ -10,6 +10,7 @@
 
 //#include <lib.h>
 #include <wiznet.h>
+#include <TX.h>
 
 const AT91PS_PIO m_pPIOA = AT91C_BASE_PIOA;
 
@@ -85,7 +86,7 @@ void main (void)
 	xTaskCreate( vTask1, "LED Task 1", 100, NULL, 3, NULL );
 	xTaskCreate( vTask2, "LED Task 2", 100, NULL, 3, NULL );
 	xTaskCreate( vTask3, "LED Task 2", 100, NULL, 3, NULL );
-	//xTaskCreate( vTransmitData, "Transmit TWI DATA", 100, NULL, 5, NULL);
+	xTaskCreate( vTransmitData, "Transmit TWI DATA", 200, NULL, 5, NULL);
 
 //	xTaskCreate( vHTTPServerTask, ( signed char * ) "HTTP", configMINIMAL_STACK_SIZE, NULL, mainHTTP_TASK_PRIORITY, NULL );
 

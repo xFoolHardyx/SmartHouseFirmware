@@ -104,7 +104,6 @@ void sendset(void)
 //		pTWI->TWI_IER = AT91C_TWI_TXRDY; // start interrupt
 
 	message( ucDataEnableISR, sizeof( ucDataEnableISR ), tcpDEVICE_ADDRESS, tcpISR_MASK_REG, 2);
-	pTWI->TWI_IER = AT91C_TWI_TXRDY;
 
 	message( ucDataReset,	sizeof( ucDataReset ),	tcpDEVICE_ADDRESS, tcpCOMMAND_REG, 2);
 

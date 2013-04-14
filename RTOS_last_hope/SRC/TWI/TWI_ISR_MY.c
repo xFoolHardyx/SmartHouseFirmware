@@ -1,5 +1,6 @@
 #include <AT91SAM7X256.h>
 #include <TWI_ISR_MY.h>
+#include <FreeRTOS.h>
 
 xReadyMessage xFlags;
 
@@ -28,7 +29,7 @@ void vTWI_ISR_Wrapper( void )
 
 void vTWI_ISR_Handler( void )
 {
-	unsigned int uiStatus;
+//	unsigned int uiStatus;
 	unsigned int uiMaskInterrupt;
 
 
