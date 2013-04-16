@@ -1,11 +1,6 @@
-#include <FreeRTOS.h>
-#include <task.h>
-#include <lib.h>
-#include <wiznet.h>
-#include <settings.h>
+#include <test.h>
+#include <TWI.h>
 #include <AT91SAM7X256.h>
-
-
 
 #define tcpRESET_CMD					( ( unsigned char ) 0x80 )
 #define tcpSYS_INIT_CMD					( ( unsigned char ) 0x01 )
@@ -77,56 +72,31 @@ unsigned char ucDataMSR[]				= { 255, 255, 255, 0 };	/* Subnet mask.		*/
 unsigned char ucDataSIPR[]				= { 192, 168, 1, 131 };/* IP address.		*/
 unsigned char ucDataSHAR[]				= { 00, 23, 30, 41, 15, 26 }; /* MAC address - DO NOT USE THIS ON A PUBLIC NETWORK! */
 
+#define byteslct AT91C_TWI_IADRSZ_2_BYTE
 
-#define write
 
-void sendset(void)
+void test (void * pvParametrs)
 {
-	AT91PS_PIO	p_pPIO	= AT91C_BASE_PIOA; // Base PIOA
-	AT91PS_TWI pTWI = AT91C_BASE_TWI;
-		SetBIT(p_pPIO,BIT25); // reset
-		ClrBIT(p_pPIO,BIT26); // ~reset
+//		TWIMessage( unsigned char * pucMessage,1
+//		long lMessageLength,1
+//		unsigned char ucSlaveAddress,1
+//		unsigned char ucCountIntAddr,1
+//		unsigned uBufferAddress,1
+//		unsigned char ucDirection,
+//		unsigned long ulTicksToWait);1
 
-		/* Delay with the network hardware in reset for a short while. */
-		vTaskDelay( tcpRESET_DELAY );
+		TWIMessage( ucDataEnableISR, (long) sizeof( ucDataEnableISR ), tcpDEVICE_ADDRESS, byteslct, tcpISR_MASK_REG, (unsigned char)0, (unsigned long)0);
+		TWIMessage( ucDataReset,(long)	sizeof( ucDataReset ),	tcpDEVICE_ADDRESS, byteslct, tcpCOMMAND_REG,(unsigned char)0, (unsigned long)0);
+		TWIMessage( ucDataSHAR,	(long) sizeof( ucDataSHAR ),	tcpDEVICE_ADDRESS, byteslct, tcpSOURCE_HA_REG,(unsigned char)0, (unsigned long)0 );
+		TWIMessage( ucDataGAR,	(long)	sizeof( ucDataGAR ),	tcpDEVICE_ADDRESS, byteslct, tcpGATEWAY_ADDR_REG,(unsigned char)0, (unsigned long)0);
+		TWIMessage( ucDataMSR,	(long)	sizeof( ucDataMSR ),	tcpDEVICE_ADDRESS, byteslct, tcpSUBNET_MASK_REG,(unsigned char)0, (unsigned long)0);
+		TWIMessage( ucDataSIPR,	(long) sizeof( ucDataSIPR ),	tcpDEVICE_ADDRESS, byteslct, tpcSOURCE_IP_REG,(unsigned char)0, (unsigned long)0);
+		TWIMessage( ucDataSetTxBufSize, (long) sizeof( ucDataSetTxBufSize ), tcpDEVICE_ADDRESS, byteslct, tcpTX_MEM_SIZE_REG,(unsigned char)0, (unsigned long)0);
+		TWIMessage( ucDataSetRxBufSize, (long) sizeof( ucDataSetRxBufSize ), tcpDEVICE_ADDRESS, byteslct, tcpRX_MEM_SIZE_REG,(unsigned char)0, (unsigned long)0);
+		TWIMessage( ucDataInit,	(long) sizeof( ucDataInit ),	tcpDEVICE_ADDRESS, byteslct, tcpCOMMAND_REG,(unsigned char)0, (unsigned long)0);
 
-	//	GPIO_IOCLR = tcpRESET_ACTIVE_HIGH; // set 4 bit in 0
-	//	GPIO_IOSET = tcpRESET_ACTIVE_LOW;  // set 5 bit on 1
-		ClrBIT(p_pPIO,BIT25); // reset
-		SetBIT(p_pPIO,BIT26); // ~reset
-
-		vTaskDelay( tcpINIT_DELAY );
-
-		/* Setup the EINT0 to interrupt on required events from the WIZnet device.
-		First enable the EINT0 function of the pin. */
-
-	//	PCB_PINSEL1 |= tcpENABLE_EINT0_FUNCTION;
-//		p_pPIO->PIO_PER = (1<<20);
-//		p_pPIO->PIO_ASR = (1<<20);
-//		pTWI->TWI_IER = AT91C_TWI_TXRDY; // start interrupt
-
-	message( ucDataEnableISR, sizeof( ucDataEnableISR ), tcpDEVICE_ADDRESS, tcpISR_MASK_REG, 2);
-
-	message( ucDataReset,	sizeof( ucDataReset ),	tcpDEVICE_ADDRESS, tcpCOMMAND_REG, 2);
-
-	message( ucDataSHAR,	sizeof( ucDataSHAR ),	tcpDEVICE_ADDRESS, tcpSOURCE_HA_REG, 2 );
-	message( ucDataGAR,		sizeof( ucDataGAR ),	tcpDEVICE_ADDRESS, tcpGATEWAY_ADDR_REG, 2);
-	message( ucDataMSR,		sizeof( ucDataMSR ),	tcpDEVICE_ADDRESS, tcpSUBNET_MASK_REG, 2);
-	message( ucDataSIPR,	sizeof( ucDataSIPR ),	tcpDEVICE_ADDRESS, tpcSOURCE_IP_REG, 2);
-
-	message( ucDataSetTxBufSize, sizeof( ucDataSetTxBufSize ), tcpDEVICE_ADDRESS, tcpTX_MEM_SIZE_REG, 2);
-	message( ucDataSetRxBufSize, sizeof( ucDataSetRxBufSize ), tcpDEVICE_ADDRESS, tcpRX_MEM_SIZE_REG, 2);
-
-	message( ucDataInit,		sizeof( ucDataInit ),	tcpDEVICE_ADDRESS, tcpCOMMAND_REG, 2);
+		for (;;)
+		{
+			vTaskDelay(1000);
+		}
 }
-
-void message (unsigned char * pucSrc, unsigned int uiLength, unsigned char ucDevAddr, unsigned int uiInDevAddr, unsigned int ucSlct)
-{
-	ucSlct = ucSlct << 8;
-	uiMessageTWI(ucSlct, uiInDevAddr, pucSrc, uiLength);
-//	TWI_StartWrite(ucDevAddr, uiInDevAddr, ucSlct, uiLength, pucSrc);
-//	TWI_Stop();
-}
-
-
-

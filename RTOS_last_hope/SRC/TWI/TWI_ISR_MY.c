@@ -1,8 +1,11 @@
 #include <AT91SAM7X256.h>
 #include <TWI_ISR_MY.h>
 #include <FreeRTOS.h>
+#include <TWI.h>
 
-xReadyMessage xFlags;
+
+
+xReadyMessage  xFlags[1];
 
 /* The ISR entry point. */
 void vTWI_ISR_Wrapper( void ) __attribute__ (( naked ));

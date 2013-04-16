@@ -6,11 +6,8 @@
 #include <semtest.h>
 #include <PollQ.h>
 #include <BlockQ.h>
-#include <HTTP_Serv.h>
-
-//#include <lib.h>
-#include <wiznet.h>
 #include <TX.h>
+#include <test.h>
 
 const AT91PS_PIO m_pPIOA = AT91C_BASE_PIOA;
 
@@ -46,13 +43,13 @@ void vTask2( void *pvParameters )
 
 
 
-void vTask3 (void *pvParameters)
-{
-	portENTER_CRITICAL();
-		sendset();
-	portEXIT_CRITICAL();
-	for(;;)
-	{
+//void vTask3 (void *pvParameters)
+//{
+//	portENTER_CRITICAL();
+//		sendset();
+//	portEXIT_CRITICAL();
+//	for(;;)
+//	{
 //		portENTER_CRITICAL();
 //		message( ucData, 	sizeof( ucData ),	0, 0x008E, 2);
 //		portEXIT_CRITICAL();
@@ -64,8 +61,8 @@ void vTask3 (void *pvParameters)
 //			TWI_Stop();
 //			vTaskDelay(1000);
 //		portEXIT_CRITICAL();
-	}
-}
+//	}
+//}
 
 //void vTaskTWIStart(void *pvParameters)
 //{
@@ -85,8 +82,9 @@ void main (void)
 
 	xTaskCreate( vTask1, "LED Task 1", 100, NULL, 3, NULL );
 	xTaskCreate( vTask2, "LED Task 2", 100, NULL, 3, NULL );
-	xTaskCreate( vTask3, "LED Task 2", 100, NULL, 3, NULL );
+//	xTaskCreate( vTask3, "LED Task 2", 100, NULL, 3, NULL );
 	xTaskCreate( vTransmitData, "Transmit TWI DATA", 200, NULL, 5, NULL);
+	xTaskCreate( test, "test task", 200, NULL, 5, NULL);
 
 //	xTaskCreate( vHTTPServerTask, ( signed char * ) "HTTP", configMINIMAL_STACK_SIZE, NULL, mainHTTP_TASK_PRIORITY, NULL );
 

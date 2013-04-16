@@ -5,8 +5,9 @@
 
 /* Application includes. */
 #include <TWI.h>
-#include <AT91SAM7X256.h>
-#include <TWI_ISR_MY.h>
+#include <lib_AT91SAM7S256.h>
+
+//#include <TWI_ISR_MY.h>
 
 /* Misc constants. */
 #define TWINO_BLOCK				( ( portTickType ) 0 )
@@ -21,22 +22,23 @@
 
 #define uxQueueLength ((unsigned long) 10)
 
-
-/* Function in the ARM part of the code used to create the queues. */
+static xTWIMessage xTxMessages[1];
 
 
 /* Queue of messages that are waiting transmission. */
-static xQueueHandle xMessagesForTx;
+xQueueHandle xMessagesForTx;
 
 /*-----------------------------------------------------------*/
-void TWIMessage( unsigned char * pucMessage, long lMessageLength, unsigned char ucSlaveAddress, unsigned char ucCountIntAddr, unsigned uBufferAddress, unsigned char ucDirection, unsigned long ulTicksToWait)
+void TWIMessage( unsigned char * pucMessage, long lMessageLength, unsigned char ucSlaveAddress, unsigned int ucCountIntAddr, unsigned uBufferAddress, unsigned char ucDirection, unsigned long ulTicksToWait)
 {
 xTWIMessage *pxNextFreeMessage;
+
+pxNextFreeMessage = &( xTxMessages[ 0 ] );
 
 	portENTER_CRITICAL();
 	{
 		/* Fill the message with the data to be sent. */
-		pxNextFreeMessage->pucBuf = ( unsigned char * ) pucMessage; // buf
+		pxNextFreeMessage->pucBuf =  pucMessage; // buf
 
 		pxNextFreeMessage->ucDevAddr = ucSlaveAddress; 				// dev addr
 

@@ -6,7 +6,7 @@ typedef struct TWI_Message_for_Send
 	unsigned char * pucBuf;
 	unsigned char 	ucDirection;
 	long 			lMessageLength;
-	unsigned char 	ucInternalSizeAddr;
+	unsigned int 	ucInternalSizeAddr;
 	unsigned 		uInternalAddr;
 	unsigned char	ucDevAddr;
 } xTWIMessage;
@@ -14,6 +14,6 @@ typedef struct TWI_Message_for_Send
 
 void TWIInit( void );
 
-void TWIMessage( unsigned char * pucMessage, long lMessageLength, unsigned char ucSlaveAddress, unsigned char ucCountIntAddr, unsigned uBufferAddress, unsigned char ucDirection, unsigned long ulTicksToWait);
+void TWIMessage( unsigned char * pucMessage, long lMessageLength, unsigned char ucSlaveAddress, unsigned int ucCountIntAddr, unsigned uBufferAddress, unsigned char ucDirection, unsigned long ulTicksToWait);
 
 #endif

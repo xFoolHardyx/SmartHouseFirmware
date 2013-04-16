@@ -1,23 +1,25 @@
 #include <TX.h>
-#include <FreeRTOS.h>
-#include <TWI.h>
 #include <AT91SAM7X256.h>
+#include <FreeRTOS.h>
 #include <queue.h>
-#include <task.h>
+#include <TWI_ISR_MY.h>
+#include <TWI.h>
+
+extern xReadyMessage * xFlags;
+extern xQueueHandle xMessagesForTx;
 
 
-extern xReadyMessage xFlags;
-static xQueueHandle xMessagesForTx;
-
-void vTransmitData (void)
+void vTransmitData (void *pvParameters)
 {
 	volatile xTWIMessage *pxCurrentMessage = NULL;
 	volatile AT91PS_TWI pTWI = AT91C_BASE_TWI;
 	int i, TWI_Return=0;// iCnt = 0;
+	unsigned portBASE_TYPE size_queue;
 
 	for(;;)
 	{
-		if (uxQueueMessagesWaiting(xMessagesForTx) != 0)
+		size_queue = uxQueueMessagesWaiting(xMessagesForTx);
+		if (size_queue != 0)
 		{
 //=============================================================================================================================
 			xQueueReceive(xMessagesForTx, &pxCurrentMessage, 0);
@@ -32,7 +34,7 @@ void vTransmitData (void)
 					xFlags->TWI_RX_Ready = TWI_FALSE;
 
 //					iCnt = 0;
-					pTWI->TWI_THR = pxCurrentMessage->pucBuf[i];	// send
+					pTWI->TWI_THR =(unsigned int) pxCurrentMessage->pucBuf[i];	// send
 					pTWI->TWI_IER = AT91C_TWI_TXRDY; 				// start interrupt
 					while(!xFlags->TWI_RX_Ready /*&& iCnt++ < 1000*/);			// wait until interrupt executed
 //					if(iCnt>=1000)

@@ -72,8 +72,7 @@ OBJS=	start.o 					\
 		$(TWI)/TWI.o				\
 		$(TWI)/TWI_ISR_MY.o			\
 		$(TWI)/TX.o					\
-			
-#		$(other)/lib.o				\
+		$(other)/test.o				\
 #		$(other)/wiznet.o			\
 #		$(TCP)/TCP.o				\
 #		$(TCP)/TCPISR.o				\
