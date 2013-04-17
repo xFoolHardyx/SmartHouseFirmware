@@ -5,19 +5,28 @@
 #include <TWI_ISR_MY.h>
 #include <TWI.h>
 
-extern xReadyMessage * xFlags;
+//extern xReadyMessage xFlags;
 extern xQueueHandle xMessagesForTx;
 
+extern unsigned char TWI_TX_Ready;
+extern unsigned char TWI_TX_Comp;
+extern unsigned char TWI_RX_Ready;
+
+volatile AT91PS_TWI pTWI = AT91C_BASE_TWI;
 
 void vTransmitData (void *pvParameters)
 {
-	volatile xTWIMessage *pxCurrentMessage = NULL;
-	volatile AT91PS_TWI pTWI = AT91C_BASE_TWI;
-	int i, TWI_Return=0;// iCnt = 0;
+	xTWIMessage * pxCurrentMessage = NULL;
+
+	int TWI_Ack = AT91C_TWI_NACK;
+
+	int i, TWI_Return=0, iCnt = 0;
+	unsigned int rrr;
 	unsigned portBASE_TYPE size_queue;
 
 	for(;;)
 	{
+		size_queue= 0 ;
 		size_queue = uxQueueMessagesWaiting(xMessagesForTx);
 		if (size_queue != 0)
 		{
@@ -27,16 +36,18 @@ void vTransmitData (void *pvParameters)
 
 				pTWI->TWI_MMR = pxCurrentMessage->ucDevAddr | pxCurrentMessage->ucInternalSizeAddr | pxCurrentMessage->ucDirection;
 				pTWI->TWI_CR = AT91C_TWI_START;
+				rrr=pTWI->TWI_CR = AT91C_TWI_START;
 				pTWI->TWI_IADR = pxCurrentMessage->uInternalAddr;
 
-				for(i = 0; i<pxCurrentMessage->lMessageLength; i++)
+				for(i = 0; i<pxCurrentMessage->lMessageLength + 1; i++)
 				{
-					xFlags->TWI_RX_Ready = TWI_FALSE;
+					TWI_RX_Ready = TWI_FALSE;
 
-//					iCnt = 0;
-					pTWI->TWI_THR =(unsigned int) pxCurrentMessage->pucBuf[i];	// send
+					iCnt = 0;
+					pTWI->TWI_THR = pxCurrentMessage->pucBuf[i];	// send
+					rrr=pTWI->TWI_THR;
 					pTWI->TWI_IER = AT91C_TWI_TXRDY; 				// start interrupt
-					while(!xFlags->TWI_RX_Ready /*&& iCnt++ < 1000*/);			// wait until interrupt executed
+					while(!TWI_RX_Ready && iCnt++ < 1000);			// wait until interrupt executed
 //					if(iCnt>=1000)
 //					{
 //						pTWI->TWI_IDR = AT91C_TWI_TXRDY; 			// disable interrupt
@@ -45,24 +56,24 @@ void vTransmitData (void *pvParameters)
 //						break;
 //					}
 				}
-//				if(iCnt < 1000)
-//				{
-//					iCnt = 0;
+				if(iCnt < 1000)
+				{
+					iCnt = 0;
 
-					xFlags->TWI_TX_Comp = TWI_FALSE;
+					TWI_TX_Comp = TWI_FALSE;
 
 					pTWI->TWI_IER = AT91C_TWI_TXCOMP;		// start interrupt
 
-					while(!xFlags->TWI_TX_Comp /*&& iCnt++ < 1000*/);	// wait until interrupt executed to check ack
-//					if(iCnt>=1000){
-//						pTWI->TWI_IDR = AT91C_TWI_TXRDY; 	// disable interrupt
-//						TWI_Return |= ERROR_TWI;
-//					}
-//					else
-//					{
-//						TWI_Return |= TWI_Ack;
-//					}
-//				}
+					while(!TWI_TX_Comp && iCnt++ < 1000);	// wait until interrupt executed to check ack
+					if(iCnt>=1000){
+						pTWI->TWI_IDR = AT91C_TWI_TXRDY; 	// disable interrupt
+						TWI_Return |= ERROR_TWI;
+					}
+					else
+					{
+						TWI_Return |= TWI_Ack;
+					}
+				}
 //				return TWI_Return;
 //=============================================================================================================================
 

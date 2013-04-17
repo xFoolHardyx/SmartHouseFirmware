@@ -22,7 +22,8 @@
 
 #define uxQueueLength ((unsigned long) 10)
 
-static xTWIMessage xTxMessages[1];
+static xTWIMessage xTxMessages[2];
+
 
 
 /* Queue of messages that are waiting transmission. */
@@ -31,9 +32,11 @@ xQueueHandle xMessagesForTx;
 /*-----------------------------------------------------------*/
 void TWIMessage( unsigned char * pucMessage, long lMessageLength, unsigned char ucSlaveAddress, unsigned int ucCountIntAddr, unsigned uBufferAddress, unsigned char ucDirection, unsigned long ulTicksToWait)
 {
-xTWIMessage *pxNextFreeMessage;
+ xTWIMessage * pxNextFreeMessage;
 
-pxNextFreeMessage = &( xTxMessages[ 0 ] );
+
+ pxNextFreeMessage = &( xTxMessages[ 0 ] );
+
 
 	portENTER_CRITICAL();
 	{
@@ -49,6 +52,7 @@ pxNextFreeMessage = &( xTxMessages[ 0 ] );
 		pxNextFreeMessage->ucDirection = ucDirection;				// Read or Write
 
 		pxNextFreeMessage->ucInternalSizeAddr = ucCountIntAddr;		// Select internal addr byte to send
+
 
 		xQueueSend(xMessagesForTx, &pxNextFreeMessage, ulTicksToWait);
 	}
@@ -85,7 +89,7 @@ extern void ( vTWI_ISR_Wrapper )( void );
 	AT91PS_AIC	pAIC = AT91C_BASE_AIC;
 
 
-	xMessagesForTx = xQueueCreate( uxQueueLength, ( unsigned portBASE_TYPE ) sizeof( xTWIMessage * ) );
+	xMessagesForTx = xQueueCreate( uxQueueLength, ( unsigned portBASE_TYPE ) sizeof( xTWIMessage  ) );
 
 	/* Configure the TWI hardware. */
 

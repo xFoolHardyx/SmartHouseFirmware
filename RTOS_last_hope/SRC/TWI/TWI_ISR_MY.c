@@ -4,8 +4,10 @@
 #include <TWI.h>
 
 
-
-xReadyMessage  xFlags[1];
+//xReadyMessage  xFlags;
+unsigned char TWI_TX_Ready = 0;
+unsigned char TWI_TX_Comp = 0;
+unsigned char TWI_RX_Ready = 0;
 
 /* The ISR entry point. */
 void vTWI_ISR_Wrapper( void ) __attribute__ (( naked ));
@@ -43,17 +45,19 @@ void vTWI_ISR_Handler( void )
 	if(uiMaskInterrupt & AT91C_TWI_TXRDY)
 	{
 		pTWI->TWI_IDR = AT91C_TWI_TXRDY; 		// disable interrupt
-		xFlags->TWI_RX_Ready = TWI_TRUE;
+		TWI_RX_Ready = TWI_TRUE;
+		uiMaskInterrupt = pTWI->TWI_IMR;
+		return;
 	}
 	else if(uiMaskInterrupt & AT91C_TWI_TXCOMP) // Transmission complete
 	{
 		pTWI->TWI_IDR = AT91C_TWI_TXCOMP; 		// disable interrupt
-		xFlags->TWI_TX_Comp = TWI_TRUE;
+		TWI_TX_Comp = TWI_TRUE;
 	}
 	else if(uiMaskInterrupt & AT91C_TWI_RXRDY) 	// Received data
 	{
 		pTWI->TWI_IDR = AT91C_TWI_RXRDY; 		// disable interrupt
-		xFlags->TWI_TX_Ready = TWI_TRUE;
+		TWI_TX_Ready = TWI_TRUE;
 	}
 
 //  uiStatus = pTWI->TWI_SR;					// Status Register

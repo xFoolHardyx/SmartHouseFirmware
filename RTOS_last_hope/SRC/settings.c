@@ -1,6 +1,6 @@
 #include <AT91SAM7X256.h>
 #include <settings.h>
-//#include <TWI.h>
+#include <TWI.h>
 
 //void InitFrec (void)
 //{
